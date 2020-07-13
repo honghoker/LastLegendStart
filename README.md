@@ -9,6 +9,10 @@
 
  ### Choi Jeonghyeon
 
-Real Last Legend Start
-
-Let's Go
+ ---------------------------
+ 
+ # Real Last Legend Start...
+ 
+ # Let's Go
+ 
+ ---------------------------
