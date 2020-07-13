@@ -7,7 +7,7 @@
 
  ### Park chan seop
 
- ### Choi Jeonghyeon
+ ### Choi Jeong hyeon
 
  ---------------------------
  
