@@ -1,13 +1,13 @@
 # LastLegendStart
- ##- Hong Eun pyo
+ ## Hong Eun pyo
 
- ##- Kim Sung hun
+ ## Kim Sung hun
 
- ##- Kim Myeong su
+ ## Kim Myeong su
 
- ##- Park chan seop
+ ## Park chan seop
 
- ##- Choi Jeonghyeon
+ ## Choi Jeonghyeon
 
 Real Last Legend Start
 
