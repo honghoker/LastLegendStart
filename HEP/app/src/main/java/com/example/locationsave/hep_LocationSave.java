@@ -4,7 +4,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
 import androidx.viewpager.widget.ViewPager;
 
 import android.Manifest;
@@ -23,12 +22,12 @@ import android.provider.ContactsContract;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
-import android.widget.AutoCompleteTextView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.opensooq.supernova.gligar.GligarPicker;
 
+import java.io.File;
 import java.io.InputStream;
 import java.util.ArrayList;
 
@@ -116,7 +115,12 @@ public class hep_LocationSave extends AppCompatActivity {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 if (which == 0) {
-                    new GligarPicker().requestCode(pickImage).withActivity(hep_LocationSave.this).show();
+                    try {
+                        new GligarPicker().requestCode(pickImage).withActivity(hep_LocationSave.this).show();
+                    } catch (Exception e){
+                        e.printStackTrace();
+                    }
+
                 } else {
                     // 카메라
                     try {
@@ -155,41 +159,33 @@ public class hep_LocationSave extends AppCompatActivity {
                     String pathsList[]= data.getExtras().getStringArray(GligarPicker.IMAGES_RESULT); // return list of selected images paths.
                     String result = "Number of selected Images: " + pathsList.length;
 
-                    Log.d("@@@@@@@@@@@@@@", "result = " + result);
-                    ClipData clipData = data.getClipData();
-
-                    if (clipData != null) {
-                        for (int i = 0; i < clipData.getItemCount(); i++) {
+                    try {
+                        for(int i = 0; i < pathsList.length; i++){
                             try {
-                                Uri imageUri = clipData.getItemAt(i).getUri();
-                                InputStream is = getContentResolver().openInputStream(imageUri);
-                                imageDataArrayList.add(new hep_ImageData(BitmapFactory.decodeStream(is)));
-                                is.close();
-                            } catch (Exception e) {
+                                File test = new File(pathsList[i].toString());
+                                if(test.exists()){
+                                    imageDataArrayList.add(new hep_ImageData(BitmapFactory.decodeFile(test.getAbsolutePath())));
+                                }
+                            } catch (Exception e){
                                 e.printStackTrace();
                             }
                         }
-                    } else {
-                        try {
-                            InputStream is = getContentResolver().openInputStream(data.getData());
-                            imageDataArrayList.add(new hep_ImageData(BitmapFactory.decodeStream(is)));
-                            is.close();
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                        }
+                        viewPager.setAdapter(new hep_ViewPagerAdapter(getApplicationContext(), imageDataArrayList));
+                    } catch (Exception e) {
+                        e.printStackTrace();
                     }
-                    viewPager.setAdapter(new hep_ViewPagerAdapter(this, imageDataArrayList));
                 }
                 break;
+
             case captureImage:
-                if(resultCode == RESULT_OK && data.hasExtra("data")){
-                    if (data != null && data.getData() != null) {
-                        imageDataArrayList.add(new hep_ImageData((Bitmap) data.getExtras().get("data")));
+                if(resultCode == RESULT_OK){
+                    Bitmap bitmap = (Bitmap) data.getExtras().get("data");
+                    if(bitmap != null) {
+                        imageDataArrayList.add(new hep_ImageData(bitmap));
                         viewPager.setAdapter(new hep_ViewPagerAdapter(getApplicationContext(), imageDataArrayList));
                     }
                 }
                 break;
         }
     }
-
 }
