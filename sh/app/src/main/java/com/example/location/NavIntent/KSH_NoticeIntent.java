@@ -20,6 +20,7 @@ public class KSH_NoticeIntent extends AppCompatActivity {
         toolbar = findViewById(R.id.intent_toolbar);
         toolbar.setTitle("공지사항");
         setSupportActionBar(toolbar);
+
         // 뒤로가기 버튼 생성
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 

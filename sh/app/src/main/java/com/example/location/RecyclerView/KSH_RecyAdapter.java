@@ -1,6 +1,7 @@
 package com.example.location.RecyclerView;
 
-import android.app.Application;
+import android.app.AlertDialog;
+import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -8,15 +9,15 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.location.KSH_MainActivity;
 import com.example.location.R;
 
 public class KSH_RecyAdapter extends RecyclerView.Adapter<KSH_RecyAdapter.ViewHolder> {
     private final int TYPE_HEADER = 0;
     private final int TYPE_ITEM = 1;
+    Context mcontext;
 
-    public KSH_RecyAdapter() {
-
+    public KSH_RecyAdapter(Context context) {
+        mcontext = context;
     }
 
     class HeaderViewHolder extends ViewHolder {
@@ -67,6 +68,19 @@ public class KSH_RecyAdapter extends RecyclerView.Adapter<KSH_RecyAdapter.ViewHo
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    int pos = getAdapterPosition();
+                    if(pos == 0){
+                        //AlterDialog
+                        AlertDialog.Builder builder = new AlertDialog.Builder(mcontext);
+                        builder.setTitle("1").setMessage("1");
+                        AlertDialog alertDialog = builder.create();
+                        alertDialog.show();
+                    }
+                }
+            });
         }
     }
 }

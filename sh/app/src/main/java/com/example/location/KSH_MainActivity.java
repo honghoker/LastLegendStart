@@ -21,6 +21,11 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.location.NavIntent.KSH_NoticeIntent;
 import com.example.location.RecyclerView.KSH_RecyAdapter;
 import com.google.android.material.navigation.NavigationView;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 public class KSH_MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
     private DrawerLayout drawerLayout;
@@ -28,7 +33,29 @@ public class KSH_MainActivity extends AppCompatActivity implements NavigationVie
     RecyclerView recyclerView;
     View rView;
     View fView;
+    View allSeeView;
     KSH_RecyAdapter recyAdapter;
+
+    // firebase test
+    DatabaseReference mRootRef = FirebaseDatabase.getInstance().getReference();
+    DatabaseReference conditionRef = mRootRef.child("test");
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+
+        conditionRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+//                String text = snapshot.getValue(String.class);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,9 +72,11 @@ public class KSH_MainActivity extends AppCompatActivity implements NavigationVie
         // frameLayout 위에 recyclerView가 나타나야함으로 frameLayout 선언
         fView = findViewById(R.id.frameLayout);
 
+        allSeeView = findViewById(R.id.recy_allSee);
+
         recyclerView = findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL,false));
-        recyAdapter = new KSH_RecyAdapter();
+        recyAdapter = new KSH_RecyAdapter(this);
         recyclerView.setAdapter(recyAdapter);
 
         drawerLayout = findViewById(R.id.drawer_layout);
@@ -86,6 +115,16 @@ public class KSH_MainActivity extends AppCompatActivity implements NavigationVie
                 }
             }
         });
+
+        allSeeView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // firebase realtime db test
+                conditionRef.setValue("확인");
+//                Log.d("1","allSeebtn 확인");
+            }
+        });
+
     }
 
     // 어플키면 먼저 map 보여주기위한 fragmentManager.begin 코드 들어가야함 !
