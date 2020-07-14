@@ -5,14 +5,25 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <LinearLayout
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:layout_height="match_parent">
 
         <ImageView
             android:id="@+id/fullimage"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
-    </LinearLayout>
+
+        <ImageButton
+            android:id="@+id/buttonCloseFullImage"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right"
+            android:background="@android:color/transparent"
+            android:onClick="onButtonCloseFullImageOnclicked"
+            android:scaleType="fitCenter"
+            app:srcCompat="@drawable/image_clear" />
+
+    </FrameLayout>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

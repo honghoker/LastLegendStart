@@ -21,6 +21,8 @@
             </intent-filter>
         </activity>
         <activity android:name=".hep_FullImage"/>
+        <activity android:name=".hep_ViewPagerAdapter"/>
+
     </application>
 
 </manifest>

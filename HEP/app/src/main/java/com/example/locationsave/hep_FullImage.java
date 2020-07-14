@@ -5,6 +5,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.util.Base64;
+import android.view.View;
 import android.widget.ImageView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -22,6 +23,9 @@ public class hep_FullImage extends AppCompatActivity {
         imageView.setImageBitmap(bitmap);
     }
 
+    public void onButtonCloseFullImageOnclicked(View v){
+        finish();
+    }
     /*
      * String형을 BitMap으로 변환시켜주는 함수
      * */

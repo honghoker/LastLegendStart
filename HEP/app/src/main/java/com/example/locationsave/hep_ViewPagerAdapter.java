@@ -3,9 +3,11 @@ package com.example.locationsave;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 
 import androidx.viewpager.widget.PagerAdapter;
@@ -16,6 +18,7 @@ import java.util.List;
 public class hep_ViewPagerAdapter extends PagerAdapter {
     private List<hep_ImageData> imageDataList;
     private Context mcontext;
+
     hep_ViewPagerAdapter(Context context, List<hep_ImageData> imageDataList) {
         this.mcontext = context;
         this.imageDataList = imageDataList;
@@ -32,11 +35,20 @@ public class hep_ViewPagerAdapter extends PagerAdapter {
     }
 
     @Override
-    public Object instantiateItem(ViewGroup container, final int position) {
+    public Object instantiateItem(final ViewGroup container, final int position) {
         LayoutInflater inflater = LayoutInflater.from(mcontext);
         ViewGroup layout = (ViewGroup) inflater.inflate(R.layout.hep_viewpageritem, container, false);
-        ImageView imageView = layout.findViewById(R.id.imageView);
+
+        ImageView imageView = layout.findViewById(R.id.locationImage);
         imageView.setImageBitmap(imageDataList.get(position).bitmap);
+
+        Button buttonCloseLocationImage = layout.findViewById(R.id.buttonCloseLocationImage);
+        buttonCloseLocationImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ((hep_LocationSave)mcontext).removeCurrentItem();
+            }
+        });
 
         imageView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -59,7 +71,18 @@ public class hep_ViewPagerAdapter extends PagerAdapter {
     }
 
     @Override
+    public void notifyDataSetChanged() {
+        super.notifyDataSetChanged();
+    }
+
+    @Override
     public void destroyItem(ViewGroup container, int position, Object object) {
         container.removeView((View) object);
     }
+
+    @Override
+    public int getItemPosition(Object object) {
+            return POSITION_NONE;
+    }
+
 }

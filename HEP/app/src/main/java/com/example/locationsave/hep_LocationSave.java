@@ -38,6 +38,7 @@ public class hep_LocationSave extends AppCompatActivity {
     hep_AutoCompleteTextView hashEditText;
     ArrayList<hep_ImageData> imageDataArrayList;
     ViewPager viewPager;
+    hep_ViewPagerAdapter viewPagerAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -170,7 +171,8 @@ public class hep_LocationSave extends AppCompatActivity {
                                 e.printStackTrace();
                             }
                         }
-                        viewPager.setAdapter(new hep_ViewPagerAdapter(getApplicationContext(), imageDataArrayList));
+                        viewPagerAdapter = new hep_ViewPagerAdapter(this, imageDataArrayList);
+                        viewPager.setAdapter(viewPagerAdapter);
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
@@ -182,10 +184,17 @@ public class hep_LocationSave extends AppCompatActivity {
                     Bitmap bitmap = (Bitmap) data.getExtras().get("data");
                     if(bitmap != null) {
                         imageDataArrayList.add(new hep_ImageData(bitmap));
-                        viewPager.setAdapter(new hep_ViewPagerAdapter(getApplicationContext(), imageDataArrayList));
+                        viewPagerAdapter = new hep_ViewPagerAdapter(this, imageDataArrayList);
+                        viewPager.setAdapter(viewPagerAdapter);
                     }
                 }
                 break;
         }
+    }
+
+    public void removeCurrentItem(){
+        int position = viewPager.getCurrentItem();
+        imageDataArrayList.remove(position);
+        viewPagerAdapter.notifyDataSetChanged();
     }
 }
