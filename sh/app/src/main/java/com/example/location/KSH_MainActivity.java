@@ -2,6 +2,7 @@ package com.example.location;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
@@ -27,35 +28,40 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.ArrayList;
+
 public class KSH_MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
     private DrawerLayout drawerLayout;
-    boolean recyFrag = false;
-    RecyclerView recyclerView;
-    View rView;
-    View fView;
-    View allSeeView;
-    KSH_RecyAdapter recyAdapter;
+    private boolean recyFrag = false;
+    private RecyclerView recyclerView;
+    private View rView;
+    private View fView;
+    private View allSeeView;
+    private RecyclerView.Adapter recyAdapter;
+    private ArrayList<KSH_TestEntity> arrayList;
+    private FirebaseDatabase firebaseDatabase;
+    private DatabaseReference databaseReference;
 
     // firebase test
-    DatabaseReference mRootRef = FirebaseDatabase.getInstance().getReference();
-    DatabaseReference conditionRef = mRootRef.child("test");
+//    DatabaseReference mRootRef = FirebaseDatabase.getInstance().getReference();
+//    DatabaseReference conditionRef = mRootRef.child("test");
 
-    @Override
-    protected void onStart() {
-        super.onStart();
-
-        conditionRef.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-//                String text = snapshot.getValue(String.class);
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });
-    }
+//    @Override
+//    protected void onStart() {
+//        super.onStart();
+//
+//        conditionRef.addValueEventListener(new ValueEventListener() {
+//            @Override
+//            public void onDataChange(@NonNull DataSnapshot snapshot) {
+////                String text = snapshot.getValue(String.class);
+//            }
+//
+//            @Override
+//            public void onCancelled(@NonNull DatabaseError error) {
+//
+//            }
+//        });
+//    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,8 +81,41 @@ public class KSH_MainActivity extends AppCompatActivity implements NavigationVie
         allSeeView = findViewById(R.id.recy_allSee);
 
         recyclerView = findViewById(R.id.recyclerView);
+        recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL,false));
-        recyAdapter = new KSH_RecyAdapter(this);
+        arrayList = new ArrayList<>();  // 객체 담아서 adapter로 보낼 arraylist
+
+        firebaseDatabase = FirebaseDatabase.getInstance();  // firebase db 연동
+        databaseReference = firebaseDatabase.getReference("Test");  // db table 연결
+//        DatabaseReference rootRef = FirebaseDatabase.getInstance().getReference();
+//        DatabaseReference yourRef = rootRef.child("Test");
+
+        Log.d("1","11111");
+        databaseReference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot datasnapshot) {
+                // firebase db의 data를 받아오는 곳
+                arrayList.clear();
+                Log.d("1","22222");
+                for(DataSnapshot snapshot : datasnapshot.getChildren()){
+                    Log.d("1","33333");
+                    Log.d("1","snapshot 값 확인" + snapshot.toString());
+                    KSH_TestEntity ksh_testEntity = snapshot.getValue(KSH_TestEntity.class); // 만들어둔 Test 객체에 데이터를 담는다
+                    arrayList.add(ksh_testEntity);  // 담은 데이터들을 arraylist에 넣고 recyclerview로 보낼 준비
+                    Log.d("1", "보내기전 arraylist size"+arrayList.size());
+                }
+                recyAdapter.notifyDataSetChanged(); // list 저장 및 새로고침
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                // db 가져오던 중 error 발생 시
+                Log.d("1", " error "+String.valueOf(error.toException()));
+            }
+        });
+        Log.d("1","44444");
+
+        recyAdapter = new KSH_RecyAdapter(this,arrayList,databaseReference);
         recyclerView.setAdapter(recyAdapter);
 
         drawerLayout = findViewById(R.id.drawer_layout);
@@ -120,8 +159,8 @@ public class KSH_MainActivity extends AppCompatActivity implements NavigationVie
             @Override
             public void onClick(View v) {
                 // firebase realtime db test
-                conditionRef.setValue("확인");
-//                Log.d("1","allSeebtn 확인");
+//                conditionRef.setValue("확인");
+                Log.d("1","allSeebtn 확인");
             }
         });
 
