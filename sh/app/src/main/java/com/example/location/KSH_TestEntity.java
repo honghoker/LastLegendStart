@@ -1,6 +1,8 @@
 package com.example.location;
 
-public class KSH_TestEntity {
+import java.io.Serializable;
+
+public class KSH_TestEntity implements Serializable {
 //    private int seq;
     private String title;
 

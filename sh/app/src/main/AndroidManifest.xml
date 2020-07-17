@@ -10,6 +10,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".NavIntent.KSH_NoticeIntent"/>
+        <activity android:name=".KSH_AllSeeActivity"/>
         <activity android:name=".KSH_MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

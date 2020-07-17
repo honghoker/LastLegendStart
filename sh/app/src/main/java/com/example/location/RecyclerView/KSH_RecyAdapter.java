@@ -72,7 +72,7 @@ public class KSH_RecyAdapter extends RecyclerView.Adapter<KSH_RecyAdapter.ViewHo
         }
         else{
             String Title = String.valueOf(arrayList.get(position-1).getTitle());
-            Log.d("1","123123123   "+Title);
+//            Log.d("1","123123123   "+Title);
             holder.recy_test_title.setText(Title);
         }
     }
@@ -105,7 +105,7 @@ public class KSH_RecyAdapter extends RecyclerView.Adapter<KSH_RecyAdapter.ViewHo
                         builder.setPositiveButton("확인", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                                databaseReference.child("seq1").child("title").setValue("확인");
+                                databaseReference.child("seq"+(arrayList.size()+1)).child("title").setValue(editText.getText().toString());
                                 dialog.dismiss();
                             }
                         });
@@ -116,6 +116,11 @@ public class KSH_RecyAdapter extends RecyclerView.Adapter<KSH_RecyAdapter.ViewHo
                             }
                         });
                         builder.show();
+                    }
+                    else{
+                        // addbtn 말고 recyclerView directory 클릭했을때
+                        // 아마 main 쪽으로 값 넘겨서 처리해야할듯
+                        Log.d("1","recyclerView directory");
                     }
                 }
             });
