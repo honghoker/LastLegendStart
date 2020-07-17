@@ -13,8 +13,6 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
-import com.google.firebase.FirebaseOptions;
-import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
@@ -32,6 +30,8 @@ public class Pcs_LocationRecyclerView extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         rootView = (ViewGroup) inflater.inflate(R.layout.pcs_location_recyclerview, container, false);
+        //super.onCreate(savedInstanceState);
+        setUpRecyclerView();
         return rootView;
     }
 
@@ -47,7 +47,7 @@ public class Pcs_LocationRecyclerView extends Fragment {
         activity = null;
     }
     private void setUpRecyclerView(){
-        Query query = locationRef.orderBy("priority", Query.Direction.DESCENDING);
+        Query query = locationRef.orderBy("title", Query.Direction.DESCENDING);
         FirestoreRecyclerOptions<Location> options = new FirestoreRecyclerOptions.Builder<Location>()
                 .setQuery(query, Location.class)
                 .build();

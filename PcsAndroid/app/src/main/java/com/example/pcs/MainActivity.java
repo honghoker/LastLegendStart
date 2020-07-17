@@ -1,6 +1,7 @@
 package com.example.pcs;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentTransaction;
 
 import android.os.Bundle;
 import android.util.Log;
@@ -15,7 +16,6 @@ public class MainActivity extends AppCompatActivity {
         public void onClick(View v) {
             switch(v.getId()){
                 case R.id.button4:
-                    Log.d("tag","Here");
                     setFragment();
                     break;
             }
@@ -39,7 +39,8 @@ public class MainActivity extends AppCompatActivity {
         pcsFragment = new Pcs_LocationRecyclerView();
     }
     private void setFragment(){
-        getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainer, pcsFragment).commit();
+        FragmentTransaction trans = getSupportFragmentManager().beginTransaction();
+        trans.replace(R.id.fragmentContainer, pcsFragment).commit();
     }
 
 }
