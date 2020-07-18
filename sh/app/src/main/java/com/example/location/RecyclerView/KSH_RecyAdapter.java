@@ -25,11 +25,13 @@ public class KSH_RecyAdapter extends RecyclerView.Adapter<KSH_RecyAdapter.ViewHo
     Context mcontext;
     private ArrayList<KSH_TestEntity> arrayList;
     DatabaseReference databaseReference;
+    String directoryKey;
 
-    public KSH_RecyAdapter(Context context, ArrayList<KSH_TestEntity> arrayList, DatabaseReference databaseReference) {
+    public KSH_RecyAdapter(Context context, ArrayList<KSH_TestEntity> arrayList, DatabaseReference databaseReference, String directoryKey) {
         mcontext = context;
         this.arrayList = arrayList;
         this.databaseReference = databaseReference;
+        this.directoryKey = directoryKey;
     }
 
     class HeaderViewHolder extends ViewHolder {
@@ -72,7 +74,6 @@ public class KSH_RecyAdapter extends RecyclerView.Adapter<KSH_RecyAdapter.ViewHo
         }
         else{
             String Title = String.valueOf(arrayList.get(position-1).getTitle());
-//            Log.d("1","123123123   "+Title);
             holder.recy_test_title.setText(Title);
         }
     }
@@ -105,7 +106,15 @@ public class KSH_RecyAdapter extends RecyclerView.Adapter<KSH_RecyAdapter.ViewHo
                         builder.setPositiveButton("확인", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                                databaseReference.child("seq"+(arrayList.size()+1)).child("title").setValue(editText.getText().toString());
+//                                databaseReference.child("seq"+(arrayList.size()+1)).setValue(editText.getText().toString());
+//                                databaseReference.child("seq"+(arrayList.size()+1)).child("title").setValue(editText.getText().toString());
+
+                                directoryKey = databaseReference.getRef().child("Test").push().getKey();
+                                // 여기 child 안에 title 로 안적어주면 error 남 ㅡㅡ -> entity 이름이랑 같아야함
+                                // 걍 main에 KSH_TestEntity ksh_testEntity = snapshot.getValue(KSH_TestEntity.class); arrayList.add(ksh_testEntity);
+                                // 이부분 말고 다르게 add 하는 방법 찾아보기 class로 넣는거 말고 계속 오류남
+                                databaseReference.child(directoryKey).child("t").setValue(editText.getText().toString());
+
                                 dialog.dismiss();
                             }
                         });

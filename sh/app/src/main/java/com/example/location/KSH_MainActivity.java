@@ -41,6 +41,7 @@ public class KSH_MainActivity extends AppCompatActivity implements NavigationVie
     private ArrayList<KSH_TestEntity> arrayList;
     private FirebaseDatabase firebaseDatabase;
     private DatabaseReference databaseReference;
+    private String directoryKey;
 
     // firebase test
 //    DatabaseReference mRootRef = FirebaseDatabase.getInstance().getReference();
@@ -90,19 +91,14 @@ public class KSH_MainActivity extends AppCompatActivity implements NavigationVie
 //        DatabaseReference rootRef = FirebaseDatabase.getInstance().getReference();
 //        DatabaseReference yourRef = rootRef.child("Test");
 
-//        Log.d("1","11111");
         databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot datasnapshot) {
                 // firebase db의 data를 받아오는 곳
                 arrayList.clear();
-//                Log.d("1","22222");
                 for(DataSnapshot snapshot : datasnapshot.getChildren()){
-//                    Log.d("1","33333");
-//                    Log.d("1","snapshot 값 확인" + snapshot.toString());
                     KSH_TestEntity ksh_testEntity = snapshot.getValue(KSH_TestEntity.class); // 만들어둔 Test 객체에 데이터를 담는다
                     arrayList.add(ksh_testEntity);  // 담은 데이터들을 arraylist에 넣고 recyclerview로 보낼 준비
-//                    Log.d("1", "보내기전 arraylist size"+arrayList.size());
                 }
                 recyAdapter.notifyDataSetChanged(); // list 저장 및 새로고침
             }
@@ -115,7 +111,7 @@ public class KSH_MainActivity extends AppCompatActivity implements NavigationVie
         });
 //        Log.d("1","44444");
 
-        recyAdapter = new KSH_RecyAdapter(this,arrayList,databaseReference);
+        recyAdapter = new KSH_RecyAdapter(this,arrayList,databaseReference,directoryKey);
         recyclerView.setAdapter(recyAdapter);
 
         drawerLayout = findViewById(R.id.drawer_layout);
@@ -160,6 +156,7 @@ public class KSH_MainActivity extends AppCompatActivity implements NavigationVie
             public void onClick(View v) {
                 Intent intent = new Intent(fView.getContext(), KSH_AllSeeActivity.class);
                 intent.putExtra("array",arrayList);
+
                 startActivity(intent);
                 Log.d("1","allSeebtn 확인");
             }

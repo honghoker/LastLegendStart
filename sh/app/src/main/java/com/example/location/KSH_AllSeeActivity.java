@@ -26,6 +26,7 @@ public class KSH_AllSeeActivity extends AppCompatActivity {
     private RecyclerView recyclerView;
     private Intent intent;
 
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -65,7 +66,7 @@ public class KSH_AllSeeActivity extends AppCompatActivity {
 //
 //            }
 //        });
-        allSeeRecyAdapter = new KSH_AllSeeAdapter(this,arrayList,databaseReference);
+        allSeeRecyAdapter = new KSH_AllSeeAdapter(this,arrayList,databaseReference,firebaseDatabase);
         recyclerView.setAdapter(allSeeRecyAdapter);
     }
 

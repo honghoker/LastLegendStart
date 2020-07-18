@@ -3,18 +3,18 @@ package com.example.location;
 import java.io.Serializable;
 
 public class KSH_TestEntity implements Serializable {
-//    private int seq;
+    private String key;
     private String title;
 
 //    public KSH_TestEntity(){}
-//
-//    public int getSeq() {
-//        return seq;
-//    }
-//
-//    public void setSeq(int seq) {
-//        this.seq = seq;
-//    }
+
+    public String getKey() {
+        return key;
+    }
+
+    public void setKey(String key) {
+        this.key = key;
+    }
 
     public String getTitle() {
         return title;
