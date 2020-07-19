@@ -5,9 +5,12 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.Toolbar;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.ActionBar;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -23,17 +26,28 @@ public class Pcs_LocationRecyclerView extends Fragment {
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
     private CollectionReference locationRef = db.collection("Location");
 
+
     private Pcs_RecyclerviewAdapter adapter;
     MainActivity activity;
-    ViewGroup rootView;
+    private ViewGroup rootView;
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         rootView = (ViewGroup) inflater.inflate(R.layout.pcs_location_recyclerview, container, false);
+        setActionbar();
         //super.onCreate(savedInstanceState);
         setUpRecyclerView();
         return rootView;
     }
+
+    private void setActionbar() {
+        Toolbar toolbar = rootView.findViewById(R.id.toolbar);
+        Actionbar
+    }
+
+
+
+
 
     @Override
     public void onAttach(@NonNull Context context) {
