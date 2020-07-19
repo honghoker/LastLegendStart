@@ -109,11 +109,11 @@ public class KSH_RecyAdapter extends RecyclerView.Adapter<KSH_RecyAdapter.ViewHo
 //                                databaseReference.child("seq"+(arrayList.size()+1)).setValue(editText.getText().toString());
 //                                databaseReference.child("seq"+(arrayList.size()+1)).child("title").setValue(editText.getText().toString());
 
-                                directoryKey = databaseReference.getRef().child("Test").push().getKey();
+                                directoryKey = databaseReference.child("Test").push().getKey();
                                 // 여기 child 안에 title 로 안적어주면 error 남 ㅡㅡ -> entity 이름이랑 같아야함
                                 // 걍 main에 KSH_TestEntity ksh_testEntity = snapshot.getValue(KSH_TestEntity.class); arrayList.add(ksh_testEntity);
                                 // 이부분 말고 다르게 add 하는 방법 찾아보기 class로 넣는거 말고 계속 오류남
-                                databaseReference.child(directoryKey).child("t").setValue(editText.getText().toString());
+                                databaseReference.child(directoryKey).child("title").setValue(editText.getText().toString());
 
                                 dialog.dismiss();
                             }

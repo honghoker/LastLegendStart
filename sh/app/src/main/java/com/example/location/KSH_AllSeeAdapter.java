@@ -22,12 +22,14 @@ public class KSH_AllSeeAdapter extends RecyclerView.Adapter<KSH_AllSeeAdapter.Vi
     private ArrayList<KSH_TestEntity> arrayList;
     DatabaseReference databaseReference;
     FirebaseDatabase firebaseDatabase;
+    private ArrayList<String> arrayKey;
 
-    public KSH_AllSeeAdapter(Context context, ArrayList<KSH_TestEntity> arrayList, DatabaseReference databaseReference, FirebaseDatabase firebaseDatabase) {
+    public KSH_AllSeeAdapter(Context context, ArrayList<KSH_TestEntity> arrayList, DatabaseReference databaseReference, FirebaseDatabase firebaseDatabase, ArrayList<String> arrayKey) {
         mcontext = context;
         this.arrayList = arrayList;
         this.databaseReference = databaseReference;
         this.firebaseDatabase = firebaseDatabase;
+        this.arrayKey = arrayKey;
 //        Log.d("1","allsee arraylist size"   +arrayList.size());
     }
 
@@ -61,7 +63,9 @@ public class KSH_AllSeeAdapter extends RecyclerView.Adapter<KSH_AllSeeAdapter.Vi
                                 // 밑에 child() 안에 key 가 들어가면 delete 되는데 key를 못 받아오겠음
                                 // arraylist에 담아서 참조하려하는데 title은 제대로 뜨는데 key값은 null 로 나옴
 //                                databaseReference.child().removeValue();
-                                Log.d("1",String.valueOf(arrayList.get(position).getKey()));
+//                                databaseReference.getRef().getKey();
+                                Log.d("1",String.valueOf(databaseReference.child("Test").getKey()));
+                                Log.d("1",String.valueOf(arrayKey.get(position)));
                                 Log.d("1",String.valueOf(arrayList.get(position).getTitle()));
                                 break;
                             case R.id.allsee_change:

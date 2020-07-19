@@ -25,6 +25,7 @@ public class KSH_AllSeeActivity extends AppCompatActivity {
     private DatabaseReference databaseReference;
     private RecyclerView recyclerView;
     private Intent intent;
+    private ArrayList<String> arrayKey;
 
 
     @Override
@@ -45,6 +46,7 @@ public class KSH_AllSeeActivity extends AppCompatActivity {
 
 //        arrayList = (ArrayList<KSH_TestEntity>) intent.getExtras().get("array");
         arrayList = (ArrayList<KSH_TestEntity>) intent.getSerializableExtra("array");
+        arrayKey = (ArrayList<String>) intent.getSerializableExtra("key");
         Log.d("1","Allsee array size " + arrayList.size());
 //        arrayList = new ArrayList<>();  // 객체 담아서 adapter로 보낼 arraylist
 
@@ -66,7 +68,7 @@ public class KSH_AllSeeActivity extends AppCompatActivity {
 //
 //            }
 //        });
-        allSeeRecyAdapter = new KSH_AllSeeAdapter(this,arrayList,databaseReference,firebaseDatabase);
+        allSeeRecyAdapter = new KSH_AllSeeAdapter(this,arrayList,databaseReference,firebaseDatabase,arrayKey);
         recyclerView.setAdapter(allSeeRecyAdapter);
     }
 

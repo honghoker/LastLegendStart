@@ -39,9 +39,12 @@ public class KSH_MainActivity extends AppCompatActivity implements NavigationVie
     private View allSeeView;
     private RecyclerView.Adapter recyAdapter;
     private ArrayList<KSH_TestEntity> arrayList;
+    private ArrayList<String> arrayKey;
     private FirebaseDatabase firebaseDatabase;
     private DatabaseReference databaseReference;
     private String directoryKey;
+    private Spinner spinner;
+    private Toolbar toolbar;
 
     // firebase test
 //    DatabaseReference mRootRef = FirebaseDatabase.getInstance().getReference();
@@ -63,16 +66,13 @@ public class KSH_MainActivity extends AppCompatActivity implements NavigationVie
 //            }
 //        });
 //    }
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    public void init(){
         setContentView(R.layout.ksh_activity_main);
 
-        Toolbar toolbar = findViewById(R.id.dra_toolbar);
+        toolbar = findViewById(R.id.dra_toolbar);
         setSupportActionBar(toolbar);
 
-        Spinner spinner = findViewById(R.id.spinner);
+        spinner = findViewById(R.id.spinner);
 
         rView = findViewById(R.id.include_recyclerView);
 
@@ -85,20 +85,30 @@ public class KSH_MainActivity extends AppCompatActivity implements NavigationVie
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL,false));
         arrayList = new ArrayList<>();  // 객체 담아서 adapter로 보낼 arraylist
+        arrayKey = new ArrayList<>();
 
         firebaseDatabase = FirebaseDatabase.getInstance();  // firebase db 연동
-        databaseReference = firebaseDatabase.getReference("Test");  // db table 연결
-//        DatabaseReference rootRef = FirebaseDatabase.getInstance().getReference();
-//        DatabaseReference yourRef = rootRef.child("Test");
+        databaseReference = firebaseDatabase.getReference().child("Test");  // db table 연결
+    }
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        init();
 
         databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot datasnapshot) {
                 // firebase db의 data를 받아오는 곳
                 arrayList.clear();
+                arrayKey.clear();
                 for(DataSnapshot snapshot : datasnapshot.getChildren()){
                     KSH_TestEntity ksh_testEntity = snapshot.getValue(KSH_TestEntity.class); // 만들어둔 Test 객체에 데이터를 담는다
+                    String key = snapshot.getKey();
+                    String title = ksh_testEntity.getTitle();
+                    Log.d("1",key + title);
                     arrayList.add(ksh_testEntity);  // 담은 데이터들을 arraylist에 넣고 recyclerview로 보낼 준비
+                    arrayKey.add(key);
                 }
                 recyAdapter.notifyDataSetChanged(); // list 저장 및 새로고침
             }
@@ -117,7 +127,6 @@ public class KSH_MainActivity extends AppCompatActivity implements NavigationVie
         drawerLayout = findViewById(R.id.drawer_layout);
         NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
-
 
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this,drawerLayout,toolbar,R.string.drawer_open,R.string.drawer_close);
         drawerLayout.addDrawerListener(toggle);
@@ -156,6 +165,7 @@ public class KSH_MainActivity extends AppCompatActivity implements NavigationVie
             public void onClick(View v) {
                 Intent intent = new Intent(fView.getContext(), KSH_AllSeeActivity.class);
                 intent.putExtra("array",arrayList);
+                intent.putExtra("key",arrayKey);
 
                 startActivity(intent);
                 Log.d("1","allSeebtn 확인");
