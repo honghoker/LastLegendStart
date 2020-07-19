@@ -3,11 +3,11 @@ package com.example.locationsave;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 
 import androidx.viewpager.widget.PagerAdapter;
@@ -42,8 +42,8 @@ public class hep_ViewPagerAdapter extends PagerAdapter {
         ImageView imageView = layout.findViewById(R.id.locationImage);
         imageView.setImageBitmap(imageDataList.get(position).bitmap);
 
-        Button buttonCloseLocationImage = layout.findViewById(R.id.buttonCloseLocationImage);
-        buttonCloseLocationImage.setOnClickListener(new View.OnClickListener() {
+        ImageButton btnCloseLocationImage = layout.findViewById(R.id.btnCloseLocationImage);
+        btnCloseLocationImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 ((hep_LocationSave)mcontext).removeCurrentItem();

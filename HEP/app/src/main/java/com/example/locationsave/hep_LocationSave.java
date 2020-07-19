@@ -14,8 +14,6 @@ import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.net.Uri;
-import android.nfc.Tag;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.ContactsContract;
@@ -27,23 +25,19 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.firebase.database.ChildEventListener;
+import com.example.locationsave.hep_DTO.hep_Location;
+import com.example.locationsave.hep_DTO.hep_Tag;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.FirebaseFirestore;
 import com.opensooq.supernova.gligar.GligarPicker;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.Map;
 
 import static android.content.ContentValues.TAG;
@@ -60,28 +54,33 @@ public class hep_LocationSave extends AppCompatActivity {
     ViewPager viewPager;
     hep_ViewPagerAdapter viewPagerAdapter;
 
+    ArrayList<String> tagDataArrayList;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.hep_locationsave);
         setinit();
-        permissionCheck();
     }
 
     public void setinit(){
         hashEditText = findViewById(R.id.HashTagText);
         imageDataArrayList = new ArrayList<>();
+        tagDataArrayList = new ArrayList<>();
         viewPager = findViewById(R.id.viewPager);
 
         firebaseDatabase = FirebaseDatabase.getInstance();
 
         TagReference = firebaseDatabase.getReference().child("Tag");
+
         TagReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                HashMap<String, Object> H = (HashMap<String, Object>) dataSnapshot.getValue(); /*********************** 안됨/
-                if(new hep_HashTagArr().getHashTagArr().contains(H.values().toString()))
-                    Log.d("중복체크", "중복");
+                tagDataArrayList.clear();
+                for(DataSnapshot tagSnapshot : dataSnapshot.getChildren()){
+                    hep_Tag T = tagSnapshot.getValue(hep_Tag.class);
+                    tagDataArrayList.add(T.name);
+                }
             }
 
             @Override
@@ -113,7 +112,7 @@ public class hep_LocationSave extends AppCompatActivity {
         else{
             hep_FlowLayout.LayoutParams params = new hep_FlowLayout.LayoutParams(20, 20);
             hep_HashTag hashTag = new hep_HashTag(this);
-            hashTag.init(hash, "#3F729B", R.drawable.hashtagborder, params);
+            hashTag.init(hash, "#3F729B", R.drawable.hep_hashtagborder, params);
 
             ((hep_FlowLayout) findViewById(R.id.flowLayout)).addView(hashTag);
 
@@ -146,6 +145,7 @@ public class hep_LocationSave extends AppCompatActivity {
     }
 
     public void onButtonImageAddClicked(View v){
+        permissionCheck();
         final CharSequence[] PhotoModels = {"갤러리", "카메라"};
         final AlertDialog.Builder alt_bld = new AlertDialog.Builder(this);
         alt_bld.setTitle("사진 가져오기");
@@ -154,7 +154,7 @@ public class hep_LocationSave extends AppCompatActivity {
             public void onClick(DialogInterface dialog, int which) {
                 if (which == 0) {
                     try {
-                        new GligarPicker().requestCode(pickImage).withActivity(hep_LocationSave.this).show();
+                        new GligarPicker().requestCode(pickImage).withActivity(hep_LocationSave.this).limit(5).show();
                     } catch (Exception e){
                         e.printStackTrace();
                     }
@@ -241,40 +241,56 @@ public class hep_LocationSave extends AppCompatActivity {
 
 
     public void onButtonLocationSaveClicked(View v){
-        LocationReference = firebaseDatabase.getReference().child("Locations").push();
-        ImageReference = firebaseDatabase.getReference().child("LocationImages").push();
+        if(!((EditText)findViewById(R.id.locationName)).getText().toString().trim().equals("")){
+            LocationReference = firebaseDatabase.getReference().child("Locations").push();
+            ImageReference = firebaseDatabase.getReference().child("LocationImages").push();
 
-        Map<String, Object> hashMapLocation = new HashMap<>();
+            hep_Location hep_Location = new hep_Location(((EditText)findViewById(R.id.locationName)).getText().toString(),
+                    ((EditText)findViewById(R.id.locationAddr)).getText().toString(),
+                    ((EditText)findViewById(R.id.locationDetailAddr)).getText().toString(),
+                    ((EditText)findViewById(R.id.locationContact)).getText().toString(),
+                    ((EditText)findViewById(R.id.locationMemo)).getText().toString()
+                    /* 위도 경도 가져오기 */
+            );
 
-        hashMapLocation.put("Name", ((EditText)findViewById(R.id.locationName)).getText().toString());
-        hashMapLocation.put("Addr", ((EditText)findViewById(R.id.locationAddr)).getText().toString());
-        hashMapLocation.put("DetailAddr", ((EditText)findViewById(R.id.locationDetailAddr)).getText().toString());
-        hashMapLocation.put("Phone", ((EditText)findViewById(R.id.locationContact)).getText().toString());
-        hashMapLocation.put("Memo", ((EditText)findViewById(R.id.locationMemo)).getText().toString());
+            Map<String, Object> hashMapLocation = hep_Location.toMap();
 
-        for(int i = 0; i < new hep_HashTagArr().getHashTagArr().size(); i++) {
-            hashMapLocation.put("Tag"+i, new hep_HashTagArr().getHashTagArr().get(i));
-            TagReference.push().setValue(new hep_HashTagArr().getHashTagArr().get(i));
+            for(int i = 0; i < new hep_HashTagArr().getHashTagArr().size(); i++) {
+                hashMapLocation.put("Tag"+i, new hep_HashTagArr().getHashTagArr().get(i));
+                if(!tagDataArrayList.contains(new hep_HashTagArr().getHashTagArr().get(i))){  // 태그 중복확인
+                    Map<String, Object> hashMapTag = new hep_Tag(new hep_HashTagArr().getHashTagArr().get(i)).toMap();
+                    TagReference.push().setValue(hashMapTag); // 태그 삽입
+                }
+            }
+
+            LocationReference.setValue(hashMapLocation);
+
+            if(!imageDataArrayList.isEmpty()){
+                String key = LocationReference.getKey(); // 방금 삽입한 Location ID
+
+                Map<String, Object> hashMapImage = new HashMap<>();
+                hashMapImage.put("LocationId", key);
+                for(int i = 0 ; i < imageDataArrayList.size(); i++){
+                    hashMapImage.put("Image"+i, getImage64Data(imageDataArrayList.get(i).bitmap));
+                }
+                ImageReference.setValue(hashMapImage);
+            }
         }
-
-        LocationReference.setValue(hashMapLocation);
-
-        String key = LocationReference.getKey(); // 방금 삽입한 Location ID
-
-        Map<String, Object> hashMapImage = new HashMap<>();
-        hashMapImage.put("LocationId", key);
-        for(int i = 0 ; i < imageDataArrayList.size(); i++){
-            hashMapImage.put("Image"+i, getImage64Data(imageDataArrayList.get(i).bitmap));
+        else{
+            toastMake("이름을 입력해주세요");
         }
-        ImageReference.setValue(hashMapImage);
     }
 
-    public String getImage64Data(Bitmap bitmap){
+    public String getImage64Data(Bitmap bitmap){ // base64 encoding
         ByteArrayOutputStream bao = new ByteArrayOutputStream();
         bitmap.compress(Bitmap.CompressFormat.PNG, 100, bao); // bmp is bitmap from user image file
         bitmap.recycle();
         byte[] byteArray = bao.toByteArray();
         String imageB64 = Base64.encodeToString(byteArray, Base64.URL_SAFE);
         return imageB64;
+    }
+
+    public ArrayList<String> getTagDataArrayList(){
+        return tagDataArrayList;
     }
 }

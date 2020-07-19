@@ -9,6 +9,4 @@ public class hep_FireBase {
     FirebaseFirestore db = FirebaseFirestore.getInstance();
 
     Map<String, Object> user = new HashMap<>();
-
-
 }

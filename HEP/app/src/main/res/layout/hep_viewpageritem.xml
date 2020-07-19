@@ -16,13 +16,16 @@
             android:layout_height="match_parent"
             android:scaleType="fitXY" />
 
-        <Button
-            android:id="@+id/buttonCloseLocationImage"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
+        <ImageButton
+            android:id="@+id/btnCloseLocationImage"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
             android:layout_gravity="right|top"
-            android:background="@android:color/white"
-            android:text="X" />
+            android:layout_marginTop="10dp"
+            android:layout_marginRight="10dp"
+            android:background="@android:color/transparent"
+            android:scaleType="fitCenter"
+            app:srcCompat="@drawable/closed" />
 
     </FrameLayout>
 

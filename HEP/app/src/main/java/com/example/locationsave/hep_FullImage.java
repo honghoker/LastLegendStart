@@ -1,6 +1,5 @@
 package com.example.locationsave;
 
-import android.app.Activity;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
@@ -16,7 +15,7 @@ public class hep_FullImage extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.hep_fullimage);
 
-        ImageView imageView = findViewById(R.id.fullimage);
+        ImageView imageView = findViewById(R.id.fullImage);
         byte[] byteArray = getIntent().getByteArrayExtra("image");
         Bitmap bitmap = BitmapFactory.decodeByteArray(byteArray, 0, byteArray.length);
 

@@ -10,7 +10,9 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.RelativeLayout;
 
+import java.util.ArrayList;
 import java.util.List;
+
 
 public class hep_HashEditText extends RelativeLayout {
     LayoutInflater inflater = null;
@@ -61,7 +63,7 @@ public class hep_HashEditText extends RelativeLayout {
                     //String query = searchSql(s.toString()); // 초성검색 SQL
                     //List list = locationRepository.searchTag(query);
 
-                    //autoCompleteTextView.setAdapter(new ArrayAdapter<String>(mContext, android.R.layout.simple_dropdown_item_1line, list));
+                    autoCompleteTextView.setAdapter(new ArrayAdapter<String>(mContext, android.R.layout.simple_dropdown_item_1line, setChangeListData(s.toString())));
                     autoCompleteTextView.showDropDown();
                 } else {
                     btnClearHashEditText.setVisibility(RelativeLayout.INVISIBLE);
@@ -92,5 +94,21 @@ public class hep_HashEditText extends RelativeLayout {
                 hashEditText.setText("");
             }
         });
+    }
+
+    public List setChangeListData(String searchKeyword){
+        List temp = new ArrayList<>();
+        ArrayList<String> tag = ((hep_LocationSave)mContext).getTagDataArrayList();
+        for(String t: tag){
+            boolean isAdd = false;
+            String iniName = hep_HangulUtils.getHangulInitialSound(t, searchKeyword);
+            if(iniName.indexOf(searchKeyword) >= 0){
+                isAdd = true;
+            }
+            if(isAdd){
+                temp.add(t);
+            }
+        }
+        return temp;
     }
 }
