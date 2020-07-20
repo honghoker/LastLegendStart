@@ -3,6 +3,8 @@ package com.example.pcs;
 import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -42,12 +44,14 @@ public class Pcs_LocationRecyclerView extends Fragment {
 
     private void setActionbar() {
         Toolbar toolbar = rootView.findViewById(R.id.toolbar);
-        Actionbar
+//        Actionbar
     }
 
-
-
-
+    @Override
+    public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
+        inflater.inflate(R.menu.pcs_menu,menu);
+        super.onCreateOptionsMenu(menu, inflater);
+    }
 
     @Override
     public void onAttach(@NonNull Context context) {
