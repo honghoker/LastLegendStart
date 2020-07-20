@@ -34,7 +34,7 @@
                     android:id="@+id/locationImage"
                     android:layout_width="60dp"
                     android:layout_height="60dp"
-                    android:layout_marginLeft="8dp"
+                    android:layout_marginLeft="5dp"
                     android:background="@android:color/transparent"
                     android:maxHeight="60dp"
                     android:onClick="onButtonImageAddClicked"
@@ -42,56 +42,12 @@
                     app:srcCompat="@drawable/imageupload"
                     tools:maxWidth="60dp" />
 
-                <ImageButton
-                    android:id="@+id/imageBtn1"
-                    android:layout_width="60dp"
-                    android:layout_height="60dp"
-                    android:layout_marginLeft="8dp"
-                    android:maxWidth="60dp"
-                    android:maxHeight="60dp"
-                    android:scaleType="fitXY" />
+                <com.example.locationsave.hep_FlowLayout
+                    android:id="@+id/imageFlowLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
 
-                <ImageButton
-                    android:id="@+id/imageBtn2"
-                    android:layout_width="60dp"
-                    android:layout_height="60dp"
-                    android:layout_marginLeft="5dp"
-                    android:maxWidth="60dp"
-                    android:maxHeight="60dp"
-                    android:scaleType="fitXY" />
-
-                <ImageButton
-                    android:id="@+id/imageBtn3"
-                    android:layout_width="60dp"
-                    android:layout_height="60dp"
-                    android:layout_marginLeft="5dp"
-                    android:maxWidth="60dp"
-                    android:maxHeight="60dp"
-                    android:scaleType="fitXY" />
-
-                <ImageButton
-                    android:id="@+id/imageBtn4"
-                    android:layout_width="60dp"
-                    android:layout_height="60dp"
-                    android:layout_marginLeft="5dp"
-                    android:maxWidth="60dp"
-                    android:maxHeight="60dp"
-                    android:scaleType="fitXY" />
-
-                <ImageButton
-                    android:id="@+id/imageBtn5"
-                    android:layout_width="60dp"
-                    android:layout_height="60dp"
-                    android:layout_marginLeft="5dp"
-                    android:maxWidth="60dp"
-                    android:maxHeight="60dp"
-                    android:scaleType="fitXY" />
             </LinearLayout>
-
-            <com.example.locationsave.hep_FlowLayout
-                android:id="@+id/imageFlowLayout"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
 
             <LinearLayout
                 android:layout_width="match_parent"

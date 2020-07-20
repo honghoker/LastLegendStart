@@ -23,6 +23,7 @@ import android.provider.MediaStore;
 import android.util.Base64;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -55,8 +56,8 @@ public class hep_LocationSave extends AppCompatActivity {
     ArrayList<hep_ImageData> imageDataArrayList;
     ViewPager viewPager;
     hep_ViewPagerAdapter viewPagerAdapter;
-
     ArrayList<String> tagDataArrayList;
+    int imageSizeLimit = 5;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -144,6 +145,7 @@ public class hep_LocationSave extends AppCompatActivity {
         startActivityForResult(intent, contact);
     }
 
+
     public void onButtonImageAddClicked(View v){
         permissionCheck();
         final CharSequence[] PhotoModels = {"갤러리", "카메라"};
@@ -154,7 +156,7 @@ public class hep_LocationSave extends AppCompatActivity {
             public void onClick(DialogInterface dialog, int which) {
                 if (which == 0) {
                     try {
-                        new GligarPicker().requestCode(pickImage).withActivity(hep_LocationSave.this).limit(5).show();
+                        new GligarPicker().requestCode(pickImage).withActivity(hep_LocationSave.this).limit(imageSizeLimit).show();
                     } catch (Exception e){
                         e.printStackTrace();
                     }
@@ -208,41 +210,24 @@ public class hep_LocationSave extends AppCompatActivity {
                                     e.printStackTrace();
                                 }
                             }
-/*
-                            LinearLayout layout = ((LinearLayout) findViewById(R.id.imageListLayout));
-                            for (int i = 0; i < imageDataArrayList.size(); i++) {
-                                ImageButton imageButton = (ImageButton) layout.getChildAt(i + 1);
-                                Bitmap b = imageDataArrayList.get(i).bitmap;
-                                BitmapDrawable bitmapDrawable = new BitmapDrawable(getResources(), b);
-                                imageButton.setBackgroundDrawable(bitmapDrawable);
-                            }*/
 
                             hep_FlowLayout.LayoutParams params = new hep_FlowLayout.LayoutParams(20, 20);
 
-                            //hep_HashTag hashTag = new hep_HashTag(this);
-                            //hashTag.init(hash, "#3F729B", R.drawable.hep_hashtagborder, params);
+                            ((hep_FlowLayout) findViewById(R.id.imageFlowLayout)).removeAllViews(); // flowlayout clear
                             for (int i = 0; i < imageDataArrayList.size(); i++) {
-                                ImageButton imageButton = new ImageButton(this);
-                                Bitmap b = imageDataArrayList.get(i).bitmap;
-                                BitmapDrawable bitmapDrawable = new BitmapDrawable(getResources(), b);
-                                imageButton.setLayoutParams(params);
-                                imageButton.setBackgroundDrawable(bitmapDrawable);
-                                imageButton.setMaxWidth(60);
-                                imageButton.setMaxHeight(60);
-                                imageButton.setMinimumWidth(60);
-                                imageButton.setMinimumHeight(60);
-                                imageButton.setScaleType(ImageView.ScaleType.FIT_XY);
+                                hep_FlowLayoutImageItem flowLayoutImageItem = new hep_FlowLayoutImageItem(this);
+                                flowLayoutImageItem.setLayoutParams(params);
+                                flowLayoutImageItem.setBackground(imageDataArrayList.get(i).bitmap);
 
-
-                                ((hep_FlowLayout) findViewById(R.id.imageFlowLayout)).addView(imageButton);
+                                ((hep_FlowLayout) findViewById(R.id.imageFlowLayout)).addView(flowLayoutImageItem);
                             }
-
-
                             viewPagerAdapter = new hep_ViewPagerAdapter(this, imageDataArrayList);
                             viewPager.setAdapter(viewPagerAdapter);
+
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
+                        imageSizeLimit -= pathsList.length;
                     }
                     else{
                         toastMake("사진은 5장까지 선택할 수 있습니다.");
@@ -270,8 +255,9 @@ public class hep_LocationSave extends AppCompatActivity {
     public void removeCurrentItem(){
         int position = viewPager.getCurrentItem();
         imageDataArrayList.remove(position);
-
+        ((hep_FlowLayout)findViewById(R.id.imageFlowLayout)).removeViewAt(position);
         viewPagerAdapter.notifyDataSetChanged();
+        imageSizeLimit += 1;
     }
 
 
@@ -328,4 +314,5 @@ public class hep_LocationSave extends AppCompatActivity {
     public ArrayList<String> getTagDataArrayList(){
         return tagDataArrayList;
     }
+
 }

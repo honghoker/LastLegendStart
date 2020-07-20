@@ -23,7 +23,11 @@ public class hep_ViewPagerAdapter extends PagerAdapter {
     private List<hep_ImageData> imageDataList;
     private Context mcontext;
 
-    hep_ViewPagerAdapter(Context context, List<hep_ImageData> imageDataList) {
+    public hep_ViewPagerAdapter(){
+
+    }
+
+    public hep_ViewPagerAdapter(Context context, List<hep_ImageData> imageDataList) {
         this.mcontext = context;
         this.imageDataList = imageDataList;
     }
