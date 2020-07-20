@@ -14,6 +14,8 @@ import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
+import android.media.Image;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.ContactsContract;
@@ -22,6 +24,9 @@ import android.util.Base64;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ImageButton;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -44,10 +49,7 @@ import static android.content.ContentValues.TAG;
 
 public class hep_LocationSave extends AppCompatActivity {
 
-    FirebaseDatabase firebaseDatabase;
-    DatabaseReference LocationReference;
     DatabaseReference TagReference;
-    DatabaseReference ImageReference;
 
     hep_AutoCompleteTextView hashEditText;
     ArrayList<hep_ImageData> imageDataArrayList;
@@ -69,9 +71,7 @@ public class hep_LocationSave extends AppCompatActivity {
         tagDataArrayList = new ArrayList<>();
         viewPager = findViewById(R.id.viewPager);
 
-        firebaseDatabase = FirebaseDatabase.getInstance();
-
-        TagReference = firebaseDatabase.getReference().child("Tag");
+        TagReference = new hep_FireBase().getFireBaseDatabaseInstance().getReference().child("Tag");
 
         TagReference.addValueEventListener(new ValueEventListener() {
             @Override
@@ -194,24 +194,58 @@ public class hep_LocationSave extends AppCompatActivity {
 
             case pickImage:
                 if(resultCode == RESULT_OK){
-                    String pathsList[]= data.getExtras().getStringArray(GligarPicker.IMAGES_RESULT); // return list of selected images paths.
-                    String result = "Number of selected Images: " + pathsList.length;
+                    if(imageDataArrayList.size() < 5) {
+                        String pathsList[] = data.getExtras().getStringArray(GligarPicker.IMAGES_RESULT); // return list of selected images paths.
 
-                    try {
-                        for(int i = 0; i < pathsList.length; i++){
-                            try {
-                                File test = new File(pathsList[i].toString());
-                                if(test.exists()){
-                                    imageDataArrayList.add(new hep_ImageData(BitmapFactory.decodeFile(test.getAbsolutePath())));
+                        try {
+                            for (int i = 0; i < pathsList.length; i++) {
+                                try {
+                                    File test = new File(pathsList[i].toString());
+                                    if (test.exists()) {
+                                        imageDataArrayList.add(new hep_ImageData(BitmapFactory.decodeFile(test.getAbsolutePath())));
+                                    }
+                                } catch (Exception e) {
+                                    e.printStackTrace();
                                 }
-                            } catch (Exception e){
-                                e.printStackTrace();
                             }
+/*
+                            LinearLayout layout = ((LinearLayout) findViewById(R.id.imageListLayout));
+                            for (int i = 0; i < imageDataArrayList.size(); i++) {
+                                ImageButton imageButton = (ImageButton) layout.getChildAt(i + 1);
+                                Bitmap b = imageDataArrayList.get(i).bitmap;
+                                BitmapDrawable bitmapDrawable = new BitmapDrawable(getResources(), b);
+                                imageButton.setBackgroundDrawable(bitmapDrawable);
+                            }*/
+
+                            hep_FlowLayout.LayoutParams params = new hep_FlowLayout.LayoutParams(20, 20);
+
+                            //hep_HashTag hashTag = new hep_HashTag(this);
+                            //hashTag.init(hash, "#3F729B", R.drawable.hep_hashtagborder, params);
+                            for (int i = 0; i < imageDataArrayList.size(); i++) {
+                                ImageButton imageButton = new ImageButton(this);
+                                Bitmap b = imageDataArrayList.get(i).bitmap;
+                                BitmapDrawable bitmapDrawable = new BitmapDrawable(getResources(), b);
+                                imageButton.setLayoutParams(params);
+                                imageButton.setBackgroundDrawable(bitmapDrawable);
+                                imageButton.setMaxWidth(60);
+                                imageButton.setMaxHeight(60);
+                                imageButton.setMinimumWidth(60);
+                                imageButton.setMinimumHeight(60);
+                                imageButton.setScaleType(ImageView.ScaleType.FIT_XY);
+
+
+                                ((hep_FlowLayout) findViewById(R.id.imageFlowLayout)).addView(imageButton);
+                            }
+
+
+                            viewPagerAdapter = new hep_ViewPagerAdapter(this, imageDataArrayList);
+                            viewPager.setAdapter(viewPagerAdapter);
+                        } catch (Exception e) {
+                            e.printStackTrace();
                         }
-                        viewPagerAdapter = new hep_ViewPagerAdapter(this, imageDataArrayList);
-                        viewPager.setAdapter(viewPagerAdapter);
-                    } catch (Exception e) {
-                        e.printStackTrace();
+                    }
+                    else{
+                        toastMake("사진은 5장까지 선택할 수 있습니다.");
                     }
                 }
                 break;
@@ -236,14 +270,15 @@ public class hep_LocationSave extends AppCompatActivity {
     public void removeCurrentItem(){
         int position = viewPager.getCurrentItem();
         imageDataArrayList.remove(position);
+
         viewPagerAdapter.notifyDataSetChanged();
     }
 
 
     public void onButtonLocationSaveClicked(View v){
         if(!((EditText)findViewById(R.id.locationName)).getText().toString().trim().equals("")){
-            LocationReference = firebaseDatabase.getReference().child("Locations").push();
-            ImageReference = firebaseDatabase.getReference().child("LocationImages").push();
+            DatabaseReference LocationReference = new hep_FireBase().getFireBaseDatabaseInstance().getReference().child("Locations").push();
+            DatabaseReference ImageReference = new hep_FireBase().getFireBaseDatabaseInstance().getReference().child("LocationImages").push();
 
             hep_Location hep_Location = new hep_Location(((EditText)findViewById(R.id.locationName)).getText().toString(),
                     ((EditText)findViewById(R.id.locationAddr)).getText().toString(),

@@ -1,12 +1,18 @@
 package com.example.locationsave;
 
+import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
 public class hep_FireBase {
-    FirebaseFirestore db = FirebaseFirestore.getInstance();
+    private static FirebaseDatabase firebaseDatabase = null;
 
-    Map<String, Object> user = new HashMap<>();
+    public FirebaseDatabase getFireBaseDatabaseInstance(){
+        if(firebaseDatabase == null)
+            firebaseDatabase = FirebaseDatabase.getInstance();
+        return firebaseDatabase;
+    }
 }

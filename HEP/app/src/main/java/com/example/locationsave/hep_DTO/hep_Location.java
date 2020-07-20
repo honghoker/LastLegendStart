@@ -15,8 +15,8 @@ public class hep_Location {
     String phone;
     String memo;
     long time;
-    long Latitude; // 위도
-    long longitude; // 경도
+    double Latitude; // 위도
+    double longitude; // 경도
 
     public hep_Location(){
     }
