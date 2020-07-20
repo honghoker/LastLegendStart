@@ -21,11 +21,17 @@
 
             <TextView
                 android:id="@+id/recy_test_title"
-                android:layout_width="0dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:padding="5dp"
                 android:text="title"
-                android:textSize="20dp"
-                tools:ignore="MissingConstraints" />
+                android:textSize="15dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                tools:ignore="MissingConstraints"
+                tools:layout_editor_absoluteY="15dp"
+                android:maxLines="1"
+                android:ellipsize="end"/>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

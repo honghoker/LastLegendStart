@@ -13,6 +13,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.location.KSH_FireBase;
 import com.example.location.KSH_TestEntity;
 import com.example.location.R;
 import com.google.firebase.database.DatabaseReference;
@@ -27,11 +28,13 @@ public class KSH_RecyAdapter extends RecyclerView.Adapter<KSH_RecyAdapter.ViewHo
     DatabaseReference databaseReference;
     String directoryKey;
 
-    public KSH_RecyAdapter(Context context, ArrayList<KSH_TestEntity> arrayList, DatabaseReference databaseReference, String directoryKey) {
+    public KSH_RecyAdapter(Context context, ArrayList<KSH_TestEntity> arrayList, String directoryKey) {
         mcontext = context;
         this.arrayList = arrayList;
-        this.databaseReference = databaseReference;
         this.directoryKey = directoryKey;
+        // 싱글톤
+        KSH_FireBase firebaseDatabase = KSH_FireBase.getInstance(mcontext);
+        databaseReference = firebaseDatabase.databaseReference;
     }
 
     class HeaderViewHolder extends ViewHolder {
@@ -114,6 +117,7 @@ public class KSH_RecyAdapter extends RecyclerView.Adapter<KSH_RecyAdapter.ViewHo
                                 // 걍 main에 KSH_TestEntity ksh_testEntity = snapshot.getValue(KSH_TestEntity.class); arrayList.add(ksh_testEntity);
                                 // 이부분 말고 다르게 add 하는 방법 찾아보기 class로 넣는거 말고 계속 오류남
                                 databaseReference.child(directoryKey).child("title").setValue(editText.getText().toString());
+                                databaseReference.child(directoryKey).child("count").setValue("ex");
 
                                 dialog.dismiss();
                             }

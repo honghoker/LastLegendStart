@@ -13,18 +13,20 @@ public class KSH_NoticeIntent extends AppCompatActivity {
     private Toolbar toolbar;
     DrawerLayout drawerLayout;
 
+    public void init(){
+        drawerLayout = findViewById(R.id.drawer_layout);
+        toolbar = findViewById(R.id.intent_toolbar);
+        toolbar.setTitle("공지사항");
+        setSupportActionBar(toolbar);
+    }
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.ksh_intent_notice);
-        toolbar = findViewById(R.id.intent_toolbar);
-        toolbar.setTitle("공지사항");
-        setSupportActionBar(toolbar);
+        init();
 
         // 뒤로가기 버튼 생성
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
-        drawerLayout = findViewById(R.id.drawer_layout);
     }
 
     @Override
