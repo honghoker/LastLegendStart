@@ -1,21 +1,22 @@
-package com.example.pcs;
+package com.example.pcsandroid;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentTransaction;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toolbar;
 
 public class MainActivity extends AppCompatActivity {
     Pcs_LocationRecyclerView pcsFragment ;
+
 
     class BtnOnClickListener implements Button.OnClickListener{
         @Override
         public void onClick(View v) {
             switch(v.getId()){
-                case R.id.button4:
+                case R.id.fragmentButton:
                     setFragment();
                     break;
             }
@@ -25,16 +26,16 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-//        setContentView(R.layout.activity_main);
-//
-//        setDeclaration();
+        setContentView(R.layout.activity_main);
+
+        setDeclaration();
 
 
 
     }
     private void setDeclaration(){
         BtnOnClickListener onClickListener = new BtnOnClickListener();
-        Button button = (Button) findViewById(R.id.button4);
+        Button button = (Button) findViewById(R.id.fragmentButton);
         button.setOnClickListener(onClickListener);
         pcsFragment = new Pcs_LocationRecyclerView();
     }
