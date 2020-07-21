@@ -33,7 +33,7 @@ public class KSH_RecyAdapter extends RecyclerView.Adapter<KSH_RecyAdapter.ViewHo
         this.arrayList = arrayList;
         this.directoryKey = directoryKey;
         // 싱글톤
-        KSH_FireBase firebaseDatabase = KSH_FireBase.getInstance(mcontext);
+        KSH_FireBase firebaseDatabase = KSH_FireBase.getInstance();
         databaseReference = firebaseDatabase.databaseReference;
     }
 

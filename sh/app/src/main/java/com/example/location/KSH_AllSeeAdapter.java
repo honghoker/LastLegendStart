@@ -36,7 +36,7 @@ public class KSH_AllSeeAdapter extends RecyclerView.Adapter<KSH_AllSeeAdapter.Vi
         this.arrayList = arrayList;
         this.arrayKey = arrayKey;
         // 싱글톤
-        KSH_FireBase firebaseDatabase = KSH_FireBase.getInstance(mcontext);
+        KSH_FireBase firebaseDatabase = KSH_FireBase.getInstance();
         databaseReference = firebaseDatabase.databaseReference;
     }
 

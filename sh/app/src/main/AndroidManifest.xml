@@ -9,6 +9,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity android:name=".KSH_LoadingActivity"/>
         <activity android:name=".NavIntent.KSH_NoticeIntent"/>
         <activity android:name=".KSH_AllSeeActivity"/>
         <activity android:name=".KSH_MainActivity">

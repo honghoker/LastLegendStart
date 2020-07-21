@@ -65,13 +65,17 @@ public class KSH_MainActivity extends AppCompatActivity implements NavigationVie
         navigationView = findViewById(R.id.nav_view);
 
         // 싱글톤
-        KSH_FireBase firebaseDatabase = KSH_FireBase.getInstance(getApplicationContext());
+        KSH_FireBase firebaseDatabase = KSH_FireBase.getInstance();
         databaseReference = firebaseDatabase.databaseReference;
     }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        // loading intent
+        Intent intent = new Intent(this,KSH_LoadingActivity.class);
+        startActivity(intent);
+
         init();
 
         databaseReference.addValueEventListener(new ValueEventListener() {

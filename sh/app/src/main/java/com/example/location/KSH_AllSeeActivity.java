@@ -36,7 +36,7 @@ public class KSH_AllSeeActivity extends AppCompatActivity {
         recyclerView = findViewById(R.id.allsee_recycler_view);
 
         // 싱글톤
-        KSH_FireBase firebaseDatabase = KSH_FireBase.getInstance(getApplicationContext());
+        KSH_FireBase firebaseDatabase = KSH_FireBase.getInstance();
         databaseReference = firebaseDatabase.databaseReference;
     }
 
