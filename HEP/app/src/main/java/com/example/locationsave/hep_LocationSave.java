@@ -12,6 +12,7 @@ import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.ContactsContract;
@@ -197,9 +198,9 @@ public class hep_LocationSave extends AppCompatActivity {
                         try {
                             for (int i = 0; i < pathsList.length; i++) {
                                 try {
-                                    File test = new File(pathsList[i].toString());
+                                    File test = new File(pathsList[i]);
                                     if (test.exists()) {
-                                        new hep_locationImageDataArr().getImageDataArrayInstance().add(new hep_ImageData(BitmapFactory.decodeFile(test.getAbsolutePath())));
+                                        new hep_locationImageDataArr().getImageDataArrayInstance().add(new hep_ImageData(BitmapFactory.decodeFile(test.getAbsolutePath()), Uri.fromFile(test)));
                                     }
                                 } catch (Exception e) {
                                     e.printStackTrace();
@@ -216,7 +217,7 @@ public class hep_LocationSave extends AppCompatActivity {
 
                                 ((hep_FlowLayout) findViewById(R.id.imageFlowLayout)).addView(flowLayoutImageItem);
                             }
-                            viewPagerAdapter = new hep_ViewPagerAdapter(this, new hep_locationImageDataArr().getImageDataArrayInstance());
+                            viewPagerAdapter = new hep_ViewPagerAdapter(this);
                             viewPager.setAdapter(viewPagerAdapter);
                             setVisibilityInformationImage();
 
@@ -231,7 +232,7 @@ public class hep_LocationSave extends AppCompatActivity {
                 }
                 break;
 /*
-            case captureImage:
+            case captureImage: // 카메라
                 if(resultCode == RESULT_OK){
                     try {
                         Bitmap bitmap = (Bitmap) data.getExtras().get("data");

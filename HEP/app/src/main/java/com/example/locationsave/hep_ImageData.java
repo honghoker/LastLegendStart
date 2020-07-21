@@ -1,14 +1,17 @@
 package com.example.locationsave;
 
 import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Parcel;
 import android.os.Parcelable;
 
 public class hep_ImageData implements Parcelable {
     Bitmap bitmap;
+    Uri path;
 
-    public hep_ImageData(Bitmap bitmap){
+    public hep_ImageData(Bitmap bitmap, Uri path){
         this.bitmap = bitmap;
+        this.path = path;
     }
 
     protected hep_ImageData(Parcel in) {
