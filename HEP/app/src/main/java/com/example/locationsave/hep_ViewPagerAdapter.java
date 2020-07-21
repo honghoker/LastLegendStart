@@ -3,18 +3,21 @@ package com.example.locationsave;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.drawable.BitmapDrawable;
-import android.media.Image;
-import android.util.Log;
+import android.net.Uri;
+import android.provider.MediaStore;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.TableRow;
 
 import androidx.viewpager.widget.PagerAdapter;
+
+import com.github.piasy.biv.BigImageViewer;
+import com.github.piasy.biv.loader.fresco.FrescoImageLoader;
+import com.github.piasy.biv.loader.glide.GlideCustomImageLoader;
+import com.github.piasy.biv.loader.glide.GlideImageLoader;
+import com.github.piasy.biv.view.BigImageView;
 
 import java.io.ByteArrayOutputStream;
 import java.util.List;
@@ -61,7 +64,7 @@ public class hep_ViewPagerAdapter extends PagerAdapter {
         imageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ByteArrayOutputStream stream = new ByteArrayOutputStream();
+                /*ByteArrayOutputStream stream = new ByteArrayOutputStream();
                 Bitmap bitmap = imageDataList.get(position).bitmap;
                 float scale = (float) (1024/(float)bitmap.getWidth());
                 int image_w = (int) (bitmap.getWidth() * scale);
@@ -71,7 +74,10 @@ public class hep_ViewPagerAdapter extends PagerAdapter {
                 byte[] byteArray = stream.toByteArray();
                 Intent intent = new Intent(mcontext, hep_FullImage.class);
                 intent.putExtra("image", byteArray);
-                mcontext.startActivity(intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
+                mcontext.startActivity(intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK));*/
+
+                mcontext.startActivity(new Intent(mcontext, hep_GlideLoaderActivity.class));
+
             }
         });
         container.addView(layout);

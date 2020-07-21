@@ -15,12 +15,40 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <androidx.viewpager.widget.ViewPager
-                android:id="@+id/viewPager"
+            <FrameLayout
                 android:layout_width="match_parent"
-                android:layout_height="250dp" >
+                android:layout_height="250dp"
+                android:onClick="onButtonImageAddClicked">
 
-            </androidx.viewpager.widget.ViewPager>
+                <LinearLayout
+                    android:id="@+id/linearlayoutInformationImageAdd"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:orientation="vertical">
+
+                    <ImageView
+                        android:id="@+id/imageView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        app:srcCompat="@drawable/imageupload" />
+
+                    <TextView
+                        android:id="@+id/textView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:text="여기를 터치하여 이미지 등록" />
+                </LinearLayout>
+
+                <androidx.viewpager.widget.ViewPager
+                    android:id="@+id/viewPager"
+                    android:layout_width="match_parent"
+                    android:layout_height="250dp">
+
+                </androidx.viewpager.widget.ViewPager>
+            </FrameLayout>
 
             <LinearLayout
                 android:id="@+id/imageListLayout"
@@ -39,7 +67,7 @@
                     android:maxHeight="60dp"
                     android:onClick="onButtonImageAddClicked"
                     android:scaleType="fitXY"
-                    app:srcCompat="@drawable/imageupload"
+                    app:srcCompat="@drawable/imageaddicon"
                     tools:maxWidth="60dp" />
 
                 <com.example.locationsave.hep_FlowLayout

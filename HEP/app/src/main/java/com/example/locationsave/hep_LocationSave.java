@@ -7,27 +7,18 @@ import androidx.core.app.ActivityCompat;
 import androidx.viewpager.widget.ViewPager;
 
 import android.Manifest;
-import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.drawable.BitmapDrawable;
-import android.media.Image;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.ContactsContract;
-import android.provider.MediaStore;
 import android.util.Base64;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageButton;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -53,7 +44,6 @@ public class hep_LocationSave extends AppCompatActivity {
     DatabaseReference TagReference;
 
     hep_AutoCompleteTextView hashEditText;
-    ArrayList<hep_ImageData> imageDataArrayList;
     ViewPager viewPager;
     hep_ViewPagerAdapter viewPagerAdapter;
     ArrayList<String> tagDataArrayList;
@@ -68,7 +58,6 @@ public class hep_LocationSave extends AppCompatActivity {
 
     public void setinit(){
         hashEditText = findViewById(R.id.HashTagText);
-        imageDataArrayList = new ArrayList<>();
         tagDataArrayList = new ArrayList<>();
         viewPager = findViewById(R.id.viewPager);
 
@@ -148,6 +137,12 @@ public class hep_LocationSave extends AppCompatActivity {
 
     public void onButtonImageAddClicked(View v){
         permissionCheck();
+        try {
+            new GligarPicker().requestCode(pickImage).withActivity(hep_LocationSave.this).limit(imageSizeLimit).show();
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+        /*
         final CharSequence[] PhotoModels = {"갤러리", "카메라"};
         final AlertDialog.Builder alt_bld = new AlertDialog.Builder(this);
         alt_bld.setTitle("사진 가져오기");
@@ -174,7 +169,7 @@ public class hep_LocationSave extends AppCompatActivity {
             }
         });
         final AlertDialog alert = alt_bld.create();
-        alert.show();
+        alert.show();*/
     }
 
     @Override
@@ -196,7 +191,7 @@ public class hep_LocationSave extends AppCompatActivity {
 
             case pickImage:
                 if(resultCode == RESULT_OK){
-                    if(imageDataArrayList.size() < 5) {
+                    if(new hep_locationImageDataArr().getImageDataArrayInstance().size() < 5) {
                         String pathsList[] = data.getExtras().getStringArray(GligarPicker.IMAGES_RESULT); // return list of selected images paths.
 
                         try {
@@ -204,7 +199,7 @@ public class hep_LocationSave extends AppCompatActivity {
                                 try {
                                     File test = new File(pathsList[i].toString());
                                     if (test.exists()) {
-                                        imageDataArrayList.add(new hep_ImageData(BitmapFactory.decodeFile(test.getAbsolutePath())));
+                                        new hep_locationImageDataArr().getImageDataArrayInstance().add(new hep_ImageData(BitmapFactory.decodeFile(test.getAbsolutePath())));
                                     }
                                 } catch (Exception e) {
                                     e.printStackTrace();
@@ -214,15 +209,16 @@ public class hep_LocationSave extends AppCompatActivity {
                             hep_FlowLayout.LayoutParams params = new hep_FlowLayout.LayoutParams(20, 20);
 
                             ((hep_FlowLayout) findViewById(R.id.imageFlowLayout)).removeAllViews(); // flowlayout clear
-                            for (int i = 0; i < imageDataArrayList.size(); i++) {
+                            for (int i = 0; i < new hep_locationImageDataArr().getImageDataArrayInstance().size(); i++) {
                                 hep_FlowLayoutImageItem flowLayoutImageItem = new hep_FlowLayoutImageItem(this);
                                 flowLayoutImageItem.setLayoutParams(params);
-                                flowLayoutImageItem.setBackground(imageDataArrayList.get(i).bitmap);
+                                flowLayoutImageItem.setBackground(new hep_locationImageDataArr().getImageDataArrayInstance().get(i).bitmap);
 
                                 ((hep_FlowLayout) findViewById(R.id.imageFlowLayout)).addView(flowLayoutImageItem);
                             }
-                            viewPagerAdapter = new hep_ViewPagerAdapter(this, imageDataArrayList);
+                            viewPagerAdapter = new hep_ViewPagerAdapter(this, new hep_locationImageDataArr().getImageDataArrayInstance());
                             viewPager.setAdapter(viewPagerAdapter);
+                            setVisibilityInformationImage();
 
                         } catch (Exception e) {
                             e.printStackTrace();
@@ -234,7 +230,7 @@ public class hep_LocationSave extends AppCompatActivity {
                     }
                 }
                 break;
-
+/*
             case captureImage:
                 if(resultCode == RESULT_OK){
                     try {
@@ -248,18 +244,25 @@ public class hep_LocationSave extends AppCompatActivity {
                         e.printStackTrace();
                     }
                 }
-                break;
+                break;*/
         }
     }
 
     public void removeCurrentItem(){
         int position = viewPager.getCurrentItem();
-        imageDataArrayList.remove(position);
+        new hep_locationImageDataArr().getImageDataArrayInstance().remove(position);
         ((hep_FlowLayout)findViewById(R.id.imageFlowLayout)).removeViewAt(position);
         viewPagerAdapter.notifyDataSetChanged();
         imageSizeLimit += 1;
+        setVisibilityInformationImage();
     }
 
+    public void setVisibilityInformationImage() {
+        if(viewPager.getChildCount() == 0)
+            findViewById(R.id.linearlayoutInformationImageAdd).setVisibility(View.VISIBLE);
+        else
+            findViewById(R.id.linearlayoutInformationImageAdd).setVisibility(View.INVISIBLE);
+    }
 
     public void onButtonLocationSaveClicked(View v){
         if(!((EditText)findViewById(R.id.locationName)).getText().toString().trim().equals("")){
@@ -286,13 +289,13 @@ public class hep_LocationSave extends AppCompatActivity {
 
             LocationReference.setValue(hashMapLocation);
 
-            if(!imageDataArrayList.isEmpty()){
+            if(!new hep_locationImageDataArr().getImageDataArrayInstance().isEmpty()){
                 String key = LocationReference.getKey(); // 방금 삽입한 Location ID
 
                 Map<String, Object> hashMapImage = new HashMap<>();
                 hashMapImage.put("LocationId", key);
-                for(int i = 0 ; i < imageDataArrayList.size(); i++){
-                    hashMapImage.put("Image"+i, getImage64Data(imageDataArrayList.get(i).bitmap));
+                for(int i = 0 ; i < new hep_locationImageDataArr().getImageDataArrayInstance().size(); i++){
+                    hashMapImage.put("Image"+i, getImage64Data(new hep_locationImageDataArr().getImageDataArrayInstance().get(i).bitmap));
                 }
                 ImageReference.setValue(hashMapImage);
             }
