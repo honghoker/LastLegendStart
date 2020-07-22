@@ -2,6 +2,7 @@ package com.example.pcsandroid;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -17,15 +18,24 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
+import com.firebase.ui.firestore.ObservableSnapshotArray;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+
+
+
 public class Pcs_LocationRecyclerView extends Fragment {
+    private final static String DEFAULT_FILED = "title";
+    private final static Query.Direction DEFAULT_QUERY_DIRECTION = Query.Direction.ASCENDING;
+
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
     private CollectionReference locationRef = db.collection("Location");
-
-
+    private RecyclerView recyclerView;
     private Pcs_RecyclerviewAdapter adapter;
     MainActivity activity;
     private ViewGroup rootView;
@@ -48,19 +58,34 @@ public class Pcs_LocationRecyclerView extends Fragment {
     //when menu item selection,
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+
         switch (item.getItemId()){
             case R.id.time_asc:
-
+                onStop();
+                adapter = getFirebaseData("title",Query.Direction.ASCENDING);
+                recyclerView.setAdapter(adapter);
                 break;
             case R.id.time_desc:
+                onStop();
+                adapter = getFirebaseData("title",Query.Direction.DESCENDING);
+                recyclerView.setAdapter(adapter);
                 break;
             case R.id.title_asc:
+                onStop();
+                adapter = getFirebaseData("title",Query.Direction.ASCENDING);
+                adapter.notifyDataSetChanged();
+                recyclerView.setAdapter(adapter);
                 break;
             case R.id.title_desc:
+                onStop();
+                adapter = getFirebaseData("title",Query.Direction.DESCENDING);
+                adapter.notifyDataSetChanged();
+                recyclerView.setAdapter(adapter);
                 break;
             default:
                 return super.onOptionsItemSelected(item);
         }
+        onStart();
         return true;
     }
 
@@ -89,25 +114,19 @@ public class Pcs_LocationRecyclerView extends Fragment {
     }
 
     private void setUpRecyclerView(){
-        //Get firebase data
-        Query query = locationRef.orderBy("title", Query.Direction.DESCENDING);
-        FirestoreRecyclerOptions<Location> options = new FirestoreRecyclerOptions.Builder<Location>()
-                .setQuery(query, Location.class)
-                .build();
-        //insertion recyclerview
-        adapter = new Pcs_RecyclerviewAdapter(options);
-
-        RecyclerView recyclerView = rootView.findViewById(R.id.locationRecyclcerView);
+        adapter = getFirebaseData(DEFAULT_FILED, DEFAULT_QUERY_DIRECTION);
+        recyclerView = rootView.findViewById(R.id.locationRecyclcerView);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         recyclerView.setAdapter(adapter);
     }
 
-    private void setOrder(String order, Query.Direction direction){
-        Query query = locationRef.orderBy(order, direction);
-        FirestoreRecyclerOptions<Location> options = new FirestoreRecyclerOptions.Builder<Location>()
+    //Get firebase data and put into adapter
+    private Pcs_RecyclerviewAdapter getFirebaseData(String field, Query.Direction direction){
+        Query query = locationRef.orderBy(field, direction);
+        FirestoreRecyclerOptions options = new FirestoreRecyclerOptions.Builder<Location>()
                 .setQuery(query, Location.class)
                 .build();
-
+        return new Pcs_RecyclerviewAdapter(options);
     }
 }

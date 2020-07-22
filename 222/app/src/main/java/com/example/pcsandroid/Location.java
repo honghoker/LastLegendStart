@@ -29,15 +29,3 @@ public class Location{
     }
 
 }
-
-class Pcs_compareTo implements Comparable<Location>{
-
-    public Pcs_compareTo(String order) {
-
-    }
-
-    @Override
-    public int compareTo(Location location) {
-        return ;
-    }
-}
