@@ -10,12 +10,15 @@ import android.widget.ImageView;
 
 import androidx.viewpager.widget.PagerAdapter;
 
+import com.github.chrisbanes.photoview.PhotoView;
+import com.squareup.picasso.Picasso;
+
 
 public class hep_ViewPagerAdapter extends PagerAdapter {
-    private Context mcontext;
+    private Context mContext;
 
     public hep_ViewPagerAdapter(Context context) {
-        this.mcontext = context;
+        this.mContext = context;
     }
 
     @Override
@@ -30,28 +33,34 @@ public class hep_ViewPagerAdapter extends PagerAdapter {
 
     @Override
     public Object instantiateItem(final ViewGroup container, final int position) {
-        LayoutInflater inflater = LayoutInflater.from(mcontext);
+        LayoutInflater inflater = LayoutInflater.from(mContext);
         ViewGroup layout = (ViewGroup) inflater.inflate(R.layout.hep_viewpageritem, container, false);
 
-        ImageView imageView = layout.findViewById(R.id.locationImage);
-        imageView.setImageBitmap(new hep_locationImageDataArr().getImageDataArrayInstance().get(position).bitmap);
+        PhotoView photoView = layout.findViewById(R.id.locationImage);
+
+        Picasso.get()
+                .load(new hep_locationImageDataArr().getImageDataArrayInstance().get(position).path)
+                .fit()
+                .centerCrop()
+                .into(photoView);
+
+        photoView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(mContext, hep_FullImage.class);
+                intent.putExtra ("CurrentItem", ((hep_LocationSave)mContext).viewPager.getCurrentItem());
+                mContext.startActivity(intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
+            }
+        });
 
         ImageButton btnCloseLocationImage = layout.findViewById(R.id.btnCloseLocationImage);
         btnCloseLocationImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ((hep_LocationSave)mcontext).removeCurrentItem();
+                ((hep_LocationSave)mContext).removeCurrentItem();
             }
         });
 
-        imageView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(mcontext, hep_FullImage.class);
-                intent.putExtra ("CurrentItem", ((hep_LocationSave)mcontext).viewPager.getCurrentItem());
-                mcontext.startActivity(intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
-            }
-        });
         container.addView(layout);
         return layout;
     }

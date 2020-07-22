@@ -1,9 +1,7 @@
 package com.example.locationsave;
 
 import android.content.Context;
-import android.graphics.Bitmap;
-import android.net.Uri;
-import android.provider.MediaStore;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -11,9 +9,8 @@ import android.widget.ImageView;
 import androidx.annotation.NonNull;
 import androidx.viewpager.widget.PagerAdapter;
 
+import com.github.chrisbanes.photoview.PhotoView;
 import com.squareup.picasso.Picasso;
-
-import java.io.ByteArrayOutputStream;
 
 public class hep_FullImageViewPagerAdapter extends PagerAdapter {
 
@@ -21,13 +18,6 @@ public class hep_FullImageViewPagerAdapter extends PagerAdapter {
 
     hep_FullImageViewPagerAdapter(Context context){
         this.mContext = context;
-    }
-
-    private Uri getImageUri(Context context, Bitmap inImage) {
-        ByteArrayOutputStream bytes = new ByteArrayOutputStream();
-        inImage.compress(Bitmap.CompressFormat.JPEG, 100, bytes);
-        String path = MediaStore.Images.Media.insertImage(context.getContentResolver(), inImage, "Title", null);
-        return Uri.parse(path);
     }
 
     @Override
@@ -48,15 +38,15 @@ public class hep_FullImageViewPagerAdapter extends PagerAdapter {
     @NonNull
     @Override
     public Object instantiateItem(@NonNull ViewGroup container, int position) {
-        ImageView imageView = new ImageView(mContext);
+        PhotoView photoView = new PhotoView(mContext);
+
         Picasso.get()
                 .load(new hep_locationImageDataArr().getImageDataArrayInstance().get(position).path)
-                .fit()
-                .centerCrop()
-                .into(imageView);
+                .fit().centerInside()
+                .into(photoView);
 
-        container.addView(imageView);
+        container.addView(photoView);
 
-        return imageView;
+        return photoView;
     }
 }

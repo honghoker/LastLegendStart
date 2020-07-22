@@ -28,7 +28,6 @@ import com.example.locationsave.hep_DTO.hep_Tag;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.opensooq.supernova.gligar.GligarPicker;
 
@@ -105,11 +104,15 @@ public class hep_LocationSave extends AppCompatActivity {
             hep_HashTag hashTag = new hep_HashTag(this);
             hashTag.init(hash, "#3F729B", R.drawable.hep_hashtagborder, params);
 
-            ((hep_FlowLayout) findViewById(R.id.flowLayout)).addView(hashTag);
+            ((hep_FlowLayout) findViewById(R.id.hashtagFlowLayout)).addView(hashTag);
 
             new hep_HashTagArr().getHashTagArr().add(hash);
 
             hashEditText.setText("");
+
+            // 해시태그를 추가할 때 마다 스크롤 자동 맞춤
+            View targetView = findViewById(R.id.hashtagFlowLayout);
+            targetView.getParent().requestChildFocus(targetView, targetView);
         }
     }
 
@@ -300,6 +303,8 @@ public class hep_LocationSave extends AppCompatActivity {
                 }
                 ImageReference.setValue(hashMapImage);
             }
+
+            finish();
         }
         else{
             toastMake("이름을 입력해주세요");

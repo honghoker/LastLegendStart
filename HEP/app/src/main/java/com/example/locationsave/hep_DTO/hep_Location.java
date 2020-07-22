@@ -9,6 +9,7 @@ import java.util.Map;
 @IgnoreExtraProperties
 public class hep_Location {
 
+    String Token; // oauth token
     String name;
     String addr;
     String detailaddr;

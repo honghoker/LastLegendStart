@@ -5,18 +5,23 @@ import android.os.Bundle;
 import android.view.View;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.viewpager.widget.ViewPager;
 
 public class hep_FullImage extends AppCompatActivity {
+    hep_viewPagerFixed viewPager;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.hep_fullimageviewpager);
+        viewPager = findViewById(R.id.fullImageViewPager);
+    }
 
-        ViewPager viewPager = findViewById(R.id.fullImageViewPager);
+    @Override
+    public void onWindowFocusChanged(boolean hasFocus) {
+        super.onWindowFocusChanged(hasFocus);
+
         hep_FullImageViewPagerAdapter adapter = new hep_FullImageViewPagerAdapter(this);
         viewPager.setAdapter(adapter);
-        viewPager.setCurrentItem(new Intent(this.getIntent()).getIntExtra("CurrentItem", 1));
+        viewPager.setCurrentItem(new Intent(this.getIntent()).getIntExtra("CurrentItem", 0));
     }
 
     public void onButtonCloseFullImageOnclicked(View v){

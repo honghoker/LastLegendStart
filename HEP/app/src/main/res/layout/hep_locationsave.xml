@@ -17,7 +17,7 @@
 
             <FrameLayout
                 android:layout_width="match_parent"
-                android:layout_height="250dp"
+                android:layout_height="350dp"
                 android:onClick="onButtonImageAddClicked">
 
                 <LinearLayout
@@ -45,7 +45,7 @@
                 <androidx.viewpager.widget.ViewPager
                     android:id="@+id/viewPager"
                     android:layout_width="match_parent"
-                    android:layout_height="250dp">
+                    android:layout_height="350dp">
 
                 </androidx.viewpager.widget.ViewPager>
             </FrameLayout>
@@ -190,7 +190,7 @@
             </LinearLayout>
 
             <com.example.locationsave.hep_FlowLayout
-                android:id="@+id/flowLayout"
+                android:id="@+id/hashtagFlowLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="30dp" />
