@@ -1,9 +1,10 @@
-package com.example.locationsave.HEP;
+package com.example.locationsave.HEP.Hep;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.viewpager.widget.ViewPager;
 
 import android.Manifest;
@@ -23,9 +24,11 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.locationsave.HEP.hep_DTO.hep_Location;
-import com.example.locationsave.HEP.hep_DTO.hep_Tag;
 import com.example.locationsave.R;
+import com.example.locationsave.HEP.Hep.hep_DTO.hep_Location;
+import com.example.locationsave.HEP.Hep.hep_DTO.hep_Tag;
+import com.example.locationsave.HEP.pcs_RecyclerView.Pcs_LocationRecyclerView;
+
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -42,6 +45,8 @@ import static android.content.ContentValues.TAG;
 
 public class hep_LocationSave extends AppCompatActivity {
 
+    private Pcs_LocationRecyclerView pcsFragment;
+
     DatabaseReference TagReference;
 
     hep_AutoCompleteTextView hashEditText;
@@ -54,6 +59,7 @@ public class hep_LocationSave extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.hep_locationsave);
+
         setinit();
     }
 
@@ -61,7 +67,7 @@ public class hep_LocationSave extends AppCompatActivity {
         hashEditText = findViewById(R.id.HashTagText);
         tagDataArrayList = new ArrayList<>();
         viewPager = findViewById(R.id.viewPager);
-
+        pcsFragment = new Pcs_LocationRecyclerView();
         TagReference = new hep_FireBase().getFireBaseDatabaseInstance().getReference().child("Tag");
 
         TagReference.addValueEventListener(new ValueEventListener() {
@@ -304,8 +310,7 @@ public class hep_LocationSave extends AppCompatActivity {
                 }
                 ImageReference.setValue(hashMapImage);
             }
-
-            finish();
+            setFragment();
         }
         else{
             toastMake("이름을 입력해주세요");
@@ -323,6 +328,11 @@ public class hep_LocationSave extends AppCompatActivity {
 
     public ArrayList<String> getTagDataArrayList(){
         return tagDataArrayList;
+    }
+
+    private void setFragment(){
+        FragmentTransaction trans = getSupportFragmentManager().beginTransaction();
+        trans.replace(R.id.fragmentContainer, pcsFragment).commit();
     }
 
 }

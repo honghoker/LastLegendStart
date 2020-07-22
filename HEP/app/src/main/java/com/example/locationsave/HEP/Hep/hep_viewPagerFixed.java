@@ -1,7 +1,7 @@
 /** Custom your own ViewPager to extends support ViewPager. java source: */
 /** Created by azi on 2013-6-21.  */
 
-package com.example.locationsave.HEP;
+package com.example.locationsave.HEP.Hep;
 
 import android.content.Context;
 import android.util.AttributeSet;

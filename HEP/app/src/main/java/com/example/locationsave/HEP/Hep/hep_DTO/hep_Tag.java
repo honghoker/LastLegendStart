@@ -1,4 +1,4 @@
-package com.example.locationsave.HEP.hep_DTO;
+package com.example.locationsave.HEP.Hep.hep_DTO;
 
 import com.google.firebase.database.Exclude;
 import com.google.firebase.database.IgnoreExtraProperties;

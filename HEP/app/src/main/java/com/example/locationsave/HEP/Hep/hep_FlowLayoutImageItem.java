@@ -1,4 +1,4 @@
-package com.example.locationsave.HEP;
+package com.example.locationsave.HEP.Hep;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -44,7 +44,7 @@ public class hep_FlowLayoutImageItem extends RelativeLayout {
                 hep_FlowLayout hep_FlowLayout = ((hep_LocationSave)mContext).findViewById(R.id.imageFlowLayout);
 
                 for(int i = 0; i < hep_FlowLayout.getChildCount(); i++){
-                    hep_FlowLayoutImageItem hep_FlowLayoutImageItem = (com.example.locationsave.HEP.hep_FlowLayoutImageItem) hep_FlowLayout.getChildAt(i);
+                    hep_FlowLayoutImageItem hep_FlowLayoutImageItem = (com.example.locationsave.HEP.Hep.hep_FlowLayoutImageItem) hep_FlowLayout.getChildAt(i);
 
                     if(hep_FlowLayoutImageItem.imageButton.getId() == v.getId()){
                         ((hep_LocationSave)mContext).viewPager.setCurrentItem(i);
