@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AndroidLayouts">
+    <shared>
+      <config />
+    </shared>
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="272fa571-0215-40ae-9569-18544fffa656" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/../HEP/app/src/main/java/com/example/locationsave/HEP/pcs_RecyclerView/Location.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../HEP/app/src/main/java/com/example/locationsave/HEP/pcs_RecyclerView/Pcs_LocationRecyclerView.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../HEP/app/src/main/java/com/example/locationsave/HEP/pcs_RecyclerView/Pcs_RecyclerviewAdapter.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../HEP/app/src/main/res/layout/pcs_location_recyclerview.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../HEP/app/src/main/res/layout/pcs_location_recyclerview_cardview.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../HEP/app/src/main/res/menu/pcs_recyclerview_menu.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../HEP/app/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/../HEP/app/build.gradle" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../HEP/app/src/main/AndroidManifest.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../HEP/app/src/main/AndroidManifest.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../HEP/app/src/main/java/com/example/locationsave/HEP/hep_AutoCompleteTextView.java" beforeDir="false" afterPath="$PROJECT_DIR$/../HEP/app/src/main/java/com/example/locationsave/HEP/Hep/hep_AutoCompleteTextView.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../HEP/app/src/main/java/com/example/locationsave/HEP/hep_DTO/hep_Location.java" beforeDir="false" afterPath="$PROJECT_DIR$/../HEP/app/src/main/java/com/example/locationsave/HEP/Hep/hep_DTO/hep_Location.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../HEP/app/src/main/java/com/example/locationsave/HEP/hep_DTO/hep_Tag.java" beforeDir="false" afterPath="$PROJECT_DIR$/../HEP/app/src/main/java/com/example/locationsave/HEP/Hep/hep_DTO/hep_Tag.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../HEP/app/src/main/java/com/example/locationsave/HEP/hep_FireBase.java" beforeDir="false" afterPath="$PROJECT_DIR$/../HEP/app/src/main/java/com/example/locationsave/HEP/Hep/hep_FireBase.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../HEP/app/src/main/java/com/example/locationsave/HEP/hep_FlowLayout.java" beforeDir="false" afterPath="$PROJECT_DIR$/../HEP/app/src/main/java/com/example/locationsave/HEP/Hep/hep_FlowLayout.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../HEP/app/src/main/java/com/example/locationsave/HEP/hep_FlowLayoutImageItem.java" beforeDir="false" afterPath="$PROJECT_DIR$/../HEP/app/src/main/java/com/example/locationsave/HEP/Hep/hep_FlowLayoutImageItem.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../HEP/app/src/main/java/com/example/locationsave/HEP/hep_FullImage.java" beforeDir="false" afterPath="$PROJECT_DIR$/../HEP/app/src/main/java/com/example/locationsave/HEP/Hep/hep_FullImage.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../HEP/app/src/main/java/com/example/locationsave/HEP/hep_FullImageViewPagerAdapter.java" beforeDir="false" afterPath="$PROJECT_DIR$/../HEP/app/src/main/java/com/example/locationsave/HEP/Hep/hep_FullImageViewPagerAdapter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../HEP/app/src/main/java/com/example/locationsave/HEP/hep_HangulUtils.java" beforeDir="false" afterPath="$PROJECT_DIR$/../HEP/app/src/main/java/com/example/locationsave/HEP/Hep/hep_HangulUtils.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../HEP/app/src/main/java/com/example/locationsave/HEP/hep_HashEditText.java" beforeDir="false" afterPath="$PROJECT_DIR$/../HEP/app/src/main/java/com/example/locationsave/HEP/Hep/hep_HashEditText.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../HEP/app/src/main/java/com/example/locationsave/HEP/hep_HashTag.java" beforeDir="false" afterPath="$PROJECT_DIR$/../HEP/app/src/main/java/com/example/locationsave/HEP/Hep/hep_HashTag.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../HEP/app/src/main/java/com/example/locationsave/HEP/hep_HashTagArr.java" beforeDir="false" afterPath="$PROJECT_DIR$/../HEP/app/src/main/java/com/example/locationsave/HEP/Hep/hep_HashTagArr.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../HEP/app/src/main/java/com/example/locationsave/HEP/hep_ImageData.java" beforeDir="false" afterPath="$PROJECT_DIR$/../HEP/app/src/main/java/com/example/locationsave/HEP/Hep/hep_ImageData.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../HEP/app/src/main/java/com/example/locationsave/HEP/hep_LocationSave.java" beforeDir="false" afterPath="$PROJECT_DIR$/../HEP/app/src/main/java/com/example/locationsave/HEP/Hep/hep_LocationSave.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../HEP/app/src/main/java/com/example/locationsave/HEP/hep_ViewPagerAdapter.java" beforeDir="false" afterPath="$PROJECT_DIR$/../HEP/app/src/main/java/com/example/locationsave/HEP/Hep/hep_ViewPagerAdapter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../HEP/app/src/main/java/com/example/locationsave/HEP/hep_locationImageDataArr.java" beforeDir="false" afterPath="$PROJECT_DIR$/../HEP/app/src/main/java/com/example/locationsave/HEP/Hep/hep_locationImageDataArr.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../HEP/app/src/main/java/com/example/locationsave/HEP/hep_viewPagerFixed.java" beforeDir="false" afterPath="$PROJECT_DIR$/../HEP/app/src/main/java/com/example/locationsave/HEP/Hep/hep_viewPagerFixed.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../HEP/app/src/main/res/layout/hep_fullimageviewpager.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../HEP/app/src/main/res/layout/hep_fullimageviewpager.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../HEP/app/src/main/res/layout/hep_hashedittext.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../HEP/app/src/main/res/layout/hep_hashedittext.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../HEP/app/src/main/res/layout/hep_locationsave.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../HEP/app/src/main/res/layout/hep_locationsave.xml" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="ExecutionTargetManager" SELECTED_TARGET="Pixel_2_API_24" />
+  <component name="ExternalProjectsData">
+    <projectState path="$PROJECT_DIR$">
+      <ProjectState />
+    </projectState>
+  </component>
+  <component name="ExternalProjectsManager">
+    <system id="GRADLE">
+      <state>
+        <projects_view>
+          <tree_state>
+            <expand />
+            <select />
+          </tree_state>
+        </projects_view>
+      </state>
+    </system>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
+  </component>
+  <component name="ProjectId" id="1f2D4vE438fmIiwxmDeM2E70nb1" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showExcludedFiles" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../HEP" />
+  </component>
+  <component name="RunManager">
+    <configuration default="true" type="AndroidJUnit" factoryName="Android JUnit">
+      <option name="TEST_OBJECT" value="class" />
+      <option name="WORKING_DIRECTORY" value="$MODULE_DIR$" />
+      <method v="2">
+        <option name="Android.Gradle.BeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="app" type="AndroidRunConfigurationType" factoryName="Android App">
+      <module name="app" />
+      <option name="DEPLOY" value="true" />
+      <option name="DEPLOY_APK_FROM_BUNDLE" value="false" />
+      <option name="DEPLOY_AS_INSTANT" value="false" />
+      <option name="ARTIFACT_NAME" value="" />
+      <option name="PM_INSTALL_OPTIONS" value="" />
+      <option name="DYNAMIC_FEATURES_DISABLED_LIST" value="" />
+      <option name="ACTIVITY_EXTRA_FLAGS" value="" />
+      <option name="MODE" value="default_activity" />
+      <option name="CLEAR_LOGCAT" value="false" />
+      <option name="SHOW_LOGCAT_AUTOMATICALLY" value="false" />
+      <option name="SKIP_NOOP_APK_INSTALLATIONS" value="true" />
+      <option name="FORCE_STOP_RUNNING_APP" value="true" />
+      <option name="TARGET_SELECTION_MODE" value="DEVICE_AND_SNAPSHOT_COMBO_BOX" />
+      <option name="SELECTED_CLOUD_MATRIX_CONFIGURATION_ID" value="-1" />
+      <option name="SELECTED_CLOUD_MATRIX_PROJECT_ID" value="" />
+      <option name="DEBUGGER_TYPE" value="Auto" />
+      <Auto>
+        <option name="USE_JAVA_AWARE_DEBUGGER" value="false" />
+        <option name="SHOW_STATIC_VARS" value="true" />
+        <option name="WORKING_DIR" value="" />
+        <option name="TARGET_LOGGING_CHANNELS" value="lldb process:gdb-remote packets" />
+        <option name="SHOW_OPTIMIZED_WARNING" value="true" />
+      </Auto>
+      <Hybrid>
+        <option name="USE_JAVA_AWARE_DEBUGGER" value="false" />
+        <option name="SHOW_STATIC_VARS" value="true" />
+        <option name="WORKING_DIR" value="" />
+        <option name="TARGET_LOGGING_CHANNELS" value="lldb process:gdb-remote packets" />
+        <option name="SHOW_OPTIMIZED_WARNING" value="true" />
+      </Hybrid>
+      <Java />
+      <Native>
+        <option name="USE_JAVA_AWARE_DEBUGGER" value="false" />
+        <option name="SHOW_STATIC_VARS" value="true" />
+        <option name="WORKING_DIR" value="" />
+        <option name="TARGET_LOGGING_CHANNELS" value="lldb process:gdb-remote packets" />
+        <option name="SHOW_OPTIMIZED_WARNING" value="true" />
+      </Native>
+      <Profilers>
+        <option name="ADVANCED_PROFILING_ENABLED" value="false" />
+        <option name="STARTUP_CPU_PROFILING_ENABLED" value="false" />
+        <option name="STARTUP_CPU_PROFILING_CONFIGURATION_NAME" value="Sample Java Methods" />
+      </Profilers>
+      <option name="DEEP_LINK" value="" />
+      <option name="ACTIVITY_CLASS" value="" />
+      <method v="2">
+        <option name="Android.Gradle.BeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+  </component>
+  <component name="SvnConfiguration">
+    <configuration />
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="272fa571-0215-40ae-9569-18544fffa656" name="Default Changelist" comment="" />
+      <created>1595407106778</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1595407106778</updated>
+    </task>
+    <servers />
+  </component>
+  <component name="WindowStateProjectService">
+    <state x="740" y="275" key="FileChooserDialogImpl" timestamp="1595408412165">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="740" y="275" key="FileChooserDialogImpl/0.0.1920.1040@0.0.1920.1040" timestamp="1595408412165" />
+    <state x="836" y="324" key="com.intellij.ide.util.TipDialog" timestamp="1595407110473">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="836" y="324" key="com.intellij.ide.util.TipDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1595407110473" />
+  </component>
+</project>

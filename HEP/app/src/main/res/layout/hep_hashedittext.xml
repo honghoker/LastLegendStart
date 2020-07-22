@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
-    <com.example.locationsave.HEP.hep_AutoCompleteTextView
+    <com.example.locationsave.HEP.Hep.hep_AutoCompleteTextView
         android:id="@+id/HashTagText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

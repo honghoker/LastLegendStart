@@ -26,6 +26,7 @@ android {
 }
 
 dependencies {
+    ///////////////////////HEP dependencies////////////////////////////////
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
     implementation 'androidx.appcompat:appcompat:1.1.0'
@@ -47,4 +48,15 @@ dependencies {
 
     implementation 'com.google.firebase:firebase-analytics:17.2.2'
     implementation 'com.google.firebase:firebase-firestore:21.2.1'
+    ///////////////////////////////////////////////////////////////////////
+
+    /////////////////////////Pcs dependencies
+    implementation 'androidx.cardview:cardview:1.0.0'
+    implementation 'com.firebaseui:firebase-ui-database:6.2.1'
+    implementation 'com.firebaseui:firebase-ui-firestore:6.2.1'
+
+    //This two implemetation is duplicated class firebase firebase-config and firebase-firestore
+    implementation 'com.google.firebase:firebase-config:19.1.4'
+    //implementation 'com.google.firebase:firebase-firestore:21.5.0'
+
 }
