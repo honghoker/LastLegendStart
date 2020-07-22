@@ -281,8 +281,9 @@ public class hep_LocationSave extends AppCompatActivity {
             DatabaseReference LocationReference = new hep_FireBase().getFireBaseDatabaseInstance().getReference().child("Locations").push();
             DatabaseReference ImageReference = new hep_FireBase().getFireBaseDatabaseInstance().getReference().child("LocationImages").push();
 
-            hep_Location hep_Location = new hep_Location(
-                    ((EditText)findViewById(R.id.locationName)).getText().toString(),
+
+            hep_Location hep_Location = new hep_Location(((EditText)findViewById(R.id.locationName)).getText().toString(),
+                    /* token 값 가져오기 */
                     ((EditText)findViewById(R.id.locationAddr)).getText().toString(),
                     ((EditText)findViewById(R.id.locationDetailAddr)).getText().toString(),
                     ((EditText)findViewById(R.id.locationContact)).getText().toString(),
