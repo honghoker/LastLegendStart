@@ -1,4 +1,4 @@
-package com.example.pcsandroid;
+package com.example.pcsandroid.PcsRecyclerView;
 
 //interface comparable implement for sorting
 public class Location{
