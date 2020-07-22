@@ -15,7 +15,7 @@ import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 
 public class Pcs_RecyclerviewAdapter extends FirestoreRecyclerAdapter<hep_Location, Pcs_RecyclerviewAdapter.ListHolder> {
 
-    public Pcs_RecyclerviewAdapter(@NonNull FirestoreRecyclerOptions<Location> options) {
+    public Pcs_RecyclerviewAdapter(@NonNull FirestoreRecyclerOptions<hep_Location> options) {
         super(options);
     }
 
@@ -23,6 +23,7 @@ public class Pcs_RecyclerviewAdapter extends FirestoreRecyclerAdapter<hep_Locati
     protected void onBindViewHolder(@NonNull ListHolder listHolder, int i, @NonNull hep_Location location) {
         listHolder.textViewTitle.setText(location.getName());
         listHolder.textViewAddress.setText(location.getAddr());
+        listHolder.textViewTag.setText(getTag(location));
         //listHolder.textViewTag.setText(location.getTag());
     }
 
@@ -46,5 +47,10 @@ public class Pcs_RecyclerviewAdapter extends FirestoreRecyclerAdapter<hep_Locati
             textViewAddress = itemView.findViewById(R.id.cardView_address);
             textViewTag = itemView.findViewById(R.id.cardView_tag);
         }
+    }
+    private String getTag(hep_Location location){
+        return location.getTag0()+", " + location.getTag1() +", "
+                + location.getTag2()+", " + location.getTag3() +", "
+                + location.getTag4();
     }
 }

@@ -1,5 +1,7 @@
 package com.example.locationsave.HEP.Hep.hep_DTO;
 
+import androidx.annotation.Nullable;
+
 import com.google.firebase.database.Exclude;
 import com.google.firebase.database.IgnoreExtraProperties;
 
@@ -9,7 +11,7 @@ import java.util.Map;
 @IgnoreExtraProperties
 public class hep_Location {
 
-    String Token; // oauth token
+    String token; // oauth token
     String name;
     String addr;
     String detailaddr;
@@ -31,7 +33,7 @@ public class hep_Location {
                         String detailaddr, String phone, String memo,
                         long time, double latitude, double longitude,
                         String tag0, String tag1, String tag2, String tag3, String tag4) {
-        Token = token;
+        this.token = token;
         this.name = name;
         this.addr = addr;
         this.detailaddr = detailaddr;
@@ -45,6 +47,16 @@ public class hep_Location {
         this.tag2 = tag2;
         this.tag3 = tag3;
         this.tag4 = tag4;
+    }
+    public hep_Location(String name, String addr,
+                        String detailaddr, String phone, String memo) {
+
+        this.name = name;
+        this.addr = addr;
+        this.detailaddr = detailaddr;
+        this.phone = phone;
+        this.memo = memo;
+        this.time = System.currentTimeMillis();
     }
 
     @Exclude
@@ -62,7 +74,7 @@ public class hep_Location {
     }
 
     public String getToken() {
-        return Token;
+        return token;
     }
 
     public String getName() {
