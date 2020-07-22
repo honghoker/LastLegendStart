@@ -32,7 +32,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
-                        app:srcCompat="@drawable/imageupload" />
+                        app:srcCompat="@drawable/hep_locationsave_imageupload" />
 
                     <TextView
                         android:id="@+id/textView"
@@ -67,10 +67,10 @@
                     android:maxHeight="60dp"
                     android:onClick="onButtonImageAddClicked"
                     android:scaleType="fitXY"
-                    app:srcCompat="@drawable/imageaddicon"
+                    app:srcCompat="@drawable/hep_locationsave_imageaddicon"
                     tools:maxWidth="60dp" />
 
-                <com.example.locationsave.hep_FlowLayout
+                <com.example.locationsave.HEP.hep_FlowLayout
                     android:id="@+id/imageFlowLayout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
@@ -87,7 +87,7 @@
                     android:layout_width="30dp"
                     android:layout_height="match_parent"
                     android:scaleType="fitCenter"
-                    app:srcCompat="@drawable/person" />
+                    app:srcCompat="@drawable/hep_locationsave_person" />
 
                 <EditText
                     android:id="@+id/locationName"
@@ -105,7 +105,7 @@
                     android:background="@android:color/transparent"
                     android:onClick="onButtonContactAddOnClicked"
                     android:scaleType="fitCenter"
-                    app:srcCompat="@drawable/nameplus" />
+                    app:srcCompat="@drawable/hep_locationsave_nameadd" />
             </LinearLayout>
 
             <TableLayout
@@ -122,7 +122,7 @@
                         android:layout_height="match_parent"
                         android:background="@android:color/transparent"
                         android:scaleType="fitCenter"
-                        app:srcCompat="@drawable/location" />
+                        app:srcCompat="@drawable/hep_locationsave_location" />
 
                     <EditText
                         android:id="@+id/locationAddr"
@@ -169,15 +169,15 @@
                     android:layout_height="match_parent"
                     android:background="@android:color/transparent"
                     android:scaleType="fitCenter"
-                    app:srcCompat="@drawable/tag" />
+                    app:srcCompat="@drawable/hep_locationsave_tag" />
 
-                <com.example.locationsave.hep_HashEditText
+                <com.example.locationsave.HEP.hep_HashEditText
                     android:id="@+id/locationTag"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1">
 
-                </com.example.locationsave.hep_HashEditText>
+                </com.example.locationsave.HEP.hep_HashEditText>
 
                 <Button
                     android:id="@+id/button5"
@@ -189,7 +189,7 @@
 
             </LinearLayout>
 
-            <com.example.locationsave.hep_FlowLayout
+            <com.example.locationsave.HEP.hep_FlowLayout
                 android:id="@+id/hashtagFlowLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -206,7 +206,7 @@
                     android:layout_height="match_parent"
                     android:background="@android:color/transparent"
                     android:scaleType="fitCenter"
-                    app:srcCompat="@drawable/phone" />
+                    app:srcCompat="@drawable/hep_locationsave_contact" />
 
                 <EditText
                     android:id="@+id/locationContact"
@@ -229,7 +229,7 @@
                     android:layout_height="match_parent"
                     android:background="@android:color/transparent"
                     android:scaleType="fitCenter"
-                    app:srcCompat="@drawable/comment" />
+                    app:srcCompat="@drawable/hep_locationsave_comment" />
 
                 <EditText
                     android:id="@+id/locationMemo"

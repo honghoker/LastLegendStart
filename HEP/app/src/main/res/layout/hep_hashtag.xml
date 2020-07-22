@@ -15,5 +15,5 @@
         android:layout_marginLeft="5dp"
         android:background="@android:color/transparent"
         android:scaleType="fitCenter"
-        android:src="@drawable/x"/>
+        android:src="@drawable/hep_locationsave_hashtagdelete" />
 </LinearLayout>

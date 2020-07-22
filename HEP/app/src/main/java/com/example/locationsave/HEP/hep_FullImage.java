@@ -1,10 +1,12 @@
-package com.example.locationsave;
+package com.example.locationsave.HEP;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.example.locationsave.R;
 
 public class hep_FullImage extends AppCompatActivity {
     hep_viewPagerFixed viewPager;

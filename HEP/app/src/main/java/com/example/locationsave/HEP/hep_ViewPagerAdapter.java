@@ -1,4 +1,4 @@
-package com.example.locationsave;
+package com.example.locationsave.HEP;
 
 import android.content.Context;
 import android.content.Intent;
@@ -6,10 +6,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
-import android.widget.ImageView;
 
 import androidx.viewpager.widget.PagerAdapter;
 
+import com.example.locationsave.R;
 import com.github.chrisbanes.photoview.PhotoView;
 import com.squareup.picasso.Picasso;
 

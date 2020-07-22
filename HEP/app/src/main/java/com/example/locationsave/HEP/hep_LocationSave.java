@@ -1,4 +1,4 @@
-package com.example.locationsave;
+package com.example.locationsave.HEP;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -23,8 +23,9 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.locationsave.hep_DTO.hep_Location;
-import com.example.locationsave.hep_DTO.hep_Tag;
+import com.example.locationsave.HEP.hep_DTO.hep_Location;
+import com.example.locationsave.HEP.hep_DTO.hep_Tag;
+import com.example.locationsave.R;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -102,7 +103,7 @@ public class hep_LocationSave extends AppCompatActivity {
         else{
             hep_FlowLayout.LayoutParams params = new hep_FlowLayout.LayoutParams(20, 20);
             hep_HashTag hashTag = new hep_HashTag(this);
-            hashTag.init(hash, "#3F729B", R.drawable.hep_hashtagborder, params);
+            hashTag.init(hash, "#3F729B", R.drawable.hep_locationsave_hashtagborder, params);
 
             ((hep_FlowLayout) findViewById(R.id.hashtagFlowLayout)).addView(hashTag);
 

@@ -14,14 +14,14 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".hep_LocationSave">
+        <activity android:name=".HEP.hep_LocationSave">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".hep_FullImage"/>
+        <activity android:name=".HEP.hep_FullImage"/>
 
     </application>
 

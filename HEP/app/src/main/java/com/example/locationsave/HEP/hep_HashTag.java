@@ -1,4 +1,4 @@
-package com.example.locationsave;
+package com.example.locationsave.HEP;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -6,6 +6,8 @@ import android.view.View;
 import android.widget.ImageButton;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+
+import com.example.locationsave.R;
 
 public class hep_HashTag extends RelativeLayout {
     LayoutInflater inflater = null;

@@ -22,7 +22,7 @@
             android:background="@android:color/transparent"
             android:onClick="onButtonCloseFullImageOnclicked"
             android:scaleType="fitCenter"
-            app:srcCompat="@drawable/image_clear" />
+            app:srcCompat="@drawable/hep_locationsave_hashtextclear" />
 
     </FrameLayout>
 

@@ -25,7 +25,7 @@
             android:layout_marginRight="10dp"
             android:background="@android:color/transparent"
             android:scaleType="fitCenter"
-            app:srcCompat="@drawable/closed" />
+            app:srcCompat="@drawable/hep_locationsave_viewpageritemclose" />
 
     </FrameLayout>
 

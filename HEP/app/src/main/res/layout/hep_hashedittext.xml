@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
-    <com.example.locationsave.hep_AutoCompleteTextView
+    <com.example.locationsave.HEP.hep_AutoCompleteTextView
         android:id="@+id/HashTagText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -21,6 +21,6 @@
         android:layout_alignParentRight="true"
         android:layout_centerVertical="true"
         android:layout_marginRight="5dip"
-        android:background="@drawable/image_clear" />
+        android:background="@drawable/hep_locationsave_hashtextclear" />
 
 </RelativeLayout>

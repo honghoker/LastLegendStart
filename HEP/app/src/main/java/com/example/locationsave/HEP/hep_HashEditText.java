@@ -1,4 +1,4 @@
-package com.example.locationsave;
+package com.example.locationsave.HEP;
 
 import android.content.Context;
 import android.text.Editable;
@@ -9,6 +9,8 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.RelativeLayout;
+
+import com.example.locationsave.R;
 
 import java.util.ArrayList;
 import java.util.List;
