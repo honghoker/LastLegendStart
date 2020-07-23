@@ -24,6 +24,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.locationsave.HEP.pcs_RecyclerView.Location;
 import com.example.locationsave.R;
 import com.example.locationsave.HEP.Hep.hep_DTO.hep_Location;
 import com.example.locationsave.HEP.Hep.hep_DTO.hep_Tag;
@@ -279,6 +280,7 @@ public class hep_LocationSave extends AppCompatActivity {
         if(!((EditText)findViewById(R.id.locationName)).getText().toString().trim().equals("")){
             DatabaseReference LocationReference = new hep_FireBase().getFireBaseDatabaseInstance().getReference().child("Locations").push();
             DatabaseReference ImageReference = new hep_FireBase().getFireBaseDatabaseInstance().getReference().child("LocationImages").push();
+
 
             hep_Location hep_Location = new hep_Location(((EditText)findViewById(R.id.locationName)).getText().toString(),
                     /* token 값 가져오기 */

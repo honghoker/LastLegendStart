@@ -2,6 +2,7 @@ package com.example.locationsave.HEP.pcs_RecyclerView;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -28,7 +29,7 @@ public class Pcs_LocationRecyclerView extends Fragment {
     private final static Query.Direction DEFAULT_QUERY_DIRECTION = Query.Direction.ASCENDING;
 
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
-    private CollectionReference locationRef = db.collection("Location");
+    private CollectionReference locationRef = db.collection("Locations");
     private RecyclerView recyclerView;
     private Pcs_RecyclerviewAdapter adapter;
     hep_LocationSave activity;
@@ -40,7 +41,7 @@ public class Pcs_LocationRecyclerView extends Fragment {
         rootView = (ViewGroup) inflater.inflate(R.layout.pcs_location_recyclerview, container, false);
         //Display Menu
         setHasOptionsMenu(true);
-        //setUpRecyclerView();
+        setUpRecyclerView();
         return rootView;
     }
     //xml pcs_recyclerview_menu connection
@@ -118,8 +119,8 @@ public class Pcs_LocationRecyclerView extends Fragment {
     //Get firebase data and put into adapter
     private Pcs_RecyclerviewAdapter getFirebaseData(String field, Query.Direction direction){
         Query query = locationRef.orderBy(field, direction);
-        FirestoreRecyclerOptions options = new FirestoreRecyclerOptions.Builder<Location>()
-                .setQuery(query, Location.class)
+        FirestoreRecyclerOptions options = new FirestoreRecyclerOptions.Builder<hep_LocationSave>()
+                .setQuery(query, hep_LocationSave.class)
                 .build();
         return new Pcs_RecyclerviewAdapter(options);
     }

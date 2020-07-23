@@ -27,14 +27,15 @@
             android:layout_alignParentEnd="true"
             android:text="1"
             android:textAppearance="@style/TextAppearance.AppCompat.Large"/>
+
         <TextView
             android:id="@+id/cardView_distance"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_below="@+id/cardView_numeric"
             android:layout_alignParentEnd="true"
             android:text="km"
-            android:layout_below="@+id/cardView_numeric"
-            android:textAppearance="@style/TextAppearance.AppCompat.Large"/>
+            android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
 
         <TextView
             android:id="@+id/cardView_title"
