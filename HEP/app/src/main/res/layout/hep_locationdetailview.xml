@@ -25,8 +25,7 @@
 
             <FrameLayout
                 android:layout_width="match_parent"
-                android:layout_height="350dp"
-                android:onClick="onButtonImageAddClicked">
+                android:layout_height="350dp">
 
                 <LinearLayout
                     android:id="@+id/linearlayoutInformationImageAdd"
@@ -51,15 +50,14 @@
                 </LinearLayout>
 
                 <androidx.viewpager.widget.ViewPager
-                    android:id="@+id/viewPager"
+                    android:id="@+id/locationDetailViewViewPager"
                     android:layout_width="match_parent"
-                    android:layout_height="350dp">
+                    android:layout_height="350dp"/>
 
-                </androidx.viewpager.widget.ViewPager>
             </FrameLayout>
 
             <LinearLayout
-                android:id="@+id/imageListLayout"
+                android:id="@+id/locationDetailViewimageListLayout"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginTop="5dp"
@@ -67,7 +65,7 @@
                 android:orientation="horizontal">
 
                 <com.example.locationsave.HEP.Hep.hep_FlowLayout
-                    android:id="@+id/imageFlowLayout"
+                    android:id="@+id/locationDetailViewimageFlowLayout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
 
@@ -85,14 +83,12 @@
                     android:scaleType="fitCenter"
                     app:srcCompat="@drawable/hep_locationsave_person" />
 
-                <EditText
-                    android:id="@+id/locationName"
+                <TextView
+                    android:id="@+id/locationDetailViewName"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:ems="10"
-                    android:hint="이름"
-                    android:inputType="textPersonName" />
+                    android:hint="이름" />
 
             </LinearLayout>
 
@@ -112,14 +108,12 @@
                         android:scaleType="fitCenter"
                         app:srcCompat="@drawable/hep_locationsave_location" />
 
-                    <EditText
-                        android:id="@+id/locationAddr"
+                    <TextView
+                        android:id="@+id/locationDetailViewAddr"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:ems="10"
-                        android:hint="주소"
-                        android:inputType="textPersonName" />
+                        android:hint="주소" />
 
                 </TableRow>
 
@@ -127,15 +121,14 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent">
 
-                    <EditText
-                        android:id="@+id/locationDetailAddr"
+                    <TextView
+                        android:id="@+id/locationDetailViewDetailAddr"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_column="1"
                         android:layout_weight="1"
-                        android:ems="10"
-                        android:hint="상세주소"
-                        android:inputType="textPersonName" />
+                        android:hint="상세주소" />
+
                 </TableRow>
 
             </TableLayout>
@@ -156,8 +149,7 @@
                 <com.example.locationsave.HEP.Hep.hep_FlowLayout
                     android:id="@+id/hashtagFlowLayout"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="30dp" />
+                    android:layout_height="wrap_content" />
 
             </LinearLayout>
 
@@ -174,20 +166,17 @@
                     android:scaleType="fitCenter"
                     app:srcCompat="@drawable/hep_locationsave_contact" />
 
-                <EditText
-                    android:id="@+id/locationContact"
+                <TextView
+                    android:id="@+id/locationDetailViewContact"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:ems="10"
-                    android:hint="연락처"
-                    android:inputType="textPersonName" />
+                    android:hint="연락처" />
 
                 <ImageButton
                     android:id="@+id/imageButton2"
                     android:layout_width="30dp"
                     android:layout_height="match_parent"
-                    android:layout_weight="1"
                     android:scaleType="fitCenter"
                     app:srcCompat="@drawable/hep_locationsave_comment" />
 
@@ -195,7 +184,6 @@
                     android:id="@+id/imageButton3"
                     android:layout_width="30dp"
                     android:layout_height="match_parent"
-                    android:layout_weight="1"
                     android:scaleType="fitCenter"
                     app:srcCompat="@drawable/hep_locationsave_comment" />
             </LinearLayout>
@@ -213,14 +201,13 @@
                     android:scaleType="fitCenter"
                     app:srcCompat="@drawable/hep_locationsave_comment" />
 
-                <EditText
-                    android:id="@+id/locationMemo"
+                <TextView
+                    android:id="@+id/locationDetailViewMemo"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:ems="10"
-                    android:hint="메모"
-                    android:inputType="textPersonName" />
+                    android:hint="메모" />
+
             </LinearLayout>
 
         </LinearLayout>

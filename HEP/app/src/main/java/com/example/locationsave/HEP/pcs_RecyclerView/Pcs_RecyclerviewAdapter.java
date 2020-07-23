@@ -21,8 +21,8 @@ public class Pcs_RecyclerviewAdapter extends FirestoreRecyclerAdapter<hep_Locati
 
     @Override
     protected void onBindViewHolder(@NonNull ListHolder listHolder, int i, @NonNull hep_Location location) {
-        listHolder.textViewTitle.setText(location.getName());
-        listHolder.textViewAddress.setText(location.getAddr());
+        //listHolder.textViewTitle.setText(location.getName());
+        //listHolder.textViewAddress.setText(location.getAddr());
         listHolder.textViewTag.setText(getTag(location));
         //listHolder.textViewTag.setText(location.getTag());
     }
@@ -49,8 +49,9 @@ public class Pcs_RecyclerviewAdapter extends FirestoreRecyclerAdapter<hep_Locati
         }
     }
     private String getTag(hep_Location location){
-        return location.getTag0()+", " + location.getTag1() +", "
-                + location.getTag2()+", " + location.getTag3() +", "
-                + location.getTag4();
+//        return location.getTag0()+", " + location.getTag1() +", "
+//                + location.getTag2()+", " + location.getTag3() +", "
+//                + location.getTag4();
+        return null;
     }
 }

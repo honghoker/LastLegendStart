@@ -22,6 +22,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".HEP.Hep.hep_FullImage"/>
+        <activity android:name=".HEP.Hep.hep_LocationDetailView"/>
     </application>
 
 </manifest>
