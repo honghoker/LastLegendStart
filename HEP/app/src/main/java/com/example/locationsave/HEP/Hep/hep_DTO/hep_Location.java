@@ -1,7 +1,5 @@
 package com.example.locationsave.HEP.Hep.hep_DTO;
 
-import androidx.annotation.Nullable;
-
 import com.google.firebase.database.Exclude;
 import com.google.firebase.database.IgnoreExtraProperties;
 
@@ -28,7 +26,7 @@ public class hep_Location {
 
     public hep_Location(){
     }
-
+//
     public hep_Location(String token, String name, String addr,
                         String detailaddr, String phone, String memo,
                         long time, double latitude, double longitude,

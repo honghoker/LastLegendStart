@@ -10,12 +10,13 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.locationsave.HEP.Hep.hep_DTO.hep_Location;
 import com.example.locationsave.R;
-import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
-import com.firebase.ui.firestore.FirestoreRecyclerOptions;
+import com.firebase.ui.database.FirebaseRecyclerAdapter;
+import com.firebase.ui.database.FirebaseRecyclerOptions;
 
-public class Pcs_RecyclerviewAdapter extends FirestoreRecyclerAdapter<hep_Location, Pcs_RecyclerviewAdapter.ListHolder> {
+public class Pcs_RecyclerviewAdapter extends FirebaseRecyclerAdapter<hep_Location, Pcs_RecyclerviewAdapter.ListHolder> {
 
-    public Pcs_RecyclerviewAdapter(@NonNull FirestoreRecyclerOptions<hep_Location> options) {
+
+    public Pcs_RecyclerviewAdapter(@NonNull FirebaseRecyclerOptions<hep_Location> options) {
         super(options);
     }
 
@@ -48,9 +49,15 @@ public class Pcs_RecyclerviewAdapter extends FirestoreRecyclerAdapter<hep_Locati
             textViewTag = itemView.findViewById(R.id.cardView_tag);
         }
     }
+    private String checkNull(String tag){
+        if(tag != null)
+            return tag + " ";
+        else
+            return "";
+    }
     private String getTag(hep_Location location){
-        return location.getTag0()+", " + location.getTag1() +", "
-                + location.getTag2()+", " + location.getTag3() +", "
-                + location.getTag4();
+        return checkNull(location.getTag0()) + checkNull(location.getTag1()) +
+                checkNull(location.getTag2()) + checkNull(location.getTag3())
+                + checkNull(location.getTag4());
     }
 }

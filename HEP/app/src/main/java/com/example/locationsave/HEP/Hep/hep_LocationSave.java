@@ -1,12 +1,5 @@
 package com.example.locationsave.HEP.Hep;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
-import androidx.fragment.app.FragmentTransaction;
-import androidx.viewpager.widget.ViewPager;
-
 import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -24,12 +17,17 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.locationsave.HEP.pcs_RecyclerView.Location;
-import com.example.locationsave.R;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.fragment.app.FragmentTransaction;
+import androidx.viewpager.widget.ViewPager;
+
 import com.example.locationsave.HEP.Hep.hep_DTO.hep_Location;
 import com.example.locationsave.HEP.Hep.hep_DTO.hep_Tag;
 import com.example.locationsave.HEP.pcs_RecyclerView.Pcs_LocationRecyclerView;
-
+import com.example.locationsave.R;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -313,11 +311,14 @@ public class hep_LocationSave extends AppCompatActivity {
                 }
                 ImageReference.setValue(hashMapImage);
             }
-            setFragment();
+//            setFragment();
         }
         else{
             toastMake("이름을 입력해주세요");
+
         }
+        //temp
+        setFragment();
     }
 
     public String getImage64Data(Bitmap bitmap){ // base64 encoding
