@@ -37,6 +37,7 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
@@ -51,6 +52,7 @@ import java.util.Map;
 import java.util.UUID;
 
 import static android.content.ContentValues.TAG;
+import static android.content.Intent.FLAG_ACTIVITY_NEW_TASK;
 
 public class hep_LocationSave extends AppCompatActivity {
 
@@ -79,7 +81,7 @@ public class hep_LocationSave extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getApplicationContext(), hep_LocationDetailView.class);
-                getApplicationContext().startActivity(intent);
+                getApplicationContext().startActivity(intent.addFlags(FLAG_ACTIVITY_NEW_TASK));
             }
         });
 
@@ -242,7 +244,7 @@ public class hep_LocationSave extends AppCompatActivity {
                             for (int i = 0; i < new hep_locationImageDataArr().getImageDataArrayInstance().size(); i++) {
                                 hep_FlowLayoutImageItem flowLayoutImageItem = new hep_FlowLayoutImageItem(this);
                                 flowLayoutImageItem.setLayoutParams(params);
-                                flowLayoutImageItem.setBackground(new hep_locationImageDataArr().getImageDataArrayInstance().get(i).bitmap);
+                                flowLayoutImageItem.setBackgroundBitmap(new hep_locationImageDataArr().getImageDataArrayInstance().get(i).bitmap);
 
                                 ((hep_FlowLayout) findViewById(R.id.imageFlowLayout)).addView(flowLayoutImageItem);
                             }
@@ -294,10 +296,12 @@ public class hep_LocationSave extends AppCompatActivity {
             findViewById(R.id.linearlayoutInformationImageAdd).setVisibility(View.INVISIBLE);
     }
 
+    DatabaseReference ImageReference = new hep_FireBase().getFireBaseDatabaseInstance().getReference().child("LocationImages").push();
+
     public void onButtonLocationSaveClicked(View v){
         if(!((EditText)findViewById(R.id.locationName)).getText().toString().trim().equals("")){
             DatabaseReference LocationReference = new hep_FireBase().getFireBaseDatabaseInstance().getReference().child("Locations").push();
-            DatabaseReference ImageReference = new hep_FireBase().getFireBaseDatabaseInstance().getReference().child("LocationImages").push();
+
 
             hep_Location hep_Location = new hep_Location(((EditText)findViewById(R.id.locationName)).getText().toString(),
                     /* oauth token 값 가져오기 */
@@ -319,7 +323,7 @@ public class hep_LocationSave extends AppCompatActivity {
             }
 
             LocationReference.setValue(hashMapLocation);
-            Map<String, Object> hashMapImage = new HashMap<>();
+            final Map<String, Object> hashMapImage = new HashMap<>();
 
             if(!new hep_locationImageDataArr().getImageDataArrayInstance().isEmpty()){
                 String key = LocationReference.getKey(); // 방금 삽입한 Location ID
@@ -335,26 +339,20 @@ public class hep_LocationSave extends AppCompatActivity {
                     byte[] data = baos.toByteArray();
 
                     UploadTask uploadTask = LocationImagesRef.putBytes(data);
+
                     final int finalI = i;
                     uploadTask.addOnFailureListener(new OnFailureListener() {
                         @Override
                         public void onFailure(@NonNull Exception exception) {
-                            // Handle unsuccessful uploads
                         }
                     }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                         @Override
                         public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                            // taskSnapshot.getMetadata() contains file metadata such as size, content-type, etc.
-                            // ...
-                            sessionuri = taskSnapshot.getUploadSessionUri();
-                            /********************************************* 미완성 *///////////////////////////
+                            hashMapImage.put("Image"+ finalI, taskSnapshot.getMetadata().getPath());
+                            ImageReference.updateChildren(hashMapImage);
                         }
                     });
-                    Log.d("@@@@@@@@@", "" + sessionuri);
-                    hashMapImage.put("Image"+ i, sessionuri);
                 }
-
-                ImageReference.setValue(hashMapImage);
             }
             setFragment();
         }
