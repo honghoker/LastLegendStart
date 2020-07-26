@@ -1,6 +1,7 @@
 package com.example.locationsave.HEP.pcs_RecyclerView;
 
 import android.content.Context;
+import android.graphics.Canvas;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -142,6 +143,12 @@ public class Pcs_LocationRecyclerView extends Fragment {
         Pcs_RecyclerViewSwipeHelper swipeHelper = new Pcs_RecyclerViewSwipeHelper();
         ItemTouchHelper itemTouchHelper = new ItemTouchHelper(swipeHelper);
         itemTouchHelper.attachToRecyclerView(recyclerView);
+        recyclerView.addItemDecoration(new RecyclerView.ItemDecoration() {
+            @Override
+            public void onDraw(@NonNull Canvas c, @NonNull RecyclerView parent, @NonNull RecyclerView.State state) {
+                Pcs_RecyclerViewSwipeHelper.onDraw(c);
+            }
+        });
     }
 
 }
