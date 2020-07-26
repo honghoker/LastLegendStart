@@ -58,7 +58,6 @@ public class hep_LocationSave extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.hep_locationsave);
-
         setinit();
     }
 

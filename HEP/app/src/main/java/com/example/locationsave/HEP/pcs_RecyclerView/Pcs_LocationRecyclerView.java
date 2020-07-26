@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -43,19 +44,23 @@ public class Pcs_LocationRecyclerView extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        rootView = (ViewGroup) inflater.inflate(R.layout.pcs_location_recyclerview, container, false);
         //Display Menu
         setHasOptionsMenu(true);
-        rootView = (ViewGroup) inflater.inflate(R.layout.pcs_location_recyclerview, container, false);
         setUpRecyclerView();
+        setUpSwipeHelper();
         return rootView;
     }
+
+
+
     //xml pcs_recyclerview_menu connection
     @Override
     public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
-        menu.clear();
-        inflater.inflate(R.menu.pcs_recyclerview_menu,menu);
+        inflater.inflate(R.menu.pcs_recyclerview_menu, menu);
     }
+
     //when menu item selection,
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
@@ -132,4 +137,11 @@ public class Pcs_LocationRecyclerView extends Fragment {
                 .build();
         return new Pcs_RecyclerviewAdapter(options);
     }
+
+    private void setUpSwipeHelper() {
+        Pcs_RecyclerViewSwipeHelper swipeHelper = new Pcs_RecyclerViewSwipeHelper();
+        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(swipeHelper);
+        itemTouchHelper.attachToRecyclerView(recyclerView);
+    }
+
 }
