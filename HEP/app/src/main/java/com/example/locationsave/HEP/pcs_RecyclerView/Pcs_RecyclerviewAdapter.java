@@ -36,6 +36,9 @@ public class Pcs_RecyclerviewAdapter extends FirebaseRecyclerAdapter<hep_Locatio
 
         return new ListHolder(v);
     }
+    public void deleteItem(int position) {
+        getSnapshots().getSnapshot(position).getRef().removeValue();
+    }
 
     class ListHolder extends RecyclerView.ViewHolder{
         TextView textViewTitle;
@@ -60,4 +63,5 @@ public class Pcs_RecyclerviewAdapter extends FirebaseRecyclerAdapter<hep_Locatio
                 checkNull(location.getTag2()) + checkNull(location.getTag3())
                 + checkNull(location.getTag4());
     }
+
 }

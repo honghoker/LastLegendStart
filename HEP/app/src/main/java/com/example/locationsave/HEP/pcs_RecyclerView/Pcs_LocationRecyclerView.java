@@ -41,6 +41,7 @@ public class Pcs_LocationRecyclerView extends Fragment {
     private Pcs_RecyclerviewAdapter adapter;
     hep_LocationSave activity;
     private ViewGroup rootView;
+    private Pcs_RecyclerViewSwipeHelper recyclerViewSwipeHelper;
 
     @Nullable
     @Override
@@ -128,6 +129,18 @@ public class Pcs_LocationRecyclerView extends Fragment {
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         recyclerView.setAdapter(adapter);
+
+        new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
+            @Override
+            public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
+                return false;
+            }
+
+            @Override
+            public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
+                adapter.deleteItem(viewHolder.getAdapterPosition());
+            }
+        }).attachToRecyclerView(recyclerView);
     }
 
     //Get firebase data and put into adapter
@@ -140,13 +153,23 @@ public class Pcs_LocationRecyclerView extends Fragment {
     }
 
     private void setUpSwipeHelper() {
-        Pcs_RecyclerViewSwipeHelper swipeHelper = new Pcs_RecyclerViewSwipeHelper();
-        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(swipeHelper);
+        recyclerViewSwipeHelper = new Pcs_RecyclerViewSwipeHelper(getActivity(), new Pcs_RecyclerViewSwipeAction() {
+            @Override
+            public void onLeftClicked(int position) {
+                super.onLeftClicked(position);
+            }
+
+            @Override
+            public void onRightClicked(int position) {
+                super.onRightClicked(position);
+            }
+        });
+        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(recyclerViewSwipeHelper);
         itemTouchHelper.attachToRecyclerView(recyclerView);
         recyclerView.addItemDecoration(new RecyclerView.ItemDecoration() {
             @Override
             public void onDraw(@NonNull Canvas c, @NonNull RecyclerView parent, @NonNull RecyclerView.State state) {
-                Pcs_RecyclerViewSwipeHelper.onDraw(c);
+                recyclerViewSwipeHelper.onDraw(c);
             }
         });
     }
