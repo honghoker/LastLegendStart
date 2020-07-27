@@ -1,4 +1,4 @@
-package com.example.locationsave.HEP.Hep;
+package com.example.locationsave.HEP.Hep.hep_LocationSave;
 
 import android.Manifest;
 import android.content.Intent;
@@ -10,28 +10,32 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.ContactsContract;
-import android.util.Base64;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
-import androidx.fragment.app.FragmentTransaction;
 import androidx.viewpager.widget.ViewPager;
 
 import com.example.locationsave.HEP.Hep.hep_DTO.hep_Location;
 import com.example.locationsave.HEP.Hep.hep_DTO.hep_Tag;
+import com.example.locationsave.HEP.Hep.hep_FireBase;
+import com.example.locationsave.HEP.Hep.hep_LocationDetail.hep_LocationDetailActivity;
 import com.example.locationsave.HEP.pcs_RecyclerView.Pcs_LocationRecyclerView;
 import com.example.locationsave.R;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 import com.opensooq.supernova.gligar.GligarPicker;
 
 import java.io.ByteArrayOutputStream;
@@ -39,29 +43,40 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.UUID;
 
 import static android.content.ContentValues.TAG;
+import static android.content.Intent.FLAG_ACTIVITY_NEW_TASK;
 
-public class hep_LocationSave extends AppCompatActivity {
+public class hep_LocationSaveActivity extends AppCompatActivity {
 
     private Pcs_LocationRecyclerView pcsFragment;
 
-    DatabaseReference TagReference;
+    public  DatabaseReference TagReference;
 
-    hep_AutoCompleteTextView hashEditText;
-    ViewPager viewPager;
-    hep_ViewPagerAdapter viewPagerAdapter;
-    ArrayList<String> tagDataArrayList;
-    int imageSizeLimit = 5;
+    public hep_LocationSave_AutoCompleteTextView hashEditText;
+    public ViewPager viewPager;
+    public hep_LocationSave_ViewPagerAdapter viewPagerAdapter;
+    public ArrayList<String> tagDataArrayList;
+
+    int imageSizeLimit = 5; // imagepicker 최대 이미지 수
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.hep_locationsave);
+        setContentView(R.layout.hep_locationsaveactivity);
         setinit();
     }
 
     public void setinit(){
+        ((Button)findViewById(R.id.detailView)).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), hep_LocationDetailActivity.class);
+                getApplicationContext().startActivity(intent.addFlags(FLAG_ACTIVITY_NEW_TASK));
+            }
+        });
+
         hashEditText = findViewById(R.id.HashTagText);
         tagDataArrayList = new ArrayList<>();
         viewPager = findViewById(R.id.viewPager);
@@ -147,7 +162,7 @@ public class hep_LocationSave extends AppCompatActivity {
     public void onButtonImageAddClicked(View v){
         permissionCheck();
         try {
-            new GligarPicker().requestCode(pickImage).withActivity(hep_LocationSave.this).limit(imageSizeLimit).show();
+            new GligarPicker().requestCode(pickImage).withActivity(hep_LocationSaveActivity.this).limit(imageSizeLimit).show();
         } catch (Exception e){
             e.printStackTrace();
         }
@@ -192,7 +207,7 @@ public class hep_LocationSave extends AppCompatActivity {
                             new String[]{ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME,
                                     ContactsContract.CommonDataKinds.Phone.NUMBER}, null, null, null);
                     cursor.moveToFirst();
-                    ((TextView)findViewById(R.id.locationName)).setText(cursor.getString(0));
+                    ((TextView)findViewById(R.id.locationDetailViewName)).setText(cursor.getString(0));
                     ((TextView)findViewById(R.id.locationContact)).setText(cursor.getString(1));
                     cursor.close();
                 }
@@ -219,13 +234,13 @@ public class hep_LocationSave extends AppCompatActivity {
 
                             ((hep_FlowLayout) findViewById(R.id.imageFlowLayout)).removeAllViews(); // flowlayout clear
                             for (int i = 0; i < new hep_locationImageDataArr().getImageDataArrayInstance().size(); i++) {
-                                hep_FlowLayoutImageItem flowLayoutImageItem = new hep_FlowLayoutImageItem(this);
+                                hep_LocationSave_FlowLayoutImageItem flowLayoutImageItem = new hep_LocationSave_FlowLayoutImageItem(this);
                                 flowLayoutImageItem.setLayoutParams(params);
-                                flowLayoutImageItem.setBackground(new hep_locationImageDataArr().getImageDataArrayInstance().get(i).bitmap);
+                                flowLayoutImageItem.setBackgroundBitmap(new hep_locationImageDataArr().getImageDataArrayInstance().get(i).bitmap);
 
                                 ((hep_FlowLayout) findViewById(R.id.imageFlowLayout)).addView(flowLayoutImageItem);
                             }
-                            viewPagerAdapter = new hep_ViewPagerAdapter(this);
+                            viewPagerAdapter = new hep_LocationSave_ViewPagerAdapter(this);
                             viewPager.setAdapter(viewPagerAdapter);
                             setVisibilityInformationImage();
 
@@ -273,14 +288,15 @@ public class hep_LocationSave extends AppCompatActivity {
             findViewById(R.id.linearlayoutInformationImageAdd).setVisibility(View.INVISIBLE);
     }
 
+    DatabaseReference ImageReference = new hep_FireBase().getFireBaseDatabaseInstance().getReference().child("LocationImages").push();
+
     public void onButtonLocationSaveClicked(View v){
         if(!((EditText)findViewById(R.id.locationName)).getText().toString().trim().equals("")){
-            DatabaseReference LocationReference = new hep_FireBase().getFireBaseDatabaseInstance().getReference().child("Locations").push();
-            DatabaseReference ImageReference = new hep_FireBase().getFireBaseDatabaseInstance().getReference().child("LocationImages").push();
 
+            DatabaseReference LocationReference = new hep_FireBase().getFireBaseDatabaseInstance().getReference().child("Locations").push();
 
             hep_Location hep_Location = new hep_Location(((EditText)findViewById(R.id.locationName)).getText().toString(),
-                    /* token 값 가져오기 */
+                    /* oauth token 값 가져오기 */
                     ((EditText)findViewById(R.id.locationAddr)).getText().toString(),
                     ((EditText)findViewById(R.id.locationDetailAddr)).getText().toString(),
                     ((EditText)findViewById(R.id.locationContact)).getText().toString(),
@@ -291,7 +307,7 @@ public class hep_LocationSave extends AppCompatActivity {
             Map<String, Object> hashMapLocation = hep_Location.toMap();
 
             for(int i = 0; i < new hep_HashTagArr().getHashTagArr().size(); i++) {
-                hashMapLocation.put("Tag"+i, new hep_HashTagArr().getHashTagArr().get(i));
+                hashMapLocation.put("tag"+i, new hep_HashTagArr().getHashTagArr().get(i));
                 if(!tagDataArrayList.contains(new hep_HashTagArr().getHashTagArr().get(i))){  // 태그 중복확인
                     Map<String, Object> hashMapTag = new hep_Tag(new hep_HashTagArr().getHashTagArr().get(i)).toMap();
                     TagReference.push().setValue(hashMapTag); // 태그 삽입
@@ -299,18 +315,39 @@ public class hep_LocationSave extends AppCompatActivity {
             }
 
             LocationReference.setValue(hashMapLocation);
+            final Map<String, Object> hashMapImage = new HashMap<>();
 
             if(!new hep_locationImageDataArr().getImageDataArrayInstance().isEmpty()){
                 String key = LocationReference.getKey(); // 방금 삽입한 Location ID
 
-                Map<String, Object> hashMapImage = new HashMap<>();
                 hashMapImage.put("LocationId", key);
+
                 for(int i = 0 ; i < new hep_locationImageDataArr().getImageDataArrayInstance().size(); i++){
-                    hashMapImage.put("Image"+i, getImage64Data(new hep_locationImageDataArr().getImageDataArrayInstance().get(i).bitmap));
+                    StorageReference LocationImagesRef = new hep_FireBase().getFirebaseStorageInstance().getReference().child("locationimages/" + UUID.randomUUID().toString());
+
+                    Bitmap bitmap = new hep_locationImageDataArr().getImageDataArrayInstance().get(i).bitmap;
+                    ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                    bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+                    byte[] data = baos.toByteArray();
+
+                    UploadTask uploadTask = LocationImagesRef.putBytes(data);
+
+                    final int finalI = i;
+                    uploadTask.addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception exception) {
+                        }
+                    }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                        @Override
+                        public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                            hashMapImage.put("Image"+ finalI, taskSnapshot.getMetadata().getPath());
+                            ImageReference.updateChildren(hashMapImage);
+                        }
+                    });
                 }
-                ImageReference.setValue(hashMapImage);
             }
-//            setFragment();
+            new hep_locationImageDataArr().getImageDataArrayInstance().clear();
+            setFragment();
         }
         else{
             toastMake("이름을 입력해주세요");
@@ -318,15 +355,6 @@ public class hep_LocationSave extends AppCompatActivity {
         }
         //temp
         setFragment();
-    }
-
-    public String getImage64Data(Bitmap bitmap){ // base64 encoding
-        ByteArrayOutputStream bao = new ByteArrayOutputStream();
-        bitmap.compress(Bitmap.CompressFormat.PNG, 100, bao); // bmp is bitmap from user image file
-        bitmap.recycle();
-        byte[] byteArray = bao.toByteArray();
-        String imageB64 = Base64.encodeToString(byteArray, Base64.URL_SAFE);
-        return imageB64;
     }
 
     public ArrayList<String> getTagDataArrayList(){
@@ -337,5 +365,6 @@ public class hep_LocationSave extends AppCompatActivity {
         FragmentTransaction trans = getSupportFragmentManager().beginTransaction();
         trans.replace(R.id.fragmentContainer, pcsFragment).commit();
     }
+
 
 }

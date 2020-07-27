@@ -1,4 +1,4 @@
-package com.example.locationsave.HEP.Hep;
+package com.example.locationsave.HEP.Hep.hep_LocationSave;
 
 public class hep_HangulUtils {
     private static String toHexString(int decimal) {

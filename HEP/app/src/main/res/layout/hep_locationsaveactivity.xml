@@ -76,7 +76,7 @@
                         app:srcCompat="@drawable/hep_locationsave_imageaddicon"
                         tools:maxWidth="60dp" />
 
-                    <com.example.locationsave.HEP.Hep.hep_FlowLayout
+                    <com.example.locationsave.HEP.Hep.hep_LocationSave.hep_FlowLayout
                         android:id="@+id/imageFlowLayout"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content" />
@@ -177,13 +177,13 @@
                         android:scaleType="fitCenter"
                         app:srcCompat="@drawable/hep_locationsave_tag" />
 
-                    <com.example.locationsave.HEP.Hep.hep_HashEditText
+                    <com.example.locationsave.HEP.Hep.hep_LocationSave.hep_HashEditText
                         android:id="@+id/locationTag"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1">
 
-                    </com.example.locationsave.HEP.Hep.hep_HashEditText>
+                    </com.example.locationsave.HEP.Hep.hep_LocationSave.hep_HashEditText>
 
                     <Button
                         android:id="@+id/button5"
@@ -195,7 +195,7 @@
 
                 </LinearLayout>
 
-                <com.example.locationsave.HEP.Hep.hep_FlowLayout
+                <com.example.locationsave.HEP.Hep.hep_LocationSave.hep_FlowLayout
                     android:id="@+id/hashtagFlowLayout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -254,6 +254,13 @@
                     android:background="@android:color/transparent"
                     android:onClick="onButtonLocationSaveClicked"
                     android:text="저장" />
+
+                <Button
+                    android:id="@+id/detailView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="DetailView" />
 
             </LinearLayout>
         </ScrollView>

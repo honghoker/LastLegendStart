@@ -19,7 +19,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.locationsave.HEP.Hep.hep_DTO.hep_Location;
 import com.example.locationsave.HEP.Hep.hep_FireBase;
-import com.example.locationsave.HEP.Hep.hep_LocationSave;
+import com.example.locationsave.HEP.Hep.hep_LocationSave.hep_LocationSaveActivity;
 import com.example.locationsave.R;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.google.firebase.database.FirebaseDatabase;
@@ -39,7 +39,7 @@ public class Pcs_LocationRecyclerView extends Fragment {
     private CollectionReference locationRef = db.collection("Locations");
     private RecyclerView recyclerView;
     private Pcs_RecyclerviewAdapter adapter;
-    hep_LocationSave activity;
+    hep_LocationSaveActivity activity;
     private ViewGroup rootView;
     private Pcs_RecyclerViewSwipeHelper recyclerViewSwipeHelper;
 
@@ -101,7 +101,7 @@ public class Pcs_LocationRecyclerView extends Fragment {
     @Override
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
-        activity =  (hep_LocationSave) getActivity();
+        activity =  (hep_LocationSaveActivity) getActivity();
     }
 
     @Override
@@ -148,6 +148,7 @@ public class Pcs_LocationRecyclerView extends Fragment {
         Query query = db1.getReference().child("Locations").orderByChild(field);
         FirebaseRecyclerOptions options = new FirebaseRecyclerOptions.Builder<hep_Location>()
                 .setQuery(query, hep_Location.class)
+
                 .build();
         return new Pcs_RecyclerviewAdapter(options);
     }
