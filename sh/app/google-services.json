@@ -10,10 +10,18 @@
       "client_info": {
         "mobilesdk_app_id": "1:776594814461:android:eb53cdaa12bd88ddcbd594",
         "android_client_info": {
-          "package_name": "com.example.location"
+          "package_name": "com.example.kms_lastlegendstart"
         }
       },
       "oauth_client": [
+        {
+          "client_id": "776594814461-2cmc63t7mud31ri43bhortb8ns6f44se.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.location",
+            "certificate_hash": "2303b64a2731cca344f3680001799bf70e36dee9"
+          }
+        },
         {
           "client_id": "776594814461-2mkpl42okv6j9m95hn99101uj55ckr4q.apps.googleusercontent.com",
           "client_type": 3

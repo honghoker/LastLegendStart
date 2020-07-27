@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.location">
+    package="com.example.kms_lastlegendstart">
 
     <application
         android:allowBackup="true"
@@ -9,16 +9,24 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".KSH_LoadingActivity"/>
-        <activity android:name=".NavIntent.KSH_NoticeIntent"/>
-        <activity android:name=".KSH_AllSeeActivity"/>
-        <activity android:name=".KSH_MainActivity">
+        <activity android:name=".KSH.KSH_LoadingActivity"/>
+        <activity android:name=".KSH.NavIntent.KSH_NoticeIntent"/>
+        <activity android:name=".KSH.KSH_AllSeeActivity"/>
+        <activity android:name=".KMS_MainActivity"
+            android:windowSoftInputMode="adjustPan">
+
+
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name="TEST_Activity" />
+        <meta-data
+            android:name="com.naver.maps.map.CLIENT_ID"
+            android:value="" />
     </application>
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
 
 </manifest>
