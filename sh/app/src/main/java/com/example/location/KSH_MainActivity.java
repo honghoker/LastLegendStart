@@ -147,7 +147,6 @@ public class KSH_MainActivity extends AppCompatActivity implements NavigationVie
                 overridePendingTransition(R.anim.fadein,R.anim.fadeout);
             }
         });
-
     }
 
     // 어플키면 먼저 map 보여주기위한 fragmentManager.begin 코드 들어가야함 !
