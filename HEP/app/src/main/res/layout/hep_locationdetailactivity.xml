@@ -50,7 +50,7 @@
                 </LinearLayout>
 
                 <androidx.viewpager.widget.ViewPager
-                    android:id="@+id/locationDetailViewViewPager"
+                    android:id="@+id/locationDetailViewPager"
                     android:layout_width="match_parent"
                     android:layout_height="350dp"/>
 
@@ -64,7 +64,7 @@
                 android:layout_marginBottom="5dp"
                 android:orientation="horizontal">
 
-                <com.example.locationsave.HEP.Hep.hep_FlowLayout
+                <com.example.locationsave.HEP.Hep.hep_LocationSave.hep_FlowLayout
                     android:id="@+id/locationDetailViewimageFlowLayout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
@@ -146,7 +146,7 @@
                     android:scaleType="fitCenter"
                     app:srcCompat="@drawable/hep_locationsave_tag" />
 
-                <com.example.locationsave.HEP.Hep.hep_FlowLayout
+                <com.example.locationsave.HEP.Hep.hep_LocationSave.hep_FlowLayout
                     android:id="@+id/hashtagFlowLayout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />

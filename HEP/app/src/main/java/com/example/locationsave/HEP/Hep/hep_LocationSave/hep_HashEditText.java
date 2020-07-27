@@ -1,4 +1,4 @@
-package com.example.locationsave.HEP.Hep;
+package com.example.locationsave.HEP.Hep.hep_LocationSave;
 
 import android.content.Context;
 import android.text.Editable;
@@ -18,7 +18,7 @@ import java.util.List;
 
 public class hep_HashEditText extends RelativeLayout {
     LayoutInflater inflater = null;
-    hep_AutoCompleteTextView hashEditText;
+    hep_LocationSave_AutoCompleteTextView hashEditText;
     Button btnClearHashEditText;
     public static Context mContext;
 
@@ -55,7 +55,7 @@ public class hep_HashEditText extends RelativeLayout {
             //에디트 텍스트 안 내용이 변경될 때마다 호출되는 메소드
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                hep_AutoCompleteTextView autoCompleteTextView = hashEditText;
+                hep_LocationSave_AutoCompleteTextView autoCompleteTextView = hashEditText;
 
                 if (s.length() > 0) {
                     btnClearHashEditText.setVisibility(RelativeLayout.VISIBLE);
@@ -76,7 +76,7 @@ public class hep_HashEditText extends RelativeLayout {
             @Override
             public void afterTextChanged(Editable s) {
                 if (s.toString().contains(" ")) {
-                    ((hep_LocationSave) mContext).hashTagAdd(s.toString().replaceAll(" ", "").trim());
+                    ((hep_LocationSaveActivity) mContext).hashTagAdd(s.toString().replaceAll(" ", "").trim());
                 }
             }
         });
@@ -100,7 +100,7 @@ public class hep_HashEditText extends RelativeLayout {
 
     public List setChangeListData(String searchKeyword){
         List temp = new ArrayList<>();
-        ArrayList<String> tag = ((hep_LocationSave)mContext).getTagDataArrayList();
+        ArrayList<String> tag = ((hep_LocationSaveActivity)mContext).getTagDataArrayList();
         for(String t: tag){
             boolean isAdd = false;
             String iniName = hep_HangulUtils.getHangulInitialSound(t, searchKeyword);

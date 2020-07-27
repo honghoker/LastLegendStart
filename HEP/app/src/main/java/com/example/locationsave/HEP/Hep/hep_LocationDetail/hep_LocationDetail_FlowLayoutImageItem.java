@@ -1,21 +1,22 @@
-package com.example.locationsave.HEP.Hep;
+package com.example.locationsave.HEP.Hep.hep_LocationDetail;
 
 import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Handler;
 import android.os.Message;
-import android.provider.MediaStore;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.RelativeLayout;
 
+import com.example.locationsave.HEP.Hep.hep_LocationSave.hep_FlowLayout;
+import com.example.locationsave.HEP.Hep.hep_LocationSave.hep_LocationSaveActivity;
+import com.example.locationsave.HEP.Hep.hep_LocationSave.hep_LocationSave_FlowLayoutImageItem;
 import com.example.locationsave.R;
 
 import java.io.IOException;
@@ -23,20 +24,20 @@ import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
-public class hep_FlowLayoutImageItem extends RelativeLayout {
+public class hep_LocationDetail_FlowLayoutImageItem extends RelativeLayout {
     LayoutInflater inflater = null;
     Context mContext;
     ImageButton imageButton;
 
     static int idnum = 0;
-    public hep_FlowLayoutImageItem(Context context) {
+    public hep_LocationDetail_FlowLayoutImageItem(Context context) {
         super(context);
         mContext = context;
         setLayout();
         setInit();
     }
 
-    public hep_FlowLayoutImageItem(Context context, AttributeSet attrs) {
+    public hep_LocationDetail_FlowLayoutImageItem(Context context, AttributeSet attrs) {
         super(context, attrs);
     }
 
@@ -53,13 +54,13 @@ public class hep_FlowLayoutImageItem extends RelativeLayout {
         imageButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                hep_FlowLayout hep_FlowLayout = ((hep_LocationSave)mContext).findViewById(R.id.imageFlowLayout);
+                hep_FlowLayout hep_FlowLayout = ((hep_LocationDetailActivity)mContext).findViewById(R.id.locationDetailViewimageFlowLayout);
 
                 for(int i = 0; i < hep_FlowLayout.getChildCount(); i++){
-                    hep_FlowLayoutImageItem hep_FlowLayoutImageItem = (com.example.locationsave.HEP.Hep.hep_FlowLayoutImageItem) hep_FlowLayout.getChildAt(i);
+                    hep_LocationDetail_FlowLayoutImageItem hep_LocationDetail_FlowLayoutImageItem = (hep_LocationDetail_FlowLayoutImageItem) hep_FlowLayout.getChildAt(i);
 
-                    if(hep_FlowLayoutImageItem.imageButton.getId() == v.getId()){
-                        ((hep_LocationSave)mContext).viewPager.setCurrentItem(i);
+                    if(hep_LocationDetail_FlowLayoutImageItem.imageButton.getId() == v.getId()){
+                        ((hep_LocationDetailActivity)mContext).viewPager.setCurrentItem(i);
                         break;
                     }
                 }

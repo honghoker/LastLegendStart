@@ -1,4 +1,4 @@
-package com.example.locationsave.HEP.Hep;
+package com.example.locationsave.HEP.Hep.hep_LocationSave;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -29,7 +29,7 @@ public class hep_HashTag extends RelativeLayout {
         btnDelete.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                ((hep_FlowLayout) ((hep_LocationSave) mContext).findViewById(R.id.hashtagFlowLayout)).removeView(me);
+                ((hep_FlowLayout) ((hep_LocationSaveActivity) mContext).findViewById(R.id.hashtagFlowLayout)).removeView(me);
                 new hep_HashTagArr().getHashTagArr().remove(hashText.getText().toString());
             }
         });

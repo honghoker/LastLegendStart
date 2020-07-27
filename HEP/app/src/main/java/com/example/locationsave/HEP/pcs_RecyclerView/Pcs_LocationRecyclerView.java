@@ -2,7 +2,6 @@ package com.example.locationsave.HEP.pcs_RecyclerView;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -16,7 +15,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.locationsave.HEP.Hep.hep_LocationSave;
+import com.example.locationsave.HEP.Hep.hep_LocationSave.hep_LocationSaveActivity;
 import com.example.locationsave.R;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.firebase.firestore.CollectionReference;
@@ -32,7 +31,7 @@ public class Pcs_LocationRecyclerView extends Fragment {
     private CollectionReference locationRef = db.collection("Locations");
     private RecyclerView recyclerView;
     private Pcs_RecyclerviewAdapter adapter;
-    hep_LocationSave activity;
+    hep_LocationSaveActivity activity;
     private ViewGroup rootView;
 
     @Nullable
@@ -87,7 +86,7 @@ public class Pcs_LocationRecyclerView extends Fragment {
     @Override
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
-        activity =  (hep_LocationSave) getActivity();
+        activity =  (hep_LocationSaveActivity) getActivity();
     }
 
     @Override
@@ -119,8 +118,8 @@ public class Pcs_LocationRecyclerView extends Fragment {
     //Get firebase data and put into adapter
     private Pcs_RecyclerviewAdapter getFirebaseData(String field, Query.Direction direction){
         Query query = locationRef.orderBy(field, direction);
-        FirestoreRecyclerOptions options = new FirestoreRecyclerOptions.Builder<hep_LocationSave>()
-                .setQuery(query, hep_LocationSave.class)
+        FirestoreRecyclerOptions options = new FirestoreRecyclerOptions.Builder<hep_LocationSaveActivity>()
+                .setQuery(query, hep_LocationSaveActivity.class)
                 .build();
         return new Pcs_RecyclerviewAdapter(options);
     }

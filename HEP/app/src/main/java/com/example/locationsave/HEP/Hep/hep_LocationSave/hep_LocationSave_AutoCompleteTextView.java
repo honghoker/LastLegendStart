@@ -1,4 +1,4 @@
-package com.example.locationsave.HEP.Hep;
+package com.example.locationsave.HEP.Hep.hep_LocationSave;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -7,13 +7,13 @@ import android.util.AttributeSet;
 import android.widget.AutoCompleteTextView;
 
 @SuppressLint("AppCompatCustomView")
-public class hep_AutoCompleteTextView extends AutoCompleteTextView {
+public class hep_LocationSave_AutoCompleteTextView extends AutoCompleteTextView {
 
-    public hep_AutoCompleteTextView(Context context) {
+    public hep_LocationSave_AutoCompleteTextView(Context context) {
         super(context);
     }
 
-    public hep_AutoCompleteTextView(Context context, AttributeSet attrs) {
+    public hep_LocationSave_AutoCompleteTextView(Context context, AttributeSet attrs) {
         super(context, attrs);
     }
 
