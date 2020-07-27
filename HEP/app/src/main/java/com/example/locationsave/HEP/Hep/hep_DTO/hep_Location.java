@@ -71,59 +71,60 @@ public class hep_Location {
         return result;
     }
 
-//    public String getToken() {
-//        return token;
-//    }
-//
-//    public String getName() {
-//        return name;
-//    }
-//
-//    public String getAddr() {
-//        return addr;
-//    }
-//
-//    public String getDetailaddr() {
-//        return detailaddr;
-//    }
-//
-//    public String getContact() {
-//        return contact;
-//    }
-//
-//    public String getMemo() {
-//        return memo;
-//    }
-//
-//    public long getTime() {
-//        return time;
-//    }
-//
-//    public double getLatitude() {
-//        return Latitude;
-//    }
-//
-//    public double getLongitude() {
-//        return longitude;
-//    }
-//
-//    public String getTag0() {
-//        return tag0;
-//    }
-//
-//    public String getTag1() {
-//        return tag1;
-//    }
-//
-//    public String getTag2() {
-//        return tag2;
-//    }
-//
-//    public String getTag3() {
-//        return tag3;
-//    }
-//
-//    public String getTag4() {
-//        return tag4;
-//    }
+
+    public String getToken() {
+        return token;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public String getAddr() {
+        return addr;
+    }
+
+    public String getDetailaddr() {
+        return detailaddr;
+    }
+
+    public String getContact() {
+        return contact;
+    }
+
+    public String getMemo() {
+        return memo;
+    }
+
+    public long getTime() {
+        return time;
+    }
+
+    public double getLatitude() {
+        return Latitude;
+    }
+
+    public double getLongitude() {
+        return longitude;
+    }
+
+    public String getTag0() {
+        return tag0;
+    }
+
+    public String getTag1() {
+        return tag1;
+    }
+
+    public String getTag2() {
+        return tag2;
+    }
+
+    public String getTag3() {
+        return tag3;
+    }
+
+    public String getTag4() {
+        return tag4;
+    }
 }
