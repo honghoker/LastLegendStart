@@ -18,8 +18,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.viewpager.widget.ViewPager;
 
 import com.example.locationsave.HEP.Hep.hep_DTO.hep_Location;
@@ -351,10 +353,7 @@ public class hep_LocationSaveActivity extends AppCompatActivity {
         }
         else{
             toastMake("이름을 입력해주세요");
-
         }
-        //temp
-        setFragment();
     }
 
     public ArrayList<String> getTagDataArrayList(){

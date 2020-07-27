@@ -16,7 +16,7 @@ public class hep_Location {
     public String contact;
     public String memo;
     public long time;
-    public double Latitude; // 위도
+    public double latitude; // 위도
     public double longitude; // 경도
     public String tag0;
     public String tag1;
@@ -38,7 +38,7 @@ public class hep_Location {
         this.contact = contact;
         this.memo = memo;
         this.time = time;
-        Latitude = latitude;
+        this.latitude = latitude;
         this.longitude = longitude;
         this.tag0 = tag0;
         this.tag1 = tag1;
@@ -101,7 +101,7 @@ public class hep_Location {
     }
 
     public double getLatitude() {
-        return Latitude;
+        return latitude;
     }
 
     public double getLongitude() {
