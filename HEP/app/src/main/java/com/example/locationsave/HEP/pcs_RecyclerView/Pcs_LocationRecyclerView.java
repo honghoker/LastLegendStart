@@ -20,6 +20,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.locationsave.HEP.Hep.hep_DTO.hep_Location;
 import com.example.locationsave.HEP.Hep.hep_FireBase;
 import com.example.locationsave.HEP.Hep.hep_LocationSave.hep_LocationSaveActivity;
+import com.example.locationsave.HEP.KMS_MainActivity;
 import com.example.locationsave.R;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.google.firebase.database.FirebaseDatabase;
@@ -101,6 +102,7 @@ public class Pcs_LocationRecyclerView extends Fragment {
     @Override
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
+        // 여기 문제
         activity =  (hep_LocationSaveActivity) getActivity();
     }
 
