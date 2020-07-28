@@ -19,6 +19,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.locationsave.HEP.Hep.hep_DTO.hep_Location;
 import com.example.locationsave.HEP.Hep.hep_FireBase;
+import com.example.locationsave.HEP.Hep.hep_LocationSave.hep_LocationSaveActivity;
 import com.example.locationsave.HEP.KMS_MainActivity;
 import com.example.locationsave.R;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
@@ -39,7 +40,8 @@ public class Pcs_LocationRecyclerView extends Fragment {
     private CollectionReference locationRef = db.collection("Locations");
     private RecyclerView recyclerView;
     private Pcs_RecyclerviewAdapter adapter;
-    KMS_MainActivity activity;
+    KMS_MainActivity kms_activity;
+    hep_LocationSaveActivity hep_locationSaveActivity;
     private ViewGroup rootView;
     private Pcs_RecyclerViewSwipeHelper recyclerViewSwipeHelper;
 
@@ -102,14 +104,19 @@ public class Pcs_LocationRecyclerView extends Fragment {
     @Override
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
+        if (kms_activity instanceof KMS_MainActivity)
+            kms_activity = (KMS_MainActivity) getActivity();
+        else if(hep_locationSaveActivity instanceof hep_LocationSaveActivity)
+            hep_locationSaveActivity = (hep_LocationSaveActivity) hep_locationSaveActivity;
         // 여기 문제
-        activity = (KMS_MainActivity) getActivity();
+
     }
 
     @Override
     public void onDetach() {
         super.onDetach();
-        activity = null;
+        kms_activity = null;
+        hep_locationSaveActivity = null;
     }
 
     @Override
