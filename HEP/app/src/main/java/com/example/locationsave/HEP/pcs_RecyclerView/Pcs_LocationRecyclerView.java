@@ -132,17 +132,6 @@ public class Pcs_LocationRecyclerView extends Fragment {
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         recyclerView.setAdapter(adapter);
 
-        new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
-            @Override
-            public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
-                return false;
-            }
-
-            @Override
-            public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
-                adapter.deleteItem(viewHolder.getAdapterPosition());
-            }
-        }).attachToRecyclerView(recyclerView);
     }
 
     //Get firebase data and put into adapter
@@ -159,12 +148,12 @@ public class Pcs_LocationRecyclerView extends Fragment {
         recyclerViewSwipeHelper = new Pcs_RecyclerViewSwipeHelper(getActivity(), new Pcs_RecyclerViewSwipeAction() {
             @Override
             public void onLeftClicked(int position) {
-                super.onLeftClicked(position);
+
             }
 
             @Override
             public void onRightClicked(int position) {
-                super.onRightClicked(position);
+                adapter.deleteItem(position);
             }
         });
         ItemTouchHelper itemTouchHelper = new ItemTouchHelper(recyclerViewSwipeHelper);
