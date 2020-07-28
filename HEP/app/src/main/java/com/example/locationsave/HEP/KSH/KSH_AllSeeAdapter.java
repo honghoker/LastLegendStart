@@ -24,7 +24,7 @@ import java.util.Map;
 
 public class KSH_AllSeeAdapter extends RecyclerView.Adapter<KSH_AllSeeAdapter.ViewHolder> {
     Context mcontext;
-    private ArrayList<KSH_TestEntity> arrayList;
+    private ArrayList<KSH_DirectoryEntity> arrayList;
     DatabaseReference databaseReference;
     private ArrayList<String> arrayKey;
     private View updateView;
@@ -32,7 +32,7 @@ public class KSH_AllSeeAdapter extends RecyclerView.Adapter<KSH_AllSeeAdapter.Vi
     private Map<String,Object> testMap = new HashMap<String, Object>();
     private View view;
 
-    public KSH_AllSeeAdapter(Context context, ArrayList<KSH_TestEntity> arrayList, ArrayList<String> arrayKey) {
+    public KSH_AllSeeAdapter(Context context, ArrayList<KSH_DirectoryEntity> arrayList, ArrayList<String> arrayKey) {
         mcontext = context;
         this.arrayList = arrayList;
         this.arrayKey = arrayKey;

@@ -23,7 +23,7 @@ import java.util.ArrayList;
 public class KSH_AllSeeActivity extends AppCompatActivity {
     private Toolbar toolbar;
     private RecyclerView.Adapter allSeeRecyAdapter;
-    private ArrayList<KSH_TestEntity> arrayList;
+    private ArrayList<KSH_DirectoryEntity> arrayList;
 //    private FirebaseDatabase firebaseDatabase;
     private DatabaseReference databaseReference;
     private RecyclerView recyclerView;
@@ -52,7 +52,7 @@ public class KSH_AllSeeActivity extends AppCompatActivity {
         recyclerView.setHasFixedSize(true);
         intent = getIntent();
 
-        arrayList = (ArrayList<KSH_TestEntity>) intent.getSerializableExtra("array");
+        arrayList = (ArrayList<KSH_DirectoryEntity>) intent.getSerializableExtra("array");
         arrayKey = (ArrayList<String>) intent.getSerializableExtra("key");
         Log.d("1","Allsee array size " + arrayList.size());
 
@@ -61,8 +61,8 @@ public class KSH_AllSeeActivity extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 arrayList.clear();
                 for(DataSnapshot snapshot : dataSnapshot.getChildren()){
-                    KSH_TestEntity ksh_testEntity = snapshot.getValue(KSH_TestEntity.class); // 만들어둔 Test 객체에 데이터를 담는다
-                    arrayList.add(ksh_testEntity);  // 담은 데이터들을 arraylist에 넣고 recyclerview로 보낼 준비
+                    KSH_DirectoryEntity ksh_directoryEntity = snapshot.getValue(KSH_DirectoryEntity.class); // 만들어둔 Test 객체에 데이터를 담는다
+                    arrayList.add(ksh_directoryEntity);  // 담은 데이터들을 arraylist에 넣고 recyclerview로 보낼 준비
                 }
                 allSeeRecyAdapter.notifyDataSetChanged();
             }
