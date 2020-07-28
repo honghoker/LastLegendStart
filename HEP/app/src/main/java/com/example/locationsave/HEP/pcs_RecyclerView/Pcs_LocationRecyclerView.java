@@ -3,6 +3,7 @@ package com.example.locationsave.HEP.pcs_RecyclerView;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -135,6 +136,8 @@ public class Pcs_LocationRecyclerView extends Fragment {
         new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
             @Override
             public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
+
+                Log.d("@@@@@@@@@@@@@", "" + adapter.getItemId(viewHolder.getAdapterPosition()));
                 return false;
             }
 

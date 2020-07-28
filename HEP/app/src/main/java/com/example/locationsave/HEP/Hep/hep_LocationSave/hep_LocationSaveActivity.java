@@ -61,6 +61,7 @@ public class hep_LocationSaveActivity extends AppCompatActivity {
     public hep_LocationSave_ViewPagerAdapter viewPagerAdapter;
     public ArrayList<String> tagDataArrayList;
 
+    double latitude, longitude;
     int imageSizeLimit = 5; // imagepicker 최대 이미지 수
 
     @Override
@@ -71,6 +72,10 @@ public class hep_LocationSaveActivity extends AppCompatActivity {
     }
 
     public void setinit(){
+        latitude = getIntent().getDoubleExtra("latitude", 0);
+        longitude = getIntent().getDoubleExtra("longitude", 0);
+
+        Log.d("@@@@@@@@@@@", "latitude = " + latitude + " longitude = " + longitude);
         ((Button)findViewById(R.id.detailView)).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
