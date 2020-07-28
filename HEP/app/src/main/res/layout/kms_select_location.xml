@@ -50,11 +50,12 @@
                 android:textSize="18sp" />
 
             <TextView
-                android:id="@+id/addressinfo"
+                android:id="@+id/selectLocation_AddressInfo"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_marginTop="10dp"
+                android:gravity="center"
                 android:text="상세주소 추후 api 로 당겨옴"
                 android:textSize="15sp" />
 

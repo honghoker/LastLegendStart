@@ -5,6 +5,8 @@ public class AddressEntity {
     private String area1_name;
     private String area2_name;
     private String area3_name;
+
+    private String area4_name;
     private String addition0_value;
     private String addition1_value;
     private String addition2_value;
@@ -44,6 +46,14 @@ public class AddressEntity {
 
     public void setArea3_name(String area3_name) {
         this.area3_name = area3_name;
+    }
+
+    public String getArea4_name() {
+        return area4_name;
+    }
+
+    public void setArea4_name(String area4_name) {
+        this.area4_name = area4_name;
     }
 
     public String getAddition0_value() {
@@ -111,3 +121,4 @@ public class AddressEntity {
     }
 
 }
+

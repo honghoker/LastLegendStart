@@ -6,6 +6,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -32,6 +33,7 @@ import com.naver.maps.map.overlay.Marker;
 import com.naver.maps.map.overlay.OverlayImage;
 import com.naver.maps.map.util.FusedLocationSource;
 
+import java.util.ArrayList;
 import java.util.concurrent.ExecutionException;
 
 //프래그먼트는 액티비티위에 올라가있을떄만 프래그먼트로서 동작할 수 있다.
@@ -263,20 +265,16 @@ public class KMS_MapFragment extends Fragment implements OnMapReadyCallback {
 
                     Log.d("MapMap", "onCameraIdle 위도 : " + cameraPosition.target.latitude + "경도 : " + cameraPosition.target.longitude + im++);
 
-
-
                     ReverseGeocodingAsyncTask asyncTask = new ReverseGeocodingAsyncTask(cameraPosition.target.latitude, cameraPosition.target.longitude);
                     GetAddress getAddress = new GetAddress();
                     try {
-                        getAddress.getJsonString(asyncTask.execute().get());
+                        String resultAddr = getAddress.getJsonString(asyncTask.execute().get());
+                        ((TextView)activity.findViewById(R.id.selectLocation_AddressInfo)).setText(resultAddr);
                     } catch (ExecutionException e) {
                         e.printStackTrace();
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
-
-
-
                 }
             }
         });
