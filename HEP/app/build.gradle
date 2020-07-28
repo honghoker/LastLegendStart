@@ -59,9 +59,7 @@ dependencies {
     //This two implemetation is duplicated class firebase firebase-config and firebase-firestore
     implementation 'com.google.firebase:firebase-config:19.1.4'
     //implementation 'com.google.firebase:firebase-firestore:21.5.0'
-    ///////////////////////////////////////////////////////////////////////////
-
-
+    //////////////////////////////////////////////////////////////////////////
 
     ////////////// KMS, KSH
     //Recyclerview
