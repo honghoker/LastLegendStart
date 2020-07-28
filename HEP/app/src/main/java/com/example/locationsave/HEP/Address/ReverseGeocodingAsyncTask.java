@@ -17,6 +17,7 @@ public class ReverseGeocodingAsyncTask extends AsyncTask<Void,Void,String> {
     public ReverseGeocodingAsyncTask(double latitude, double longitude){
         this.latitude = latitude;
         this.longitude = longitude;
+        String.valueOf(latitude).split(".");
     }
 
     @Override

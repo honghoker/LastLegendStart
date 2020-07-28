@@ -260,9 +260,7 @@ public class KMS_MapFragment extends Fragment implements OnMapReadyCallback {
 
                 CameraPosition cameraPosition = NMap.getCameraPosition(); //현재 위치 정보 반환하는 메소드
                 if(fragmentManager.flagCheckFragment() == true && locationFragment.flagGetLocation() == true) {
-                    Toast.makeText(getActivity(),
-                            "현재위치 = 대상 지점 위도: " + cameraPosition.target.latitude + ", " +
-                                    "대상 지점 경도: " + cameraPosition.target.longitude, Toast.LENGTH_SHORT);
+
                     Log.d("MapMap", "onCameraIdle 위도 : " + cameraPosition.target.latitude + "경도 : " + cameraPosition.target.longitude + im++);
 
 
