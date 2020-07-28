@@ -55,7 +55,7 @@ public class KSH_AllSeeAdapter extends RecyclerView.Adapter<KSH_AllSeeAdapter.Vi
 
     @Override
     public void onBindViewHolder(@NonNull final KSH_AllSeeAdapter.ViewHolder holder, final int position) {
-        String Title = String.valueOf(arrayList.get(position).getTitle());
+        String Title = String.valueOf(arrayList.get(position).getName());
         holder.recy_test_title.setText(Title);
 
         holder.allseebtn.setOnClickListener(new View.OnClickListener() {
@@ -71,10 +71,8 @@ public class KSH_AllSeeAdapter extends RecyclerView.Adapter<KSH_AllSeeAdapter.Vi
                                 // 밑에 child() 안에 key 가 들어가면 delete 되는데 key를 못 받아오겠음
                                 // arraylist에 담아서 참조하려하는데 title은 제대로 뜨는데 key값은 null 로 나옴
                                 databaseReference.child(arrayKey.get(position)).removeValue();
+//                                databaseReference.child(databaseReference.getKey()).removeValue();
 //                                databaseReference.getRef().getKey();
-                                Log.d("1",String.valueOf(databaseReference.child("Test").getKey()));
-                                Log.d("1",String.valueOf(arrayKey.get(position)));
-                                Log.d("1",String.valueOf(arrayList.get(position).getTitle()));
                                 break;
                             case R.id.allsee_change:
                                 final AlertDialog.Builder dialog = new AlertDialog.Builder(mcontext);
@@ -89,7 +87,7 @@ public class KSH_AllSeeAdapter extends RecyclerView.Adapter<KSH_AllSeeAdapter.Vi
                                 dialog.setPositiveButton("변경", new DialogInterface.OnClickListener() {
                                     @Override
                                     public void onClick(DialogInterface dialog, int which) {
-                                        testMap.put(arrayKey.get(position)+"/title",String.valueOf(updateName.getText()));
+                                        testMap.put(arrayKey.get(position)+"/name",String.valueOf(updateName.getText()));
                                         databaseReference.updateChildren(testMap);
                                     }
                                 });
@@ -119,10 +117,20 @@ public class KSH_AllSeeAdapter extends RecyclerView.Adapter<KSH_AllSeeAdapter.Vi
     public class ViewHolder extends RecyclerView.ViewHolder {
         TextView recy_test_title;
         TextView allseebtn;
+        TextView tag1;
+        TextView tag2;
+        TextView tag3;
+        TextView tag4;
+        TextView tag5;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             this.recy_test_title = itemView.findViewById(R.id.allsee_text_view_title);
+            this.tag1 = itemView.findViewById(R.id.allsee_tag1);
+            this.tag2 = itemView.findViewById(R.id.allsee_tag2);
+            this.tag3 = itemView.findViewById(R.id.allsee_tag3);
+            this.tag4 = itemView.findViewById(R.id.allsee_tag4);
+            this.tag5 = itemView.findViewById(R.id.allsee_tag5);
             this.allseebtn = itemView.findViewById(R.id.allsee_ViewOptions);
 
             itemView.setOnClickListener(new View.OnClickListener() {

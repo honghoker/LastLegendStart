@@ -25,7 +25,6 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
@@ -49,13 +48,12 @@ import com.example.locationsave.HEP.KSH.KSH_DirectoryEntity;
 import com.example.locationsave.HEP.KSH.KSH_FireBase;
 import com.example.locationsave.HEP.KSH.KSH_LoadingActivity;
 import com.example.locationsave.HEP.KSH.KSH_RecyAdapter;
+import com.example.locationsave.HEP.KSH.KSH_RecyclerviewAdapter;
 import com.example.locationsave.HEP.KSH.NavIntent.KSH_NoticeIntent;
 import com.example.locationsave.HEP.Location.KMS_LocationFlagManager;
 import com.example.locationsave.HEP.Location.KMS_SelectLocation;
 import com.example.locationsave.HEP.MainFragment.KMS_FragmentManager;
-
 import com.example.locationsave.HEP.MainFragment.KMS_MapFragment;
-
 import com.example.locationsave.HEP.Toolbar.KMS_ClearableEditTextSearchBar;
 import com.example.locationsave.HEP.Toolbar.KMS_RecycleVIewManager;
 import com.example.locationsave.HEP.Toolbar.KMS_SearchManager;
@@ -105,13 +103,16 @@ public class KMS_MainActivity extends AppCompatActivity implements NavigationVie
     private View fView;
     private View allSeeView;
     private RecyclerView.Adapter recyAdapter;
+    private KSH_RecyclerviewAdapter recyclerviewAdapter;
     private ArrayList<KSH_DirectoryEntity> arrayList;
     private ArrayList<String> arrayKey;
     private DatabaseReference databaseReference;
+    private DatabaseReference TagdatabaseReference;
     private String directoryKey;
     //    private Spinner spinner;
 //    private Toolbar toolbar;
     private NavigationView navigationView;
+    private KSH_DirectoryEntity ksh_directoryEntity;
 
     public void ksh_init(){
 //        toolbar = findViewById(R.id.dra_toolbar);
@@ -134,7 +135,7 @@ public class KMS_MainActivity extends AppCompatActivity implements NavigationVie
         // 싱글톤
         KSH_FireBase firebaseDatabase = KSH_FireBase.getInstance();
         databaseReference = firebaseDatabase.databaseReference;
-
+        TagdatabaseReference = firebaseDatabase.TagdatabaseReference;
     }
 
     //1.Fragment
@@ -630,13 +631,13 @@ public class KMS_MainActivity extends AppCompatActivity implements NavigationVie
                 arrayList.clear();
                 arrayKey.clear();
                 for(DataSnapshot snapshot : dataSnapshot.getChildren()){
-                    KSH_DirectoryEntity ksh_directoryEntity = snapshot.getValue(KSH_DirectoryEntity.class); // 만들어둔 Test 객체에 데이터를 담는다
+                    ksh_directoryEntity = snapshot.getValue(KSH_DirectoryEntity.class); // 만들어둔 Test 객체에 데이터를 담는다
                     String key = snapshot.getKey();
-                    String title = ksh_directoryEntity.getTitle();
                     arrayList.add(ksh_directoryEntity);  // 담은 데이터들을 arraylist에 넣고 recyclerview로 보낼 준비
                     arrayKey.add(key);
                 }
                 recyAdapter.notifyDataSetChanged(); // list 저장 및 새로고침
+//                recyclerviewAdapter.notifyDataSetChanged(); // list 저장 및 새로고침
             }
 
             @Override
@@ -644,7 +645,8 @@ public class KMS_MainActivity extends AppCompatActivity implements NavigationVie
                 Log.d("1", " error "+String.valueOf(databaseError.toException()));
             }
         });
-        recyAdapter = new KSH_RecyAdapter(this,arrayList,directoryKey);
+        recyAdapter = new KSH_RecyAdapter(this,arrayList,ksh_directoryEntity);
+//        recyclerviewAdapter = new KSH_RecyclerviewAdapter();
         recyclerView.setAdapter(recyAdapter);
 
         // loading
