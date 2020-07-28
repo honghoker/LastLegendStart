@@ -11,13 +11,22 @@ import java.net.URL;
 public class ReverseGeocodingAsyncTask extends AsyncTask<Void,Void,String> {
     String clientId = "03gjuk2ph9";//애플리케이션 클라이언트 아이디값";
     String clientSecret = "kcPZZM7ikGyaHL4uJGav6IMequOkarvHIB3Sta8D";//애플리케이션 클라이언트 시크릿값";
+    double latitude;
+    double longitude;
+
+    public ReverseGeocodingAsyncTask(double latitude, double longitude){
+        this.latitude = latitude;
+        this.longitude = longitude;
+    }
 
     @Override
     protected String doInBackground(Void... voids) {
         try{
             // 앞번호 경도 뒷번호 위도
             // 그린빌
-            String apiURL = "https://naveropenapi.apigw.ntruss.com/map-reversegeocode/v2/gc?request=coordsToaddr&coords=128.498123,35.857654&sourcecrs=epsg:4326&output=json&orders=roadaddr";
+            //String apiURL = "https://naveropenapi.apigw.ntruss.com/map-reversegeocode/v2/gc?request=coordsToaddr&coords=128.498123,35.857654&sourcecrs=epsg:4326&output=json&orders=roadaddr";
+            String apiURL = "https://naveropenapi.apigw.ntruss.com/map-reversegeocode/v2/gc?request=coordsToaddr&coords=" + String.valueOf(latitude) + "," + String.valueOf(longitude) + "&sourcecrs=epsg:4326&output=json&orders=roadaddr";
+            Log.d("@@@", apiURL);
             URL url = new URL(apiURL);
             HttpURLConnection con = (HttpURLConnection)url.openConnection();
             con.setRequestMethod("GET");

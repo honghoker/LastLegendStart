@@ -30,7 +30,7 @@ private Toolbar toolbar;
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-
+/*
         ReverseGeocodingAsyncTask asyncTask = new ReverseGeocodingAsyncTask();
         GetAddress getAddress = new GetAddress();
         try {
@@ -39,7 +39,7 @@ private Toolbar toolbar;
             e.printStackTrace();
         } catch (InterruptedException e) {
             e.printStackTrace();
-        }
+        }*/
     }
 }
 
