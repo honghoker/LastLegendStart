@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "324894303245",
+    "firebase_url": "https://legendstart-f96b7.firebaseio.com",
+    "project_id": "legendstart-f96b7",
+    "storage_bucket": "legendstart-f96b7.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:324894303245:android:a89de4540a31e799fc2144",
+        "android_client_info": {
+          "package_name": "com.example.locationsave.HEP"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "324894303245-39tqreeo4ffobqg1clrjlneam3lfrtjh.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.locationsave.HEP",
+            "certificate_hash": "3cb5844a53587beb5155006b21b3219b3e4d4c8a"
+          }
+        },
+        {
+          "client_id": "324894303245-4unsahb3htbm04kh8m0gbhprrl5b5t5h.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBk7rmP6wK5Wia4JKjDI2ywXxeGEYkTP_4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "324894303245-4unsahb3htbm04kh8m0gbhprrl5b5t5h.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
