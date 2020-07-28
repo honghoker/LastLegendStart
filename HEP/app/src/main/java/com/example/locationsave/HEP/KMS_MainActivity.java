@@ -39,8 +39,6 @@ import androidx.fragment.app.ListFragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.kms_lastlegendstart.Location.KMS_LocationFlagManager;
-
 import com.example.kms_lastlegendstart.Location.KMS_SelectLocation;
 import com.example.kms_lastlegendstart.Toolbar.KMS_ClearableEditTextSearchBar;
 import com.example.kms_lastlegendstart.Toolbar.KMS_RecycleVIewManager;
@@ -51,10 +49,10 @@ import com.example.locationsave.HEP.HashTag.KMS_HashTag;
 import com.example.locationsave.HEP.HashTag.KMS_HashTagCheckBoxManager;
 import com.example.locationsave.HEP.Hep.hep_LocationSave.hep_LocationSaveActivity;
 import com.example.locationsave.HEP.KSH.KSH_AllSeeActivity;
+import com.example.locationsave.HEP.KSH.KSH_DirectoryEntity;
 import com.example.locationsave.HEP.KSH.KSH_FireBase;
 import com.example.locationsave.HEP.KSH.KSH_LoadingActivity;
 import com.example.locationsave.HEP.KSH.KSH_RecyAdapter;
-import com.example.locationsave.HEP.KSH.KSH_TestEntity;
 import com.example.locationsave.HEP.KSH.NavIntent.KSH_NoticeIntent;
 import com.example.locationsave.HEP.Location.KMS_LocationFlagManager;
 import com.example.locationsave.HEP.MainFragment.KMS_FragmentManager;
@@ -108,7 +106,7 @@ public class KMS_MainActivity extends AppCompatActivity implements NavigationVie
     private View fView;
     private View allSeeView;
     private RecyclerView.Adapter recyAdapter;
-    private ArrayList<KSH_TestEntity> arrayList;
+    private ArrayList<KSH_DirectoryEntity> arrayList;
     private ArrayList<String> arrayKey;
     private DatabaseReference databaseReference;
     private String directoryKey;
@@ -631,10 +629,10 @@ public class KMS_MainActivity extends AppCompatActivity implements NavigationVie
                 arrayList.clear();
                 arrayKey.clear();
                 for(DataSnapshot snapshot : dataSnapshot.getChildren()){
-                    KSH_TestEntity ksh_testEntity = snapshot.getValue(KSH_TestEntity.class); // 만들어둔 Test 객체에 데이터를 담는다
+                    KSH_DirectoryEntity ksh_directoryEntity = snapshot.getValue(KSH_DirectoryEntity.class); // 만들어둔 Test 객체에 데이터를 담는다
                     String key = snapshot.getKey();
-                    String title = ksh_testEntity.getTitle();
-                    arrayList.add(ksh_testEntity);  // 담은 데이터들을 arraylist에 넣고 recyclerview로 보낼 준비
+                    String title = ksh_directoryEntity.getTitle();
+                    arrayList.add(ksh_directoryEntity);  // 담은 데이터들을 arraylist에 넣고 recyclerview로 보낼 준비
                     arrayKey.add(key);
                 }
                 recyAdapter.notifyDataSetChanged(); // list 저장 및 새로고침
