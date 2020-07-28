@@ -42,7 +42,6 @@ public class KMS_MapFragment extends Fragment implements OnMapReadyCallback {
     KMS_MainActivity activity;
     //프래그먼트
 
-
     //네이버 api
     NaverMapOptions options; //초기 옵션 설정을 위한 옵션
 

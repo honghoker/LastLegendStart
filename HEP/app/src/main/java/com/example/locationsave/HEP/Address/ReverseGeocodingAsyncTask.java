@@ -26,7 +26,6 @@ public class ReverseGeocodingAsyncTask extends AsyncTask<Void,Void,String> {
             // 앞번호 경도 뒷번호 위도
             // 그린빌
             String apiURL = "https://naveropenapi.apigw.ntruss.com/map-reversegeocode/v2/gc?request=coordsToaddr&coords=" + longitude + "," + latitude + "&sourcecrs=epsg:4326&output=json&orders=addr,roadaddr";
-            Log.d("@@@", apiURL);
             URL url = new URL(apiURL);
             HttpURLConnection con = (HttpURLConnection)url.openConnection();
             con.setRequestMethod("GET");

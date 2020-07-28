@@ -39,10 +39,6 @@ import androidx.fragment.app.ListFragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.kms_lastlegendstart.Location.KMS_SelectLocation;
-import com.example.kms_lastlegendstart.Toolbar.KMS_ClearableEditTextSearchBar;
-import com.example.kms_lastlegendstart.Toolbar.KMS_RecycleVIewManager;
-import com.example.kms_lastlegendstart.Toolbar.KMS_SearchManager;
 import com.example.locationsave.HEP.BackPressed.KMS_BackPressedForFinish;
 import com.example.locationsave.HEP.HashTag.KMS_FlowLayout;
 import com.example.locationsave.HEP.HashTag.KMS_HashTag;
@@ -55,11 +51,14 @@ import com.example.locationsave.HEP.KSH.KSH_LoadingActivity;
 import com.example.locationsave.HEP.KSH.KSH_RecyAdapter;
 import com.example.locationsave.HEP.KSH.NavIntent.KSH_NoticeIntent;
 import com.example.locationsave.HEP.Location.KMS_LocationFlagManager;
+import com.example.locationsave.HEP.Location.KMS_SelectLocation;
 import com.example.locationsave.HEP.MainFragment.KMS_FragmentManager;
 
-import com.example.locationsave.HEP.MainFragment.KMS_LocationFragment;
 import com.example.locationsave.HEP.MainFragment.KMS_MapFragment;
 
+import com.example.locationsave.HEP.Toolbar.KMS_ClearableEditTextSearchBar;
+import com.example.locationsave.HEP.Toolbar.KMS_RecycleVIewManager;
+import com.example.locationsave.HEP.Toolbar.KMS_SearchManager;
 import com.example.locationsave.HEP.pcs_RecyclerView.Pcs_LocationRecyclerView;
 import com.example.locationsave.R;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -496,6 +495,8 @@ public class KMS_MainActivity extends AppCompatActivity implements NavigationVie
         CameraPosition cameraPosition = NMap.getCameraPosition();
         intent.putExtra("latitude",cameraPosition.target.latitude);
         intent.putExtra("longitude",cameraPosition.target.longitude);
+        intent.putExtra("addr",((TextView)findViewById(R.id.selectLocation_AddressInfo)).getText());
+
 
         startActivityForResult(intent, ADD_MAIN_ACTIVITY_REQUEST_CODE);
         intentAddLocationFlag = true;

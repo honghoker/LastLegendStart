@@ -61,6 +61,7 @@ public class hep_LocationSaveActivity extends AppCompatActivity {
     public hep_LocationSave_ViewPagerAdapter viewPagerAdapter;
     public ArrayList<String> tagDataArrayList;
 
+    String addr;
     double latitude, longitude;
     int imageSizeLimit = 5; // imagepicker 최대 이미지 수
 
@@ -74,6 +75,11 @@ public class hep_LocationSaveActivity extends AppCompatActivity {
     public void setinit(){
         latitude = getIntent().getDoubleExtra("latitude", 0);
         longitude = getIntent().getDoubleExtra("longitude", 0);
+        addr = getIntent().getStringExtra("addr");
+        if(addr == null)
+            ((TextView)findViewById(R.id.locationAddr)).setText("저장된 주소가 없습니다.");
+        else
+            ((TextView)findViewById(R.id.locationAddr)).setText(addr);
 
         Log.d("@@@@@@@@@@@", "latitude = " + latitude + " longitude = " + longitude);
         ((Button)findViewById(R.id.detailView)).setOnClickListener(new View.OnClickListener() {

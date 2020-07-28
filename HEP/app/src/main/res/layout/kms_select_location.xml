@@ -19,7 +19,7 @@
         android:theme="?attr/actionBarTheme"
         app:title="검색하기" />
 
-    <com.example.kms_lastlegendstart.Toolbar.KMS_ClearableEditTextSearchBar
+    <com.example.locationsave.HEP.Toolbar.KMS_ClearableEditTextSearchBar
         android:id="@+id/clearable_edit_sub"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
