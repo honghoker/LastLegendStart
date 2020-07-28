@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">CJH_Test1</string>
+    <string name="login_google">Google 계정으로 로그인</string>
+    <string name="login_naver">Naver 계정으로 로그인</string>
+    <string name="login_faceBook">Facebook 계정으로 로그인</string>
+    <string name="login_kakao">Kakao 계정으로 로그인</string>
+    <string name="google_status_fmt">"email: "</string>
+</resources>

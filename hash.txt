@@ -1,0 +1,28 @@
+keytool -exportcert -alias AndroidDebugKey -keystoreC:\Users\Urin\.android\debug.keystore | openssl sha1 -binary | openssl base64
+
+
+C:\Program Files\Android\Android Studio\jre\bin>keytool -exportcert -alias AndroidDebugKey -keystoreC:\Users\Urin\.android\debug.keystore | openssl sha1 -binary | openssl base64
+잘못된 옵션:  -keystoreC
+keytool -exportcert [OPTION]...
+
+인증서를 익스포트합니다.
+
+옵션:
+
+ -rfc                            RFC 스타일의 출력
+ -alias <alias>                  처리할 항목의 별칭 이름
+ -file <filename>                출력 파일 이름
+ -keystore <keystore>            키 저장소 이름
+ -storepass <arg>                키 저장소 비밀번호
+ -storetype <storetype>          키 저장소 유형
+ -providername <providername>    제공자 이름
+ -providerclass <providerclass>  제공자 클래스 이름
+ -providerarg <arg>              제공자 인수
+ -providerpath <pathlist>        제공자 클래스 경로
+ -v                              상세 정보 출력
+ -protected                      보호되는 메커니즘을 통한 비밀번호
+
+사용 가능한 모든 명령에 "keytool -help" 사용
+2jmj7l5rSw0yVb/vlWAYkK/YBwk=
+
+C:\Program Files\Android\Android Studio\jre\bin>
