@@ -16,7 +16,6 @@ public class GetAddress {
         addressEntity.setJson(jsonString);
         String result = "";
         try {
-            ArrayList<String> arr = new ArrayList<>();
             JSONObject jsonObject = new JSONObject(addressEntity.getJson());
             JSONArray jsonArray = jsonObject.getJSONArray("results");
 
