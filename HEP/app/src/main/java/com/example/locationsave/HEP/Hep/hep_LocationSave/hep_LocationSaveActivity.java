@@ -54,7 +54,7 @@ public class hep_LocationSaveActivity extends AppCompatActivity {
 
     private Pcs_LocationRecyclerView pcsFragment;
 
-    public  DatabaseReference TagReference;
+    public DatabaseReference TagReference;
 
     public hep_LocationSave_AutoCompleteTextView hashEditText;
     public ViewPager viewPager;
