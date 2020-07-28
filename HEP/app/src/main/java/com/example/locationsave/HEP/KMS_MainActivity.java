@@ -39,8 +39,6 @@ import androidx.fragment.app.ListFragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.kms_lastlegendstart.Location.KMS_LocationFlagManager;
-
 import com.example.kms_lastlegendstart.Location.KMS_SelectLocation;
 import com.example.kms_lastlegendstart.Toolbar.KMS_ClearableEditTextSearchBar;
 import com.example.kms_lastlegendstart.Toolbar.KMS_RecycleVIewManager;
