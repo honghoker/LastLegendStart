@@ -1,19 +1,5 @@
 package com.example.locationsave.HEP;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.ActionBarDrawerToggle;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-import androidx.constraintlayout.widget.ConstraintLayout;
-import androidx.core.view.GravityCompat;
-import androidx.drawerlayout.widget.DrawerLayout;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
-import androidx.fragment.app.ListFragment;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-import com.example.locationsave.HEP.Hep.hep_LocationSave.hep_LocationSaveActivity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -39,6 +25,19 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBarDrawerToggle;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.ListFragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.example.kms_lastlegendstart.Location.KMS_LocationFlagManager;
 import com.example.kms_lastlegendstart.Location.KMS_SelectLocation;
 import com.example.kms_lastlegendstart.MainFragment.KMS_MapFragment;
@@ -49,6 +48,7 @@ import com.example.locationsave.HEP.BackPressed.KMS_BackPressedForFinish;
 import com.example.locationsave.HEP.HashTag.KMS_FlowLayout;
 import com.example.locationsave.HEP.HashTag.KMS_HashTag;
 import com.example.locationsave.HEP.HashTag.KMS_HashTagCheckBoxManager;
+import com.example.locationsave.HEP.Hep.hep_LocationSave.hep_LocationSaveActivity;
 import com.example.locationsave.HEP.KSH.KSH_AllSeeActivity;
 import com.example.locationsave.HEP.KSH.KSH_FireBase;
 import com.example.locationsave.HEP.KSH.KSH_LoadingActivity;
@@ -56,7 +56,6 @@ import com.example.locationsave.HEP.KSH.KSH_RecyAdapter;
 import com.example.locationsave.HEP.KSH.KSH_TestEntity;
 import com.example.locationsave.HEP.KSH.NavIntent.KSH_NoticeIntent;
 import com.example.locationsave.HEP.MainFragment.KMS_FragmentManager;
-import com.example.locationsave.HEP.MainFragment.KMS_LocationFragment;
 import com.example.locationsave.HEP.pcs_RecyclerView.Pcs_LocationRecyclerView;
 import com.example.locationsave.R;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -154,12 +153,10 @@ public class KMS_MainActivity extends AppCompatActivity implements NavigationVie
     }
     public void setFragmentLocationListLayout() {  //리스트 프레그먼트 출력 시
         if (LocationFragmet == null) {
+
 //            LocationFragmet = new KMS_LocationFragment();
             LocationFragmet = new Pcs_LocationRecyclerView();
-            Pcs_LocationRecyclerView pcsFragment = new Pcs_LocationRecyclerView();
-//            fragmentManager.beginTransaction().add(R.id.frameLayout, LocationFragmet).commit();
-            FragmentTransaction trans = getSupportFragmentManager().beginTransaction();
-            trans.replace(R.id.fragmentContainer, pcsFragment).commit();
+            fragmentManager.beginTransaction().add(R.id.frameLayout, LocationFragmet).commit();
         }
         if (mapFragment != null) {
             fragmentManager.beginTransaction().hide(mapFragment).commit();
