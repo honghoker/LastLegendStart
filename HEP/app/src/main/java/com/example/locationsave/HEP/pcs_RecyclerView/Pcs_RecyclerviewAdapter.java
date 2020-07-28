@@ -72,9 +72,10 @@ public class Pcs_RecyclerviewAdapter extends FirebaseRecyclerAdapter<hep_Locatio
             return "";
     }
     private String getTag(hep_Location location){
-        return checkNull(location.getTag0()) + checkNull(location.getTag1()) +
+        return "찬섭아 수정해야한다..";
+                /*checkNull(location.getTag0()) + checkNull(location.getTag1()) +
                 checkNull(location.getTag2()) + checkNull(location.getTag3())
-                + checkNull(location.getTag4());
+                + checkNull(location.getTag4());*/
 
     }
 
