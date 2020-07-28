@@ -59,5 +59,21 @@ dependencies {
     //This two implemetation is duplicated class firebase firebase-config and firebase-firestore
     implementation 'com.google.firebase:firebase-config:19.1.4'
     //implementation 'com.google.firebase:firebase-firestore:21.5.0'
+    ///////////////////////////////////////////////////////////////////////////
+
+
+
+    ////////////// KMS, KSH
+    //Recyclerview
+    implementation 'com.android.support:recyclerview-v7:29.0.2'
+    implementation 'it.xabaras.android:recyclerview-swipedecorator:1.2.2'
+    implementation 'androidx.viewpager:viewpager:1.0.0'
+    implementation 'com.google.android.material:material:1.1.0'
+
+    // 네이버 지도 SDK
+    implementation 'com.naver.maps:map-sdk:3.8.0'
+
+    //현재 위치
+    implementation 'com.google.android.gms:play-services-location:16.0.0'
 
 }

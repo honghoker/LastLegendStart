@@ -6,6 +6,7 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/> <!-- 쓰기 권한 -->
     <uses-permission android:name="android.permission.CAMERA"/>
     <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
 
     <application
         android:allowBackup="true"
@@ -14,7 +15,13 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".HEP.Hep.hep_LocationSave.hep_LocationSaveActivity">
+        <activity android:name=".HEP.KSH.KSH_LoadingActivity"/>
+        <activity android:name=".HEP.KSH.NavIntent.KSH_NoticeIntent"/>
+        <activity android:name=".HEP.KSH.KSH_AllSeeActivity"/>
+        <activity android:name=".HEP.TEST_Activity"/>
+        <activity android:name=".HEP.Hep.hep_LocationSave.hep_LocationSaveActivity"/>
+
+        <activity android:name=".HEP.KMS_MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -23,6 +30,10 @@
         </activity>
         <activity android:name=".HEP.Hep.hep_LocationSave.hep_FullImage"/>
         <activity android:name=".HEP.Hep.hep_LocationDetail.hep_LocationDetailActivity"/>
+
+        <meta-data
+            android:name="com.naver.maps.map.CLIENT_ID"
+            android:value="" />
     </application>
 
 </manifest>

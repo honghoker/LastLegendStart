@@ -19,7 +19,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.locationsave.HEP.Hep.hep_DTO.hep_Location;
 import com.example.locationsave.HEP.Hep.hep_FireBase;
-import com.example.locationsave.HEP.Hep.hep_LocationSave.hep_LocationSaveActivity;
+import com.example.locationsave.HEP.KMS_MainActivity;
 import com.example.locationsave.R;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.google.firebase.database.FirebaseDatabase;
@@ -39,7 +39,7 @@ public class Pcs_LocationRecyclerView extends Fragment {
     private CollectionReference locationRef = db.collection("Locations");
     private RecyclerView recyclerView;
     private Pcs_RecyclerviewAdapter adapter;
-    hep_LocationSaveActivity activity;
+    KMS_MainActivity activity;
     private ViewGroup rootView;
     private Pcs_RecyclerViewSwipeHelper recyclerViewSwipeHelper;
 
@@ -47,6 +47,7 @@ public class Pcs_LocationRecyclerView extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         rootView = (ViewGroup) inflater.inflate(R.layout.pcs_location_recyclerview, container, false);
+        super.onCreate(savedInstanceState);
         //Display Menu
         setHasOptionsMenu(true);
         setUpRecyclerView();
@@ -101,7 +102,8 @@ public class Pcs_LocationRecyclerView extends Fragment {
     @Override
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
-        activity =  (hep_LocationSaveActivity) getActivity();
+        // 여기 문제
+        activity = (KMS_MainActivity) getActivity();
     }
 
     @Override
