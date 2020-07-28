@@ -13,7 +13,6 @@ import com.example.locationsave.HEP.Hep.hep_DTO.hep_Location;
 import com.example.locationsave.HEP.Hep.hep_DTO.hep_LocationImages;
 import com.example.locationsave.HEP.Hep.hep_FireBase;
 import com.example.locationsave.HEP.Hep.hep_LocationSave.hep_FlowLayout;
-import com.example.locationsave.HEP.Hep.hep_LocationSave.hep_LocationSave_FlowLayoutImageItem;
 import com.example.locationsave.HEP.Hep.hep_LocationSave.hep_locationImageDataArr;
 import com.example.locationsave.R;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -30,6 +29,7 @@ import java.util.ArrayList;
 public class hep_LocationDetailActivity extends AppCompatActivity {
 
     public ViewPager viewPager;
+    String key;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -40,6 +40,7 @@ public class hep_LocationDetailActivity extends AppCompatActivity {
     }
 
     public void setData(){
+        key = getIntent().getStringExtra("key");
         DatabaseReference locationReference = new hep_FireBase().getFireBaseDatabaseInstance().getReference().child("Locations");
 
         Query locationQuery = locationReference;
@@ -48,7 +49,7 @@ public class hep_LocationDetailActivity extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 if(dataSnapshot.exists()) {
                     for(DataSnapshot issue : dataSnapshot.getChildren()){
-                        if(issue.getKey().equals("-MCziMy1HJgVDyctVTB1")) {
+                        if(issue.getKey().equals(key)) {
                             hep_Location hep_Location = issue.getValue(hep_Location.class);
                             ((TextView) findViewById(R.id.locationDetailViewName)).setText(hep_Location.name);
                             ((TextView) findViewById(R.id.locationDetailViewAddr)).setText(hep_Location.addr);
@@ -66,7 +67,7 @@ public class hep_LocationDetailActivity extends AppCompatActivity {
             }
         });
 
-        Query imageQuery = new hep_FireBase().getFireBaseDatabaseInstance().getReference().child("LocationImages").orderByChild("LocationId").equalTo("-MCziMy1HJgVDyctVTB1");
+        Query imageQuery = new hep_FireBase().getFireBaseDatabaseInstance().getReference().child("LocationImages").orderByChild("LocationId").equalTo(key);
         imageQuery.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {

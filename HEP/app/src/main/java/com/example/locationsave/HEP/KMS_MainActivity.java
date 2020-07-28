@@ -25,6 +25,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
@@ -39,8 +40,8 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.kms_lastlegendstart.Location.KMS_LocationFlagManager;
+
 import com.example.kms_lastlegendstart.Location.KMS_SelectLocation;
-import com.example.kms_lastlegendstart.MainFragment.KMS_MapFragment;
 import com.example.kms_lastlegendstart.Toolbar.KMS_ClearableEditTextSearchBar;
 import com.example.kms_lastlegendstart.Toolbar.KMS_RecycleVIewManager;
 import com.example.kms_lastlegendstart.Toolbar.KMS_SearchManager;
@@ -55,7 +56,12 @@ import com.example.locationsave.HEP.KSH.KSH_LoadingActivity;
 import com.example.locationsave.HEP.KSH.KSH_RecyAdapter;
 import com.example.locationsave.HEP.KSH.KSH_TestEntity;
 import com.example.locationsave.HEP.KSH.NavIntent.KSH_NoticeIntent;
+import com.example.locationsave.HEP.Location.KMS_LocationFlagManager;
 import com.example.locationsave.HEP.MainFragment.KMS_FragmentManager;
+
+import com.example.locationsave.HEP.MainFragment.KMS_LocationFragment;
+import com.example.locationsave.HEP.MainFragment.KMS_MapFragment;
+
 import com.example.locationsave.HEP.pcs_RecyclerView.Pcs_LocationRecyclerView;
 import com.example.locationsave.R;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -64,9 +70,12 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.ValueEventListener;
+import com.naver.maps.map.CameraPosition;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static com.example.locationsave.HEP.MainFragment.KMS_MapFragment.NMap;
 
 public class KMS_MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
@@ -485,6 +494,11 @@ public class KMS_MainActivity extends AppCompatActivity implements NavigationVie
 
     public void IntentAddLocation() {
         Intent intent = new Intent(KMS_MainActivity.this, hep_LocationSaveActivity.class);
+
+        CameraPosition cameraPosition = NMap.getCameraPosition();
+        intent.putExtra("latitude",cameraPosition.target.latitude);
+        intent.putExtra("longitude",cameraPosition.target.longitude);
+
         startActivityForResult(intent, ADD_MAIN_ACTIVITY_REQUEST_CODE);
         intentAddLocationFlag = true;
         //GlobalFlag.getInstance().setIntentAddLocationFlag(); //인텐트하면 값 바꿔줌

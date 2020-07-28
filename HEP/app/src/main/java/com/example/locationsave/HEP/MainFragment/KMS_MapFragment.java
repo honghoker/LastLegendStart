@@ -1,4 +1,4 @@
-package com.example.kms_lastlegendstart.MainFragment;
+package com.example.locationsave.HEP.MainFragment;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -14,6 +14,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
 import com.example.locationsave.HEP.KMS_MainActivity;
+import com.example.locationsave.HEP.Location.KMS_LocationFlagManager;
 import com.example.locationsave.R;
 import com.naver.maps.geometry.LatLng;
 import com.naver.maps.geometry.LatLngBounds;
@@ -250,13 +251,16 @@ public class KMS_MapFragment extends Fragment implements OnMapReadyCallback {
             public void onCameraIdle() {
                 //getLocationPosition(activity, NMap);
                 //saveLocation(activity);
+                KMS_FragmentManager fragmentManager = KMS_FragmentManager.getInstanceFragment();
+                KMS_LocationFlagManager locationFragment = KMS_LocationFlagManager.getInstanceLocation();
 
                 CameraPosition cameraPosition = NMap.getCameraPosition(); //현재 위치 정보 반환하는 메소드
-
-                Toast.makeText(getActivity(),
-                        "현재위치 = 대상 지점 위도: " + cameraPosition.target.latitude + ", " +
-                                "대상 지점 경도: " + cameraPosition.target.longitude, Toast.LENGTH_SHORT);
-                Log.d("MapMap", "onCameraIdle 위도 : " + cameraPosition.target.latitude + "경도 : " + cameraPosition.target.longitude + im++);
+                if(fragmentManager.flagCheckFragment() == true && locationFragment.flagGetLocation() == true) {
+                    Toast.makeText(getActivity(),
+                            "현재위치 = 대상 지점 위도: " + cameraPosition.target.latitude + ", " +
+                                    "대상 지점 경도: " + cameraPosition.target.longitude, Toast.LENGTH_SHORT);
+                    Log.d("MapMap", "onCameraIdle 위도 : " + cameraPosition.target.latitude + "경도 : " + cameraPosition.target.longitude + im++);
+                }
             }
         });
         NMap.setContentPadding(0, 100, 0, 50);
