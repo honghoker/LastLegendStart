@@ -16,6 +16,7 @@ public class AddressEntity {
     private String other_number1;
     private String other_number2;
 
+
     public String getJson() {
         return json;
     }

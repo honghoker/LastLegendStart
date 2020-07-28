@@ -21,7 +21,9 @@ public class GetAddress {
             JSONArray jsonArray = jsonObject.getJSONArray("results");
 
             for(int i=0; i<jsonArray.length(); i++){
+                Log.d("5","size " + jsonArray.length());
                 JSONObject jObject = jsonArray.getJSONObject(i);
+                Log.d("5","name = " + jObject.getString("name"));
                 JSONObject jRegion = jObject.getJSONObject("region");
                 JSONObject area1 = jRegion.getJSONObject("area1");
                 JSONObject area2 = jRegion.getJSONObject("area2");
@@ -46,22 +48,29 @@ public class GetAddress {
                 addressEntity.setAddition2_value(addition2.getString("value"));
                 addressEntity.setAddition3_value(addition3.getString("value"));
                 addressEntity.setAddition4_value(addition4.getString("value"));
-                addressEntity.setOther_name( jRegion1.getString("name"));
+//                addressEntity.setOther_name( jRegion1.getString("name"));
                 addressEntity.setOther_number1( jRegion1.getString("number1"));
                 addressEntity.setOther_number2( jRegion1.getString("number2"));
 
-                if(addressEntity.getOther_number2().trim().equals(""))
-                    result = stringNullCheck(addressEntity.getArea1_name())+" "+stringNullCheck(addressEntity.getArea2_name())+" "+stringNullCheck(addressEntity.getArea3_name())
-                            +" "+stringNullCheck(addressEntity.getArea4_name()) + "\n(" + stringNullCheck(addressEntity.getOther_name())+" "+stringNullCheck(addressEntity.getOther_number1()) +")";
-                else
-                    result = stringNullCheck(addressEntity.getArea1_name())+" "+stringNullCheck(addressEntity.getArea2_name())+" "+stringNullCheck(addressEntity.getArea3_name())
-                            +" "+stringNullCheck(addressEntity.getArea4_name()) + "\n(" + stringNullCheck(addressEntity.getOther_name())+" "+stringNullCheck(addressEntity.getOther_number1())
-                            +"-"+stringNullCheck(addressEntity.getOther_number2()) + ")";
+                // 지번
+                if(i == 0){
+                    Log.d("5",i + " = "+stringNullCheck(addressEntity.getOther_number1()) + " " +stringNullCheck(addressEntity.getOther_number2()));
+                }
+                // 도로명
+                else{
+                    Log.d("5",i + " = "+stringNullCheck(addressEntity.getOther_number1()) + " " + stringNullCheck(addressEntity.getOther_number2()));
+                    addressEntity.setOther_name( jRegion1.getString("name"));
+                }
+//                if(addressEntity.getOther_number2().trim().equals(""))
+//                    result = stringNullCheck(addressEntity.getArea1_name())+" "+stringNullCheck(addressEntity.getArea2_name())+" "+stringNullCheck(addressEntity.getArea3_name())
+//                            +" "+stringNullCheck(addressEntity.getArea4_name()) + stringNullCheck(addressEntity.getTest1()) + "-"+ stringNullCheck(addressEntity.getTest2())+"\n(" + stringNullCheck(addressEntity.getOther_name())+" "+stringNullCheck(addressEntity.getOther_number1()) +")";
+//                else
+//                    result = stringNullCheck(addressEntity.getArea1_name())+" "+stringNullCheck(addressEntity.getArea2_name())+" "+stringNullCheck(addressEntity.getArea3_name())
+//                            +" "+stringNullCheck(addressEntity.getArea4_name()) + stringNullCheck(addressEntity.getTest1()) + "-"+ stringNullCheck(addressEntity.getTest2())+"\n(" + stringNullCheck(addressEntity.getOther_name())+" "+stringNullCheck(addressEntity.getOther_number1())
+//                            +"-"+stringNullCheck(addressEntity.getOther_number2()) + ")";
 
 
-                return result;
-            }
-
+            } return result;
         } catch (Exception e) {
             e.printStackTrace();
         }
