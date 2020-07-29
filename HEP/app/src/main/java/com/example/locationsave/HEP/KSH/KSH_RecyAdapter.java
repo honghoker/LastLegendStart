@@ -26,6 +26,7 @@ public class KSH_RecyAdapter extends RecyclerView.Adapter<KSH_RecyAdapter.ViewHo
     DatabaseReference databaseReference;
     String directoryKey;
     KSH_DirectoryEntity ksh_directoryEntity;
+    KSH_Date ksh_date = new KSH_Date();
 
     public KSH_RecyAdapter(Context context, ArrayList<KSH_DirectoryEntity> arrayList, KSH_DirectoryEntity ksh_directoryEntity) {
         mcontext = context;
@@ -80,7 +81,9 @@ public class KSH_RecyAdapter extends RecyclerView.Adapter<KSH_RecyAdapter.ViewHo
         }
         else{
             String Title = String.valueOf(arrayList.get(position-1).getName());
+            String createTime = String.valueOf(arrayList.get(position-1).getCreateTime());
             holder.recy_test_title.setText(Title);
+            holder.recy_createTime.setText(createTime);
         }
     }
 
@@ -91,10 +94,13 @@ public class KSH_RecyAdapter extends RecyclerView.Adapter<KSH_RecyAdapter.ViewHo
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         TextView recy_test_title;
+        TextView recy_createTime;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             this.recy_test_title = itemView.findViewById(R.id.recy_test_title);
+            this.recy_createTime = itemView.findViewById(R.id.recy_createTime);
+
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -112,7 +118,7 @@ public class KSH_RecyAdapter extends RecyclerView.Adapter<KSH_RecyAdapter.ViewHo
                         builder.setPositiveButton("확인", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                                KSH_DirectoryEntity ksh_directoryEntity = new KSH_DirectoryEntity(editText.getText().toString(),"updateTime","createTime");
+                                KSH_DirectoryEntity ksh_directoryEntity = new KSH_DirectoryEntity(editText.getText().toString(),ksh_date.nowDate(),ksh_date.nowDate());
                                 databaseReference.push().setValue(ksh_directoryEntity);
                                 dialog.dismiss();
                             }

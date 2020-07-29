@@ -621,7 +621,6 @@ public class KMS_MainActivity extends AppCompatActivity implements NavigationVie
         super.onCreate(savedInstanceState);
         setContentView(R.layout.kms_activity_main);
         ksh_init();
-
         logtest("온크리트 초기 flag  값");
 
         databaseReference.addValueEventListener(new ValueEventListener() {

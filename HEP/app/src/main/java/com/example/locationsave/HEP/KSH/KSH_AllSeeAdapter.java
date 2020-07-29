@@ -31,6 +31,7 @@ public class KSH_AllSeeAdapter extends RecyclerView.Adapter<KSH_AllSeeAdapter.Vi
     private View itemView;
     private Map<String,Object> testMap = new HashMap<String, Object>();
     private View view;
+    KSH_Date ksh_date = new KSH_Date();
 
     public KSH_AllSeeAdapter(Context context, ArrayList<KSH_DirectoryEntity> arrayList, ArrayList<String> arrayKey) {
         mcontext = context;
@@ -56,7 +57,11 @@ public class KSH_AllSeeAdapter extends RecyclerView.Adapter<KSH_AllSeeAdapter.Vi
     @Override
     public void onBindViewHolder(@NonNull final KSH_AllSeeAdapter.ViewHolder holder, final int position) {
         String Title = String.valueOf(arrayList.get(position).getName());
+        String createTime = String.valueOf(arrayList.get(position).getCreateTime());
+        String updateTime = String.valueOf(arrayList.get(position).getUpdateTime());
         holder.recy_test_title.setText(Title);
+        holder.createTime.setText(createTime);
+        holder.updateTime.setText(updateTime);
 
         holder.allseebtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -88,6 +93,7 @@ public class KSH_AllSeeAdapter extends RecyclerView.Adapter<KSH_AllSeeAdapter.Vi
                                     @Override
                                     public void onClick(DialogInterface dialog, int which) {
                                         testMap.put(arrayKey.get(position)+"/name",String.valueOf(updateName.getText()));
+                                        testMap.put(arrayKey.get(position)+"/updateTime",ksh_date.testDate());
                                         databaseReference.updateChildren(testMap);
                                     }
                                 });
@@ -122,6 +128,8 @@ public class KSH_AllSeeAdapter extends RecyclerView.Adapter<KSH_AllSeeAdapter.Vi
         TextView tag3;
         TextView tag4;
         TextView tag5;
+        TextView createTime;
+        TextView updateTime;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -132,6 +140,8 @@ public class KSH_AllSeeAdapter extends RecyclerView.Adapter<KSH_AllSeeAdapter.Vi
             this.tag4 = itemView.findViewById(R.id.allsee_tag4);
             this.tag5 = itemView.findViewById(R.id.allsee_tag5);
             this.allseebtn = itemView.findViewById(R.id.allsee_ViewOptions);
+            this.createTime = itemView.findViewById(R.id.allsee_createTime);
+            this.updateTime = itemView.findViewById(R.id.allsee_updateTime);
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
