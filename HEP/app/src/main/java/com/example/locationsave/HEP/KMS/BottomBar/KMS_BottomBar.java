@@ -1,4 +1,4 @@
-package com.example.locationsave.HEP.BottomBar;
+package com.example.locationsave.HEP.KMS.BottomBar;
 
 import android.view.View;
 import android.widget.LinearLayout;

@@ -1,4 +1,4 @@
-package com.example.locationsave.HEP.MainFragment;
+package com.example.locationsave.HEP.KMS.MainFragment;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -17,7 +17,7 @@ import androidx.fragment.app.FragmentManager;
 import com.example.locationsave.HEP.Address.GetAddress;
 import com.example.locationsave.HEP.Address.ReverseGeocodingAsyncTask;
 import com.example.locationsave.HEP.KMS_MainActivity;
-import com.example.locationsave.HEP.Location.KMS_LocationFlagManager;
+import com.example.locationsave.HEP.KMS.Location.KMS_LocationFlagManager;
 import com.example.locationsave.R;
 import com.naver.maps.geometry.LatLng;
 import com.naver.maps.geometry.LatLngBounds;
@@ -33,7 +33,6 @@ import com.naver.maps.map.overlay.Marker;
 import com.naver.maps.map.overlay.OverlayImage;
 import com.naver.maps.map.util.FusedLocationSource;
 
-import java.util.ArrayList;
 import java.util.concurrent.ExecutionException;
 
 //프래그먼트는 액티비티위에 올라가있을떄만 프래그먼트로서 동작할 수 있다.

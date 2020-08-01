@@ -12,6 +12,7 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.locationsave.HEP.Hep.hep_DTO.hep_Tag;
 import com.example.locationsave.R;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -26,6 +27,7 @@ public class KSH_AllSeeActivity extends AppCompatActivity {
     private ArrayList<KSH_DirectoryEntity> arrayList;
 //    private FirebaseDatabase firebaseDatabase;
     private DatabaseReference databaseReference;
+    private DatabaseReference TagdatabaseReference;
     private RecyclerView recyclerView;
     private Intent intent;
     private ArrayList<String> arrayKey;
@@ -39,6 +41,7 @@ public class KSH_AllSeeActivity extends AppCompatActivity {
         // 싱글톤
         KSH_FireBase firebaseDatabase = KSH_FireBase.getInstance();
         databaseReference = firebaseDatabase.databaseReference;
+        TagdatabaseReference = firebaseDatabase.TagdatabaseReference;
     }
 
     @Override
@@ -46,6 +49,26 @@ public class KSH_AllSeeActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.ksh_allsee_main);
         init();
+
+
+        // 모르겠다 ㅅㅂ
+        TagdatabaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                for(DataSnapshot snapshot : dataSnapshot.getChildren()){
+                    hep_Tag hep_tag = snapshot.getValue(hep_Tag.class);
+//                    Log.d("aaaa", hep_tag.name);
+                    String key = snapshot.getKey();
+                    Log.d("aaaa",key);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
         // 뒤로가기 버튼 생성
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         recyclerView.setLayoutManager(new GridLayoutManager(this,2));

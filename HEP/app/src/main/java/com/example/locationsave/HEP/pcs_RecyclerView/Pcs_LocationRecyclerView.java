@@ -37,7 +37,7 @@ public class Pcs_LocationRecyclerView extends Fragment {
 
 
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
-    private CollectionReference locationRef = db.collection("Locations");
+    private CollectionReference locationRef = db.collection("location");
     private RecyclerView recyclerView;
     private Pcs_RecyclerviewAdapter adapter;
     KMS_MainActivity kms_activity;
@@ -144,7 +144,7 @@ public class Pcs_LocationRecyclerView extends Fragment {
 
     //Get firebase data and put into adapter
     private Pcs_RecyclerviewAdapter getFirebaseData(String field){
-        Query query = db1.getReference().child("Locations").orderByChild(field);
+        Query query = db1.getReference().child("location").orderByChild(field);
         FirebaseRecyclerOptions options = new FirebaseRecyclerOptions.Builder<hep_Location>()
                 .setQuery(query, hep_Location.class)
 

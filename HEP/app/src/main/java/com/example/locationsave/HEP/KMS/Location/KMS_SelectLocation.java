@@ -1,4 +1,4 @@
-package com.example.locationsave.HEP.Location;
+package com.example.locationsave.HEP.KMS.Location;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -14,7 +14,6 @@ public class KMS_SelectLocation extends AppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
     }
 
     public void SetLinearLayout(Context context, RelativeLayout li) {
