@@ -23,10 +23,9 @@ import com.example.locationsave.HEP.Hep.hep_LocationSave.hep_LocationSaveActivit
 import com.example.locationsave.HEP.KMS_MainActivity;
 import com.example.locationsave.R;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
+import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
-import com.google.firebase.firestore.CollectionReference;
-import com.google.firebase.firestore.FirebaseFirestore;
 
 
 public class Pcs_LocationRecyclerView extends Fragment {
@@ -35,9 +34,6 @@ public class Pcs_LocationRecyclerView extends Fragment {
 
     private FirebaseDatabase db1 = new hep_FireBase().getFireBaseDatabaseInstance();
 
-
-    private FirebaseFirestore db = FirebaseFirestore.getInstance();
-    private CollectionReference locationRef = db.collection("location");
     private RecyclerView recyclerView;
     private Pcs_RecyclerviewAdapter adapter;
     KMS_MainActivity kms_activity;
@@ -73,7 +69,8 @@ public class Pcs_LocationRecyclerView extends Fragment {
         switch (item.getItemId()){
             case R.id.time_asc:
                 onStop();
-                adapter = getFirebaseData("title");
+                adapter = getFirebaseData("time");
+                adapter.notifyDataSetChanged();
                 recyclerView.setAdapter(adapter);
                 break;
             case R.id.time_desc:
@@ -150,6 +147,7 @@ public class Pcs_LocationRecyclerView extends Fragment {
         return new Pcs_RecyclerviewAdapter(options);
     }
 
+
     private void setUpSwipeHelper() {
         recyclerViewSwipeHelper = new Pcs_RecyclerViewSwipeHelper(getActivity(), new Pcs_RecyclerViewSwipeAction() {
 
@@ -160,7 +158,15 @@ public class Pcs_LocationRecyclerView extends Fragment {
 
             @Override
             public void onRightClicked(int position) {
+                String positionID = adapter.getIDByPosition(position);
                 adapter.deleteItem(position);
+
+                Snackbar.make(rootView,"삭제완료",Snackbar.LENGTH_LONG).setAction("되돌리기", new View.OnClickListener(){
+                    @Override
+                    public void onClick(View v) {
+                        
+                    }
+                });
             }
         });
         ItemTouchHelper itemTouchHelper = new ItemTouchHelper(recyclerViewSwipeHelper);
