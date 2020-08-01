@@ -705,7 +705,7 @@ public class KMS_MainActivity extends AppCompatActivity implements NavigationVie
 
         //4. Toolbar Search
         linearLayoutToolbarSearch = findViewById(R.id.linearLayoutToolbarSearch);
-
+ 
         //6. 자동완성 텍스트 뷰
         ct = findViewById(R.id.searchView); //프로젝트 단위
         ac = findViewById(R.id.clearable_edit); //실제 자동완성 텍스트
