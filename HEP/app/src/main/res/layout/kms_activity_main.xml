@@ -74,10 +74,10 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1">
 
-                <com.example.locationsave.HEP.HashTag.KMS_FlowLayout
+                <com.example.locationsave.HEP.KMS.HashTag.KMS_FlowLayout
                     android:id="@+id/HashTagflowlayout"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"></com.example.locationsave.HEP.HashTag.KMS_FlowLayout>
+                    android:layout_height="wrap_content"></com.example.locationsave.HEP.KMS.HashTag.KMS_FlowLayout>
 
             </ScrollView>
 
@@ -118,7 +118,7 @@
             android:orientation="horizontal"
             android:visibility="gone">
 
-            <com.example.locationsave.HEP.Toolbar.KMS_ClearableEditTextSearchBar
+            <com.example.locationsave.HEP.KMS.Toolbar.KMS_ClearableEditTextSearchBar
                 android:id="@+id/searchView"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
