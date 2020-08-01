@@ -38,24 +38,25 @@ import androidx.fragment.app.ListFragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.kms_lastlegendstart.Location.KMS_LocationFlagManager;
-import com.example.kms_lastlegendstart.Location.KMS_SelectLocation;
-import com.example.kms_lastlegendstart.MainFragment.KMS_MapFragment;
-import com.example.kms_lastlegendstart.Toolbar.KMS_ClearableEditTextSearchBar;
-import com.example.kms_lastlegendstart.Toolbar.KMS_RecycleVIewManager;
-import com.example.kms_lastlegendstart.Toolbar.KMS_SearchManager;
 import com.example.locationsave.HEP.BackPressed.KMS_BackPressedForFinish;
 import com.example.locationsave.HEP.HashTag.KMS_FlowLayout;
 import com.example.locationsave.HEP.HashTag.KMS_HashTag;
 import com.example.locationsave.HEP.HashTag.KMS_HashTagCheckBoxManager;
 import com.example.locationsave.HEP.Hep.hep_LocationSave.hep_LocationSaveActivity;
 import com.example.locationsave.HEP.KSH.KSH_AllSeeActivity;
+import com.example.locationsave.HEP.KSH.KSH_DirectoryEntity;
 import com.example.locationsave.HEP.KSH.KSH_FireBase;
 import com.example.locationsave.HEP.KSH.KSH_LoadingActivity;
 import com.example.locationsave.HEP.KSH.KSH_RecyAdapter;
-import com.example.locationsave.HEP.KSH.KSH_TestEntity;
+import com.example.locationsave.HEP.KSH.KSH_RecyclerviewAdapter;
 import com.example.locationsave.HEP.KSH.NavIntent.KSH_NoticeIntent;
+import com.example.locationsave.HEP.Location.KMS_LocationFlagManager;
+import com.example.locationsave.HEP.Location.KMS_SelectLocation;
 import com.example.locationsave.HEP.MainFragment.KMS_FragmentManager;
+import com.example.locationsave.HEP.MainFragment.KMS_MapFragment;
+import com.example.locationsave.HEP.Toolbar.KMS_ClearableEditTextSearchBar;
+import com.example.locationsave.HEP.Toolbar.KMS_RecycleVIewManager;
+import com.example.locationsave.HEP.Toolbar.KMS_SearchManager;
 import com.example.locationsave.HEP.pcs_RecyclerView.Pcs_LocationRecyclerView;
 import com.example.locationsave.R;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -64,9 +65,12 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.ValueEventListener;
+import com.naver.maps.map.CameraPosition;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static com.example.locationsave.HEP.MainFragment.KMS_MapFragment.NMap;
 
 public class KMS_MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
@@ -99,13 +103,16 @@ public class KMS_MainActivity extends AppCompatActivity implements NavigationVie
     private View fView;
     private View allSeeView;
     private RecyclerView.Adapter recyAdapter;
-    private ArrayList<KSH_TestEntity> arrayList;
+    private KSH_RecyclerviewAdapter recyclerviewAdapter;
+    private ArrayList<KSH_DirectoryEntity> arrayList;
     private ArrayList<String> arrayKey;
     private DatabaseReference databaseReference;
+    private DatabaseReference TagdatabaseReference;
     private String directoryKey;
     //    private Spinner spinner;
 //    private Toolbar toolbar;
     private NavigationView navigationView;
+    private KSH_DirectoryEntity ksh_directoryEntity;
 
     public void ksh_init(){
 //        toolbar = findViewById(R.id.dra_toolbar);
@@ -128,7 +135,7 @@ public class KMS_MainActivity extends AppCompatActivity implements NavigationVie
         // 싱글톤
         KSH_FireBase firebaseDatabase = KSH_FireBase.getInstance();
         databaseReference = firebaseDatabase.databaseReference;
-
+        TagdatabaseReference = firebaseDatabase.TagdatabaseReference;
     }
 
     //1.Fragment
@@ -485,6 +492,13 @@ public class KMS_MainActivity extends AppCompatActivity implements NavigationVie
 
     public void IntentAddLocation() {
         Intent intent = new Intent(KMS_MainActivity.this, hep_LocationSaveActivity.class);
+
+        CameraPosition cameraPosition = NMap.getCameraPosition();
+        intent.putExtra("latitude",cameraPosition.target.latitude);
+        intent.putExtra("longitude",cameraPosition.target.longitude);
+        intent.putExtra("addr",((TextView)findViewById(R.id.selectLocation_AddressInfo)).getText());
+
+
         startActivityForResult(intent, ADD_MAIN_ACTIVITY_REQUEST_CODE);
         intentAddLocationFlag = true;
         //GlobalFlag.getInstance().setIntentAddLocationFlag(); //인텐트하면 값 바꿔줌
@@ -607,7 +621,6 @@ public class KMS_MainActivity extends AppCompatActivity implements NavigationVie
         super.onCreate(savedInstanceState);
         setContentView(R.layout.kms_activity_main);
         ksh_init();
-
         logtest("온크리트 초기 flag  값");
 
         databaseReference.addValueEventListener(new ValueEventListener() {
@@ -617,13 +630,13 @@ public class KMS_MainActivity extends AppCompatActivity implements NavigationVie
                 arrayList.clear();
                 arrayKey.clear();
                 for(DataSnapshot snapshot : dataSnapshot.getChildren()){
-                    KSH_TestEntity ksh_testEntity = snapshot.getValue(KSH_TestEntity.class); // 만들어둔 Test 객체에 데이터를 담는다
+                    ksh_directoryEntity = snapshot.getValue(KSH_DirectoryEntity.class); // 만들어둔 Test 객체에 데이터를 담는다
                     String key = snapshot.getKey();
-                    String title = ksh_testEntity.getTitle();
-                    arrayList.add(ksh_testEntity);  // 담은 데이터들을 arraylist에 넣고 recyclerview로 보낼 준비
+                    arrayList.add(ksh_directoryEntity);  // 담은 데이터들을 arraylist에 넣고 recyclerview로 보낼 준비
                     arrayKey.add(key);
                 }
                 recyAdapter.notifyDataSetChanged(); // list 저장 및 새로고침
+//                recyclerviewAdapter.notifyDataSetChanged(); // list 저장 및 새로고침
             }
 
             @Override
@@ -631,7 +644,8 @@ public class KMS_MainActivity extends AppCompatActivity implements NavigationVie
                 Log.d("1", " error "+String.valueOf(databaseError.toException()));
             }
         });
-        recyAdapter = new KSH_RecyAdapter(this,arrayList,directoryKey);
+        recyAdapter = new KSH_RecyAdapter(this,arrayList,ksh_directoryEntity);
+//        recyclerviewAdapter = new KSH_RecyclerviewAdapter();
         recyclerView.setAdapter(recyAdapter);
 
         // loading

@@ -35,6 +35,7 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
@@ -54,13 +55,13 @@ public class hep_LocationSaveActivity extends AppCompatActivity {
 
     private Pcs_LocationRecyclerView pcsFragment;
 
-    public  DatabaseReference TagReference;
-
     public hep_LocationSave_AutoCompleteTextView hashEditText;
     public ViewPager viewPager;
     public hep_LocationSave_ViewPagerAdapter viewPagerAdapter;
     public ArrayList<String> tagDataArrayList;
 
+    String addr;
+    double latitude, longitude;
     int imageSizeLimit = 5; // imagepicker 최대 이미지 수
 
     @Override
@@ -71,6 +72,15 @@ public class hep_LocationSaveActivity extends AppCompatActivity {
     }
 
     public void setinit(){
+        latitude = getIntent().getDoubleExtra("latitude", 0);
+        longitude = getIntent().getDoubleExtra("longitude", 0);
+        addr = getIntent().getStringExtra("addr");
+        if(addr == null || addr.equals(""))
+            ((TextView)findViewById(R.id.locationAddr)).setText("저장된 주소가 없습니다.");
+        else
+            ((TextView)findViewById(R.id.locationAddr)).setText(addr);
+
+        Log.d("@@@@@@@@@@@", "latitude = " + latitude + " longitude = " + longitude);
         ((Button)findViewById(R.id.detailView)).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -83,15 +93,15 @@ public class hep_LocationSaveActivity extends AppCompatActivity {
         tagDataArrayList = new ArrayList<>();
         viewPager = findViewById(R.id.viewPager);
         pcsFragment = new Pcs_LocationRecyclerView();
-        TagReference = new hep_FireBase().getFireBaseDatabaseInstance().getReference().child("Tag");
 
-        TagReference.addValueEventListener(new ValueEventListener() {
+        DatabaseReference duplicationTagReference = new hep_FireBase().getFireBaseDatabaseInstance().getReference().child("tag");
+        duplicationTagReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 tagDataArrayList.clear();
                 for(DataSnapshot tagSnapshot : dataSnapshot.getChildren()){
-                    hep_Tag T = tagSnapshot.getValue(hep_Tag.class);
-                    tagDataArrayList.add(T.name);
+                    hep_Tag hep_tag = tagSnapshot.getValue(hep_Tag.class);
+                    tagDataArrayList.add(hep_tag.name);
                 }
             }
 
@@ -290,64 +300,92 @@ public class hep_LocationSaveActivity extends AppCompatActivity {
             findViewById(R.id.linearlayoutInformationImageAdd).setVisibility(View.INVISIBLE);
     }
 
-    DatabaseReference ImageReference = new hep_FireBase().getFireBaseDatabaseInstance().getReference().child("LocationImages").push();
 
+    //DatabaseReference imageReference = new hep_FireBase().getFireBaseDatabaseInstance().getReference().child("locationimage").push();
     public void onButtonLocationSaveClicked(View v){
         if(!((EditText)findViewById(R.id.locationName)).getText().toString().trim().equals("")){
 
-            DatabaseReference LocationReference = new hep_FireBase().getFireBaseDatabaseInstance().getReference().child("Locations").push();
+            DatabaseReference locationReference = new hep_FireBase().getFireBaseDatabaseInstance().getReference().child("location").push();
 
-            hep_Location hep_Location = new hep_Location(((EditText)findViewById(R.id.locationName)).getText().toString(),
-                    /* oauth token 값 가져오기 */
+            hep_Location hep_Location = new hep_Location(
+                    /* directoryid 값 가져오기 추가 필요*/
+                    ((EditText)findViewById(R.id.locationName)).getText().toString(),
                     ((EditText)findViewById(R.id.locationAddr)).getText().toString(),
                     ((EditText)findViewById(R.id.locationDetailAddr)).getText().toString(),
                     ((EditText)findViewById(R.id.locationContact)).getText().toString(),
                     ((EditText)findViewById(R.id.locationMemo)).getText().toString()
-                    /* 위도 경도 가져오기 */
+                    /* 위도 경도 가져오기 추가 필요*/
             );
 
             Map<String, Object> hashMapLocation = hep_Location.toMap();
+            locationReference.setValue(hashMapLocation);
+
+            final String locationid = locationReference.getKey();
 
             for(int i = 0; i < new hep_HashTagArr().getHashTagArr().size(); i++) {
-                hashMapLocation.put("tag"+i, new hep_HashTagArr().getHashTagArr().get(i));
-                if(!tagDataArrayList.contains(new hep_HashTagArr().getHashTagArr().get(i))){  // 태그 중복확인
-                    Map<String, Object> hashMapTag = new hep_Tag(new hep_HashTagArr().getHashTagArr().get(i)).toMap();
-                    TagReference.push().setValue(hashMapTag); // 태그 삽입
-                }
+                final int finalI = i;
+
+                // tag 중복 체크
+                Query tagQuery = new hep_FireBase().getFireBaseDatabaseInstance().getReference().child("tag").orderByChild("name").equalTo(new hep_HashTagArr().getHashTagArr().get(i));
+                tagQuery.addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        String tagid = "";
+
+                        if(snapshot.exists()){ // tag가 있으면 getkey
+                            for(DataSnapshot issue : snapshot.getChildren())
+                                tagid = issue.getKey();
+                        }
+
+                        else{  // tag가 없으면 tag 삽입 후 getkey
+                            Map<String, Object> hashMapTag = new HashMap<>();
+                            hashMapTag.put("name", new hep_HashTagArr().getHashTagArr().get(finalI));
+
+                            DatabaseReference tagReference = new hep_FireBase().getFireBaseDatabaseInstance().getReference().child("tag").push();
+                            tagReference.setValue(hashMapTag); // tag 저장
+                            tagid = tagReference.getKey();
+                        }
+
+                        Map<String, Object> hashlocationtag = new HashMap<>();
+                        hashlocationtag.put("locationid", locationid);
+                        hashlocationtag.put("tagid", tagid);
+
+                        new hep_FireBase().getFireBaseDatabaseInstance().getReference().child("locationtag").push().setValue(hashlocationtag); // locationtag 저장
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+
+                    }
+                });
             }
 
-            LocationReference.setValue(hashMapLocation);
-            final Map<String, Object> hashMapImage = new HashMap<>();
+            for(int i = 0; i < new hep_locationImageDataArr().getImageDataArrayInstance().size(); i++) {
+                //image storage 저장
+                StorageReference LocationImagesRef = new hep_FireBase().getFirebaseStorageInstance().getReference().child("locationimages/" + UUID.randomUUID().toString()); // 랜덤 이름 생성
+                Bitmap bitmap = new hep_locationImageDataArr().getImageDataArrayInstance().get(i).bitmap;
+                ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+                byte[] data = baos.toByteArray();
 
-            if(!new hep_locationImageDataArr().getImageDataArrayInstance().isEmpty()){
-                String key = LocationReference.getKey(); // 방금 삽입한 Location ID
+                UploadTask uploadTask = LocationImagesRef.putBytes(data);
+                uploadTask.addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                    @Override
+                    public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                        Map<String, Object> hashMapImage = new HashMap<>();
+                        hashMapImage.put("path", taskSnapshot.getMetadata().getPath());
+                        DatabaseReference imageReference = new hep_FireBase().getFireBaseDatabaseInstance().getReference().child("image").push();
+                        imageReference.setValue(hashMapImage);
 
-                hashMapImage.put("LocationId", key);
-
-                for(int i = 0 ; i < new hep_locationImageDataArr().getImageDataArrayInstance().size(); i++){
-                    StorageReference LocationImagesRef = new hep_FireBase().getFirebaseStorageInstance().getReference().child("locationimages/" + UUID.randomUUID().toString());
-
-                    Bitmap bitmap = new hep_locationImageDataArr().getImageDataArrayInstance().get(i).bitmap;
-                    ByteArrayOutputStream baos = new ByteArrayOutputStream();
-                    bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
-                    byte[] data = baos.toByteArray();
-
-                    UploadTask uploadTask = LocationImagesRef.putBytes(data);
-
-                    final int finalI = i;
-                    uploadTask.addOnFailureListener(new OnFailureListener() {
-                        @Override
-                        public void onFailure(@NonNull Exception exception) {
-                        }
-                    }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                        @Override
-                        public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                            hashMapImage.put("Image"+ finalI, taskSnapshot.getMetadata().getPath());
-                            ImageReference.updateChildren(hashMapImage);
-                        }
-                    });
-                }
+                        String imageid = imageReference.getKey();
+                        HashMap<String, Object> hashLocationImage = new HashMap<>();
+                        hashLocationImage.put("locationid", locationid);
+                        hashLocationImage.put("imageid", imageid);
+                        new hep_FireBase().getFireBaseDatabaseInstance().getReference().child("locationimage").push().setValue(hashLocationImage);
+                    }
+                });
             }
+
             new hep_locationImageDataArr().getImageDataArrayInstance().clear();
             setFragment();
         }
@@ -364,6 +402,4 @@ public class hep_LocationSaveActivity extends AppCompatActivity {
         FragmentTransaction trans = getSupportFragmentManager().beginTransaction();
         trans.replace(R.id.fragmentContainer, pcsFragment).commit();
     }
-
-
 }

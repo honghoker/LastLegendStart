@@ -1,4 +1,4 @@
-package com.example.kms_lastlegendstart.MainFragment;
+package com.example.locationsave.HEP.MainFragment;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -6,6 +6,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -13,7 +14,10 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
+import com.example.locationsave.HEP.Address.GetAddress;
+import com.example.locationsave.HEP.Address.ReverseGeocodingAsyncTask;
 import com.example.locationsave.HEP.KMS_MainActivity;
+import com.example.locationsave.HEP.Location.KMS_LocationFlagManager;
 import com.example.locationsave.R;
 import com.naver.maps.geometry.LatLng;
 import com.naver.maps.geometry.LatLngBounds;
@@ -29,12 +33,14 @@ import com.naver.maps.map.overlay.Marker;
 import com.naver.maps.map.overlay.OverlayImage;
 import com.naver.maps.map.util.FusedLocationSource;
 
+import java.util.ArrayList;
+import java.util.concurrent.ExecutionException;
+
 //프래그먼트는 액티비티위에 올라가있을떄만 프래그먼트로서 동작할 수 있다.
 public class KMS_MapFragment extends Fragment implements OnMapReadyCallback {
 
     KMS_MainActivity activity;
     //프래그먼트
-
 
     //네이버 api
     NaverMapOptions options; //초기 옵션 설정을 위한 옵션
@@ -250,13 +256,25 @@ public class KMS_MapFragment extends Fragment implements OnMapReadyCallback {
             public void onCameraIdle() {
                 //getLocationPosition(activity, NMap);
                 //saveLocation(activity);
+                KMS_FragmentManager fragmentManager = KMS_FragmentManager.getInstanceFragment();
+                KMS_LocationFlagManager locationFragment = KMS_LocationFlagManager.getInstanceLocation();
 
                 CameraPosition cameraPosition = NMap.getCameraPosition(); //현재 위치 정보 반환하는 메소드
+                if(fragmentManager.flagCheckFragment() == true && locationFragment.flagGetLocation() == true) {
 
-                Toast.makeText(getActivity(),
-                        "현재위치 = 대상 지점 위도: " + cameraPosition.target.latitude + ", " +
-                                "대상 지점 경도: " + cameraPosition.target.longitude, Toast.LENGTH_SHORT);
-                Log.d("MapMap", "onCameraIdle 위도 : " + cameraPosition.target.latitude + "경도 : " + cameraPosition.target.longitude + im++);
+                    Log.d("MapMap", "onCameraIdle 위도 : " + cameraPosition.target.latitude + "경도 : " + cameraPosition.target.longitude + im++);
+
+                    ReverseGeocodingAsyncTask asyncTask = new ReverseGeocodingAsyncTask(cameraPosition.target.latitude, cameraPosition.target.longitude);
+                    GetAddress getAddress = new GetAddress();
+                    try {
+                        String resultAddr = getAddress.getJsonString(asyncTask.execute().get());
+                        ((TextView)activity.findViewById(R.id.selectLocation_AddressInfo)).setText(resultAddr);
+                    } catch (ExecutionException e) {
+                        e.printStackTrace();
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
             }
         });
         NMap.setContentPadding(0, 100, 0, 50);

@@ -2,6 +2,7 @@ package com.example.locationsave.HEP.Hep.hep_LocationDetail;
 
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -9,11 +10,12 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager.widget.ViewPager;
 
+import com.example.locationsave.HEP.Hep.hep_DTO.hep_Image;
 import com.example.locationsave.HEP.Hep.hep_DTO.hep_Location;
-import com.example.locationsave.HEP.Hep.hep_DTO.hep_LocationImages;
+import com.example.locationsave.HEP.Hep.hep_DTO.hep_LocationImage;
 import com.example.locationsave.HEP.Hep.hep_FireBase;
 import com.example.locationsave.HEP.Hep.hep_LocationSave.hep_FlowLayout;
-import com.example.locationsave.HEP.Hep.hep_LocationSave.hep_LocationSave_FlowLayoutImageItem;
+import com.example.locationsave.HEP.Hep.hep_LocationSave.hep_ImageData;
 import com.example.locationsave.HEP.Hep.hep_LocationSave.hep_locationImageDataArr;
 import com.example.locationsave.R;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -25,11 +27,11 @@ import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.StorageReference;
 
 import java.io.IOException;
-import java.util.ArrayList;
 
 public class hep_LocationDetailActivity extends AppCompatActivity {
 
     public ViewPager viewPager;
+    String key;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -40,7 +42,8 @@ public class hep_LocationDetailActivity extends AppCompatActivity {
     }
 
     public void setData(){
-        DatabaseReference locationReference = new hep_FireBase().getFireBaseDatabaseInstance().getReference().child("Locations");
+        key = getIntent().getStringExtra("key");
+        DatabaseReference locationReference = new hep_FireBase().getFireBaseDatabaseInstance().getReference().child("location");
 
         Query locationQuery = locationReference;
         locationQuery.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -48,7 +51,7 @@ public class hep_LocationDetailActivity extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 if(dataSnapshot.exists()) {
                     for(DataSnapshot issue : dataSnapshot.getChildren()){
-                        if(issue.getKey().equals("-MCziMy1HJgVDyctVTB1")) {
+                        if(issue.getKey().equals(key)) {
                             hep_Location hep_Location = issue.getValue(hep_Location.class);
                             ((TextView) findViewById(R.id.locationDetailViewName)).setText(hep_Location.name);
                             ((TextView) findViewById(R.id.locationDetailViewAddr)).setText(hep_Location.addr);
@@ -66,14 +69,69 @@ public class hep_LocationDetailActivity extends AppCompatActivity {
             }
         });
 
-        Query imageQuery = new hep_FireBase().getFireBaseDatabaseInstance().getReference().child("LocationImages").orderByChild("LocationId").equalTo("-MCziMy1HJgVDyctVTB1");
-        imageQuery.addListenerForSingleValueEvent(new ValueEventListener() {
+        Query locationImageQuery = new hep_FireBase().getFireBaseDatabaseInstance().getReference().child("locationimage").orderByChild("locationid").equalTo(key);
+        locationImageQuery.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
                 new hep_locationImageDataArr().getImageDataArrayInstance().clear();
-                if(dataSnapshot.exists()){
+                if(snapshot.exists()) {
+                    for(DataSnapshot issue : snapshot.getChildren()){
+                        hep_LocationImage hep_locationImage = issue.getValue(hep_LocationImage.class);
+
+                        Query locationImageQuery = new hep_FireBase().getFireBaseDatabaseInstance().getReference().child("image").orderByKey().equalTo(hep_locationImage.imageid);
+                        locationImageQuery.addListenerForSingleValueEvent(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                if(snapshot.exists()){
+                                    for(DataSnapshot dataSnapshot : snapshot.getChildren()){
+                                        hep_Image hep_image = dataSnapshot.getValue(hep_Image.class);
+
+                                        StorageReference storageReference = new hep_FireBase().getFirebaseStorageInstance().getReference().child(hep_image.path);
+                                        storageReference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                                            @Override
+                                            public void onSuccess(Uri uri) {
+                                                hep_LocationDetail_FlowLayoutImageItem flowLayoutImageItem = new hep_LocationDetail_FlowLayoutImageItem(hep_LocationDetailActivity.this);
+                                                hep_FlowLayout.LayoutParams params = new hep_FlowLayout.LayoutParams(20, 20);
+                                                flowLayoutImageItem.setLayoutParams(params);
+                                                try {
+                                                    flowLayoutImageItem.setBackgroundUri(uri);
+                                                    ((hep_FlowLayout) findViewById(R.id.locationDetailViewimageFlowLayout)).addView(flowLayoutImageItem);
+
+                                                    hep_ImageData hep_imageData = new hep_ImageData();
+                                                    hep_imageData.path = uri;
+                                                    new hep_locationImageDataArr().getImageDataArrayInstance().add(hep_imageData);
+                                                    hep_LocationDetail_ViewPagerAdapter viewPagerAdapter = new hep_LocationDetail_ViewPagerAdapter(hep_LocationDetailActivity.this);
+                                                    viewPager = findViewById(R.id.locationDetailViewPager);
+                                                    viewPager.setAdapter(viewPagerAdapter);
+
+                                                } catch (IOException e) {
+                                                    e.printStackTrace();
+                                                }
+                                            }
+                                        });
+                                    }
+                                }
+                            }
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError error) {
+
+                            }
+                        });
+                    }
+                }
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+    }
+}
+
+
+                /*if(dataSnapshot.exists()){
                     for(DataSnapshot issue : dataSnapshot.getChildren()){
-                        hep_LocationImages hep_locationImages = issue.getValue(hep_LocationImages.class);
+                        hep_LocationImage hep_locationImages = issue.getValue(hep_LocationImage.class);
                         ArrayList<String> bitmapArrayList = hep_locationImages.getImageBitmapArr();
                         new hep_locationImageDataArr().setImageDataArraySize(bitmapArrayList.size());
 
@@ -105,15 +163,6 @@ public class hep_LocationDetailActivity extends AppCompatActivity {
                     hep_LocationDetail_ViewPagerAdapter viewPagerAdapter = new hep_LocationDetail_ViewPagerAdapter(hep_LocationDetailActivity.this);
                     viewPager = findViewById(R.id.locationDetailViewPager);
                     viewPager.setAdapter(viewPagerAdapter);
-                }
-            }
+                }*/
 
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
 
-            }
-        });
-
-    }
-
-}

@@ -9,20 +9,15 @@ import java.util.Map;
 @IgnoreExtraProperties
 public class hep_Location {
 
-    public String token; // oauth token
+    public String diretoryid; // oauth token
     public String name;
     public String addr;
     public String detailaddr;
     public String contact;
     public String memo;
-    public long time;
     public double latitude; // 위도
     public double longitude; // 경도
-    public String tag0;
-    public String tag1;
-    public String tag2;
-    public String tag3;
-    public String tag4;
+    public long time;
 
     public hep_Location(){
     }
@@ -31,7 +26,7 @@ public class hep_Location {
                         String detailaddr, String contact, String memo,
                         long time, double latitude, double longitude,
                         String tag0, String tag1, String tag2, String tag3, String tag4) {
-        this.token = token;
+        this.diretoryid = diretoryid;
         this.name = name;
         this.addr = addr;
         this.detailaddr = detailaddr;
@@ -40,11 +35,6 @@ public class hep_Location {
         this.time = time;
         this.latitude = latitude;
         this.longitude = longitude;
-        this.tag0 = tag0;
-        this.tag1 = tag1;
-        this.tag2 = tag2;
-        this.tag3 = tag3;
-        this.tag4 = tag4;
     }
     public hep_Location(String name, String addr,
                         String detailaddr, String contact, String memo) {
@@ -72,9 +62,6 @@ public class hep_Location {
     }
 
 
-    public String getToken() {
-        return token;
-    }
 
     public String getName() {
         return name;
@@ -96,6 +83,46 @@ public class hep_Location {
         return memo;
     }
 
+    public String getDiretoryid() {
+        return diretoryid;
+    }
+
+    public void setDiretoryid(String diretoryid) {
+        this.diretoryid = diretoryid;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setAddr(String addr) {
+        this.addr = addr;
+    }
+
+    public void setDetailaddr(String detailaddr) {
+        this.detailaddr = detailaddr;
+    }
+
+    public void setContact(String contact) {
+        this.contact = contact;
+    }
+
+    public void setMemo(String memo) {
+        this.memo = memo;
+    }
+
+    public void setLatitude(double latitude) {
+        this.latitude = latitude;
+    }
+
+    public void setLongitude(double longitude) {
+        this.longitude = longitude;
+    }
+
+    public void setTime(long time) {
+        this.time = time;
+    }
+
     public long getTime() {
         return time;
     }
@@ -108,23 +135,4 @@ public class hep_Location {
         return longitude;
     }
 
-    public String getTag0() {
-        return tag0;
-    }
-
-    public String getTag1() {
-        return tag1;
-    }
-
-    public String getTag2() {
-        return tag2;
-    }
-
-    public String getTag3() {
-        return tag3;
-    }
-
-    public String getTag4() {
-        return tag4;
-    }
 }

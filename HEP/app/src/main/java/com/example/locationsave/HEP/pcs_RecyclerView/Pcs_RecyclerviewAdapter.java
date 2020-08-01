@@ -1,5 +1,7 @@
 package com.example.locationsave.HEP.pcs_RecyclerView;
 
+import android.content.Intent;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -8,6 +10,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.locationsave.HEP.Hep.hep_LocationDetail.hep_LocationDetailActivity;
 import com.example.locationsave.HEP.Hep.hep_DTO.hep_Location;
 import com.example.locationsave.R;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
@@ -47,6 +50,16 @@ public class Pcs_RecyclerviewAdapter extends FirebaseRecyclerAdapter<hep_Locatio
 
         public ListHolder(@NonNull View itemView) {
             super(itemView);
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    int p = getAdapterPosition();
+                    Intent intent = new Intent(v.getContext(), hep_LocationDetailActivity.class);
+                    intent.putExtra("key", getSnapshots().getSnapshot(p).getRef().getKey());
+                    v.getContext().startActivity(intent);
+                }
+            });
+
             textViewTitle = itemView.findViewById(R.id.cardView_title);
             textViewAddress = itemView.findViewById(R.id.cardView_address);
             textViewTag = itemView.findViewById(R.id.cardView_tag);
@@ -59,9 +72,10 @@ public class Pcs_RecyclerviewAdapter extends FirebaseRecyclerAdapter<hep_Locatio
             return "";
     }
     private String getTag(hep_Location location){
-        return checkNull(location.getTag0()) + checkNull(location.getTag1()) +
+        return "찬섭아 수정해야한다..";
+                /*checkNull(location.getTag0()) + checkNull(location.getTag1()) +
                 checkNull(location.getTag2()) + checkNull(location.getTag3())
-                + checkNull(location.getTag4());
+                + checkNull(location.getTag4());*/
 
     }
 

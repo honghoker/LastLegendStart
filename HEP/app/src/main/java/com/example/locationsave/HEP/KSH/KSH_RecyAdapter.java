@@ -13,7 +13,6 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-
 import com.example.locationsave.R;
 import com.google.firebase.database.DatabaseReference;
 
@@ -23,22 +22,37 @@ public class KSH_RecyAdapter extends RecyclerView.Adapter<KSH_RecyAdapter.ViewHo
     private final int TYPE_HEADER = 0;
     private final int TYPE_ITEM = 1;
     Context mcontext;
-    private ArrayList<KSH_TestEntity> arrayList;
+    private ArrayList<KSH_DirectoryEntity> arrayList;
     DatabaseReference databaseReference;
     String directoryKey;
+    KSH_DirectoryEntity ksh_directoryEntity;
+    KSH_Date ksh_date = new KSH_Date();
 
-    public KSH_RecyAdapter(Context context, ArrayList<KSH_TestEntity> arrayList, String directoryKey) {
+    public KSH_RecyAdapter(Context context, ArrayList<KSH_DirectoryEntity> arrayList, KSH_DirectoryEntity ksh_directoryEntity) {
         mcontext = context;
         this.arrayList = arrayList;
         this.directoryKey = directoryKey;
+        this.ksh_directoryEntity = ksh_directoryEntity;
         // 싱글톤
         KSH_FireBase firebaseDatabase = KSH_FireBase.getInstance();
         databaseReference = firebaseDatabase.databaseReference;
+
+        Log.d("5", "size = " + String.valueOf(arrayList.size()));
     }
 
     class HeaderViewHolder extends ViewHolder {
         HeaderViewHolder(View headerView) {
             super(headerView);
+        }
+    }
+
+    @Override
+    public int getItemViewType(int position) {
+        if(position == 0){
+            return TYPE_HEADER;
+        }
+        else{
+            return TYPE_ITEM;
         }
     }
 
@@ -59,15 +73,6 @@ public class KSH_RecyAdapter extends RecyclerView.Adapter<KSH_RecyAdapter.ViewHo
         return (ViewHolder) holder;
     }
 
-    @Override
-    public int getItemViewType(int position) {
-        if(position == 0){
-            return TYPE_HEADER;
-        }
-        else{
-            return TYPE_ITEM;
-        }
-    }
 
     @Override
     public void onBindViewHolder(@NonNull KSH_RecyAdapter.ViewHolder holder, int position) {
@@ -75,8 +80,10 @@ public class KSH_RecyAdapter extends RecyclerView.Adapter<KSH_RecyAdapter.ViewHo
             HeaderViewHolder headerViewHolder = (HeaderViewHolder) holder;
         }
         else{
-            String Title = String.valueOf(arrayList.get(position-1).getTitle());
+            String Title = String.valueOf(arrayList.get(position-1).getName());
+            String createTime = String.valueOf(arrayList.get(position-1).getCreateTime());
             holder.recy_test_title.setText(Title);
+            holder.recy_createTime.setText(createTime);
         }
     }
 
@@ -87,10 +94,13 @@ public class KSH_RecyAdapter extends RecyclerView.Adapter<KSH_RecyAdapter.ViewHo
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         TextView recy_test_title;
+        TextView recy_createTime;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             this.recy_test_title = itemView.findViewById(R.id.recy_test_title);
+            this.recy_createTime = itemView.findViewById(R.id.recy_createTime);
+
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -108,16 +118,8 @@ public class KSH_RecyAdapter extends RecyclerView.Adapter<KSH_RecyAdapter.ViewHo
                         builder.setPositiveButton("확인", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-//                                databaseReference.child("seq"+(arrayList.size()+1)).setValue(editText.getText().toString());
-//                                databaseReference.child("seq"+(arrayList.size()+1)).child("title").setValue(editText.getText().toString());
-
-                                directoryKey = databaseReference.child("Test").push().getKey();
-                                // 여기 child 안에 title 로 안적어주면 error 남 ㅡㅡ -> entity 이름이랑 같아야함
-                                // 걍 main에 KSH_TestEntity ksh_testEntity = snapshot.getValue(KSH_TestEntity.class); arrayList.add(ksh_testEntity);
-                                // 이부분 말고 다르게 add 하는 방법 찾아보기 class로 넣는거 말고 계속 오류남
-                                databaseReference.child(directoryKey).child("title").setValue(editText.getText().toString());
-                                databaseReference.child(directoryKey).child("count").setValue("ex");
-
+                                KSH_DirectoryEntity ksh_directoryEntity = new KSH_DirectoryEntity(editText.getText().toString(),ksh_date.nowDate(),ksh_date.nowDate());
+                                databaseReference.push().setValue(ksh_directoryEntity);
                                 dialog.dismiss();
                             }
                         });
@@ -130,8 +132,6 @@ public class KSH_RecyAdapter extends RecyclerView.Adapter<KSH_RecyAdapter.ViewHo
                         builder.show();
                     }
                     else{
-                        // addbtn 말고 recyclerView directory 클릭했을때
-                        // 아마 main 쪽으로 값 넘겨서 처리해야할듯
                         Log.d("1","recyclerView directory");
                     }
                 }

@@ -1,4 +1,4 @@
-package com.example.kms_lastlegendstart.Location;
+package com.example.locationsave.HEP.Location;
 
 import android.content.Context;
 import android.os.Bundle;
