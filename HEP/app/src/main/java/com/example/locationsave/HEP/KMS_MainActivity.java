@@ -38,6 +38,8 @@ import androidx.fragment.app.ListFragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.locationsave.HEP.Address.GeocodingAsyncTask;
+import com.example.locationsave.HEP.Address.GetAddress;
 import com.example.locationsave.HEP.BackPressed.KMS_BackPressedForFinish;
 import com.example.locationsave.HEP.HashTag.KMS_FlowLayout;
 import com.example.locationsave.HEP.HashTag.KMS_HashTag;
@@ -69,6 +71,7 @@ import com.naver.maps.map.CameraPosition;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 import static com.example.locationsave.HEP.MainFragment.KMS_MapFragment.NMap;
 
@@ -713,8 +716,19 @@ public class KMS_MainActivity extends AppCompatActivity implements NavigationVie
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
                 if (actionId == EditorInfo.IME_ACTION_SEARCH) {
-                    //performSearch();
-                    Toast.makeText(getApplicationContext(), "검색합니다 . . .", Toast.LENGTH_SHORT).show();
+                    // 여기 해결
+                    GeocodingAsyncTask asyncTask = new GeocodingAsyncTask(ac.getText().toString());
+                    GetAddress getAddress = new GetAddress();
+                    try {
+                        Log.d("6","1111111");
+                        String resultAddr = getAddress.getJsonString(asyncTask.execute().get());
+                    } catch (ExecutionException e) {
+                        e.printStackTrace();
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+
+                    Toast.makeText(getApplicationContext(), String.valueOf(ac.getText().toString()), Toast.LENGTH_SHORT).show();
                     return true;
                 }
                 return false;

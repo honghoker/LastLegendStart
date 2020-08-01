@@ -14,7 +14,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
-import com.example.locationsave.HEP.Address.GetAddress;
+import com.example.locationsave.HEP.Address.ReverseGetAddress;
 import com.example.locationsave.HEP.Address.ReverseGeocodingAsyncTask;
 import com.example.locationsave.HEP.KMS_MainActivity;
 import com.example.locationsave.HEP.Location.KMS_LocationFlagManager;
@@ -33,7 +33,6 @@ import com.naver.maps.map.overlay.Marker;
 import com.naver.maps.map.overlay.OverlayImage;
 import com.naver.maps.map.util.FusedLocationSource;
 
-import java.util.ArrayList;
 import java.util.concurrent.ExecutionException;
 
 //프래그먼트는 액티비티위에 올라가있을떄만 프래그먼트로서 동작할 수 있다.
@@ -265,9 +264,9 @@ public class KMS_MapFragment extends Fragment implements OnMapReadyCallback {
                     Log.d("MapMap", "onCameraIdle 위도 : " + cameraPosition.target.latitude + "경도 : " + cameraPosition.target.longitude + im++);
 
                     ReverseGeocodingAsyncTask asyncTask = new ReverseGeocodingAsyncTask(cameraPosition.target.latitude, cameraPosition.target.longitude);
-                    GetAddress getAddress = new GetAddress();
+                    ReverseGetAddress reverseGetAddress = new ReverseGetAddress();
                     try {
-                        String resultAddr = getAddress.getJsonString(asyncTask.execute().get());
+                        String resultAddr = reverseGetAddress.getJsonString(asyncTask.execute().get());
                         ((TextView)activity.findViewById(R.id.selectLocation_AddressInfo)).setText(resultAddr);
                     } catch (ExecutionException e) {
                         e.printStackTrace();
