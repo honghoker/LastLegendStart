@@ -5,7 +5,7 @@
     <string name="user_name">이름: %s</string>
     <string name="firebase_uid">파이어베이스 UID: %s</string>
     <string name="user_email">이메일: %s</string>
-    <string name="user_phonenumber">휴대폰: %s</string>
+    <string name="user_logintype">로그인 타입: %s</string>
 
     <string name="login_google">구글 계정으로 로그인</string>
     <string name="login_facebook">페이스북 계정으로 로그인</string>

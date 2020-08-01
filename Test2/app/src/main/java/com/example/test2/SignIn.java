@@ -10,15 +10,12 @@ import android.view.WindowManager;
 import android.widget.LinearLayout;
 
 import com.facebook.login.widget.LoginButton;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 
 public class SignIn extends AppCompatActivity implements View.OnClickListener{
     LoginButton signInFacebookOrigin;
 
     LinearLayout signInGoogle,signInKakao, signInNaver,signInFacebook;
 
-    protected static FirebaseAuth mAuth;
 
     protected static final int GOOGLE_SIGN_IN = 9001;
     protected static final int FACEBOOK_SIGN_IN = 64206;
@@ -47,15 +44,15 @@ public class SignIn extends AppCompatActivity implements View.OnClickListener{
         signInNaver.setOnClickListener(this);*/
         signInFacebook.setOnClickListener(this);
         //파이어베이스 객체
-        mAuth = FirebaseAuth.getInstance();
+        CJH_UserInfo.reflash();
     }
 
     @Override
     public void onStart() {
         super.onStart();
         //기존에 저장된 유저정보 있는지 확인하고 있으면 다음화면으로
-        FirebaseUser currentUser = mAuth.getCurrentUser();
-        if (currentUser != null) {
+
+        if (CJH_UserInfo.user != null) {
             Intent intent = new Intent(getApplicationContext(), Next.class);
             startActivity(intent);
             finish();

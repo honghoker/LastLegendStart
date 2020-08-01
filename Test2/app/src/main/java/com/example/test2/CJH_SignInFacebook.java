@@ -21,9 +21,6 @@ import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FacebookAuthProvider;
 
-import static com.example.test2.SignIn.mAuth;
-
-
 public class CJH_SignInFacebook {
     private final String TAG_FACEBOOK = "Facebook";
 
@@ -75,7 +72,7 @@ public class CJH_SignInFacebook {
 
         //페이스북의 토큰을 받아 로그인 실행
         AuthCredential credential = FacebookAuthProvider.getCredential(token.getToken());
-        mAuth.signInWithCredential(credential)
+        CJH_UserInfo.mAuth.signInWithCredential(credential)
                 .addOnCompleteListener((Activity) context, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
@@ -84,6 +81,7 @@ public class CJH_SignInFacebook {
                             Log.d(TAG_FACEBOOK, "signInWithCredential:success");
 
                             //로그인 성공시 다음으로
+
                             Intent intent = new Intent(context.getApplicationContext(), Next.class);
                             context.startActivity(intent);
                             ((Activity) context).finish();
