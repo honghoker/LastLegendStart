@@ -74,7 +74,7 @@ import static com.example.locationsave.HEP.KMS.MainFragment.KMS_MapFragment.NMap
 
 public class KMS_MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
-    /*
+    /* 
     ---Index---
     1. Fragment
     2. BottomBar
