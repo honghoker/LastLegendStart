@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+>
+
+    <AutoCompleteTextView
+        android:id="@+id/a2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="저장된 장소를 입력하세요."
+        android:imeOptions="actionSearch"
+        android:maxLength="9"
+        android:paddingRight="35dip"
+        android:singleLine="true">
+
+    </AutoCompleteTextView>
+
+    <Button
+        android:id="@+id/clearable_button_clear"
+        android:layout_width="30dip"
+        android:layout_height="30dip"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:layout_marginRight="5dip"
+        android:background="@drawable/ic_clear_black_24dp"/>
+
+</RelativeLayout>
