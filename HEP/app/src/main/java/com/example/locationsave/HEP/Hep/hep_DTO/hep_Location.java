@@ -9,7 +9,7 @@ import java.util.Map;
 @IgnoreExtraProperties
 public class hep_Location {
 
-    public String diretoryid; // oauth token
+    public String diretoryid;
     public String name;
     public String addr;
     public String detailaddr;
@@ -21,29 +21,17 @@ public class hep_Location {
 
     public hep_Location(){
     }
-//
-    public hep_Location(String token, String name, String addr,
-                        String detailaddr, String contact, String memo,
-                        long time, double latitude, double longitude,
-                        String tag0, String tag1, String tag2, String tag3, String tag4) {
-        this.diretoryid = diretoryid;
-        this.name = name;
-        this.addr = addr;
-        this.detailaddr = detailaddr;
-        this.contact = contact;
-        this.memo = memo;
-        this.time = time;
-        this.latitude = latitude;
-        this.longitude = longitude;
-    }
+
     public hep_Location(String name, String addr,
-                        String detailaddr, String contact, String memo) {
+                        String detailaddr, String contact, String memo, double latitude, double longitude) {
 
         this.name = name;
         this.addr = addr;
         this.detailaddr = detailaddr;
         this.contact = contact;
         this.memo = memo;
+        this.latitude = latitude;
+        this.longitude = longitude;
         this.time = System.currentTimeMillis();
     }
 
@@ -56,6 +44,8 @@ public class hep_Location {
         result.put("detailaddr", detailaddr);
         result.put("contact", contact);
         result.put("memo", memo);
+        result.put("latitude", latitude);
+        result.put("longitude", longitude);
         result.put("time", time);
 
         return result;

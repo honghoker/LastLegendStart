@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -23,16 +24,19 @@ public class KSH_RecyAdapter extends RecyclerView.Adapter<KSH_RecyAdapter.ViewHo
     private final int TYPE_ITEM = 1;
     Context mcontext;
     private ArrayList<KSH_DirectoryEntity> arrayList;
+    private ArrayList<String> arrayKey;
     DatabaseReference databaseReference;
     String directoryKey;
     KSH_DirectoryEntity ksh_directoryEntity;
     KSH_Date ksh_date = new KSH_Date();
 
-    public KSH_RecyAdapter(Context context, ArrayList<KSH_DirectoryEntity> arrayList, KSH_DirectoryEntity ksh_directoryEntity) {
+    public KSH_RecyAdapter(Context context, ArrayList<KSH_DirectoryEntity> arrayList,ArrayList<String> arrayKey, KSH_DirectoryEntity ksh_directoryEntity) {
         mcontext = context;
         this.arrayList = arrayList;
         this.directoryKey = directoryKey;
         this.ksh_directoryEntity = ksh_directoryEntity;
+        this.arrayKey = arrayKey;
+
         // 싱글톤
         KSH_FireBase firebaseDatabase = KSH_FireBase.getInstance();
         databaseReference = firebaseDatabase.databaseReference;
@@ -132,6 +136,7 @@ public class KSH_RecyAdapter extends RecyclerView.Adapter<KSH_RecyAdapter.ViewHo
                         builder.show();
                     }
                     else{
+                        Toast.makeText(mcontext, arrayKey.get(pos-1), Toast.LENGTH_SHORT).show();
                         Log.d("1","recyclerView directory");
                     }
                 }

@@ -147,6 +147,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:background="@android:color/transparent"
+                            android:onClick="onbtnChangeAddrClicked"
                             android:text="주소변경" />
                     </TableRow>
 
