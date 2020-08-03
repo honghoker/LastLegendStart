@@ -142,7 +142,6 @@ public class Pcs_LocationRecyclerView extends Fragment {
         Query query = db1.getReference().child("location").orderByChild(field);
         FirebaseRecyclerOptions options = new FirebaseRecyclerOptions.Builder<hep_Location>()
                 .setQuery(query, hep_Location.class)
-
                 .build();
         return new Pcs_RecyclerviewAdapter(options);
     }
@@ -158,15 +157,15 @@ public class Pcs_LocationRecyclerView extends Fragment {
 
             @Override
             public void onRightClicked(int position) {
-                String positionID = adapter.getIDByPosition(position);
-                adapter.deleteItem(position);
+                final hep_Location dismissData = adapter.deleteItem(position);
 
-                Snackbar.make(rootView,"삭제완료",Snackbar.LENGTH_LONG).setAction("되돌리기", new View.OnClickListener(){
+                Snackbar.make(getActivity().findViewById(android.R.id.content),"삭제완료",Snackbar.LENGTH_LONG).setAction("되돌리기", new View.OnClickListener(){
                     @Override
                     public void onClick(View v) {
-                        
+                        db1.getReference().child("location").setValue(dismissData);
                     }
-                });
+
+                }).show();
             }
         });
         ItemTouchHelper itemTouchHelper = new ItemTouchHelper(recyclerViewSwipeHelper);

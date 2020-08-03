@@ -39,9 +39,10 @@ public class Pcs_RecyclerviewAdapter extends FirebaseRecyclerAdapter<hep_Locatio
 
         return new ListHolder(v);
     }
-    public void deleteItem(int position) {
+    public hep_Location deleteItem(int position) {
+        DataSnapshot dataSnapshot = getSnapshots().getSnapshot(position);
         getSnapshots().getSnapshot(position).getRef().removeValue();
-
+        return dataSnapshot.getValue(hep_Location.class);
     }
 
     public String getIDByPosition(int position){
