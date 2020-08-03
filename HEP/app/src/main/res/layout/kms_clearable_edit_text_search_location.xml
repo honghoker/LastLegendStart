@@ -12,7 +12,7 @@
         android:orientation="horizontal">
 
         <AutoCompleteTextView
-            android:id="@+id/a2"
+            android:id="@+id/clearable_edit_search_location"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="center"
@@ -25,7 +25,7 @@
         </AutoCompleteTextView>
 
         <Button
-            android:id="@+id/clearable_button_clear"
+            android:id="@+id/clearable_search_location_button_clear"
             android:layout_width="30dip"
             android:layout_height="30dip"
             android:layout_marginRight="5dip"

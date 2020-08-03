@@ -54,7 +54,7 @@ import com.example.locationsave.HEP.KMS.Location.KMS_LocationFlagManager;
 import com.example.locationsave.HEP.KMS.Location.KMS_SelectLocation;
 import com.example.locationsave.HEP.KMS.MainFragment.KMS_FragmentManager;
 import com.example.locationsave.HEP.KMS.MainFragment.KMS_MapFragment;
-import com.example.locationsave.HEP.KMS.Toolbar.KMS_ClearableEditTextSearchBar;
+import com.example.locationsave.HEP.KMS.Toolbar.KMS_ClearableEditText_LoadLocation;
 import com.example.locationsave.HEP.KMS.Toolbar.KMS_RecycleVIewManager;
 import com.example.locationsave.HEP.KMS.Toolbar.KMS_SearchManager;
 import com.example.locationsave.HEP.pcs_RecyclerView.Pcs_LocationRecyclerView;
@@ -349,7 +349,7 @@ public class KMS_MainActivity extends AppCompatActivity implements NavigationVie
 
 
     //6. 자동완성 텍스트 뷰
-    KMS_ClearableEditTextSearchBar ct;
+    KMS_ClearableEditText_LoadLocation ct;
     public AutoCompleteTextView ac;
     InputMethodManager imm; //키보드 설정 위한
 
@@ -708,7 +708,7 @@ public class KMS_MainActivity extends AppCompatActivity implements NavigationVie
  
         //6. 자동완성 텍스트 뷰
         ct = findViewById(R.id.searchView); //프로젝트 단위
-        ac = findViewById(R.id.clearable_edit); //실제 자동완성 텍스트
+        ac = findViewById(R.id.clearable_edit_load_location); //실제 자동완성 텍스트
         ac.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
@@ -726,7 +726,7 @@ public class KMS_MainActivity extends AppCompatActivity implements NavigationVie
         settingList(); //자동완성 리스트 삽입
 
         //https://sharp57dev.tistory.com/12 자동완성
-        final AutoCompleteTextView autoCompleteTextView = (AutoCompleteTextView) findViewById(R.id.clearable_edit);
+        final AutoCompleteTextView autoCompleteTextView = (AutoCompleteTextView) findViewById(R.id.clearable_edit_load_location);
         autoCompleteTextView.setAdapter(new ArrayAdapter<String>(this,
                 android.R.layout.simple_dropdown_item_1line, list));
 

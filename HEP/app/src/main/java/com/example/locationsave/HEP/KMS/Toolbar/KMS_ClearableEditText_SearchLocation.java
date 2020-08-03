@@ -19,7 +19,7 @@ import com.example.locationsave.R;
  * Created by TonyChoi on 2016. 4. 4..
  */
 
-public class KMS_ClearableEditTextSearchBar extends RelativeLayout {
+public class KMS_ClearableEditText_SearchLocation extends RelativeLayout {
 
     LayoutInflater inflater = null;
     AutoCompleteTextView editText;
@@ -27,7 +27,7 @@ public class KMS_ClearableEditTextSearchBar extends RelativeLayout {
     public static Context mContext;
     FragmentManager fm;
 
-    public KMS_ClearableEditTextSearchBar(Context context, AttributeSet attrs) {
+    public KMS_ClearableEditText_SearchLocation(Context context, AttributeSet attrs) {
         super(context, attrs);
         setLayout();
         mContext = context;
@@ -37,10 +37,10 @@ public class KMS_ClearableEditTextSearchBar extends RelativeLayout {
         //레이아웃을 설정
         inflater = (LayoutInflater) getContext().getSystemService(
                 Context.LAYOUT_INFLATER_SERVICE);
-        inflater.inflate(R.layout.kms_clearable_edit_text_load_location, this, true);
+        inflater.inflate(R.layout.kms_clearable_edit_text_search_location, this, true);
 
-        editText = findViewById(R.id.clearable_edit);
-        btnClear = (Button) findViewById(R.id.clearable_button_clear);
+        editText = findViewById(R.id.clearable_edit_search_location);
+        btnClear = (Button) findViewById(R.id.clearable_search_location_button_clear);
         btnClear.setVisibility(RelativeLayout.INVISIBLE);
 
         clearText();
