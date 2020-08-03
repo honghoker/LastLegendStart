@@ -1,27 +1,24 @@
 package com.example.locationsave.HEP.Address;
 
-public class GeocodingEntity {
-    private String json;
-    private String roodAddress;
+public class GeocodingArrayEntity {
+    private String roadAddress;
     private String jibunAddress;
-    private String englishAddress;
     private String longitude; // 경도 y
     private String latitude; // 위도 x
 
-    public String getJson() {
-        return json;
+    public GeocodingArrayEntity(String jibunAddress, String roadAddress, String longitude, String latitude) {
+        this.roadAddress = roadAddress;
+        this.jibunAddress = jibunAddress;
+        this.longitude = longitude;
+        this.latitude = latitude;
     }
 
-    public void setJson(String json) {
-        this.json = json;
+    public String getRoadAddress() {
+        return roadAddress;
     }
 
-    public String getRoodAddress() {
-        return roodAddress;
-    }
-
-    public void setRoodAddress(String roodAddress) {
-        this.roodAddress = roodAddress;
+    public void setRoadAddress(String roadAddress) {
+        this.roadAddress = roadAddress;
     }
 
     public String getJibunAddress() {
@@ -30,14 +27,6 @@ public class GeocodingEntity {
 
     public void setJibunAddress(String jibunAddress) {
         this.jibunAddress = jibunAddress;
-    }
-
-    public String getEnglishAddress() {
-        return englishAddress;
-    }
-
-    public void setEnglishAddress(String englishAddress) {
-        this.englishAddress = englishAddress;
     }
 
     public String getLongitude() {

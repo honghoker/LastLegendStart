@@ -1,16 +1,47 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="AndroidConfiguredLogFilters">
+    <filters>
+      <filter>
+        <option name="logLevel" value="verbose" />
+        <option name="logMessagePattern" value="" />
+        <option name="logTagPattern" value="6" />
+        <option name="name" value="6" />
+        <option name="packageNamePattern" value="" />
+        <option name="pid" value="" />
+      </filter>
+    </filters>
+  </component>
   <component name="AndroidLayouts">
     <shared>
       <config />
     </shared>
   </component>
   <component name="AndroidLogFilters">
-    <option name="TOOL_WINDOW_CUSTOM_FILTER" value="####key" />
-    <option name="TOOL_WINDOW_CONFIGURED_FILTER" value="Show only selected application" />
+    <option name="TOOL_WINDOW_CONFIGURED_FILTER" value="6" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="e45014c7-91ba-4a6e-9906-406c4b19666c" name="Default Changelist" comment="" />
+    <list default="true" id="e45014c7-91ba-4a6e-9906-406c4b19666c" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/example/locationsave/HEP/Address/GeocodingArrayEntity.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/example/locationsave/HEP/Address/SearchAreaArrayEntity.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/example/locationsave/HEP/Address/SearchAreaAsyncTask.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/example/locationsave/HEP/Address/SearchAreaEntity.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/example/locationsave/HEP/Address/SearchAreaGetAddress.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/caches/build_file_checksums.ser" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/caches/build_file_checksums.ser" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/gradle.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/gradle.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Gradle__com_google_android_gms_play_services_location_16_0_0_aar.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__com_google_android_gms_play_services_location_16_0_0_aar.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Gradle__com_naver_maps_geometry_1_2_0_aar.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__com_naver_maps_geometry_1_2_0_aar.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Gradle__com_naver_maps_map_sdk_3_8_0_aar.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__com_naver_maps_map_sdk_3_8_0_aar.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Gradle__com_squareup_picasso_picasso_2_71828_aar.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__com_squareup_picasso_picasso_2_71828_aar.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Gradle__it_xabaras_android_recyclerview_swipedecorator_1_2_2_aar.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__it_xabaras_android_recyclerview_swipedecorator_1_2_2_aar.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/locationsave/HEP/Address/GeocodingAsyncTask.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/locationsave/HEP/Address/GeocodingAsyncTask.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/locationsave/HEP/Address/GeocodingEntity.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/locationsave/HEP/Address/GeocodingEntity.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/locationsave/HEP/Address/GetAddress.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/locationsave/HEP/Address/GeocodingGetAddress.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/locationsave/HEP/KMS/Location/KMS_SelectLocation.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/locationsave/HEP/KMS/Location/KMS_SelectLocation.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/locationsave/HEP/KMS_MainActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/locationsave/HEP/KMS_MainActivity.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/kms_clearable_edit_text.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/kms_clearable_edit_text.xml" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -34,35 +65,16 @@
         <task path="$PROJECT_DIR$/app">
           <activation />
         </task>
-        <projects_view>
-          <tree_state>
-            <expand>
-              <path>
-                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
-                <item name="LocationSave" type="f1a62948:ProjectNode" />
-              </path>
-              <path>
-                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
-                <item name="LocationSave" type="f1a62948:ProjectNode" />
-                <item name="Tasks" type="e4a08cd1:TasksNode" />
-              </path>
-              <path>
-                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
-                <item name="LocationSave" type="f1a62948:ProjectNode" />
-                <item name="app" type="2d1252cf:ModuleNode" />
-              </path>
-              <path>
-                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
-                <item name="LocationSave" type="f1a62948:ProjectNode" />
-                <item name="app" type="2d1252cf:ModuleNode" />
-                <item name="Tasks" type="e4a08cd1:TasksNode" />
-              </path>
-            </expand>
-            <select />
-          </tree_state>
-        </projects_view>
+        <projects_view />
       </state>
     </system>
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Class" />
+      </list>
+    </option>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
@@ -147,7 +159,7 @@
   </component>
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
-      <changelist id="86a072fe-2a24-4da1-9dbb-0838a80bbdd6" name="Default Changelist" comment="" />
+      <changelist id="e45014c7-91ba-4a6e-9906-406c4b19666c" name="Default Changelist" comment="" />
       <created>1595923269839</created>
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
@@ -160,33 +172,45 @@
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state x="286" y="144" key="#PSD/0.0.1536.824/1920.0.1080.770@0.0.1536.824" timestamp="1595929760042" />
+    <state x="765" y="229" key="#com.intellij.ide.util.MemberChooser" timestamp="1596465583320">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="765" y="229" key="#com.intellij.ide.util.MemberChooser/1920.-205.1536.832/0.0.1920.1040@0.0.1920.1040" timestamp="1596465583320" />
     <state x="549" y="167" key="FileChooserDialogImpl" timestamp="1595962136836">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state x="549" y="167" key="FileChooserDialogImpl/0.0.1536.824/1920.0.1080.770@0.0.1536.824" timestamp="1595962136836" />
-    <state width="1491" height="188" key="GridCell.Tab.0.bottom" timestamp="1595959795318">
-      <screen x="0" y="0" width="1536" height="824" />
+    <state width="1877" height="273" key="GridCell.Tab.0.bottom" timestamp="1596452066179">
+      <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state width="1491" height="188" key="GridCell.Tab.0.bottom/0.0.1536.824/1920.0.1080.770@0.0.1536.824" timestamp="1595959795318" />
     <state width="1491" height="188" key="GridCell.Tab.0.bottom/0.0.1536.824@0.0.1536.824" timestamp="1595958958268" />
-    <state width="1491" height="188" key="GridCell.Tab.0.center" timestamp="1595959795318">
-      <screen x="0" y="0" width="1536" height="824" />
+    <state width="1877" height="273" key="GridCell.Tab.0.bottom/1920.-205.1536.832/0.0.1920.1040@0.0.1920.1040" timestamp="1596452066179" />
+    <state width="1877" height="273" key="GridCell.Tab.0.center" timestamp="1596452066179">
+      <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state width="1491" height="188" key="GridCell.Tab.0.center/0.0.1536.824/1920.0.1080.770@0.0.1536.824" timestamp="1595959795318" />
     <state width="1491" height="188" key="GridCell.Tab.0.center/0.0.1536.824@0.0.1536.824" timestamp="1595958958268" />
-    <state width="1491" height="188" key="GridCell.Tab.0.left" timestamp="1595959795317">
-      <screen x="0" y="0" width="1536" height="824" />
+    <state width="1877" height="273" key="GridCell.Tab.0.center/1920.-205.1536.832/0.0.1920.1040@0.0.1920.1040" timestamp="1596452066179" />
+    <state width="1877" height="273" key="GridCell.Tab.0.left" timestamp="1596452066178">
+      <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state width="1491" height="188" key="GridCell.Tab.0.left/0.0.1536.824/1920.0.1080.770@0.0.1536.824" timestamp="1595959795317" />
     <state width="1491" height="188" key="GridCell.Tab.0.left/0.0.1536.824@0.0.1536.824" timestamp="1595958958267" />
-    <state width="1491" height="188" key="GridCell.Tab.0.right" timestamp="1595959795318">
-      <screen x="0" y="0" width="1536" height="824" />
+    <state width="1877" height="273" key="GridCell.Tab.0.left/1920.-205.1536.832/0.0.1920.1040@0.0.1920.1040" timestamp="1596452066178" />
+    <state width="1877" height="273" key="GridCell.Tab.0.right" timestamp="1596452066179">
+      <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state width="1491" height="188" key="GridCell.Tab.0.right/0.0.1536.824/1920.0.1080.770@0.0.1536.824" timestamp="1595959795318" />
     <state width="1491" height="188" key="GridCell.Tab.0.right/0.0.1536.824@0.0.1536.824" timestamp="1595958958268" />
+    <state width="1877" height="273" key="GridCell.Tab.0.right/1920.-205.1536.832/0.0.1920.1040@0.0.1920.1040" timestamp="1596452066179" />
     <state x="569" y="190" key="chooseDestDirectoryDialog" timestamp="1595933675237">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state x="569" y="190" key="chooseDestDirectoryDialog/0.0.1536.824/1920.0.1080.770@0.0.1536.824" timestamp="1595933675237" />
+    <state x="721" y="362" key="edit.logcat.filter.dialog.dimensions" timestamp="1596437713989">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="721" y="362" key="edit.logcat.filter.dialog.dimensions/1920.-205.1536.832/0.0.1920.1040@0.0.1920.1040" timestamp="1596437713989" />
   </component>
 </project>

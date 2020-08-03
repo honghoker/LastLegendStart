@@ -38,22 +38,17 @@ import androidx.fragment.app.ListFragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-
+import com.example.locationsave.HEP.Address.GeocodingArrayEntity;
 import com.example.locationsave.HEP.Address.GeocodingAsyncTask;
-import com.example.locationsave.HEP.Address.GetAddress;
-import com.example.locationsave.HEP.BackPressed.KMS_BackPressedForFinish;
-import com.example.locationsave.HEP.HashTag.KMS_FlowLayout;
-import com.example.locationsave.HEP.HashTag.KMS_HashTag;
-import com.example.locationsave.HEP.HashTag.KMS_HashTagCheckBoxManager;
-
+import com.example.locationsave.HEP.Address.GeocodingGetAddress;
+import com.example.locationsave.HEP.Address.SearchAreaArrayEntity;
+import com.example.locationsave.HEP.Address.SearchAreaAsyncTask;
+import com.example.locationsave.HEP.Address.SearchAreaGetAddress;
 import com.example.locationsave.HEP.Hep.hep_LocationSave.hep_LocationSaveActivity;
-import com.example.locationsave.HEP.KSH.KSH_AllSeeActivity;
-import com.example.locationsave.HEP.KSH.KSH_DirectoryEntity;
-import com.example.locationsave.HEP.KSH.KSH_FireBase;
-import com.example.locationsave.HEP.KSH.KSH_LoadingActivity;
-import com.example.locationsave.HEP.KSH.KSH_RecyAdapter;
-import com.example.locationsave.HEP.KSH.KSH_RecyclerviewAdapter;
-import com.example.locationsave.HEP.KSH.NavIntent.KSH_NoticeIntent;
+import com.example.locationsave.HEP.KMS.BackPressed.KMS_BackPressedForFinish;
+import com.example.locationsave.HEP.KMS.HashTag.KMS_FlowLayout;
+import com.example.locationsave.HEP.KMS.HashTag.KMS_HashTag;
+import com.example.locationsave.HEP.KMS.HashTag.KMS_HashTagCheckBoxManager;
 import com.example.locationsave.HEP.KMS.Location.KMS_LocationFlagManager;
 import com.example.locationsave.HEP.KMS.Location.KMS_SelectLocation;
 import com.example.locationsave.HEP.KMS.MainFragment.KMS_FragmentManager;
@@ -61,6 +56,13 @@ import com.example.locationsave.HEP.KMS.MainFragment.KMS_MapFragment;
 import com.example.locationsave.HEP.KMS.Toolbar.KMS_ClearableEditTextSearchBar;
 import com.example.locationsave.HEP.KMS.Toolbar.KMS_RecycleVIewManager;
 import com.example.locationsave.HEP.KMS.Toolbar.KMS_SearchManager;
+import com.example.locationsave.HEP.KSH.KSH_AllSeeActivity;
+import com.example.locationsave.HEP.KSH.KSH_DirectoryEntity;
+import com.example.locationsave.HEP.KSH.KSH_FireBase;
+import com.example.locationsave.HEP.KSH.KSH_LoadingActivity;
+import com.example.locationsave.HEP.KSH.KSH_RecyAdapter;
+import com.example.locationsave.HEP.KSH.KSH_RecyclerviewAdapter;
+import com.example.locationsave.HEP.KSH.NavIntent.KSH_NoticeIntent;
 import com.example.locationsave.HEP.pcs_RecyclerView.Pcs_LocationRecyclerView;
 import com.example.locationsave.R;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -639,16 +641,17 @@ public class KMS_MainActivity extends AppCompatActivity implements NavigationVie
                     String key = snapshot.getKey();
                     arrayList.add(ksh_directoryEntity);  // 담은 데이터들을 arraylist에 넣고 recyclerview로 보낼 준비
                     arrayKey.add(key);
+//                    Log.d("6","초기 key 값 확인 "+arrayKey.get(0));
                 }
                 recyAdapter.notifyDataSetChanged(); // list 저장 및 새로고침
 //                recyclerviewAdapter.notifyDataSetChanged(); // list 저장 및 새로고침
             }
-
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
                 Log.d("1", " error "+String.valueOf(databaseError.toException()));
             }
         });
+
         recyAdapter = new KSH_RecyAdapter(this,arrayList,arrayKey,ksh_directoryEntity);
 //        recyclerviewAdapter = new KSH_RecyclerviewAdapter();
         recyclerView.setAdapter(recyAdapter);
@@ -710,7 +713,7 @@ public class KMS_MainActivity extends AppCompatActivity implements NavigationVie
 
         //4. Toolbar Search
         linearLayoutToolbarSearch = findViewById(R.id.linearLayoutToolbarSearch);
- 
+
         //6. 자동완성 텍스트 뷰
         ct = findViewById(R.id.searchView); //프로젝트 단위
         ac = findViewById(R.id.clearable_edit); //실제 자동완성 텍스트
@@ -718,19 +721,42 @@ public class KMS_MainActivity extends AppCompatActivity implements NavigationVie
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
                 if (actionId == EditorInfo.IME_ACTION_SEARCH) {
-                    // 여기 해결
-                    GeocodingAsyncTask asyncTask = new GeocodingAsyncTask(ac.getText().toString());
-                    GetAddress getAddress = new GetAddress();
+                    // searchArea = ex) 계명대학교, 경북대학교 이렇게 단순히 건물 이름 검색했을 때 주소 list
+                    // 여기서 나오는 address, roadAddress 를 이용해서 다시 geocoding 돌리면
+                    SearchAreaAsyncTask searchAreaAsyncTask = new SearchAreaAsyncTask(ac.getText().toString());
+                    SearchAreaGetAddress searchAreaGetAddress = new SearchAreaGetAddress();
+                    // geocoding = ex) 신당동 164 이렇게 주소를 입력했을 때 관련된 상세주소 list
+                    GeocodingAsyncTask geocodingAsyncTask = new GeocodingAsyncTask(ac.getText().toString());
+                    GeocodingGetAddress geocodingGetAddress = new GeocodingGetAddress();
+
                     try {
-                        Log.d("6","1111111");
-                        String resultAddr = getAddress.getJsonString(asyncTask.execute().get());
+                        ArrayList<SearchAreaArrayEntity> searchAreaArrayResult = searchAreaGetAddress.getJsonString(searchAreaAsyncTask.execute().get());
+                        ArrayList<GeocodingArrayEntity> geocodingArrayResult = geocodingGetAddress.getJsonString(geocodingAsyncTask.execute().get());
+
+                        if(searchAreaArrayResult.size()==0 && geocodingArrayResult.size()==0){
+                            Log.d("6","검색결과가 없습니다");
+                        }
+                        else if(searchAreaArrayResult.size()==0){
+                            for(int i=0; i<geocodingArrayResult.size();i++){
+                                Log.d("6",i + " jibunAddress "+ geocodingArrayResult.get(i).getJibunAddress()
+                                        + " roadAddress " + geocodingArrayResult.get(i).getRoadAddress() + " 위도 " +geocodingArrayResult.get(i).getLatitude()
+                                        + " 경도 " + geocodingArrayResult.get(i).getLongitude());
+                            }
+                        }
+                        else{
+                            for(int i=0; i<searchAreaArrayResult.size();i++){
+                                Log.d("6",i + " title " + searchAreaArrayResult.get(i).getTitle().replaceAll("<(/)?([a-zA-Z]*)(\\s[a-zA-Z]*=[^>]*)?(\\s)*(/)?>", "")
+                                        + " address " + searchAreaArrayResult.get(i).getAddress()
+                                        + " roadAddress " + searchAreaArrayResult.get(i).getRoadAddress());
+                            }
+                        }
                     } catch (ExecutionException e) {
                         e.printStackTrace();
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
 
-                    Toast.makeText(getApplicationContext(), String.valueOf(ac.getText().toString()), Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(getApplicationContext(), String.valueOf(ac.getText().toString()), Toast.LENGTH_SHORT).show();
                     return true;
                 }
                 return false;
