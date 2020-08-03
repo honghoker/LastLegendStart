@@ -647,7 +647,7 @@ public class KMS_MainActivity extends AppCompatActivity implements NavigationVie
                 Log.d("1", " error "+String.valueOf(databaseError.toException()));
             }
         });
-        recyAdapter = new KSH_RecyAdapter(this,arrayList,ksh_directoryEntity);
+        recyAdapter = new KSH_RecyAdapter(this,arrayList,arrayKey,ksh_directoryEntity);
 //        recyclerviewAdapter = new KSH_RecyclerviewAdapter();
         recyclerView.setAdapter(recyAdapter);
 
