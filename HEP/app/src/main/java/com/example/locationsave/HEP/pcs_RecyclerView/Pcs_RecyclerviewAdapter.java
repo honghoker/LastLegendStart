@@ -26,8 +26,8 @@ public class Pcs_RecyclerviewAdapter extends FirebaseRecyclerAdapter<hep_Locatio
     @Override
     protected void onBindViewHolder(@NonNull ListHolder listHolder, int i, @NonNull hep_Location location) {
         listHolder.textViewTitle.setText(location.getName());
-        listHolder.textViewAddress.setText(location.getAddr());
-        listHolder.textViewTag.setText(getTag(location));
+//        listHolder.textViewAddress.setText(location.getAddr());
+//        listHolder.textViewTag.setText(getTag(location));
         //listHolder.textViewTag.setText(location.getTag());
     }
 
