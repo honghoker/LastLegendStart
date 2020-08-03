@@ -14,7 +14,7 @@ import com.example.locationsave.HEP.Hep.hep_LocationDetail.hep_LocationDetailAct
 import com.example.locationsave.R;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
-import com.google.firebase.database.DataSnapshot;
+
 
 public class Pcs_RecyclerviewAdapter extends FirebaseRecyclerAdapter<hep_Location, Pcs_RecyclerviewAdapter.ListHolder> {
 
