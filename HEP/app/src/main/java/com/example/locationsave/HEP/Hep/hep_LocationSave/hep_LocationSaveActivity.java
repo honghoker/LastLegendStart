@@ -28,6 +28,7 @@ import com.example.locationsave.HEP.Hep.hep_DTO.hep_Location;
 import com.example.locationsave.HEP.Hep.hep_DTO.hep_Tag;
 import com.example.locationsave.HEP.Hep.hep_FireBase;
 import com.example.locationsave.HEP.Hep.hep_LocationDetail.hep_LocationDetailActivity;
+import com.example.locationsave.HEP.KMS_MainActivity;
 import com.example.locationsave.HEP.pcs_RecyclerView.Pcs_LocationRecyclerView;
 import com.example.locationsave.R;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -80,7 +81,6 @@ public class hep_LocationSaveActivity extends AppCompatActivity {
         else
             ((TextView)findViewById(R.id.locationAddr)).setText(addr);
 
-        Log.d("@@@@@@@@@@@", "latitude = " + latitude + " longitude = " + longitude);
         ((Button)findViewById(R.id.detailView)).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -313,8 +313,9 @@ public class hep_LocationSaveActivity extends AppCompatActivity {
                     ((EditText)findViewById(R.id.locationAddr)).getText().toString(),
                     ((EditText)findViewById(R.id.locationDetailAddr)).getText().toString(),
                     ((EditText)findViewById(R.id.locationContact)).getText().toString(),
-                    ((EditText)findViewById(R.id.locationMemo)).getText().toString()
-                    /* 위도 경도 가져오기 추가 필요*/
+                    ((EditText)findViewById(R.id.locationMemo)).getText().toString(),
+                    latitude,
+                    longitude
             );
 
             Map<String, Object> hashMapLocation = hep_Location.toMap();
@@ -401,5 +402,10 @@ public class hep_LocationSaveActivity extends AppCompatActivity {
     private void setFragment(){
         FragmentTransaction trans = getSupportFragmentManager().beginTransaction();
         trans.replace(R.id.fragmentContainer, pcsFragment).commit();
+    }
+
+    public void onbtnChangeAddrClicked(View v){
+        Intent intent = new Intent(getApplicationContext(), KMS_MainActivity.class);
+        this.startActivity(intent);
     }
 }
