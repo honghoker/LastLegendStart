@@ -20,6 +20,8 @@ import com.google.firebase.database.DatabaseReference;
 import java.util.ArrayList;
 
 public class KSH_RecyAdapter extends RecyclerView.Adapter<KSH_RecyAdapter.ViewHolder> {
+    public static String directoryid;
+
     private final int TYPE_HEADER = 0;
     private final int TYPE_ITEM = 1;
     Context mcontext;
@@ -105,7 +107,6 @@ public class KSH_RecyAdapter extends RecyclerView.Adapter<KSH_RecyAdapter.ViewHo
             this.recy_test_title = itemView.findViewById(R.id.recy_test_title);
             this.recy_createTime = itemView.findViewById(R.id.recy_createTime);
 
-
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -136,6 +137,7 @@ public class KSH_RecyAdapter extends RecyclerView.Adapter<KSH_RecyAdapter.ViewHo
                         builder.show();
                     }
                     else{
+                        directoryid = arrayKey.get(pos-1);
                         Toast.makeText(mcontext, arrayKey.get(pos-1), Toast.LENGTH_SHORT).show();
                         Log.d("1","recyclerView directory");
                     }

@@ -30,9 +30,11 @@
         <activity android:name=".HEP.Hep.hep_LocationSave.hep_FullImage"/>
         <activity android:name=".HEP.Hep.hep_LocationDetail.hep_LocationDetailActivity"/>
 
+        <service android:name=".HEP.Hep.ForecdTerminationService"
+            android:stopWithTask="false"/>
+
         <meta-data
             android:name="com.naver.maps.map.CLIENT_ID"
             android:value="" />
     </application>
-
 </manifest>
