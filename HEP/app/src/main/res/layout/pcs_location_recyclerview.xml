@@ -15,8 +15,10 @@
                 android:id="@+id/locationRecyclcerView"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:layout_marginTop="0dp"
                 android:scrollbarFadeDuration="0"
-                android:scrollbarSize="5dp">
+                android:scrollbarSize="5dp"
+                android:paddingTop="?attr/actionBarSize">
 
             </androidx.recyclerview.widget.RecyclerView>
         </RelativeLayout>

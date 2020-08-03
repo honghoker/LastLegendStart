@@ -14,6 +14,7 @@ import com.example.locationsave.HEP.Hep.hep_LocationDetail.hep_LocationDetailAct
 import com.example.locationsave.R;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
+import com.google.firebase.database.DataSnapshot;
 
 
 public class Pcs_RecyclerviewAdapter extends FirebaseRecyclerAdapter<hep_Location, Pcs_RecyclerviewAdapter.ListHolder> {
@@ -46,19 +47,15 @@ public class Pcs_RecyclerviewAdapter extends FirebaseRecyclerAdapter<hep_Locatio
     }
 
     public String getIDByPosition(int position){
+
         return getSnapshots().getSnapshot(position).getKey();
     }
-    public DataSnapshot getData(int position){
-        return getSnapshots().getSnapshot(position);
-    }
-
-    @NonNull
-    @Override
-    public hep_Location getItem(int position) {
-        return super.getItem(position);
-    }
-
     class ListHolder extends RecyclerView.ViewHolder{
+        public DataSnapshot getData(int position){
+            return getSnapshots().getSnapshot(position);
+        }
+
+
         TextView textViewTitle;
         TextView textViewAddress;
         TextView textViewTag;
