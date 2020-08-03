@@ -1,6 +1,6 @@
 package com.example.locationsave.HEP.Address;
 
-public class AddressEntity {
+public class ReverseGeocodingEntity {
     private String json;
     private String area1_name;
     private String area2_name;

@@ -14,7 +14,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
-import com.example.locationsave.HEP.Address.GetAddress;
+import com.example.locationsave.HEP.Address.ReverseGetAddress;
 import com.example.locationsave.HEP.Address.ReverseGeocodingAsyncTask;
 import com.example.locationsave.HEP.KMS_MainActivity;
 import com.example.locationsave.HEP.KMS.Location.KMS_LocationFlagManager;
@@ -264,9 +264,9 @@ public class KMS_MapFragment extends Fragment implements OnMapReadyCallback {
                     Log.d("MapMap", "onCameraIdle 위도 : " + cameraPosition.target.latitude + "경도 : " + cameraPosition.target.longitude + im++);
 
                     ReverseGeocodingAsyncTask asyncTask = new ReverseGeocodingAsyncTask(cameraPosition.target.latitude, cameraPosition.target.longitude);
-                    GetAddress getAddress = new GetAddress();
+                    ReverseGetAddress reverseGetAddress = new ReverseGetAddress();
                     try {
-                        String resultAddr = getAddress.getJsonString(asyncTask.execute().get());
+                        String resultAddr = reverseGetAddress.getJsonString(asyncTask.execute().get());
                         ((TextView)activity.findViewById(R.id.selectLocation_AddressInfo)).setText(resultAddr);
                     } catch (ExecutionException e) {
                         e.printStackTrace();
