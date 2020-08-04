@@ -14,6 +14,9 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.locationsave.HEP.Hep.hep_DTO.hep_Callback;
+import com.example.locationsave.HEP.Hep.hep_DTO.hep_Recent;
+import com.example.locationsave.HEP.Hep.hep_FireBase;
 import com.example.locationsave.R;
 import com.google.firebase.database.DatabaseReference;
 
@@ -31,6 +34,7 @@ public class KSH_RecyAdapter extends RecyclerView.Adapter<KSH_RecyAdapter.ViewHo
     String directoryKey;
     KSH_DirectoryEntity ksh_directoryEntity;
     KSH_Date ksh_date = new KSH_Date();
+    public static int count = 0;
 
     public KSH_RecyAdapter(Context context, ArrayList<KSH_DirectoryEntity> arrayList,ArrayList<String> arrayKey, KSH_DirectoryEntity ksh_directoryEntity) {
         mcontext = context;
@@ -73,6 +77,28 @@ public class KSH_RecyAdapter extends RecyclerView.Adapter<KSH_RecyAdapter.ViewHo
             holder = new HeaderViewHolder(view);
         }
         else {
+            new hep_FireBase().getRecentData(new hep_Callback() {
+                @Override
+                public void onSuccess(hep_Recent hep_recent) {
+                    Log.d("@@@@@@@@@@@", "directory" + hep_recent.directoryid + ", arraykey = " + arrayKey.get(count) + " contains? : " + arrayKey.contains(hep_recent.directoryid));
+                    if(hep_recent.directoryid.equals(arrayKey.get(count)))
+                        Log.d("@@@@", "같음");
+                    count++;
+                }
+
+                @Override
+                public void onFail(String errorMessage) {
+
+                }
+            });
+
+            //arrayKey.contains(hep_Recent.directoryid);
+
+            //Log.d("@@@@@@@@@", "" + arrayKey.indexOf(hep_Recent.directoryid));
+            //if(a.equals(arrayKey.get(count))){
+            //    Log.d("@@@@", "같음");
+            //}
+            count++;
             view = LayoutInflater.from(parent.getContext()).inflate(R.layout.ksh_recyclerview_item, parent, false);
             holder = new ViewHolder(view);
         }

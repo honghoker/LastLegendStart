@@ -41,7 +41,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.locationsave.HEP.Address.GeocodingAsyncTask;
 import com.example.locationsave.HEP.Address.GetAddress;
 import com.example.locationsave.HEP.Hep.ForecdTerminationService;
-import com.example.locationsave.HEP.Hep.hep_FireBase;
 import com.example.locationsave.HEP.Hep.hep_LocationSave.hep_LocationSaveActivity;
 import com.example.locationsave.HEP.KMS.BackPressed.KMS_BackPressedForFinish;
 import com.example.locationsave.HEP.KMS.HashTag.KMS_FlowLayout;
@@ -68,7 +67,6 @@ import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.naver.maps.map.CameraPosition;
 
@@ -655,36 +653,7 @@ public class KMS_MainActivity extends AppCompatActivity implements NavigationVie
 
         recyAdapter = new KSH_RecyAdapter(this,arrayList,arrayKey,ksh_directoryEntity);
 
-//        recyclerviewAdapter = new KSH_RecyclerviewAdapter();
         recyclerView.setAdapter(recyAdapter);
-
-        // 최근 지역, 디렉토리 뽑기
-        //Query recentQuery = new hep_FireBase().getFireBaseDatabaseInstance().getReference().child("locationimage").orderByChild("oauth token").equalTo(찾을 oauth token);
-        DatabaseReference recentReference = new hep_FireBase().getFireBaseDatabaseInstance().getReference().child("recent");
-        Query recentQuery = recentReference;
-        recentQuery.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                Log.d("@@@@@@@@@@@@@@@", "" + snapshot.getChildrenCount());
-                recyclerView.getLayoutManager().scrollToPosition(3);
-                /*
-                if(snapshot.getChildrenCount() == 0)
-                    KSH_AllSeeActivity.recyclerView.scrollToPosition(0);
-                else
-                for(DataSnapshot dataSnapshot : snapshot.getChildren()){
-                    hep_Recent hep_recent = dataSnapshot.getValue(hep_Recent.class);
-                    //Log.d("@@@@@@@@@@@@@@@", "" + hep_recent.directoryid);
-                    Log.d("@@@@@@@@@@@@@@@", "" + arrayKey.indexOf(hep_recent.directoryid));
-                }*/
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });
-
-
 
         // loading
         Intent intent = new Intent(this, KSH_LoadingActivity.class);
