@@ -10,15 +10,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="e45014c7-91ba-4a6e-9906-406c4b19666c" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/example/locationsave/HEP/KMS/Toolbar/KMS_ClearableEditText_SearchLocation.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/gradle.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/gradle.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/locationsave/HEP/KMS/Toolbar/KMS_ClearableEditTextSearchBar.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/locationsave/HEP/KMS/Toolbar/KMS_ClearableEditText_LoadLocation.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/locationsave/HEP/KMS_MainActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/locationsave/HEP/KMS_MainActivity.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/kms_activity_main.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/kms_activity_main.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/kms_clearable_edit_text_load_location.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/kms_clearable_edit_text_load_location.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/kms_clearable_edit_text_search_location.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/kms_clearable_edit_text_search_location.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/kms_select_location.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/kms_select_location.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -28,7 +21,7 @@
   <component name="CodeInsightWorkspaceSettings">
     <option name="optimizeImportsOnTheFly" value="true" />
   </component>
-  <component name="ExecutionTargetManager" SELECTED_TARGET="Pixel_2_API_24" />
+  <component name="ExecutionTargetManager" SELECTED_TARGET="2919afa51e3f7ece" />
   <component name="ExternalProjectsData">
     <projectState path="$PROJECT_DIR$">
       <ProjectState />
@@ -179,10 +172,10 @@
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state x="286" y="144" key="#PSD/0.0.1536.824/1920.0.1080.770@0.0.1536.824" timestamp="1595929760042" />
-    <state x="549" y="167" key="FileChooserDialogImpl" timestamp="1596438622604">
+    <state x="489" y="151" key="FileChooserDialogImpl" timestamp="1596542321826">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state x="549" y="167" key="FileChooserDialogImpl/0.0.1536.824/1920.0.1080.770@0.0.1536.824" timestamp="1596438622604" />
+    <state x="489" y="151" key="FileChooserDialogImpl/0.0.1536.824/1920.0.1080.770@0.0.1536.824" timestamp="1596542321826" />
     <state width="1877" height="281" key="GridCell.Tab.0.bottom" timestamp="1596377916302">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
