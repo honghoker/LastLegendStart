@@ -18,7 +18,6 @@
             android:gravity="center"
             android:hint="검색할 장소를 입력하세요."
             android:imeOptions="actionSearch"
-            android:maxLength="9"
             android:paddingRight="35dip"
             android:singleLine="true">
 

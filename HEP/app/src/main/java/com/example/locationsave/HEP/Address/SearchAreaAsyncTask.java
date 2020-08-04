@@ -21,7 +21,7 @@ public class SearchAreaAsyncTask extends AsyncTask<Void,Void,String> {
     @Override
     protected String doInBackground(Void... voids) {
         try{
-            String apiURL = "https://openapi.naver.com/v1/search/local.json?query="+simpleAddress+"&display=10&start=1&sort=random";
+            String apiURL = "https://openapi.naver.com/v1/search/local.json?query="+simpleAddress+"&display=5&start=1&sort=random";
             URL url = new URL(apiURL);
             HttpURLConnection con = (HttpURLConnection)url.openConnection();
             con.setRequestMethod("GET");
