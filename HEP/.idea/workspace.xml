@@ -22,25 +22,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="e45014c7-91ba-4a6e-9906-406c4b19666c" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/example/locationsave/HEP/Address/GeocodingArrayEntity.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/example/locationsave/HEP/Address/SearchAreaArrayEntity.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/example/locationsave/HEP/Address/SearchAreaAsyncTask.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/example/locationsave/HEP/Address/SearchAreaEntity.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/example/locationsave/HEP/Address/SearchAreaGetAddress.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/caches/build_file_checksums.ser" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/caches/build_file_checksums.ser" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/gradle.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/gradle.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Gradle__com_google_android_gms_play_services_location_16_0_0_aar.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__com_google_android_gms_play_services_location_16_0_0_aar.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Gradle__com_naver_maps_geometry_1_2_0_aar.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__com_naver_maps_geometry_1_2_0_aar.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Gradle__com_naver_maps_map_sdk_3_8_0_aar.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__com_naver_maps_map_sdk_3_8_0_aar.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Gradle__com_squareup_picasso_picasso_2_71828_aar.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__com_squareup_picasso_picasso_2_71828_aar.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Gradle__it_xabaras_android_recyclerview_swipedecorator_1_2_2_aar.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__it_xabaras_android_recyclerview_swipedecorator_1_2_2_aar.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/locationsave/HEP/Address/GeocodingAsyncTask.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/locationsave/HEP/Address/GeocodingAsyncTask.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/locationsave/HEP/Address/GeocodingEntity.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/locationsave/HEP/Address/GeocodingEntity.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/locationsave/HEP/Address/GetAddress.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/locationsave/HEP/Address/GeocodingGetAddress.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/locationsave/HEP/KMS/Location/KMS_SelectLocation.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/locationsave/HEP/KMS/Location/KMS_SelectLocation.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/locationsave/HEP/KMS_MainActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/locationsave/HEP/KMS_MainActivity.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/kms_clearable_edit_text.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/kms_clearable_edit_text.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -208,6 +191,10 @@
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state x="569" y="190" key="chooseDestDirectoryDialog/0.0.1536.824/1920.0.1080.770@0.0.1536.824" timestamp="1595933675237" />
+    <state x="92" y="92" width="1736" height="856" key="com.android.tools.idea.avdmanager.AvdListDialog" timestamp="1596532791164">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="92" y="92" width="1736" height="856" key="com.android.tools.idea.avdmanager.AvdListDialog/1920.-205.1536.832/0.0.1920.1040@0.0.1920.1040" timestamp="1596532791164" />
     <state x="721" y="362" key="edit.logcat.filter.dialog.dimensions" timestamp="1596437713989">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>

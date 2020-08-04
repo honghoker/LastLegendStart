@@ -362,36 +362,6 @@ public class KMS_MainActivity extends AppCompatActivity implements NavigationVie
 
     //리스트뷰
     private List<String> list;
-    //상단 리스트 뷰 목록
-    private void settingList() {
-        list.add("채수빈");
-        list.add("박지현");
-        list.add("수지");
-        list.add("남태현");
-        list.add("하성운");
-        list.add("크리스탈");
-        list.add("강승윤");
-        list.add("손나은");
-        list.add("남주혁");
-        list.add("루이");
-        list.add("진영");
-        list.add("슬기");
-        list.add("이해인");
-        list.add("고원희");
-        list.add("설리");
-        list.add("공명");
-        list.add("김예림");
-        list.add("혜리");
-        list.add("웬디");
-        list.add("박혜수");
-        list.add("카이");
-        list.add("진세연");
-        list.add("동호");
-        list.add("박세완");
-        list.add("도희");
-        list.add("창모");
-        list.add("허영지");
-    }
 
     //7. HashTag
     public static LinearLayout hastagView;
@@ -765,7 +735,6 @@ public class KMS_MainActivity extends AppCompatActivity implements NavigationVie
 
         imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE); //키보드-시스템서비스
         list = new ArrayList<String>();
-        settingList(); //자동완성 리스트 삽입
 
         //https://sharp57dev.tistory.com/12 자동완성
         final AutoCompleteTextView autoCompleteTextView = (AutoCompleteTextView) findViewById(R.id.clearable_edit);
