@@ -31,7 +31,6 @@ public class KMS_SelectLocation extends AppCompatActivity {
 //            getActionBar().show(); //메인 툴바 출력
 //            toolbarSub.setTitle("메인툴바 출력");
 //            li.setVisibility(View.GONE);
-
     }
     public void clickBtn(View v){
         switch (v.getId()){
