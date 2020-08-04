@@ -40,7 +40,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.locationsave.HEP.Address.GeocodingAsyncTask;
 import com.example.locationsave.HEP.Address.GetAddress;
-import com.example.locationsave.HEP.Hep.ForecdTerminationService;
+import com.example.locationsave.HEP.Hep.hep_closeAppService;
 import com.example.locationsave.HEP.Hep.hep_LocationSave.hep_LocationSaveActivity;
 import com.example.locationsave.HEP.KMS.BackPressed.KMS_BackPressedForFinish;
 import com.example.locationsave.HEP.KMS.HashTag.KMS_FlowLayout;
@@ -119,7 +119,7 @@ public class KMS_MainActivity extends AppCompatActivity implements NavigationVie
     private KSH_DirectoryEntity ksh_directoryEntity;
 
     public void ksh_init(){
-        startService(new Intent(this, ForecdTerminationService.class)); // 앱 종료 이벤트
+        startService(new Intent(this, hep_closeAppService.class)); // 앱 종료 이벤트
 
 //        toolbar = findViewById(R.id.dra_toolbar);
 //        setSupportActionBar(toolbar);

@@ -6,7 +6,6 @@ import com.example.locationsave.HEP.Hep.hep_DTO.hep_Callback;
 import com.example.locationsave.HEP.Hep.hep_DTO.hep_Recent;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
@@ -31,15 +30,13 @@ public class hep_FireBase {
 
     // 최근 지역, 디렉토리 뽑기
     public void getRecentData(final hep_Callback callback){
-        final hep_Recent[] hep_recent = {null};
-        DatabaseReference recentReference = new hep_FireBase().getFireBaseDatabaseInstance().getReference().child("recent");
-        Query recentQuery = recentReference;
+        String token = new hep_FirebaseUser().getFirebaseUserInstance().getUid();
+
+        Query recentQuery = new hep_FireBase().getFireBaseDatabaseInstance().getReference().child("recent").orderByChild("token").equalTo(token);
         recentQuery.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 for(DataSnapshot dataSnapshot : snapshot.getChildren()) {
-//                    hep_recent[0] = dataSnapshot.getValue(hep_Recent.class);
-//                    Log.d("@@@@@@@@", "" + hep_recent[0].directoryid);
                     callback.onSuccess(dataSnapshot.getValue(hep_Recent.class));
                 }
             }

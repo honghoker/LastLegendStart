@@ -19,8 +19,9 @@
         <activity android:name=".HEP.KSH.NavIntent.KSH_NoticeIntent"/>
         <activity android:name=".HEP.KSH.KSH_AllSeeActivity"/>
         <activity android:name=".HEP.Hep.hep_LocationSave.hep_LocationSaveActivity"/>
+        <activity android:name=".HEP.KMS_MainActivity"/>
 
-        <activity android:name=".HEP.KMS_MainActivity">
+        <activity android:name=".HEP.Hep.hep_LocationSave.hep_Login">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -30,7 +31,7 @@
         <activity android:name=".HEP.Hep.hep_LocationSave.hep_FullImage"/>
         <activity android:name=".HEP.Hep.hep_LocationDetail.hep_LocationDetailActivity"/>
 
-        <service android:name=".HEP.Hep.ForecdTerminationService"
+        <service android:name=".HEP.Hep.hep_closeAppService"
             android:stopWithTask="false"/>
 
         <meta-data

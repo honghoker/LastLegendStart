@@ -80,9 +80,9 @@ public class KSH_RecyAdapter extends RecyclerView.Adapter<KSH_RecyAdapter.ViewHo
             new hep_FireBase().getRecentData(new hep_Callback() {
                 @Override
                 public void onSuccess(hep_Recent hep_recent) {
-                    Log.d("@@@@@@@@@@@", "directory" + hep_recent.directoryid + ", arraykey = " + arrayKey.get(count) + " contains? : " + arrayKey.contains(hep_recent.directoryid));
                     if(hep_recent.directoryid.equals(arrayKey.get(count)))
-                        Log.d("@@@@", "같음");
+                        Log.d("@@@@", "같음 " + count);
+                    Log.d("@@@@", "" + count);
                     count++;
                 }
 
@@ -98,7 +98,6 @@ public class KSH_RecyAdapter extends RecyclerView.Adapter<KSH_RecyAdapter.ViewHo
             //if(a.equals(arrayKey.get(count))){
             //    Log.d("@@@@", "같음");
             //}
-            count++;
             view = LayoutInflater.from(parent.getContext()).inflate(R.layout.ksh_recyclerview_item, parent, false);
             holder = new ViewHolder(view);
         }
