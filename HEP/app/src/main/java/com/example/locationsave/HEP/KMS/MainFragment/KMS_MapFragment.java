@@ -14,6 +14,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
+import com.example.locationsave.HEP.Address.AreaSearch;
 import com.example.locationsave.HEP.Address.ReverseGetAddress;
 import com.example.locationsave.HEP.Address.ReverseGeocodingAsyncTask;
 import com.example.locationsave.HEP.KMS_MainActivity;
@@ -244,11 +245,11 @@ public class KMS_MapFragment extends Fragment implements OnMapReadyCallback {
     }*/
 
     int im = 0;
-
     @Override //자동으로 호출
     public void onMapReady(@NonNull NaverMap naverMap) {
 //        naverMap.setMapType(NaverMap.MapType.Navi);
 //        naverMap.setNightModeEnabled(true);
+        final AreaSearch areaSearch = new AreaSearch();
         NMap = naverMap; //전역에 naverMap 당겨옴
         NMap.addOnCameraIdleListener(new NaverMap.OnCameraIdleListener() {
             @Override

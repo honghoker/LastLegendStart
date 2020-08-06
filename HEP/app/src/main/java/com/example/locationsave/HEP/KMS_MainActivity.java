@@ -37,6 +37,7 @@ import androidx.fragment.app.ListFragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.locationsave.HEP.Address.AreaSearch;
 import com.example.locationsave.HEP.Hep.hep_LocationSave.hep_LocationSaveActivity;
 import com.example.locationsave.HEP.KMS.BackPressed.KMS_BackPressedForFinish;
 import com.example.locationsave.HEP.KMS.HashTag.KMS_FlowLayout;
@@ -135,6 +136,9 @@ public class KMS_MainActivity extends AppCompatActivity implements NavigationVie
         KSH_FireBase firebaseDatabase = KSH_FireBase.getInstance();
         databaseReference = firebaseDatabase.databaseReference;
         TagdatabaseReference = firebaseDatabase.TagdatabaseReference;
+
+        AreaSearch areaSearch = new AreaSearch();
+        areaSearch.Geocoding("신당동 164");
     }
 
     //1.Fragment

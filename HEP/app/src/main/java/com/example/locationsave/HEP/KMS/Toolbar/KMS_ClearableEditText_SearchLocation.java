@@ -16,16 +16,12 @@ import android.widget.TextView;
 
 import androidx.fragment.app.FragmentManager;
 
+import com.example.locationsave.HEP.Address.AreaSearch;
 import com.example.locationsave.HEP.Address.GeocodingArrayEntity;
-import com.example.locationsave.HEP.Address.GeocodingAsyncTask;
-import com.example.locationsave.HEP.Address.GeocodingGetAddress;
 import com.example.locationsave.HEP.Address.SearchAreaArrayEntity;
-import com.example.locationsave.HEP.Address.SearchAreaAsyncTask;
-import com.example.locationsave.HEP.Address.SearchAreaGetAddress;
 import com.example.locationsave.R;
 
 import java.util.ArrayList;
-import java.util.concurrent.ExecutionException;
 
 
 /**
@@ -57,21 +53,20 @@ public class KMS_ClearableEditText_SearchLocation extends RelativeLayout {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
                 if (actionId == EditorInfo.IME_ACTION_SEARCH) {
-                    // searchArea = ex) 계명대학교, 경북대학교 이렇게 단순히 건물 이름 검색했을 때 주소 list
-                    // 여기서 나오는 address, roadAddress 를 이용해서 다시 geocoding 돌리면
-                    SearchAreaAsyncTask searchAreaAsyncTask = new SearchAreaAsyncTask(editText.getText().toString());
-                    SearchAreaGetAddress searchAreaGetAddress = new SearchAreaGetAddress();
-                    // geocoding = ex) 신당동 164 이렇게 주소를 입력했을 때 관련된 상세주소 list
-                    GeocodingAsyncTask geocodingAsyncTask = new GeocodingAsyncTask(editText.getText().toString());
-                    GeocodingGetAddress geocodingGetAddress = new GeocodingGetAddress();
+                        // 공백이면
+                        if(editText.getText().toString().equals("")){
+                            Log.d("6","공백입니다");
+                            return false;
+                        }
 
-                    try {
-                        ArrayList<SearchAreaArrayEntity> searchAreaArrayResult = searchAreaGetAddress.getJsonString(searchAreaAsyncTask.execute().get());
-                        ArrayList<GeocodingArrayEntity> geocodingArrayResult = geocodingGetAddress.getJsonString(geocodingAsyncTask.execute().get());
+                        AreaSearch areaSearch = new AreaSearch();
+                        ArrayList<SearchAreaArrayEntity> searchAreaArrayResult = areaSearch.SearchArea(editText.getText().toString());
+                        ArrayList<GeocodingArrayEntity> geocodingArrayResult = areaSearch.Geocoding(editText.getText().toString());
 
                         if(searchAreaArrayResult.size()==0 && geocodingArrayResult.size()==0){
                             Log.d("6","검색결과가 없습니다");
                         }
+                        // ex) 신당동 164
                         else if(searchAreaArrayResult.size()==0){
                             for(int i=0; i<geocodingArrayResult.size();i++){
                                 Log.d("6",i + " jibunAddress "+ geocodingArrayResult.get(i).getJibunAddress()
@@ -79,20 +74,24 @@ public class KMS_ClearableEditText_SearchLocation extends RelativeLayout {
                                         + " 경도 " + geocodingArrayResult.get(i).getLongitude());
                             }
                         }
+                        // ex) 계명대학교
                         else{
+                            ArrayList<GeocodingArrayEntity> temp;
                             for(int i=0; i<searchAreaArrayResult.size();i++){
-                                Log.d("6",i + " title " + searchAreaArrayResult.get(i).getTitle().replaceAll("<(/)?([a-zA-Z]*)(\\s[a-zA-Z]*=[^>]*)?(\\s)*(/)?>", "")
-                                        + " address " + searchAreaArrayResult.get(i).getAddress()
-                                        + " roadAddress " + searchAreaArrayResult.get(i).getRoadAddress());
+                                temp = areaSearch.Geocoding(searchAreaArrayResult.get(i).getAddress());
+                                if(searchAreaArrayResult.get(i).getRoadAddress().equals("")){
+                                    Log.d("6",i+"title "+searchAreaArrayResult.get(i).getTitle().replaceAll("<(/)?([a-zA-Z]*)(\\s[a-zA-Z]*=[^>]*)?(\\s)*(/)?>", "")
+                                            +" address " + searchAreaArrayResult.get(i).getAddress()
+                                            + " 위도 "+ temp.get(0).getLatitude() + " 경도 " + temp.get(0).getLongitude());
+                                }
+                                else{
+                                    Log.d("6",i+"title "+searchAreaArrayResult.get(i).getTitle().replaceAll("<(/)?([a-zA-Z]*)(\\s[a-zA-Z]*=[^>]*)?(\\s)*(/)?>", "")
+                                            +" roadAddress " + searchAreaArrayResult.get(i).getRoadAddress()
+                                            + " 위도 "+ temp.get(0).getLatitude() + " 경도 " + temp.get(0).getLongitude());
+                                }
+                                temp.clear();
                             }
                         }
-                    } catch (ExecutionException e) {
-                        e.printStackTrace();
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
-
-//                    Toast.makeText(getApplicationContext(), String.valueOf(ac.getText().toString()), Toast.LENGTH_SHORT).show();
                     return true;
                 }
                 return false;
