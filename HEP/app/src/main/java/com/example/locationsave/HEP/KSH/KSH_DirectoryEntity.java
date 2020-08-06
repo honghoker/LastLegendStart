@@ -1,5 +1,7 @@
 package com.example.locationsave.HEP.KSH;
 
+import com.example.locationsave.HEP.Hep.hep_FirebaseUser;
+
 import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
@@ -13,9 +15,18 @@ public class KSH_DirectoryEntity implements Serializable {
     public KSH_DirectoryEntity(){}
 
     public KSH_DirectoryEntity(String toString, String updateTime, String createTime) {
+        this.token = new hep_FirebaseUser().getFirebaseUserInstance().getUid();
         this.name = toString;
         this.updateTime = updateTime;
         this.createTime = createTime;
+    }
+
+    public String getToken() {
+        return token;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
     }
 
     public String getUpdateTime() {
