@@ -14,10 +14,10 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
-import com.example.locationsave.HEP.Address.ReverseGetAddress;
 import com.example.locationsave.HEP.Address.ReverseGeocodingAsyncTask;
-import com.example.locationsave.HEP.KMS_MainActivity;
+import com.example.locationsave.HEP.Address.ReverseGetAddress;
 import com.example.locationsave.HEP.KMS.Location.KMS_LocationFlagManager;
+import com.example.locationsave.HEP.KMS_MainActivity;
 import com.example.locationsave.R;
 import com.naver.maps.geometry.LatLng;
 import com.naver.maps.geometry.LatLngBounds;
