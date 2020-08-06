@@ -1,4 +1,4 @@
-package com.example.locationsave.HEP.Hep.hep_LocationSave;
+package com.example.locationsave.HEP.Hep;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -7,7 +7,6 @@ import android.view.View;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.locationsave.HEP.Hep.hep_FirebaseUser;
 import com.example.locationsave.HEP.KMS_MainActivity;
 import com.example.locationsave.R;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
@@ -55,6 +54,7 @@ public class hep_Login extends AppCompatActivity {
                 .requestIdToken(getString(R.string.default_web_client_id))
                 .requestEmail()
                 .build();
+
         mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
         signInButton = findViewById(R.id.signInButton);
         signInButton.setOnClickListener(new View.OnClickListener() {

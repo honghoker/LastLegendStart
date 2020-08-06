@@ -1,30 +1,38 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="AndroidConfiguredLogFilters">
+    <filters>
+      <filter>
+        <option name="logLevel" value="verbose" />
+        <option name="logMessagePattern" value="" />
+        <option name="logTagPattern" value="5" />
+        <option name="name" value="a" />
+        <option name="packageNamePattern" value="" />
+        <option name="pid" value="" />
+      </filter>
+    </filters>
+  </component>
   <component name="AndroidLayouts">
     <shared>
       <config />
     </shared>
   </component>
   <component name="AndroidLogFilters">
-    <option name="TOOL_WINDOW_CUSTOM_FILTER" value="@@@" />
     <option name="TOOL_WINDOW_CONFIGURED_FILTER" value="Show only selected application" />
   </component>
   <component name="ChangeListManager">
     <list default="true" id="217312dd-828f-40ec-9aaa-a711ac2a8861" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/example/locationsave/HEP/Hep/hep_FirebaseUser.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/example/locationsave/HEP/Hep/hep_LocationSave/hep_Login.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/res/layout/hep_login.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/caches/build_file_checksums.ser" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/caches/build_file_checksums.ser" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Gradle__com_google_android_gms_play_services_base_17_0_0_aar.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Gradle__com_google_android_gms_play_services_basement_17_0_0_aar.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Gradle__com_google_firebase_firebase_auth_interop_18_0_0_aar.xml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/app/build.gradle" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/locationsave/HEP/Hep/ForecdTerminationService.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/locationsave/HEP/Hep/hep_FireBase.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/locationsave/HEP/Hep/hep_FireBase.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/locationsave/HEP/Hep/hep_DTO/hep_Location.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/locationsave/HEP/Hep/hep_DTO/hep_Location.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/locationsave/HEP/Hep/hep_LocationDetail/hep_LocationDetailActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/locationsave/HEP/Hep/hep_LocationDetail/hep_LocationDetailActivity.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/locationsave/HEP/Hep/hep_LocationSave/hep_LocationSaveActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/locationsave/HEP/Hep/hep_LocationSave/hep_LocationSaveActivity.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/locationsave/HEP/Hep/hep_LocationSave/hep_Login.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/locationsave/HEP/Hep/hep_Login.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/locationsave/HEP/Hep/hep_closeAppService.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/locationsave/HEP/Hep/hep_closeAppService.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/locationsave/HEP/KMS_MainActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/locationsave/HEP/KMS_MainActivity.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/locationsave/HEP/KSH/KSH_DirectoryEntity.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/locationsave/HEP/KSH/KSH_DirectoryEntity.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/locationsave/HEP/KSH/KSH_RecyAdapter.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/locationsave/HEP/KSH/KSH_RecyAdapter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/ksh_nav_header.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/ksh_nav_header.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -75,7 +83,7 @@
   <component name="PropertiesComponent">
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="last_directory_selection" value="$PROJECT_DIR$/app/src/main/java/com/example" />
-    <property name="last_opened_file_path" value="$USER_HOME$/AndroidStudioProjects/20200226 MyNavermap" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../../../Test2" />
     <property name="project.structure.last.edited" value="Modules" />
     <property name="project.structure.proportion" value="0.17" />
     <property name="project.structure.side.proportion" value="0.2" />
@@ -158,45 +166,54 @@
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state x="286" y="144" key="#PSD/0.0.1536.824/1920.0.1080.770@0.0.1536.824" timestamp="1595929760042" />
-    <state x="1245" y="232" key="#com.intellij.ide.util.MemberChooser" timestamp="1596546084065">
+    <state x="1245" y="232" key="#com.intellij.ide.util.MemberChooser" timestamp="1596550597764">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="1245" y="232" key="#com.intellij.ide.util.MemberChooser/1920.0.1536.832/0.0.1920.1040@0.0.1920.1040" timestamp="1596546084065" />
+    <state x="1245" y="232" key="#com.intellij.ide.util.MemberChooser/1920.0.1536.832/0.0.1920.1040@0.0.1920.1040" timestamp="1596550597764" />
     <state x="690" y="266" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog" timestamp="1596438611993">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="690" y="266" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog/1920.0.1536.832/0.0.1920.1040@0.0.1920.1040" timestamp="1596438611993" />
-    <state x="549" y="167" key="FileChooserDialogImpl" timestamp="1595962136836">
-      <screen x="0" y="0" width="1536" height="824" />
+    <state x="686" y="211" key="FileChooserDialogImpl" timestamp="1596553038408">
+      <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="549" y="167" key="FileChooserDialogImpl/0.0.1536.824/1920.0.1080.770@0.0.1536.824" timestamp="1595962136836" />
-    <state width="1877" height="235" key="GridCell.Tab.0.bottom" timestamp="1596541976488">
+    <state x="686" y="211" key="FileChooserDialogImpl/1920.0.1536.832/0.0.1920.1040@0.0.1920.1040" timestamp="1596553038408" />
+    <state width="1877" height="210" key="GridCell.Tab.0.bottom" timestamp="1596698039072">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state width="1491" height="188" key="GridCell.Tab.0.bottom/0.0.1536.824/1920.0.1080.770@0.0.1536.824" timestamp="1595959795318" />
     <state width="1491" height="188" key="GridCell.Tab.0.bottom/0.0.1536.824@0.0.1536.824" timestamp="1595958958268" />
-    <state width="1877" height="235" key="GridCell.Tab.0.bottom/1920.0.1536.832/0.0.1920.1040@0.0.1920.1040" timestamp="1596541976488" />
-    <state width="1877" height="235" key="GridCell.Tab.0.center" timestamp="1596541976487">
+    <state width="1877" height="210" key="GridCell.Tab.0.bottom/1920.0.1536.832/0.0.1920.1040@0.0.1920.1040" timestamp="1596698039072" />
+    <state width="1877" height="210" key="GridCell.Tab.0.center" timestamp="1596698039072">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state width="1491" height="188" key="GridCell.Tab.0.center/0.0.1536.824/1920.0.1080.770@0.0.1536.824" timestamp="1595959795318" />
     <state width="1491" height="188" key="GridCell.Tab.0.center/0.0.1536.824@0.0.1536.824" timestamp="1595958958268" />
-    <state width="1877" height="235" key="GridCell.Tab.0.center/1920.0.1536.832/0.0.1920.1040@0.0.1920.1040" timestamp="1596541976487" />
-    <state width="1877" height="235" key="GridCell.Tab.0.left" timestamp="1596541976486">
+    <state width="1877" height="210" key="GridCell.Tab.0.center/1920.0.1536.832/0.0.1920.1040@0.0.1920.1040" timestamp="1596698039072" />
+    <state width="1877" height="210" key="GridCell.Tab.0.left" timestamp="1596698039072">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state width="1491" height="188" key="GridCell.Tab.0.left/0.0.1536.824/1920.0.1080.770@0.0.1536.824" timestamp="1595959795317" />
     <state width="1491" height="188" key="GridCell.Tab.0.left/0.0.1536.824@0.0.1536.824" timestamp="1595958958267" />
-    <state width="1877" height="235" key="GridCell.Tab.0.left/1920.0.1536.832/0.0.1920.1040@0.0.1920.1040" timestamp="1596541976486" />
-    <state width="1877" height="235" key="GridCell.Tab.0.right" timestamp="1596541976488">
+    <state width="1877" height="210" key="GridCell.Tab.0.left/1920.0.1536.832/0.0.1920.1040@0.0.1920.1040" timestamp="1596698039072" />
+    <state width="1877" height="210" key="GridCell.Tab.0.right" timestamp="1596698039072">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state width="1491" height="188" key="GridCell.Tab.0.right/0.0.1536.824/1920.0.1080.770@0.0.1536.824" timestamp="1595959795318" />
     <state width="1491" height="188" key="GridCell.Tab.0.right/0.0.1536.824@0.0.1536.824" timestamp="1595958958268" />
-    <state width="1877" height="235" key="GridCell.Tab.0.right/1920.0.1536.832/0.0.1920.1040@0.0.1920.1040" timestamp="1596541976488" />
+    <state width="1877" height="210" key="GridCell.Tab.0.right/1920.0.1536.832/0.0.1920.1040@0.0.1920.1040" timestamp="1596698039072" />
     <state x="569" y="190" key="chooseDestDirectoryDialog" timestamp="1595933675237">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state x="569" y="190" key="chooseDestDirectoryDialog/0.0.1536.824/1920.0.1080.770@0.0.1536.824" timestamp="1595933675237" />
+    <state x="721" y="362" key="edit.logcat.filter.dialog.dimensions" timestamp="1596691205221">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="721" y="362" key="edit.logcat.filter.dialog.dimensions/1920.0.1536.832/0.0.1920.1040@0.0.1920.1040" timestamp="1596691205221" />
+    <state x="623" y="225" width="672" height="678" key="search.everywhere.popup" timestamp="1596554622961">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="623" y="225" width="672" height="678" key="search.everywhere.popup/1920.0.1536.832/0.0.1920.1040@0.0.1920.1040" timestamp="1596554622961" />
   </component>
 </project>

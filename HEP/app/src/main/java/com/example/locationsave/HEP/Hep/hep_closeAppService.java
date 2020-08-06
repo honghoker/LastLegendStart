@@ -9,7 +9,6 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-import com.example.locationsave.HEP.KSH.KSH_RecyAdapter;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.Query;
@@ -19,6 +18,7 @@ import com.naver.maps.map.CameraPosition;
 import java.util.HashMap;
 
 import static com.example.locationsave.HEP.KMS.MainFragment.KMS_MapFragment.NMap;
+import static com.example.locationsave.HEP.KMS_MainActivity.directoryid;
 
 public class hep_closeAppService extends Service {
 
@@ -40,7 +40,7 @@ public class hep_closeAppService extends Service {
                 CameraPosition cameraPosition = NMap.getCameraPosition();
                 result.put("latitude", cameraPosition.target.latitude);
                 result.put("longitude", cameraPosition.target.longitude);
-                result.put("directoryid", KSH_RecyAdapter.directoryid);
+                result.put("directoryid", directoryid);
 
                 if(snapshot.exists()){
                     for(DataSnapshot dataSnapshot : snapshot.getChildren()){

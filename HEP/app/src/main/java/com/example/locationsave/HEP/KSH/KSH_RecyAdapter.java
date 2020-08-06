@@ -3,51 +3,51 @@ package com.example.locationsave.HEP.KSH;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.graphics.Color;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.locationsave.HEP.Hep.hep_DTO.hep_Callback;
-import com.example.locationsave.HEP.Hep.hep_DTO.hep_Recent;
+import com.example.locationsave.HEP.Hep.hep_DTO.hep_Location;
 import com.example.locationsave.HEP.Hep.hep_FireBase;
 import com.example.locationsave.R;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
-public class KSH_RecyAdapter extends RecyclerView.Adapter<KSH_RecyAdapter.ViewHolder> {
-    public static String directoryid;
+import static com.example.locationsave.HEP.KMS_MainActivity.directoryid;
 
+public class KSH_RecyAdapter extends RecyclerView.Adapter<KSH_RecyAdapter.ViewHolder> {
     private final int TYPE_HEADER = 0;
     private final int TYPE_ITEM = 1;
     Context mcontext;
     private ArrayList<KSH_DirectoryEntity> arrayList;
     private ArrayList<String> arrayKey;
     DatabaseReference databaseReference;
-    String directoryKey;
     KSH_DirectoryEntity ksh_directoryEntity;
     KSH_Date ksh_date = new KSH_Date();
-    public static int count = 0;
+    private int selectView = 0;
 
-    public KSH_RecyAdapter(Context context, ArrayList<KSH_DirectoryEntity> arrayList,ArrayList<String> arrayKey, KSH_DirectoryEntity ksh_directoryEntity) {
+    public KSH_RecyAdapter(Context context, ArrayList<KSH_DirectoryEntity> arrayList,ArrayList<String> arrayKey, KSH_DirectoryEntity ksh_directoryEntity, int selectView) {
         mcontext = context;
         this.arrayList = arrayList;
-        this.directoryKey = directoryKey;
         this.ksh_directoryEntity = ksh_directoryEntity;
         this.arrayKey = arrayKey;
+        this.selectView = selectView;
 
         // 싱글톤
         KSH_FireBase firebaseDatabase = KSH_FireBase.getInstance();
         databaseReference = firebaseDatabase.databaseReference;
-
-        Log.d("5", "size = " + String.valueOf(arrayList.size()));
     }
 
     class HeaderViewHolder extends ViewHolder {
@@ -77,27 +77,6 @@ public class KSH_RecyAdapter extends RecyclerView.Adapter<KSH_RecyAdapter.ViewHo
             holder = new HeaderViewHolder(view);
         }
         else {
-            new hep_FireBase().getRecentData(new hep_Callback() {
-                @Override
-                public void onSuccess(hep_Recent hep_recent) {
-                    if(hep_recent.directoryid.equals(arrayKey.get(count)))
-                        Log.d("@@@@", "같음 " + count);
-                    Log.d("@@@@", "" + count);
-                    count++;
-                }
-
-                @Override
-                public void onFail(String errorMessage) {
-
-                }
-            });
-
-            //arrayKey.contains(hep_Recent.directoryid);
-
-            //Log.d("@@@@@@@@@", "" + arrayKey.indexOf(hep_Recent.directoryid));
-            //if(a.equals(arrayKey.get(count))){
-            //    Log.d("@@@@", "같음");
-            //}
             view = LayoutInflater.from(parent.getContext()).inflate(R.layout.ksh_recyclerview_item, parent, false);
             holder = new ViewHolder(view);
         }
@@ -107,6 +86,10 @@ public class KSH_RecyAdapter extends RecyclerView.Adapter<KSH_RecyAdapter.ViewHo
 
     @Override
     public void onBindViewHolder(@NonNull KSH_RecyAdapter.ViewHolder holder, int position) {
+        if(position == selectView && selectView != 0) {
+            holder.itemView.setBackgroundColor(Color.RED);
+        }
+
         if(holder instanceof HeaderViewHolder){
             HeaderViewHolder headerViewHolder = (HeaderViewHolder) holder;
         }
@@ -163,8 +146,22 @@ public class KSH_RecyAdapter extends RecyclerView.Adapter<KSH_RecyAdapter.ViewHo
                     }
                     else{
                         directoryid = arrayKey.get(pos-1);
-                        Toast.makeText(mcontext, arrayKey.get(pos-1), Toast.LENGTH_SHORT).show();
-                        Log.d("1","recyclerView directory");
+                        Query latilonginameQuery = new hep_FireBase().getFireBaseDatabaseInstance().getReference().child("location").orderByChild("directoryid").equalTo(directoryid);
+                        latilonginameQuery.addValueEventListener(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                                    hep_Location hep_location = dataSnapshot.getValue(hep_Location.class);
+                                    Log.d("@@@@", "latitude = " + hep_location.latitude + ", longitude = " + hep_location.longitude + ", name = " + hep_location.name);
+                                }
+
+                            }
+
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError error) {
+
+                            }
+                        });
                     }
                 }
             });
