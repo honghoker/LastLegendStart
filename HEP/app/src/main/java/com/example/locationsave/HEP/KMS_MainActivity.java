@@ -33,6 +33,7 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.ListFragment;
+import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -48,6 +49,8 @@ import com.example.locationsave.HEP.KMS.HashTag.KMS_FlowLayout;
 import com.example.locationsave.HEP.KMS.HashTag.KMS_HashTag;
 import com.example.locationsave.HEP.KMS.HashTag.KMS_HashTagCheckBoxManager;
 import com.example.locationsave.HEP.KMS.Location.KMS_LocationFlagManager;
+import com.example.locationsave.HEP.KMS.Location.KMS_LocationSearchResult;
+import com.example.locationsave.HEP.KMS.Location.KMS_SearchResultAdapter;
 import com.example.locationsave.HEP.KMS.Location.KMS_SelectLocation;
 import com.example.locationsave.HEP.KMS.MainFragment.KMS_FragmentManager;
 import com.example.locationsave.HEP.KMS.MainFragment.KMS_MapFragment;
@@ -592,12 +595,78 @@ public class KMS_MainActivity extends AppCompatActivity implements NavigationVie
     public static final int ALLSEE_ACTIVITY_REQUEST_CODE = 3000;
     public static final int ALLSEE_ACTIVITY_REPLY_CODE = 4000;
 
+
+
+    private ArrayList<KMS_LocationSearchResult> mArrayList;
+    private KMS_SearchResultAdapter mAdapter;
+    public static int count = -1;
+
+    public void AddRecyclerView(){
+        count++;
+
+        KMS_LocationSearchResult data = new KMS_LocationSearchResult(count + "1", "Apple" + count);
+
+        //mArrayList.add(0, dict); //RecyclerView의 첫 줄에 삽입
+        mArrayList.add(data); // RecyclerView의 마지막 줄에 삽입
+
+        mAdapter.notifyDataSetChanged();
+    }
+
+    public void LoadRecyclerView(){
+        InitRecyclerView();
+        for(int i = 0; i < 5; i++){
+            count++;
+            KMS_LocationSearchResult data = new KMS_LocationSearchResult("Title : "+ count, " RoadAddress : " + count);
+
+            //이걸로 카메라포지션 넘겨줌
+            data.setLatitude(35.857654);
+            data.setLongitude(128.498123); //받아온 값
+
+            //mArrayList.add(0, dict); //RecyclerView의 첫 줄에 삽입
+            mArrayList.add(data); // RecyclerView의 마지막 줄에 삽입
+            mAdapter.notifyDataSetChanged();
+        }
+
+    }
+
+    public void InitRecyclerView(){
+        count = -1;
+        mArrayList.clear();
+        mAdapter.notifyDataSetChanged();
+        KMS_SearchResultAdapter.LastPosition = -1;
+    }
+
     int selectView = 0;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.kms_activity_main);
+
+/*        KMS_SearchRecyclerView searchRecyclerView = new KMS_SearchRecyclerView();
+        searchRecyclerView.SetSearchRecyclerView();*/
+        RecyclerView mRecyclerView = (RecyclerView) findViewById(R.id.searchResult_RecyclerVIew);
+        LinearLayoutManager mLinearLayoutManager = new LinearLayoutManager(this);
+        mRecyclerView.setLayoutManager(mLinearLayoutManager);
+
+        mArrayList = new ArrayList<>();
+
+        mAdapter = new KMS_SearchResultAdapter(mArrayList);
+        mRecyclerView.setAdapter(mAdapter);
+        int e = 3;
+        Log.d("####","셋 밑에" + e);
+
+        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(mRecyclerView.getContext(),
+                mLinearLayoutManager.getOrientation());
+        mRecyclerView.addItemDecoration(dividerItemDecoration);
+
+
+        LoadRecyclerView(); //기존 저장 함수 불러옴
+
+
+
+
         ksh_init();
         logtest("온크리트 초기 flag  값");
 
