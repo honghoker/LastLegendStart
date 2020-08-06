@@ -97,6 +97,6 @@ public class KMS_ClearableEditText_LoadLocation extends RelativeLayout {
         });
     }
 
-    
+
 
 }
