@@ -28,6 +28,7 @@ public class hep_FireBase {
         return firebaseStorage;
     }
 
+
     // 최근 지역, 디렉토리 뽑기
     public void getRecentData(final hep_Callback callback){
         String token = new hep_FirebaseUser().getFirebaseUserInstance().getUid();
@@ -46,6 +47,5 @@ public class hep_FireBase {
 
             }
         });
-
     }
 }

@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".HEP.CJH.SignIn">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="20dp"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="3"
+            android:text="로고 넣는곳"
+            android:gravity="center"
+            android:textSize="30dp"/>
+        <!--<ImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            />-->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="7"
+            android:layout_margin="20dp"
+            android:orientation="vertical"
+            >
+
+            <LinearLayout
+                android:id="@+id/signInGoogle"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:orientation="horizontal"
+                android:clickable="true"
+                android:background="#cf4333"
+                android:layout_marginRight="20dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginBottom="10dp">
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="8"
+                    android:src="@drawable/btn_logo_google"
+                    android:scaleType="fitCenter"/>
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="2"
+                    android:text="구글 계정으로 로그인"
+                    android:textColor="#ffffff"
+                    android:textStyle="bold"
+                    android:gravity="center"
+                    />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/signInFacebook"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:orientation="horizontal"
+                android:clickable="true"
+                android:background="#416BC1"
+                android:layout_marginRight="20dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginBottom="10dp">
+
+<!--                <com.facebook.login.widget.LoginButton-->
+<!--                    android:id="@+id/signInFacebookOrigin"-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:visibility="gone" />-->
+
+<!--                <ImageView-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="match_parent"-->
+<!--                    android:layout_weight="8"-->
+<!--                    android:src="@drawable/btn_logo_facebook"-->
+<!--                    android:scaleType="fitCenter"/>-->
+
+<!--                <TextView-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="match_parent"-->
+<!--                    android:layout_weight="2"-->
+<!--                    android:text="페이스북 계정으로 로그인"-->
+<!--                    android:textColor="#ffffff"-->
+<!--                    android:textStyle="bold"-->
+<!--                    android:gravity="center"-->
+<!--                    />-->
+            </LinearLayout>
+
+            <!--<LinearLayout
+                android:id="@+id/signInNaver"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:orientation="horizontal"
+                android:clickable="true"
+                android:background="#1EC800"
+                android:layout_marginRight="20dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginBottom="10dp">
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="8"
+                    android:src="@drawable/btn_logo_naver"
+                    android:scaleType="fitCenter"/>
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="2"
+                    android:text="@string/login_naver"
+                    android:textColor="#ffffff"
+                    android:textStyle="bold"
+                    android:gravity="center"
+                    />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/signInKakao"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:orientation="horizontal"
+                android:clickable="true"
+                android:background="#FEE500"
+                android:layout_marginRight="20dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginBottom="10dp">
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="8"
+                    android:src="@drawable/btn_logo_kakao"
+                    android:scaleType="fitCenter"/>
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="2"
+                    android:text="@string/login_kakao"
+                    android:textColor="#000000"
+                    android:textStyle="bold"
+                    android:gravity="center"
+                    />
+            </LinearLayout>-->
+        </LinearLayout>
+    </LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

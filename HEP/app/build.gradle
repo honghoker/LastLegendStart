@@ -66,7 +66,7 @@ dependencies {
     //implementation 'com.google.firebase:firebase-firestore:21.5.0'
     //////////////////////////////////////////////////////////////////////////
 
-    ////////////// KMS, KSH
+    ////////////// KMS, KSH /////////////////////////////////////////////////////////
     //Recyclerview
     implementation 'com.android.support:recyclerview-v7:29.0.2'
     implementation 'it.xabaras.android:recyclerview-swipedecorator:1.2.2'
@@ -78,5 +78,10 @@ dependencies {
 
     //현재 위치
     implementation 'com.google.android.gms:play-services-location:16.0.0'
+
+    ///////////////////////////////////////////////////////////////////////////////////
+
+    ///////////////////CJH ///////////////////////////////////////////////
+    implementation 'com.facebook.android:facebook-login:5.15.3'
 
 }
