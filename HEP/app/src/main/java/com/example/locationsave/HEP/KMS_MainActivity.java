@@ -38,12 +38,17 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.locationsave.HEP.Address.AreaSearch;
+import com.example.locationsave.HEP.Hep.hep_DTO.hep_Callback;
+import com.example.locationsave.HEP.Hep.hep_DTO.hep_Location;
+import com.example.locationsave.HEP.Hep.hep_DTO.hep_Recent;
+import com.example.locationsave.HEP.Hep.hep_FireBase;
+import com.example.locationsave.HEP.Hep.hep_FirebaseUser;
 import com.example.locationsave.HEP.Hep.hep_LocationSave.hep_LocationSaveActivity;
 import com.example.locationsave.HEP.Hep.hep_closeAppService;
 import com.example.locationsave.HEP.KMS.BackPressed.KMS_BackPressedForFinish;
 import com.example.locationsave.HEP.KMS.HashTag.KMS_FlowLayout;
 import com.example.locationsave.HEP.KMS.HashTag.KMS_HashTag;
-import com.example.locationsave.HEP.KMS.HashTag.KMS_HashTagCheckBoxManager;
+import com.example.locationsave.HEP.KMS.HashTag.KMS_HashTagCheckBoxFlagManager;
 import com.example.locationsave.HEP.KMS.Location.KMS_LocationFlagManager;
 import com.example.locationsave.HEP.KMS.Location.KMS_LocationSearchResult;
 import com.example.locationsave.HEP.KMS.Location.KMS_SearchResultAdapter;
@@ -383,7 +388,7 @@ public class KMS_MainActivity extends AppCompatActivity implements NavigationVie
     public static KMS_HashTag[] msHashTag = new KMS_HashTag[10]; //태그 배열
     public static KMS_FlowLayout.LayoutParams params = new KMS_FlowLayout.LayoutParams(20, 20);
     ; //해시태그 레이아웃을 위한 parms
-    KMS_HashTagCheckBoxManager hm = KMS_HashTagCheckBoxManager.getInstanceHashTagCheckBox();
+    KMS_HashTagCheckBoxFlagManager hm = KMS_HashTagCheckBoxFlagManager.getInstanceHashTagCheckBox();
     HasTagOnClickListener ob = new HasTagOnClickListener();
 
     // 확인을 눌렀을 때 눌린 태그들의 id값을 가져온다.
@@ -860,6 +865,7 @@ public class KMS_MainActivity extends AppCompatActivity implements NavigationVie
         backPressedForFinish = new KMS_BackPressedForFinish(this);
     } //oncreate 종료
 
+    ////////////////////////////////////////////////////////// addHashTag, checkAllHAshTag CheckBoxManager class 에 따로 빼기 /////////////////////////////
     public void addHashTag() { //초기 해시태그 세팅
         for (int i = 1; i < msHashTag.length; i++) {
             msHashTag[i] = new KMS_HashTag(this);
@@ -888,6 +894,7 @@ public class KMS_MainActivity extends AppCompatActivity implements NavigationVie
             }
         });
     } //checkAllHashTag 종료
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     public void logtest(String s){
         Log.d("이벤트 = ", "" + s);
