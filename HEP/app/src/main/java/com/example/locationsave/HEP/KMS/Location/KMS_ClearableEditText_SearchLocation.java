@@ -13,6 +13,7 @@ import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.fragment.app.FragmentManager;
 
@@ -26,7 +27,6 @@ import com.example.locationsave.R;
 
 import java.util.ArrayList;
 import java.util.concurrent.ExecutionException;
-
 
 /**
  * Created by TonyChoi on 2016. 4. 4..
@@ -92,13 +92,12 @@ public class KMS_ClearableEditText_SearchLocation extends RelativeLayout {
                         e.printStackTrace();
                     }
 
-//                    Toast.makeText(getApplicationContext(), String.valueOf(ac.getText().toString()), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(), String.valueOf(editText.getText().toString()), Toast.LENGTH_SHORT).show();
                     return true;
-                }
+                } //키입력 했을 시 종료
                 return false;
-            }
+            } //key 입력 이벤트 종료
         });
-
 
         btnClear = (Button) findViewById(R.id.clearable_search_location_button_clear);
         btnClear.setVisibility(RelativeLayout.INVISIBLE);
@@ -144,5 +143,4 @@ public class KMS_ClearableEditText_SearchLocation extends RelativeLayout {
             }
         });
     }
-
 }

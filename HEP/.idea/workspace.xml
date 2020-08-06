@@ -22,8 +22,13 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="e45014c7-91ba-4a6e-9906-406c4b19666c" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/example/locationsave/HEP/KMS/Location/KMS_LocationSearchResult.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/example/locationsave/HEP/KMS/Location/KMS_SearchResultAdapter.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/res/layout/kms_search_result_list.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/locationsave/HEP/KMS/Toolbar/KMS_ClearableEditText_SearchLocation.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/locationsave/HEP/KMS/Location/KMS_ClearableEditText_SearchLocation.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/locationsave/HEP/KMS/Location/KMS_ClearableEditText_SearchLocation.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/locationsave/HEP/KMS/Location/KMS_ClearableEditText_SearchLocation.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/locationsave/HEP/KMS/Toolbar/KMS_ClearableEditText_LoadLocation.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/locationsave/HEP/KMS/Toolbar/KMS_ClearableEditText_LoadLocation.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/locationsave/HEP/KMS_MainActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/locationsave/HEP/KMS_MainActivity.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/kms_select_location.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/kms_select_location.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -101,13 +106,14 @@
     <property name="DeviceAndSnapshotComboBoxAction.selectionTime" value="2020-08-02T12:01:03.666Z" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="last_directory_selection" value="$PROJECT_DIR$/app/src/main/java/com/example" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/app/src/main/res/layout" />
     <property name="project.structure.last.edited" value="Modules" />
     <property name="project.structure.proportion" value="0.17" />
     <property name="project.structure.side.proportion" value="0.2" />
   </component>
   <component name="RecentsManager">
     <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="com.example.locationsave.HEP.KMS.Location" />
       <recent name="com.example.locationsave.HEP.KMS.Toolbar" />
     </key>
     <key name="CopyFile.RECENT_KEYS">
@@ -192,9 +198,10 @@
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state x="286" y="144" key="#PSD/0.0.1536.824/1920.0.1080.770@0.0.1536.824" timestamp="1595929760042" />
-    <state x="765" y="229" key="#com.intellij.ide.util.MemberChooser" timestamp="1596465583320">
-      <screen x="0" y="0" width="1920" height="1040" />
+    <state x="937" y="136" key="#com.intellij.ide.util.MemberChooser" timestamp="1596692883799">
+      <screen x="0" y="0" width="1536" height="824" />
     </state>
+    <state x="937" y="136" key="#com.intellij.ide.util.MemberChooser/0.0.1536.824/1920.0.1080.770@0.0.1536.824" timestamp="1596692883799" />
     <state x="765" y="229" key="#com.intellij.ide.util.MemberChooser/1920.-205.1536.832/0.0.1920.1040@0.0.1920.1040" timestamp="1596465583320" />
     <state x="686" y="211" key="FileChooserDialogImpl" timestamp="1596673858079">
       <screen x="0" y="0" width="1920" height="1040" />

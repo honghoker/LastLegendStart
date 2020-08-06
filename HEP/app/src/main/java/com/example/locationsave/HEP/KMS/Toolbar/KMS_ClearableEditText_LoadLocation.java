@@ -4,11 +4,14 @@ import android.content.Context;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.AttributeSet;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.fragment.app.FragmentManager;
 
@@ -39,7 +42,16 @@ public class KMS_ClearableEditText_LoadLocation extends RelativeLayout {
                 Context.LAYOUT_INFLATER_SERVICE);
         inflater.inflate(R.layout.kms_clearable_edit_text_load_location, this, true);
 
-        editText = findViewById(R.id.clearable_edit_load_location);
+        editText = findViewById(R.id.clearable_edit_load_location); //저장된 장소 검색
+        editText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                //오토 완성 코드
+                Toast.makeText(getContext(),"저장된 장소 검색 : " + editText.getText(),Toast.LENGTH_SHORT).show();
+                return false;
+            }
+        });
+
         btnClear = (Button) findViewById(R.id.clearable_load_location_button_clear);
         btnClear.setVisibility(RelativeLayout.INVISIBLE);
 
@@ -84,5 +96,7 @@ public class KMS_ClearableEditText_LoadLocation extends RelativeLayout {
             }
         });
     }
+
+    
 
 }
