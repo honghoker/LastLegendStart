@@ -8,12 +8,20 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:77722558103:android:86d83aa65c6b2a883f13d2",
+        "mobilesdk_app_id": "1:77722558103:android:6ebb40d30928f5c33f13d2",
         "android_client_info": {
           "package_name": "com.example.locationsave"
         }
       },
       "oauth_client": [
+        {
+          "client_id": "77722558103-pacrocvobajq5267adj41pdd99dt04ee.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.locationsave",
+            "certificate_hash": "3cb5844a53587beb5155006b21b3219b3e4d4c8a"
+          }
+        },
         {
           "client_id": "77722558103-7g0eogpnh5lq5rpe4tpcsf025r0eo9ou.apps.googleusercontent.com",
           "client_type": 3
