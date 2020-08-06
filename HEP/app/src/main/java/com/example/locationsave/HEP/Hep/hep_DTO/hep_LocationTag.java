@@ -4,8 +4,8 @@ import com.google.firebase.database.IgnoreExtraProperties;
 
 @IgnoreExtraProperties
 public class hep_LocationTag {
-    private String locationid;
-    private String tagid;
+    public String locationid;
+    public String tagid;
 
     public hep_LocationTag() {
     }

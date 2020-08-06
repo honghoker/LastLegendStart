@@ -3,6 +3,7 @@ package com.example.locationsave.HEP.pcs_RecyclerView;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -34,6 +35,8 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.ArrayList;
+
 
 public class Pcs_LocationRecyclerView extends Fragment {
     private final static String DEFAULT_FILED = "name";
@@ -46,7 +49,7 @@ public class Pcs_LocationRecyclerView extends Fragment {
     hep_LocationSaveActivity hep_locationSaveActivity;
     private ViewGroup rootView;
     private Pcs_RecyclerViewSwipeHelper recyclerViewSwipeHelper;
-    LappingDismissData lappingDismissData;
+    LappingDismissData lappingDismissData = null;
 
     @Nullable
     @Override
@@ -168,6 +171,7 @@ public class Pcs_LocationRecyclerView extends Fragment {
                 final CapsulizeData lappingDataNKey = adapter.deleteItem(position);
                 //related dismiss data store and lapping
                 lappingDismissData = new LappingDismissData(lappingDataNKey);
+                lappingDismissData.onDismiss();
 
                 Snackbar.make(getActivity().findViewById(android.R.id.content),"삭제완료",Snackbar.LENGTH_LONG).setAction("되돌리기", new View.OnClickListener(){
                     @Override
@@ -196,37 +200,32 @@ public class Pcs_LocationRecyclerView extends Fragment {
 //Each Class contain data
 //One LappingDismissData can contain several CapsulizationData
 class LappingDismissData{
+    private DatabaseReference databaseReference = new hep_FireBase().getFireBaseDatabaseInstance().getReference();
 
     private CapsulizeData hep_location;
-    private CapsulizeData hep_locationTag;
-    private CapsulizeData hep_locationImage;
-    private CapsulizeData hep_image;
-
+    private ArrayList<CapsulizeData> locationImageArrayList = new ArrayList<>(5);
+    private ArrayList<CapsulizeData> hep_imageArrayList = new ArrayList<>(5);
+    private ArrayList<CapsulizeData> hep_locationTagArrayList = new ArrayList<>(5);
     private String key;
-    private DatabaseReference databaseReference = new hep_FireBase().getFireBaseDatabaseInstance().getReference();
+
 
     public LappingDismissData(CapsulizeData hep_location) {
         this.hep_location = hep_location;
         this.key = hep_location.getDataKey();
-        onDataLapping_N_Dismiss();
-
     }
-
-    //This Method is Capulization about Dismiss Data,
-    // locationTag, locationImage, image
-    private void onDataLapping_N_Dismiss() {
+    public void onDismiss(){
+        //This Method is Capulization about Dismiss Data,
+        // locationTag, locationImage, image
         //Lapping LocationTag
-        databaseReference.child("locationtag").orderByChild("locationid").addListenerForSingleValueEvent(new ValueEventListener() {
+        databaseReference.child("locationtag").orderByChild("locationid").equalTo(key).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if(snapshot.exists()){
                     for(DataSnapshot dataSnapshot : snapshot.getChildren()){
-                        if(dataSnapshot.getKey().equals(key)){
-                            //Capsulization Data Using LappingDataNKey
-                            setHep_locationTag(new CapsulizeData(dataSnapshot.getValue(hep_LocationTag.class), dataSnapshot.getKey()));
-                            //Delete
-                            dataSnapshot.getRef().removeValue();
-                        }
+                        //Capsulization Data Using LappingDataNKey
+                        hep_locationTagArrayList.add(new CapsulizeData(dataSnapshot.getValue(hep_LocationTag.class), dataSnapshot.getKey()));
+                        //Delete
+                        dataSnapshot.getRef().removeValue();
                     }
                 }
             }
@@ -236,18 +235,40 @@ class LappingDismissData{
 
             }
         });
-        //Lapping locationID
-        databaseReference.child("locationimage").orderByChild("locationid").addListenerForSingleValueEvent(new ValueEventListener() {
+        //Lapping LocationImage and Image
+        //Dismiss And make data for undo
+        databaseReference.child("locationimage").orderByChild("locationid").equalTo(key).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if(snapshot.exists()){
                     for(DataSnapshot dataSnapshot : snapshot.getChildren()){
-                        if(dataSnapshot.getKey().equals(key)){
-                            //Capsulization Data Using LapppingDataNKey
-                            setHep_locationImage(new CapsulizeData(dataSnapshot.getValue(hep_LocationImage.class), dataSnapshot.getKey()));
-                            //Delete
-                            dataSnapshot.getRef().removeValue();
-                        }
+                        //Capsulization Data Using LapppingDataNKey
+                        CapsulizeData capsulizeData = new CapsulizeData(dataSnapshot.getValue(hep_LocationImage.class), dataSnapshot.getKey());
+                        locationImageArrayList.add(capsulizeData); //For Undo
+                        //Delete LocationImage
+                        dataSnapshot.getRef().removeValue();
+                        final hep_LocationImage hep_locationImage = (hep_LocationImage) capsulizeData.getFirebaseData();
+                        Log.d("tag"," imageID"+ hep_locationImage.imageid);
+
+                        //Delete Image
+                        databaseReference.child("image").addListenerForSingleValueEvent(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                if(snapshot.exists()){
+                                    for(DataSnapshot dataSnapshot : snapshot.getChildren()){
+                                        if(dataSnapshot.getKey().equals(hep_locationImage.getImageid())){
+                                            hep_imageArrayList.add(new CapsulizeData(dataSnapshot.getValue(hep_Image.class), dataSnapshot.getKey())); //For Undo
+                                            //Delete
+                                            dataSnapshot.getRef().removeValue();
+                                        }
+                                    }
+                                }
+                            }
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError error) {
+
+                            }
+                        });
                     }
                 }
             }
@@ -257,18 +278,18 @@ class LappingDismissData{
             }
         });
 
-        //Lapping Image
-        databaseReference.child("image").addListenerForSingleValueEvent(new ValueEventListener() {
+    }
+
+    private void dismissImage(String locationImageKey){
+        databaseReference.child("image").equalTo(locationImageKey).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if(snapshot.exists()){
                     for(DataSnapshot dataSnapshot : snapshot.getChildren()){
-                        if(dataSnapshot.getKey().equals(key)){
                             //Capsulization Data Using LapppingDataNKey
-                            setHep_image(new CapsulizeData(dataSnapshot.getValue(hep_Image.class), dataSnapshot.getKey()));
-                            //Delete
-                            dataSnapshot.getRef().removeValue();
-                        }
+                        hep_imageArrayList.add(new CapsulizeData(dataSnapshot.getValue(hep_Image.class), dataSnapshot.getKey()));
+                        //Delete
+                        dataSnapshot.getRef().removeValue();
                     }
                 }
             }
@@ -278,44 +299,34 @@ class LappingDismissData{
             }
         });
     }
+
 
     public void onUndo(){
         databaseReference.child("location").child(hep_location.getDataKey()).setValue(hep_location.getFirebaseData());
-        //Error
-        databaseReference.child("locationimage").child(hep_locationImage.getDataKey()).setValue(hep_locationImage.getFirebaseData());
-        databaseReference.child("locationtag").child(hep_locationTag.getDataKey()).setValue(hep_locationTag.getFirebaseData());
-        databaseReference.child("image").child(hep_image.getDataKey()).setValue(hep_image.getFirebaseData());
+
+        if(!locationImageArrayList.isEmpty()) {
+            Log.d("tag","locationImage Undo");
+            for(CapsulizeData locationImage : locationImageArrayList){
+                databaseReference.child("locationimage").child(locationImage.getDataKey()).setValue(locationImage.getFirebaseData());
+            }
+        }
+        if(!hep_imageArrayList.isEmpty()) {
+            Log.d("tag","image Undo");
+            for(CapsulizeData image : hep_imageArrayList){
+                databaseReference.child("image").child(image.getDataKey()).setValue(image.getFirebaseData());
+            }
+        }
+        if(!hep_locationTagArrayList.isEmpty()) {
+            Log.d("tag","locationTag Undo");
+            for(CapsulizeData locationTag : hep_locationTagArrayList){
+                databaseReference.child("locationtag").child(locationTag.getDataKey()).setValue(locationTag.getFirebaseData());
+            }
+        }
     }
 
-
-    public void setHep_image(CapsulizeData hep_image) {
-        this.hep_image = hep_image;
-    }
-
-    public void setHep_locationImage(CapsulizeData hep_locationImage) {
-        this.hep_locationImage = hep_locationImage;
-    }
-
-    public void setHep_locationTag(CapsulizeData hep_locationTag) {
-        this.hep_locationTag = hep_locationTag;
-    }
-
-    public CapsulizeData getHep_location() {
-        return hep_location;
-    }
-
-    public CapsulizeData getHep_locationTag() {
-        return hep_locationTag;
-    }
-
-    public CapsulizeData getHep_locationImage() {
-        return hep_locationImage;
-    }
-
-    public CapsulizeData getHep_image() {
-        return hep_image;
-    }
 }
+//Data Capsulize
+//This class contain FirebaseData(object) and key
 
 class CapsulizeData{
     private Object firebaseData;
@@ -334,3 +345,4 @@ class CapsulizeData{
         return dataKey;
     }
 }
+
