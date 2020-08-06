@@ -46,9 +46,9 @@ public class hep_Login extends AppCompatActivity {
 //                .into(ivGlide);
 
         mAuth = FirebaseAuth.getInstance();
-        if (mAuth.getCurrentUser() != null) {
-            startIntent(mAuth.getCurrentUser());
-        }
+//        if (mAuth.getCurrentUser() != null) {
+//            startIntent(mAuth.getCurrentUser());
+//        }
         // Configure Google Sign In
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestIdToken(getString(R.string.default_web_client_id))

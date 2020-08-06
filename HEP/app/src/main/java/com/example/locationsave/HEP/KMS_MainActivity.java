@@ -72,12 +72,8 @@ import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
-import com.naver.maps.geometry.LatLng;
 import com.naver.maps.map.CameraPosition;
-import com.naver.maps.map.overlay.Marker;
-import com.naver.maps.map.overlay.OverlayImage;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -697,62 +693,62 @@ public class KMS_MainActivity extends AppCompatActivity implements NavigationVie
             }
         });
 
-        new hep_FireBase().getRecentData(new hep_Callback() {
-            @Override
-            public void onSuccess(hep_Recent hep_recent) {
-                for(int i = 0; i < arrayKey.size(); i++) {
-                    if (directoryid == null) {
-                        if (hep_recent.directoryid.equals(arrayKey.get(i))) {
-                            selectView = i + 1;
-                            directoryid = hep_recent.directoryid;
-                        }
-
-                        if (arrayKey.size() == i && selectView == 0) {
-                            directoryid = arrayKey.get(0);
-                            selectView = 1;
-                        }
-                    }
-                }
-
-                Query latilonginameQuery = new hep_FireBase().getFireBaseDatabaseInstance().getReference().child("location").orderByChild("directoryid").equalTo(directoryid);
-                latilonginameQuery.addValueEventListener(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(@NonNull DataSnapshot snapshot) {
-                        for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
-
-                            hep_Location hep_location = dataSnapshot.getValue(hep_Location.class);
-                            Log.d("@@@@", "latitude = " + hep_location.latitude + ", longitude = " + hep_location.longitude + ", name = " + hep_location.name);
-
-                            LatLng addMarkerLatLng = new LatLng(hep_location.latitude, hep_location.longitude);
-                            //현재 장소 위경도값 받아와서 좌표 추가
-                            Marker marker = new Marker();
-                            marker.setPosition(addMarkerLatLng);
-
-                            //마커 텍스트
-                            marker.setCaptionText(hep_location.name);
-                            marker.setCaptionRequestedWidth(200); //이름 최대 폭
-
-                            //마커 이미지
-                            marker.setIcon(OverlayImage.fromResource(R.drawable.marker_design_pika2));
-                            marker.setWidth(120);
-                            marker.setHeight(160);
-
-                            marker.setMap(NMap);
-                        }
-                    }
-
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError error) {
-
-                    }
-                });
-            }
-
-            @Override
-            public void onFail(String errorMessage) {
-
-            }
-        });
+//        new hep_FireBase().getRecentData(new hep_Callback() {
+//            @Override
+//            public void onSuccess(hep_Recent hep_recent) {
+//                for(int i = 0; i < arrayKey.size(); i++) {
+//                    if (directoryid == null) {
+//                        if (hep_recent.directoryid.equals(arrayKey.get(i))) {
+//                            selectView = i + 1;
+//                            directoryid = hep_recent.directoryid;
+//                        }
+//
+//                        if (arrayKey.size() == i && selectView == 0) {
+//                            directoryid = arrayKey.get(0);
+//                            selectView = 1;
+//                        }
+//                    }
+//                }
+//
+//                Query latilonginameQuery = new hep_FireBase().getFireBaseDatabaseInstance().getReference().child("location").orderByChild("directoryid").equalTo(directoryid);
+//                latilonginameQuery.addValueEventListener(new ValueEventListener() {
+//                    @Override
+//                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+//                        for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+//
+//                            hep_Location hep_location = dataSnapshot.getValue(hep_Location.class);
+//                            Log.d("@@@@", "latitude = " + hep_location.latitude + ", longitude = " + hep_location.longitude + ", name = " + hep_location.name);
+//
+//                            LatLng addMarkerLatLng = new LatLng(hep_location.latitude, hep_location.longitude);
+//                            //현재 장소 위경도값 받아와서 좌표 추가
+//                            Marker marker = new Marker();
+//                            marker.setPosition(addMarkerLatLng);
+//
+//                            //마커 텍스트
+//                            marker.setCaptionText(hep_location.name);
+//                            marker.setCaptionRequestedWidth(200); //이름 최대 폭
+//
+//                            //마커 이미지
+//                            marker.setIcon(OverlayImage.fromResource(R.drawable.marker_design_pika2));
+//                            marker.setWidth(120);
+//                            marker.setHeight(160);
+//
+//                            marker.setMap(NMap);
+//                        }
+//                    }
+//
+//                    @Override
+//                    public void onCancelled(@NonNull DatabaseError error) {
+//
+//                    }
+//                });
+//            }
+//
+//            @Override
+//            public void onFail(String errorMessage) {
+//
+//            }
+//        });
 
         recyAdapter = new KSH_RecyAdapter(KMS_MainActivity.this, arrayList, arrayKey, ksh_directoryEntity, selectView);
         recyclerView.setAdapter(recyAdapter);
@@ -780,8 +776,8 @@ public class KMS_MainActivity extends AppCompatActivity implements NavigationVie
 
         // navigationview에 사용자 이름, 이메일 출력
         View header = navigationView.getHeaderView(0);
-        ((TextView)header.findViewById(R.id.navUserName)).setText(new hep_FirebaseUser().getFirebaseUserInstance().getDisplayName());
-        ((TextView)header.findViewById(R.id.navUserEmail)).setText(new hep_FirebaseUser().getFirebaseUserInstance().getEmail());
+//        ((TextView)header.findViewById(R.id.navUserName)).setText(new hep_FirebaseUser().getFirebaseUserInstance().getDisplayName());
+//        ((TextView)header.findViewById(R.id.navUserEmail)).setText(new hep_FirebaseUser().getFirebaseUserInstance().getEmail());
 
 
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this,drawerLayout,toolbar,R.string.drawer_open,R.string.drawer_close);
