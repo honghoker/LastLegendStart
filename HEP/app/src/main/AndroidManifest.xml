@@ -19,9 +19,9 @@
         <activity android:name=".HEP.KSH.NavIntent.KSH_NoticeIntent"/>
         <activity android:name=".HEP.KSH.KSH_AllSeeActivity"/>
         <activity android:name=".HEP.Hep.hep_LocationSave.hep_LocationSaveActivity"/>
-        <activity android:name=".HEP.KMS_MainActivity"/>
+        <activity android:name=".HEP.Hep.hep_Login"/>
 
-        <activity android:name=".HEP.CJH.SignIn">
+        <activity android:name=".HEP.KMS_MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
