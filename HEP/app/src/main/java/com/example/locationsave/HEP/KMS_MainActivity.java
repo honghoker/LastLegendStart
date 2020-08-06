@@ -37,7 +37,13 @@ import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.locationsave.HEP.Hep.hep_DTO.hep_Callback;
+import com.example.locationsave.HEP.Hep.hep_DTO.hep_Location;
+import com.example.locationsave.HEP.Hep.hep_DTO.hep_Recent;
+import com.example.locationsave.HEP.Hep.hep_FireBase;
+import com.example.locationsave.HEP.Hep.hep_FirebaseUser;
 import com.example.locationsave.HEP.Hep.hep_LocationSave.hep_LocationSaveActivity;
+import com.example.locationsave.HEP.Hep.hep_closeAppService;
 import com.example.locationsave.HEP.KMS.BackPressed.KMS_BackPressedForFinish;
 import com.example.locationsave.HEP.KMS.HashTag.KMS_FlowLayout;
 import com.example.locationsave.HEP.KMS.HashTag.KMS_HashTag;
@@ -65,8 +71,12 @@ import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
+import com.naver.maps.geometry.LatLng;
 import com.naver.maps.map.CameraPosition;
+import com.naver.maps.map.overlay.Marker;
+import com.naver.maps.map.overlay.OverlayImage;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -97,6 +107,8 @@ public class KMS_MainActivity extends AppCompatActivity implements NavigationVie
     2. oncreate
     ---END---
      */
+    public static String directoryid = null;
+
     private DrawerLayout drawerLayout;
     private boolean recyFrag = false;
     private RecyclerView recyclerView;
@@ -109,13 +121,14 @@ public class KMS_MainActivity extends AppCompatActivity implements NavigationVie
     private ArrayList<String> arrayKey;
     private DatabaseReference databaseReference;
     private DatabaseReference TagdatabaseReference;
-    private String directoryKey;
     //    private Spinner spinner;
 //    private Toolbar toolbar;
     private NavigationView navigationView;
     private KSH_DirectoryEntity ksh_directoryEntity;
 
     public void ksh_init(){
+        startService(new Intent(this, hep_closeAppService.class)); // 앱 종료 이벤트
+
 //        toolbar = findViewById(R.id.dra_toolbar);
 //        setSupportActionBar(toolbar);
 //        spinner = findViewById(R.id.spinner);
@@ -359,8 +372,6 @@ public class KMS_MainActivity extends AppCompatActivity implements NavigationVie
     //7. HashTag
     public static LinearLayout hastagView;
 
-
-
     //해시태그 선택
     public class HasTagOnClickListener implements Button.OnClickListener {
         @Override
@@ -377,8 +388,6 @@ public class KMS_MainActivity extends AppCompatActivity implements NavigationVie
     HasTagOnClickListener ob = new HasTagOnClickListener();
 
     // 확인을 눌렀을 때 눌린 태그들의 id값을 가져온다.
-
-
 
     public void onHashTagFilterButtonClicked(View v) {
         switch (v.getId()) {
@@ -587,6 +596,7 @@ public class KMS_MainActivity extends AppCompatActivity implements NavigationVie
     public static final int ALLSEE_ACTIVITY_REPLY_CODE = 4000;
 
 
+
     private ArrayList<KMS_LocationSearchResult> mArrayList;
     private KMS_SearchResultAdapter mAdapter;
     public static int count = -1;
@@ -625,6 +635,8 @@ public class KMS_MainActivity extends AppCompatActivity implements NavigationVie
         mAdapter.notifyDataSetChanged();
         KMS_SearchResultAdapter.LastPosition = -1;
     }
+
+    int selectView = 0;
 
 
     @Override
@@ -671,7 +683,8 @@ public class KMS_MainActivity extends AppCompatActivity implements NavigationVie
                     arrayKey.add(key);
 //                    Log.d("6","초기 key 값 확인 "+arrayKey.get(0));
                 }
-                recyAdapter.notifyDataSetChanged(); // list 저장 및 새로고침
+                if(recyAdapter != null)
+                    recyAdapter.notifyDataSetChanged(); // list 저장 및 새로고침
 //                recyclerviewAdapter.notifyDataSetChanged(); // list 저장 및 새로고침
             }
             @Override
@@ -680,8 +693,64 @@ public class KMS_MainActivity extends AppCompatActivity implements NavigationVie
             }
         });
 
-        recyAdapter = new KSH_RecyAdapter(this,arrayList,arrayKey,ksh_directoryEntity);
-//        recyclerviewAdapter = new KSH_RecyclerviewAdapter();
+        new hep_FireBase().getRecentData(new hep_Callback() {
+            @Override
+            public void onSuccess(hep_Recent hep_recent) {
+                for(int i = 0; i < arrayKey.size(); i++) {
+                    if (directoryid == null) {
+                        if (hep_recent.directoryid.equals(arrayKey.get(i))) {
+                            selectView = i + 1;
+                            directoryid = hep_recent.directoryid;
+                        }
+
+                        if (arrayKey.size() == i && selectView == 0) {
+                            directoryid = arrayKey.get(0);
+                            selectView = 1;
+                        }
+                    }
+                }
+
+                Query latilonginameQuery = new hep_FireBase().getFireBaseDatabaseInstance().getReference().child("location").orderByChild("directoryid").equalTo(directoryid);
+                latilonginameQuery.addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+
+                            hep_Location hep_location = dataSnapshot.getValue(hep_Location.class);
+                            Log.d("@@@@", "latitude = " + hep_location.latitude + ", longitude = " + hep_location.longitude + ", name = " + hep_location.name);
+
+                            LatLng addMarkerLatLng = new LatLng(hep_location.latitude, hep_location.longitude);
+                            //현재 장소 위경도값 받아와서 좌표 추가
+                            Marker marker = new Marker();
+                            marker.setPosition(addMarkerLatLng);
+
+                            //마커 텍스트
+                            marker.setCaptionText(hep_location.name);
+                            marker.setCaptionRequestedWidth(200); //이름 최대 폭
+
+                            //마커 이미지
+                            marker.setIcon(OverlayImage.fromResource(R.drawable.marker_design_pika2));
+                            marker.setWidth(120);
+                            marker.setHeight(160);
+
+                            marker.setMap(NMap);
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+
+                    }
+                });
+            }
+
+            @Override
+            public void onFail(String errorMessage) {
+
+            }
+        });
+
+        recyAdapter = new KSH_RecyAdapter(KMS_MainActivity.this, arrayList, arrayKey, ksh_directoryEntity, selectView);
         recyclerView.setAdapter(recyAdapter);
 
         // loading
@@ -704,6 +773,12 @@ public class KMS_MainActivity extends AppCompatActivity implements NavigationVie
 
         // drawer
         navigationView.setNavigationItemSelectedListener(this);
+
+        // navigationview에 사용자 이름, 이메일 출력
+        View header = navigationView.getHeaderView(0);
+        ((TextView)header.findViewById(R.id.navUserName)).setText(new hep_FirebaseUser().getFirebaseUserInstance().getDisplayName());
+        ((TextView)header.findViewById(R.id.navUserEmail)).setText(new hep_FirebaseUser().getFirebaseUserInstance().getEmail());
+
 
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this,drawerLayout,toolbar,R.string.drawer_open,R.string.drawer_close);
         drawerLayout.addDrawerListener(toggle);

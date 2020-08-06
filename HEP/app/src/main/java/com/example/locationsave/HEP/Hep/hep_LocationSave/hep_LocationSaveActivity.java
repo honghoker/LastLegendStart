@@ -31,7 +31,6 @@ import com.example.locationsave.HEP.Hep.hep_LocationDetail.hep_LocationDetailAct
 import com.example.locationsave.HEP.KMS_MainActivity;
 import com.example.locationsave.HEP.pcs_RecyclerView.Pcs_LocationRecyclerView;
 import com.example.locationsave.R;
-import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -308,7 +307,6 @@ public class hep_LocationSaveActivity extends AppCompatActivity {
             DatabaseReference locationReference = new hep_FireBase().getFireBaseDatabaseInstance().getReference().child("location").push();
 
             hep_Location hep_Location = new hep_Location(
-                    /* directoryid 값 가져오기 추가 필요*/
                     ((EditText)findViewById(R.id.locationName)).getText().toString(),
                     ((EditText)findViewById(R.id.locationAddr)).getText().toString(),
                     ((EditText)findViewById(R.id.locationDetailAddr)).getText().toString(),
@@ -352,6 +350,7 @@ public class hep_LocationSaveActivity extends AppCompatActivity {
                         hashlocationtag.put("tagid", tagid);
 
                         new hep_FireBase().getFireBaseDatabaseInstance().getReference().child("locationtag").push().setValue(hashlocationtag); // locationtag 저장
+                        new hep_HashTagArr().getHashTagArr().clear();
                     }
 
                     @Override
