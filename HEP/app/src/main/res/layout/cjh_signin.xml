@@ -78,22 +78,22 @@
 <!--                    android:layout_height="wrap_content"-->
 <!--                    android:visibility="gone" />-->
 
-<!--                <ImageView-->
-<!--                    android:layout_width="match_parent"-->
-<!--                    android:layout_height="match_parent"-->
-<!--                    android:layout_weight="8"-->
-<!--                    android:src="@drawable/btn_logo_facebook"-->
-<!--                    android:scaleType="fitCenter"/>-->
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="8"
+                    android:src="@drawable/btn_logo_facebook"
+                    android:scaleType="fitCenter"/>
 
-<!--                <TextView-->
-<!--                    android:layout_width="match_parent"-->
-<!--                    android:layout_height="match_parent"-->
-<!--                    android:layout_weight="2"-->
-<!--                    android:text="페이스북 계정으로 로그인"-->
-<!--                    android:textColor="#ffffff"-->
-<!--                    android:textStyle="bold"-->
-<!--                    android:gravity="center"-->
-<!--                    />-->
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="2"
+                    android:text="페이스북 계정으로 로그인"
+                    android:textColor="#ffffff"
+                    android:textStyle="bold"
+                    android:gravity="center"
+                    />
             </LinearLayout>
 
             <!--<LinearLayout
