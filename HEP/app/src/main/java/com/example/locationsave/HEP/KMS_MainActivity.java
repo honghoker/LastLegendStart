@@ -340,21 +340,25 @@ public class KMS_MainActivity extends AppCompatActivity implements NavigationVie
                 Log.d("####itemSelected", "검색할 장소 입력하세요.");
                 //툴바 제거
                 if (getSupportActionBar().isShowing()) {
-                    Log.d("####itemSelected", "액션바 상태 가져오기");
                     //searchFlag = true;
                     sm.flagSetTrueSearch();
-                    Log.d("####itemSelected", "search flag true 로 변경");
                     getSupportActionBar().hide();
-                    Log.d("####itemSelected", "액션바 숨기기");
 
                     clearableEditText_loadLocation.requestFocus();
                     //editText.setFocusableInTouchMode(true);
-                    Log.d("오류", "requestFocus 오류", null);
                     //clearbleText.requestFocus();
-                    Log.d("오류2", "requestFocus 오류", null);
 
-                    //imm.showSoftInput(ac, 0);
-                    imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0);
+                    //inputMethodManager.showSoftInput(ac, 0);
+                    //키보드 UP
+                    inputMethodManager.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0);
+                    Log.d("####keyboard", "키보드 UP");
+
+                    //키보드 DOWN
+                    /*View view = this.getCurrentFocus();
+                    inputMethodManager.hideSoftInputFromWindow(view.getWindowToken(),0);*/
+
+                    Log.d("####keyboard", "키보드 DOWN");
+
 //                    출처: https://kkangsnote.tistory.com/35 [깡샘의 토마토]
 
                     setBottomBar(bottomBar, sm.flagGetSearch());
@@ -380,6 +384,17 @@ public class KMS_MainActivity extends AppCompatActivity implements NavigationVie
     }
 
 
+    //키보드
+    public static void setKeyBoard(Context context){
+
+       // inputMethodManager.hideSoftInputFromWindow(view.getWindowToken(),0);
+        //키보드 DOWN
+/*
+        inputMethodManager.hideSoftInputFromWindow(view.getWindowToken(),0);
+*/
+        Log.d("####keyboard", "키보드 다운");
+    }
+
     public void setSearchBar(boolean searchFlag) { //searchFlag 에 맞게 상단 검색 바 출력
         if (searchFlag == true)
             linearLayoutToolbarSearch.setVisibility(View.VISIBLE);
@@ -394,7 +409,7 @@ public class KMS_MainActivity extends AppCompatActivity implements NavigationVie
 
     //6. 자동완성 텍스트 뷰
     KMS_ClearableEditText_LoadLocation clearableEditText_loadLocation;
-    InputMethodManager imm; //키보드 설정 위한
+    static InputMethodManager inputMethodManager; //키보드 설정 위한
 
     //리스트뷰
     private List<String> list;
@@ -850,7 +865,7 @@ public class KMS_MainActivity extends AppCompatActivity implements NavigationVie
         //6. 자동완성 텍스트 뷰
         clearableEditText_loadLocation = findViewById(R.id.searchView); //프로젝트 단위
 
-        imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE); //키보드-시스템서비스
+        inputMethodManager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE); //키보드-시스템서비스
         list = new ArrayList<String>();
 
         //https://sharp57dev.tistory.com/12 자동완성

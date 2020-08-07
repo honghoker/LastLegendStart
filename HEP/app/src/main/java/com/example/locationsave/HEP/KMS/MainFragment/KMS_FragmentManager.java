@@ -9,10 +9,10 @@ public class KMS_FragmentManager {
 
     private KMS_FragmentManager() {}
 
+
     public static KMS_FragmentManager getInstanceFragment(){
         return fragmentInstance;
     }
-
     /*
     1. flag 선언
     2. flag 변경

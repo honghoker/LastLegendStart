@@ -17,6 +17,7 @@
         android:elevation="0.1dp"
         android:minHeight="?attr/actionBarSize"
         android:theme="?attr/actionBarTheme"
+        android:visibility="visible"
         app:title="검색하기" />
 
     <com.example.locationsave.HEP.KMS.Location.KMS_ClearableEditText_SearchLocation
@@ -107,5 +108,6 @@
         android:layout_height="200dp"
         android:layout_alignBottom="@id/textView8"
         android:background="#FF1A1A"
+        android:visibility="visible"
         tools:ignore="NotSibling" />
 </RelativeLayout>

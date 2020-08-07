@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -14,6 +15,10 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
+import com.example.locationsave.HEP.Address.AreaSearch;
+import com.example.locationsave.HEP.Address.ReverseGeocodingAsyncTask;
+import com.example.locationsave.HEP.Address.ReverseGetAddress;
+import com.example.locationsave.HEP.KMS.Location.KMS_LocationFlagManager;
 import com.example.locationsave.HEP.KMS.Map.KMS_MapOption;
 import com.example.locationsave.HEP.KMS.Map.KMS_MarkerManager;
 import com.example.locationsave.HEP.KMS_MainActivity;
@@ -27,6 +32,8 @@ import com.naver.maps.map.MapFragment;
 import com.naver.maps.map.NaverMap;
 import com.naver.maps.map.OnMapReadyCallback;
 import com.naver.maps.map.util.FusedLocationSource;
+
+import java.util.concurrent.ExecutionException;
 
 //프래그먼트는 액티비티위에 올라가있을떄만 프래그먼트로서 동작할 수 있다.
 public class KMS_MapFragment extends Fragment implements OnMapReadyCallback {
@@ -223,8 +230,29 @@ public class KMS_MapFragment extends Fragment implements OnMapReadyCallback {
             public void onCameraIdle() {
                 //getLocationPosition(activity, NMap);
                 //saveLocation(activity);
+                final AreaSearch areaSearch = new AreaSearch();
+                KMS_FragmentManager fragmentManager = KMS_FragmentManager.getInstanceFragment();
+                KMS_LocationFlagManager locationFragment = KMS_LocationFlagManager.getInstanceLocation();
 
                 CameraPosition cameraPosition = NMap.getCameraPosition(); //현재 위치 정보 반환하는 메소드
+
+                if(fragmentManager.flagCheckFragment() == true && locationFragment.flagGetLocation() == true) {
+
+                    Log.d("MapMap", "onCameraIdle 위도 : " + cameraPosition.target.latitude + "경도 : " + cameraPosition.target.longitude + im++);
+
+                    ReverseGeocodingAsyncTask asyncTask = new ReverseGeocodingAsyncTask(cameraPosition.target.latitude, cameraPosition.target.longitude);
+                    ReverseGetAddress reverseGetAddress = new ReverseGetAddress();
+                    try {
+                        String resultAddr = reverseGetAddress.getJsonString(asyncTask.execute().get());
+                        ((TextView)activity.findViewById(R.id.selectLocation_AddressInfo)).setText(resultAddr);
+                    } catch (ExecutionException e) {
+                        e.printStackTrace();
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+
+
 
                 Toast.makeText(getActivity(),
                         "현재위치 = 대상 지점 위도: " + cameraPosition.target.latitude + ", " +
