@@ -231,7 +231,7 @@ public class KMS_MapFragment extends Fragment implements OnMapReadyCallback {
                 //getLocationPosition(activity, NMap);
                 //saveLocation(activity);
                 final AreaSearch areaSearch = new AreaSearch();
-                KMS_FragmentManager fragmentManager = KMS_FragmentManager.getInstanceFragment();
+                KMS_FragmentFlagManager fragmentManager = KMS_FragmentFlagManager.getInstanceFragment();
                 KMS_LocationFlagManager locationFragment = KMS_LocationFlagManager.getInstanceLocation();
 
                 CameraPosition cameraPosition = NMap.getCameraPosition(); //현재 위치 정보 반환하는 메소드

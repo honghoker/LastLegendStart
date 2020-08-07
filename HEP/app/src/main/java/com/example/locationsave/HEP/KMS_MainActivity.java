@@ -34,7 +34,10 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.locationsave.HEP.Address.AreaSearch;
+import com.example.locationsave.HEP.Hep.hep_FireBase;
+import com.example.locationsave.HEP.Hep.hep_FirebaseUser;
 import com.example.locationsave.HEP.Hep.hep_LocationSave.hep_LocationSaveActivity;
+import com.example.locationsave.HEP.Hep.hep_closeAppService;
 import com.example.locationsave.HEP.KMS.BackPressed.KMS_BackPressedForFinish;
 import com.example.locationsave.HEP.KMS.HashTag.KMS_FlowLayout;
 import com.example.locationsave.HEP.KMS.HashTag.KMS_HashTag;
@@ -46,7 +49,6 @@ import com.example.locationsave.HEP.KMS.Location.KMS_SearchResultAdapter;
 import com.example.locationsave.HEP.KMS.Location.KMS_SelectLocation;
 import com.example.locationsave.HEP.KMS.MainFragment.KMS_FragmentFlagManager;
 import com.example.locationsave.HEP.KMS.MainFragment.KMS_MapFragment;
-import com.example.locationsave.HEP.KMS.Map.KMS_MarkerManager;
 import com.example.locationsave.HEP.KMS.Toolbar.KMS_ClearableEditText_LoadLocation;
 import com.example.locationsave.HEP.KMS.Toolbar.KMS_RecycleVIewManager;
 import com.example.locationsave.HEP.KMS.Toolbar.KMS_SearchManager;
@@ -55,7 +57,6 @@ import com.example.locationsave.HEP.KSH.KSH_DirectoryEntity;
 import com.example.locationsave.HEP.KSH.KSH_FireBase;
 import com.example.locationsave.HEP.KSH.KSH_LoadingActivity;
 import com.example.locationsave.HEP.KSH.KSH_RecyAdapter;
-import com.example.locationsave.HEP.KSH.KSH_RecyclerviewAdapter;
 import com.example.locationsave.HEP.KSH.NavIntent.KSH_HelpIntent;
 import com.example.locationsave.HEP.KSH.NavIntent.KSH_NoticeIntent;
 import com.example.locationsave.HEP.KSH.NavIntent.KSH_SetIntent;
@@ -112,6 +113,7 @@ public class KMS_MainActivity extends AppCompatActivity implements NavigationVie
     @Override
     protected void onDestroy() {
         super.onDestroy();
+
         Query recentQuery = new hep_FireBase().getFireBaseDatabaseInstance().getReference().child("recent").orderByChild("token").equalTo(new hep_FirebaseUser().getFirebaseUserInstance().getUid());
         recentQuery.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -161,8 +163,6 @@ public class KMS_MainActivity extends AppCompatActivity implements NavigationVie
         drawerLayout = findViewById(R.id.drawer_layout);
         navigationView = findViewById(R.id.nav_view);
         KSH_FireBase firebaseDatabase = KSH_FireBase.getInstance(); // 싱글톤
-        databaseReference = firebaseDatabase.databaseReference;
-        TagdatabaseReference = firebaseDatabase.TagdatabaseReference;
         AreaSearch areaSearch = new AreaSearch(); // 키자마자 한번 지오코딩 돌리는거
         areaSearch.Geocoding("신당동 164");
     }
