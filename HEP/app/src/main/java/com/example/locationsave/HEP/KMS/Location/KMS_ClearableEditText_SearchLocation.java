@@ -59,8 +59,9 @@ public class KMS_ClearableEditText_SearchLocation extends RelativeLayout {
                             Toast.makeText(getContext(),"공백입니다. . .",Toast.LENGTH_SHORT).show();
                             return false;
                         }
+                        //공백 아닐 경우
 
-                        AreaSearch areaSearch = new AreaSearch();
+                    AreaSearch areaSearch = new AreaSearch();
                         ArrayList<SearchAreaArrayEntity> searchAreaArrayResult = areaSearch.SearchArea(editText.getText().toString());
                         ArrayList<GeocodingArrayEntity> geocodingArrayResult = areaSearch.Geocoding(editText.getText().toString());
 
