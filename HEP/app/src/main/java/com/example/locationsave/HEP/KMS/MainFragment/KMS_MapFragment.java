@@ -22,15 +22,11 @@ import com.naver.maps.geometry.LatLng;
 import com.naver.maps.geometry.LatLngBounds;
 import com.naver.maps.geometry.Utmk;
 import com.naver.maps.map.CameraPosition;
-import com.naver.maps.map.CameraUpdate;
 import com.naver.maps.map.LocationTrackingMode;
 import com.naver.maps.map.MapFragment;
 import com.naver.maps.map.NaverMap;
 import com.naver.maps.map.OnMapReadyCallback;
-import com.naver.maps.map.overlay.Marker;
 import com.naver.maps.map.util.FusedLocationSource;
-
-import java.util.Vector;
 
 //프래그먼트는 액티비티위에 올라가있을떄만 프래그먼트로서 동작할 수 있다.
 public class KMS_MapFragment extends Fragment implements OnMapReadyCallback {
@@ -249,9 +245,9 @@ public class KMS_MapFragment extends Fragment implements OnMapReadyCallback {
         Log.d("현재위치","onMapReady, " + locationSource);
 
 
+/////////////////////////////////////////////////////////////////////
 
-
-        ///마커 갱신 코드
+        /*///마커 갱신 코드
         LatLng initialPosition = new LatLng(35.857654, 128.498123);
         CameraUpdate cameraUpdate = CameraUpdate.scrollTo(initialPosition);
         naverMap.moveCamera(cameraUpdate);
@@ -301,11 +297,15 @@ public class KMS_MapFragment extends Fragment implements OnMapReadyCallback {
                     activeMarkers.add(marker);
                 }
             }
-        });
+        });*/
+/////////////////////////////////////////////////////////////////////
 
-    }
+    }//onMapReady
 
-    // 마커 정보 저장시킬 변수들 선언
+    /////////////////////////////////////////////////////////////////////
+
+/*
+// 마커 정보 저장시킬 변수들 선언
     private Vector<LatLng> markersPosition;
     private Vector<Marker> activeMarkers;
 
@@ -338,16 +338,11 @@ public class KMS_MapFragment extends Fragment implements OnMapReadyCallback {
             activeMarker.setMap(null);
         }
         activeMarkers = new Vector<Marker>();
-    }
-/*    @Override
-    public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.btncameraLocation:
-                setLocation(getActivity());
-                break;
-            default:
-                break;
-        }
     }*/
 
-}
+
+    /////////////////////////////////////////////////////////////////////
+
+
+
+} //전체코드

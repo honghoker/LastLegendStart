@@ -8,7 +8,6 @@ import com.example.locationsave.HEP.KMS.MainFragment.KMS_MapFragment;
 import com.example.locationsave.R;
 import com.naver.maps.geometry.LatLng;
 import com.naver.maps.map.CameraPosition;
-import com.naver.maps.map.CameraUpdate;
 import com.naver.maps.map.NaverMap;
 import com.naver.maps.map.overlay.Align;
 import com.naver.maps.map.overlay.Marker;
@@ -16,10 +15,6 @@ import com.naver.maps.map.overlay.Overlay;
 import com.naver.maps.map.overlay.OverlayImage;
 
 import java.util.ArrayList;
-import java.util.Vector;
-
-import static com.example.locationsave.HEP.KMS.MainFragment.KMS_MapFragment.REFERANCE_LAT;
-import static com.example.locationsave.HEP.KMS.MainFragment.KMS_MapFragment.REFERANCE_LNG;
 
 
 public class KMS_MarkerManager {
@@ -55,7 +50,7 @@ public class KMS_MarkerManager {
 
 
             marker.setIcon(OverlayImage.fromResource(R.drawable.marker_design_pika2));
-            marker.setCaptionText("피카씨발" + i);
+            marker.setCaptionText("피카츄" + i);
             marker.setWidth(120);
             marker.setHeight(160);
             marker.setOnClickListener(new Overlay.OnClickListener() { //마커 클릭이벤트 추가
@@ -134,8 +129,7 @@ public class KMS_MarkerManager {
     }
 
     // 마커들 위치 정의 (대충 1km 간격 동서남북 방향으로 만개씩, 총 4만개)
-
-    public static void InitPosition(Vector<LatLng> markersPosition){
+/*    public static void InitPosition(Vector<LatLng> markersPosition){
         NaverMap NMap = KMS_MapFragment.NMap;
         // 카메라 초기 위치 설정
         LatLng initialPosition = new LatLng(37.506855, 127.066242);
@@ -164,5 +158,8 @@ public class KMS_MarkerManager {
             ));
         }
     }
-    }
+    } //init
+    */
+
+
 }
