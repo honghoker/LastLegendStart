@@ -42,7 +42,7 @@ public class KMS_MapFragment extends Fragment implements OnMapReadyCallback {
 
     //맵 옵션
     KMS_MapOption mapOption = KMS_MapOption.getInstanceMapOption();
-    KMS_MarkerManager markerManager = KMS_MarkerManager.getInstanceMarkerManager();
+    KMS_MarkerManager markerManager = new KMS_MarkerManager().getInstanceMarkerManager();
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);

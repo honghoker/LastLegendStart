@@ -55,6 +55,7 @@ import com.example.locationsave.HEP.KMS.Location.KMS_SearchResultAdapter;
 import com.example.locationsave.HEP.KMS.Location.KMS_SelectLocation;
 import com.example.locationsave.HEP.KMS.MainFragment.KMS_FragmentManager;
 import com.example.locationsave.HEP.KMS.MainFragment.KMS_MapFragment;
+import com.example.locationsave.HEP.KMS.Map.KMS_MarkerManager;
 import com.example.locationsave.HEP.KMS.Toolbar.KMS_ClearableEditText_LoadLocation;
 import com.example.locationsave.HEP.KMS.Toolbar.KMS_RecycleVIewManager;
 import com.example.locationsave.HEP.KMS.Toolbar.KMS_SearchManager;
@@ -72,10 +73,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
-import com.naver.maps.geometry.LatLng;
 import com.naver.maps.map.CameraPosition;
-import com.naver.maps.map.overlay.Marker;
-import com.naver.maps.map.overlay.OverlayImage;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -737,26 +735,26 @@ public class KMS_MainActivity extends AppCompatActivity implements NavigationVie
                         latilonginameQuery.addValueEventListener(new ValueEventListener() {
                             @Override
                             public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                new KMS_MarkerManager().getInstanceMarkerManager().initMarker();
                                 for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
-
                                     hep_Location hep_location = dataSnapshot.getValue(hep_Location.class);
-                                    Log.d("@@@@", "latitude = " + hep_location.latitude + ", longitude = " + hep_location.longitude + ", name = " + hep_location.name);
+                                    new KMS_MarkerManager().getInstanceMarkerManager().addMarker(hep_location.name, hep_location.latitude, hep_location.longitude);
 
-                                    LatLng addMarkerLatLng = new LatLng(hep_location.latitude, hep_location.longitude);
-                                    //현재 장소 위경도값 받아와서 좌표 추가
-                                    Marker marker = new Marker();
-                                    marker.setPosition(addMarkerLatLng);
-
-                                    //마커 텍스트
-                                    marker.setCaptionText(hep_location.name);
-                                    marker.setCaptionRequestedWidth(200); //이름 최대 폭
-
-                                    //마커 이미지
-                                    marker.setIcon(OverlayImage.fromResource(R.drawable.marker_design_pika2));
-                                    marker.setWidth(120);
-                                    marker.setHeight(160);
-
-                                    marker.setMap(NMap);
+//                                    LatLng addMarkerLatLng = new LatLng(hep_location.latitude, hep_location.longitude);
+//                                    //현재 장소 위경도값 받아와서 좌표 추가
+//                                    Marker marker = new Marker();
+//                                    marker.setPosition(addMarkerLatLng);
+//
+//                                    //마커 텍스트
+//                                    marker.setCaptionText(hep_location.name);
+//                                    marker.setCaptionRequestedWidth(200); //이름 최대 폭
+//
+//                                    //마커 이미지
+//                                    marker.setIcon(OverlayImage.fromResource(R.drawable.marker_design_pika2));
+//                                    marker.setWidth(120);
+//                                    marker.setHeight(160);
+//
+//                                    marker.setMap(NMap);
                                 }
                             }
 
