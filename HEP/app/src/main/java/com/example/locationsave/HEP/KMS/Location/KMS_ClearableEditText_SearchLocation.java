@@ -56,6 +56,7 @@ public class KMS_ClearableEditText_SearchLocation extends RelativeLayout {
                         // 공백이면
                         if(editText.getText().toString().equals("")){
                             Log.d("6","공백입니다");
+                            Toast.makeText(getContext(),"공백입니다. . .",Toast.LENGTH_SHORT).show();
                             return false;
                         }
 
