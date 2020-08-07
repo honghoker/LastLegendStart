@@ -59,7 +59,7 @@ public class KMS_HashTagCheckBoxFlagManager extends AppCompatActivity {
 
 
 
-    KMS_HashTag[] hs = KMS_MainActivity.msHashTag; //메인액티비티 해시태그 배열
+    KMS_HashTag[] kms_hashTags = KMS_MainActivity.msHashTag; //메인액티비티 해시태그 배열
     public static List<String> hashTagText = new ArrayList(); //확인누르면 추가된다.
 
     public static Context mContext;
@@ -71,17 +71,17 @@ public class KMS_HashTagCheckBoxFlagManager extends AppCompatActivity {
     }
 
     public void HashTagClickEvent(Context context, View v){
-        for (int j = 1; j < hs.length; j++) {
+        for (int j = 1; j < kms_hashTags.length; j++) {
             if (v.getId() == j) {
-                hs[j].init(hs[j].getHashText(), "#3F729B", R.drawable.hashtagclick, params);
-                hs[j].setId(-j);
-                Toast.makeText(context,"id : " + hs[j].getId() + "/ text : " + hs[j].getHashText(),Toast.LENGTH_SHORT).show();
-                hashTagText.add(hs[j].getHashText());
+                kms_hashTags[j].init(kms_hashTags[j].getHashText(), "#3F729B", R.drawable.hashtagclick, params);
+                kms_hashTags[j].setId(-j);
+                Toast.makeText(context,"id : " + kms_hashTags[j].getId() + "/ text : " + kms_hashTags[j].getHashText(),Toast.LENGTH_SHORT).show();
+                hashTagText.add(kms_hashTags[j].getHashText());
                 break;
             } else if (v.getId() == -j) {
-                hs[j].init(hs[j].getHashText(), "#3F729B", R.drawable.hashtagunclick, params);
-                hs[j].setId(j);
-                hashTagText.remove(hs[j].getHashText());
+                kms_hashTags[j].init(kms_hashTags[j].getHashText(), "#3F729B", R.drawable.hashtagunclick, params);
+                kms_hashTags[j].setId(j);
+                hashTagText.remove(kms_hashTags[j].getHashText());
                 break;
             }
         }//for 문 종료
@@ -90,11 +90,11 @@ public class KMS_HashTagCheckBoxFlagManager extends AppCompatActivity {
     public void CheckBoxAllClick(Context context) {
         Toast.makeText(context,"3gfgff",Toast.LENGTH_SHORT).show();
         hashTagText.clear();
-        for (int j = 1; j < hs.length; j++) {
-            hs[j].init(hs[j].getHashText(), "#3F729B", R.drawable.hashtagclick, params);
-            hs[j].setId(-j);
+        for (int j = 1; j < kms_hashTags.length; j++) {
+            kms_hashTags[j].init(kms_hashTags[j].getHashText(), "#3F729B", R.drawable.hashtagclick, params);
+            kms_hashTags[j].setId(-j);
 
-            hashTagText.add(hs[j].getHashText());
+            hashTagText.add(kms_hashTags[j].getHashText());
         } //for 종료
     }
 
