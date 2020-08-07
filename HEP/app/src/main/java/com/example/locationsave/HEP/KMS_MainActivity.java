@@ -26,6 +26,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -615,9 +616,6 @@ public class KMS_MainActivity extends AppCompatActivity implements NavigationVie
     // . Context 넘겨주기
     public static Context mainContext; //AddMainActivity 에 넘겨주기 위해 컨텍스트 생성
     public static final int ADD_MAIN_ACTIVITY_REQUEST_CODE = 1000;
-    public static final int ADD_MAIN_ACTIVITY_REPLY_CODE = 2000;
-    public static final int ALLSEE_ACTIVITY_REQUEST_CODE = 3000;
-    public static final int ALLSEE_ACTIVITY_REPLY_CODE = 4000;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -815,5 +813,18 @@ public class KMS_MainActivity extends AppCompatActivity implements NavigationVie
         Log.d("hashtag #flag = ", "" + hm.flagGethashTagCheckBoxFlag());
 
     }
-
+    //This method receive intent from closed activity
+    //ADD_MAIN_ACTIVITY_REQUEST_CODE is
+    //when LocationSaveActivity closed, Showing fragment of Location Recyclerview
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+         if(requestCode == ADD_MAIN_ACTIVITY_REQUEST_CODE){
+             if(resultCode == RESULT_OK){
+                 if(data.getBooleanExtra("result",false)) {
+                     setFragmentLocationListLayout();
+                 }
+             }
+         }
+    }
 } //mainactivity 종료

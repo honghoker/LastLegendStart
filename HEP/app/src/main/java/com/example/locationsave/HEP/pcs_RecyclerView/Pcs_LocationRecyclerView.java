@@ -248,7 +248,6 @@ class LappingDismissData{
                         //Delete LocationImage
                         dataSnapshot.getRef().removeValue();
                         final hep_LocationImage hep_locationImage = (hep_LocationImage) capsulizeData.getFirebaseData();
-                        Log.d("tag"," imageID"+ hep_locationImage.imageid);
 
                         //Delete Image
                         databaseReference.child("image").addListenerForSingleValueEvent(new ValueEventListener() {
@@ -279,27 +278,6 @@ class LappingDismissData{
         });
 
     }
-
-    private void dismissImage(String locationImageKey){
-        databaseReference.child("image").equalTo(locationImageKey).addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                if(snapshot.exists()){
-                    for(DataSnapshot dataSnapshot : snapshot.getChildren()){
-                            //Capsulization Data Using LapppingDataNKey
-                        hep_imageArrayList.add(new CapsulizeData(dataSnapshot.getValue(hep_Image.class), dataSnapshot.getKey()));
-                        //Delete
-                        dataSnapshot.getRef().removeValue();
-                    }
-                }
-            }
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });
-    }
-
 
     public void onUndo(){
         databaseReference.child("location").child(hep_location.getDataKey()).setValue(hep_location.getFirebaseData());
