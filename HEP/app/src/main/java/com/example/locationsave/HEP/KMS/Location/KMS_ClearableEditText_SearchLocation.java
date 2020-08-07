@@ -9,13 +9,14 @@ import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.fragment.app.FragmentManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.locationsave.HEP.Address.AreaSearch;
 import com.example.locationsave.HEP.Address.GeocodingArrayEntity;
@@ -34,12 +35,18 @@ public class KMS_ClearableEditText_SearchLocation extends RelativeLayout {
     AutoCompleteTextView editText;
     Button btnClear;
     public static Context mContext;
-    FragmentManager fm;
+
+    static InputMethodManager ime = null;
+    KMS_SelectLocation selectLocation = new KMS_SelectLocation();
+    RecyclerView searchRecyclerView = findViewById(R.id.searchResult_RecyclerVIew);
+
 
     public KMS_ClearableEditText_SearchLocation(Context context, AttributeSet attrs) {
         super(context, attrs);
         setLayout();
         mContext = context;
+
+        ime = (InputMethodManager)mContext.getSystemService(Context.INPUT_METHOD_SERVICE);
     }
 
     private void setLayout() {
@@ -59,8 +66,12 @@ public class KMS_ClearableEditText_SearchLocation extends RelativeLayout {
                             Toast.makeText(getContext(),"공백입니다. . .",Toast.LENGTH_SHORT).show();
                             return false;
                         }
+                        //공백 아닐 경우
+                    ime.hideSoftInputFromWindow(editText.getWindowToken(),0);
 
-                        AreaSearch areaSearch = new AreaSearch();
+                    //selectLocation.setSearchResultRecyclerView(getContext(), searchRecyclerView);
+
+                    AreaSearch areaSearch = new AreaSearch();
                         ArrayList<SearchAreaArrayEntity> searchAreaArrayResult = areaSearch.SearchArea(editText.getText().toString());
                         ArrayList<GeocodingArrayEntity> geocodingArrayResult = areaSearch.Geocoding(editText.getText().toString());
 
