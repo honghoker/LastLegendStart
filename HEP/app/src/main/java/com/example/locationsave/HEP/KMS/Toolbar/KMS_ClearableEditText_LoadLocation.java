@@ -4,6 +4,7 @@ import android.content.Context;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -55,7 +56,10 @@ public class KMS_ClearableEditText_LoadLocation extends RelativeLayout {
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
                 //오토 완성 코드
                 Toast.makeText(getContext(),"저장된 장소 검색 : " + editText.getText(),Toast.LENGTH_SHORT).show();
+                Log.d("####키보드 완료 ","ㅇㅇ");
+
                 ime.hideSoftInputFromWindow(editText.getWindowToken(),0);
+                Log.d("####키보드 완료 장소검색 클릭","ㅇㅇ");
 
                 return false;
             }

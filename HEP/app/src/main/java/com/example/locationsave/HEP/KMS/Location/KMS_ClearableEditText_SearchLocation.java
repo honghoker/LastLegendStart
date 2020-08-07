@@ -37,7 +37,7 @@ public class KMS_ClearableEditText_SearchLocation extends RelativeLayout {
     public static Context mContext;
 
     static InputMethodManager ime = null;
-    KMS_SelectLocation selectLocation;
+    KMS_SelectLocation selectLocation = new KMS_SelectLocation();
     RecyclerView searchRecyclerView = findViewById(R.id.searchResult_RecyclerVIew);
 
 
@@ -69,7 +69,7 @@ public class KMS_ClearableEditText_SearchLocation extends RelativeLayout {
                         //공백 아닐 경우
                     ime.hideSoftInputFromWindow(editText.getWindowToken(),0);
 
-                    selectLocation.setSearchResultRecyclerView(getContext(), searchRecyclerView);
+                    //selectLocation.setSearchResultRecyclerView(getContext(), searchRecyclerView);
 
                     AreaSearch areaSearch = new AreaSearch();
                         ArrayList<SearchAreaArrayEntity> searchAreaArrayResult = areaSearch.SearchArea(editText.getText().toString());
