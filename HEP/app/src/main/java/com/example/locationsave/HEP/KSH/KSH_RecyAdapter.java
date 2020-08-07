@@ -154,7 +154,6 @@ public class KSH_RecyAdapter extends RecyclerView.Adapter<KSH_RecyAdapter.ViewHo
                                     hep_Location hep_location = dataSnapshot.getValue(hep_Location.class);
                                     Log.d("@@@@", "latitude = " + hep_location.latitude + ", longitude = " + hep_location.longitude + ", name = " + hep_location.name);
                                 }
-
                             }
 
                             @Override

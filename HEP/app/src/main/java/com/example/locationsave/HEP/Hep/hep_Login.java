@@ -35,6 +35,7 @@ public class hep_Login extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.hep_login);
+        startService(new Intent(this, hep_closeAppService.class)); // 앱 종료 이벤트
 
 //        TextView tvContents = (TextView)findViewById(R.id.tv_contents);
 //        ImageView ivGlide = (ImageView)findViewById(R.id.iv_glide);
@@ -70,8 +71,9 @@ public class hep_Login extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
         // Check if user is signed in (non-null) and update UI accordingly.
-        FirebaseUser currentUser = mAuth.getCurrentUser();
-        updateUI(currentUser);
+        //FirebaseUser currentUser = mAuth.getCurrentUser();
+        //updateUI(currentUser);
+        startIntent(mAuth.getCurrentUser());
     }
 
     // [START signin]
