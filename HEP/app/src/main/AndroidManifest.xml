@@ -17,6 +17,8 @@
         android:theme="@style/AppTheme">
         <activity android:name=".HEP.KSH.KSH_LoadingActivity"/>
         <activity android:name=".HEP.KSH.NavIntent.KSH_NoticeIntent"/>
+        <activity android:name=".HEP.KSH.NavIntent.KSH_HelpIntent"/>
+        <activity android:name=".HEP.KSH.NavIntent.KSH_SetIntent"/>
         <activity android:name=".HEP.KSH.KSH_AllSeeActivity"/>
         <activity android:name=".HEP.Hep.hep_LocationSave.hep_LocationSaveActivity"/>
         <activity android:name=".HEP.Hep.hep_Login"/>
