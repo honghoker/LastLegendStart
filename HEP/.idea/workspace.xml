@@ -22,7 +22,13 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="e45014c7-91ba-4a6e-9906-406c4b19666c" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/example/locationsave/HEP/KMS/Map/KMS_CameraManager.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/example/locationsave/HEP/KMS/Map/KMS_MapOption.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/example/locationsave/HEP/KMS/Map/KMS_MapPosition.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/example/locationsave/HEP/KMS/Map/KMS_MarkerManager.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/locationsave/HEP/KMS/MainFragment/KMS_MapFragment.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/locationsave/HEP/KMS/MainFragment/KMS_MapFragment.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/kms_map_fragment.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/kms_map_fragment.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -32,7 +38,7 @@
   <component name="CodeInsightWorkspaceSettings">
     <option name="optimizeImportsOnTheFly" value="true" />
   </component>
-  <component name="ExecutionTargetManager" SELECTED_TARGET="Pixel_2_API_24" />
+  <component name="ExecutionTargetManager" SELECTED_TARGET="2919afa51e3f7ece" />
   <component name="ExternalProjectsData">
     <projectState path="$PROJECT_DIR$">
       <ProjectState />
@@ -100,7 +106,7 @@
     <property name="DeviceAndSnapshotComboBoxAction.selectionTime" value="2020-08-06T10:07:23.051Z" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="last_directory_selection" value="$PROJECT_DIR$/app/src/main/java/com/example" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/app/src/main/java/com/example/locationsave/HEP/KMS" />
     <property name="project.structure.last.edited" value="Modules" />
     <property name="project.structure.proportion" value="0.17" />
     <property name="project.structure.side.proportion" value="0.2" />
@@ -112,6 +118,7 @@
       <recent name="com.example.locationsave.HEP.KMS.Toolbar" />
     </key>
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\KMS\Desktop\Git\LastLegendStart\HEP\app\src\main\java\com\example\locationsave\HEP\KMS" />
       <recent name="C:\Users\ekflz\Downloads\Github Sync\LastLegendStart\HEP\app\src\main\res\drawable-v24" />
       <recent name="C:\Users\ekflz\Downloads\Github Sync\LastLegendStart\HEP\app\src\main\res\layout" />
       <recent name="C:\Users\ekflz\Downloads\Github Sync\LastLegendStart\HEP\app\src\main\java\com\example\locationsave\HEP\CJH" />
@@ -219,35 +226,35 @@
     </state>
     <state x="549" y="167" key="FileChooserDialogImpl/0.0.1536.824/1920.0.1080.770@0.0.1536.824" timestamp="1595962136836" />
     <state x="686" y="211" key="FileChooserDialogImpl/1920.0.1536.832/0.0.1920.1040@0.0.1920.1040" timestamp="1596708942264" />
-    <state width="1860" height="288" key="GridCell.Tab.0.bottom" timestamp="1596713738619">
-      <screen x="0" y="0" width="1920" height="1040" />
+    <state width="1491" height="157" key="GridCell.Tab.0.bottom" timestamp="1596778737276">
+      <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state width="1875" height="192" key="GridCell.Tab.0.bottom/-1920.0.1536.832/0.0.1920.1040@0.0.1920.1040" timestamp="1596678133214" />
-    <state width="1491" height="499" key="GridCell.Tab.0.bottom/0.0.1536.824/1920.0.1080.770@0.0.1536.824" timestamp="1596707422386" />
+    <state width="1491" height="157" key="GridCell.Tab.0.bottom/0.0.1536.824/1920.0.1080.770@0.0.1536.824" timestamp="1596778737276" />
     <state width="1491" height="188" key="GridCell.Tab.0.bottom/0.0.1536.824@0.0.1536.824" timestamp="1595958958268" />
     <state width="1877" height="290" key="GridCell.Tab.0.bottom/1920.-205.1536.832/0.0.1920.1040@0.0.1920.1040" timestamp="1596554812521" />
     <state width="1860" height="288" key="GridCell.Tab.0.bottom/1920.0.1536.832/0.0.1920.1040@0.0.1920.1040" timestamp="1596713738619" />
-    <state width="1860" height="288" key="GridCell.Tab.0.center" timestamp="1596713738619">
-      <screen x="0" y="0" width="1920" height="1040" />
+    <state width="1491" height="157" key="GridCell.Tab.0.center" timestamp="1596778737276">
+      <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state width="1875" height="192" key="GridCell.Tab.0.center/-1920.0.1536.832/0.0.1920.1040@0.0.1920.1040" timestamp="1596678133213" />
-    <state width="1491" height="499" key="GridCell.Tab.0.center/0.0.1536.824/1920.0.1080.770@0.0.1536.824" timestamp="1596707422386" />
+    <state width="1491" height="157" key="GridCell.Tab.0.center/0.0.1536.824/1920.0.1080.770@0.0.1536.824" timestamp="1596778737276" />
     <state width="1491" height="188" key="GridCell.Tab.0.center/0.0.1536.824@0.0.1536.824" timestamp="1595958958268" />
     <state width="1877" height="290" key="GridCell.Tab.0.center/1920.-205.1536.832/0.0.1920.1040@0.0.1920.1040" timestamp="1596554812520" />
     <state width="1860" height="288" key="GridCell.Tab.0.center/1920.0.1536.832/0.0.1920.1040@0.0.1920.1040" timestamp="1596713738619" />
-    <state width="1860" height="288" key="GridCell.Tab.0.left" timestamp="1596713738618">
-      <screen x="0" y="0" width="1920" height="1040" />
+    <state width="1491" height="157" key="GridCell.Tab.0.left" timestamp="1596778737275">
+      <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state width="1875" height="192" key="GridCell.Tab.0.left/-1920.0.1536.832/0.0.1920.1040@0.0.1920.1040" timestamp="1596678133212" />
-    <state width="1491" height="499" key="GridCell.Tab.0.left/0.0.1536.824/1920.0.1080.770@0.0.1536.824" timestamp="1596707422386" />
+    <state width="1491" height="157" key="GridCell.Tab.0.left/0.0.1536.824/1920.0.1080.770@0.0.1536.824" timestamp="1596778737275" />
     <state width="1491" height="188" key="GridCell.Tab.0.left/0.0.1536.824@0.0.1536.824" timestamp="1595958958267" />
     <state width="1877" height="290" key="GridCell.Tab.0.left/1920.-205.1536.832/0.0.1920.1040@0.0.1920.1040" timestamp="1596554812519" />
     <state width="1860" height="288" key="GridCell.Tab.0.left/1920.0.1536.832/0.0.1920.1040@0.0.1920.1040" timestamp="1596713738618" />
-    <state width="1860" height="288" key="GridCell.Tab.0.right" timestamp="1596713738619">
-      <screen x="0" y="0" width="1920" height="1040" />
+    <state width="1491" height="157" key="GridCell.Tab.0.right" timestamp="1596778737276">
+      <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state width="1875" height="192" key="GridCell.Tab.0.right/-1920.0.1536.832/0.0.1920.1040@0.0.1920.1040" timestamp="1596678133213" />
-    <state width="1491" height="499" key="GridCell.Tab.0.right/0.0.1536.824/1920.0.1080.770@0.0.1536.824" timestamp="1596707422386" />
+    <state width="1491" height="157" key="GridCell.Tab.0.right/0.0.1536.824/1920.0.1080.770@0.0.1536.824" timestamp="1596778737276" />
     <state width="1491" height="188" key="GridCell.Tab.0.right/0.0.1536.824@0.0.1536.824" timestamp="1595958958268" />
     <state width="1877" height="290" key="GridCell.Tab.0.right/1920.-205.1536.832/0.0.1920.1040@0.0.1920.1040" timestamp="1596554812521" />
     <state width="1860" height="288" key="GridCell.Tab.0.right/1920.0.1536.832/0.0.1920.1040@0.0.1920.1040" timestamp="1596713738619" />
