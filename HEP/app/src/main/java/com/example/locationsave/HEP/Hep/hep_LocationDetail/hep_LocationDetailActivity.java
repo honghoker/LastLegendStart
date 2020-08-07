@@ -2,6 +2,7 @@ package com.example.locationsave.HEP.Hep.hep_LocationDetail;
 
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -12,6 +13,8 @@ import androidx.viewpager.widget.ViewPager;
 import com.example.locationsave.HEP.Hep.hep_DTO.hep_Image;
 import com.example.locationsave.HEP.Hep.hep_DTO.hep_Location;
 import com.example.locationsave.HEP.Hep.hep_DTO.hep_LocationImage;
+import com.example.locationsave.HEP.Hep.hep_DTO.hep_LocationTag;
+import com.example.locationsave.HEP.Hep.hep_DTO.hep_Tag;
 import com.example.locationsave.HEP.Hep.hep_FireBase;
 import com.example.locationsave.HEP.Hep.hep_LocationSave.hep_FlowLayout;
 import com.example.locationsave.HEP.Hep.hep_LocationSave.hep_ImageData;
@@ -124,5 +127,38 @@ public class hep_LocationDetailActivity extends AppCompatActivity {
 
             }
         });
+
+        Query locationTagQuery = new hep_FireBase().getFireBaseDatabaseInstance().getReference().child("locationtag").orderByChild("locationid").equalTo(key);
+        locationTagQuery.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for(DataSnapshot dataSnapshot : snapshot.getChildren()){
+                    hep_LocationTag hep_locationTag = dataSnapshot.getValue(hep_LocationTag.class);
+
+                    Query tagQuery = new hep_FireBase().getFireBaseDatabaseInstance().getReference().child("tag").orderByKey().equalTo(hep_locationTag.tagid);
+                    tagQuery.addValueEventListener(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+                            for(DataSnapshot dataSnapshot : snapshot.getChildren()){
+                                hep_Tag hep_tag = dataSnapshot.getValue(hep_Tag.class);
+                                ((TextView)findViewById(R.id.tagtext)).setText(((TextView)findViewById(R.id.tagtext)).getText() + ", " + hep_tag.name);
+                            }
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError error) {
+
+                        }
+                    });
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
     }
+
+
 }
