@@ -1,21 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="wrap_content"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginTop="40dp"
-    android:gravity="center">
+    android:layout_centerHorizontal="true"
+    android:layout_marginTop="40dp">
 
     <LinearLayout
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
         android:layout_marginTop="30dp"
-        android:gravity="center|fill_vertical"
+        android:background="#E0EFF6"
         android:orientation="horizontal">
 
         <AutoCompleteTextView
             android:id="@+id/clearable_edit_search_location"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:background="#00FFFFFF"
             android:gravity="center"
             android:hint="검색할 장소를 입력하세요."
             android:imeOptions="actionSearch"
