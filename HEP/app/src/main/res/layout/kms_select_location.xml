@@ -107,5 +107,6 @@
         android:layout_height="200dp"
         android:layout_alignBottom="@id/textView8"
         android:background="#FF1A1A"
-        tools:ignore="NotSibling" />
+        tools:ignore="NotSibling"
+        tools:visibility="gone" />
 </RelativeLayout>
