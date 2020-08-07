@@ -40,7 +40,7 @@ import java.util.concurrent.ExecutionException;
 //프래그먼트는 액티비티위에 올라가있을떄만 프래그먼트로서 동작할 수 있다.
 public class KMS_MapFragment extends Fragment implements OnMapReadyCallback {
 
-    KMS_MainActivity activity;
+    KMS_MainActivity activity; 
     //프래그먼트
 
     //네이버 api
