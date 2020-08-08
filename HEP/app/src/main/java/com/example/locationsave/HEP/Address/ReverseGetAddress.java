@@ -6,11 +6,11 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 public class ReverseGetAddress {
+
     public String getJsonString(String jsonString){
         ReverseGeocodingEntity reverseGeocodingEntity = new ReverseGeocodingEntity();
 
         reverseGeocodingEntity.setJson(jsonString);
-
         try {
             String result = "";
             JSONObject jsonObject = new JSONObject(reverseGeocodingEntity.getJson());
@@ -46,12 +46,14 @@ public class ReverseGetAddress {
 
                 // 지번
                 if(i == 0){
-                    if(reverseGeocodingEntity.getOther_number2().trim().equals(""))
+                    if(reverseGeocodingEntity.getOther_number2().trim().equals("")){
                         result = stringNullCheck(reverseGeocodingEntity.getArea1_name())+" "+stringNullCheck(reverseGeocodingEntity.getArea2_name())+" "+stringNullCheck(reverseGeocodingEntity.getArea3_name())
                                 +" "+stringNullCheck(reverseGeocodingEntity.getArea4_name()) + stringNullCheck(reverseGeocodingEntity.getOther_number1());
-                    else
+                    }
+                    else{
                         result = stringNullCheck(reverseGeocodingEntity.getArea1_name())+" "+stringNullCheck(reverseGeocodingEntity.getArea2_name())+" "+stringNullCheck(reverseGeocodingEntity.getArea3_name())
                                 +" "+stringNullCheck(reverseGeocodingEntity.getArea4_name()) + stringNullCheck(reverseGeocodingEntity.getOther_number1()) + "-" +stringNullCheck(reverseGeocodingEntity.getOther_number2());
+                    }
                 }
                 // 도로명
                 else{

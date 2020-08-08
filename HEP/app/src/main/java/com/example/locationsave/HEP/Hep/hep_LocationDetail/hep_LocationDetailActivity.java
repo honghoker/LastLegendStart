@@ -2,7 +2,6 @@ package com.example.locationsave.HEP.Hep.hep_LocationDetail;
 
 import android.net.Uri;
 import android.os.Bundle;
-import android.util.Log;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -13,6 +12,8 @@ import androidx.viewpager.widget.ViewPager;
 import com.example.locationsave.HEP.Hep.hep_DTO.hep_Image;
 import com.example.locationsave.HEP.Hep.hep_DTO.hep_Location;
 import com.example.locationsave.HEP.Hep.hep_DTO.hep_LocationImage;
+import com.example.locationsave.HEP.Hep.hep_DTO.hep_LocationTag;
+import com.example.locationsave.HEP.Hep.hep_DTO.hep_Tag;
 import com.example.locationsave.HEP.Hep.hep_FireBase;
 import com.example.locationsave.HEP.Hep.hep_LocationSave.hep_FlowLayout;
 import com.example.locationsave.HEP.Hep.hep_LocationSave.hep_ImageData;
@@ -125,44 +126,39 @@ public class hep_LocationDetailActivity extends AppCompatActivity {
 
             }
         });
-    }
-}
 
+        Query locationTagQuery = new hep_FireBase().getFireBaseDatabaseInstance().getReference().child("locationtag").orderByChild("locationid").equalTo(key);
+        locationTagQuery.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for(DataSnapshot dataSnapshot : snapshot.getChildren()){
+                    hep_LocationTag hep_locationTag = dataSnapshot.getValue(hep_LocationTag.class);
 
-                /*if(dataSnapshot.exists()){
-                    for(DataSnapshot issue : dataSnapshot.getChildren()){
-                        hep_LocationImage hep_locationImages = issue.getValue(hep_LocationImage.class);
-                        ArrayList<String> bitmapArrayList = hep_locationImages.getImageBitmapArr();
-                        new hep_locationImageDataArr().setImageDataArraySize(bitmapArrayList.size());
+                    Query tagQuery = new hep_FireBase().getFireBaseDatabaseInstance().getReference().child("tag").orderByKey().equalTo(hep_locationTag.tagid);
+                    tagQuery.addValueEventListener(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+                            for(DataSnapshot dataSnapshot : snapshot.getChildren()){
+                                hep_Tag hep_tag = dataSnapshot.getValue(hep_Tag.class);
+                                ((TextView)findViewById(R.id.tagtext)).setText(((TextView)findViewById(R.id.tagtext)).getText() + ", " + hep_tag.name);
 
-                        for (int i = 0; i < bitmapArrayList.size(); i++) {
-                            final int finalI = i;
-
-                            StorageReference s = new hep_FireBase().getFirebaseStorageInstance().getReference().child(bitmapArrayList.get(i));
-                            s.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-                                @Override
-                                public void onSuccess(Uri uri) {
-                                    try {
-                                        hep_LocationDetail_FlowLayoutImageItem flowLayoutImageItem = new hep_LocationDetail_FlowLayoutImageItem(hep_LocationDetailActivity.this);
-                                        hep_FlowLayout.LayoutParams params = new hep_FlowLayout.LayoutParams(20, 20);
-                                        flowLayoutImageItem.setLayoutParams(params);
-                                        flowLayoutImageItem.setBackgroundUri(uri);
-
-                                        new hep_locationImageDataArr().getImageDataArrayInstance().get(finalI).path = uri;
-                                        ((hep_FlowLayout) findViewById(R.id.locationDetailViewimageFlowLayout)).addView(flowLayoutImageItem);
-                                        //((hep_FlowLayout) findViewById(R.id.locationDetailViewimageFlowLayout)).addView(flowLayoutImageItem, finalI);
-
-                                    } catch (IOException e) {
-                                        e.printStackTrace();
-                                    }
-
-                                }
-                            });
+                            }
                         }
-                    }
-                    hep_LocationDetail_ViewPagerAdapter viewPagerAdapter = new hep_LocationDetail_ViewPagerAdapter(hep_LocationDetailActivity.this);
-                    viewPager = findViewById(R.id.locationDetailViewPager);
-                    viewPager.setAdapter(viewPagerAdapter);
-                }*/
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError error) {
+
+                        }
+                    });
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+    }
 
 
+}

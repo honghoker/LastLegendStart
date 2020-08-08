@@ -23,7 +23,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.viewpager.widget.ViewPager;
 
+import com.example.locationsave.HEP.Hep.hep_DTO.hep_Callback;
 import com.example.locationsave.HEP.Hep.hep_DTO.hep_Location;
+import com.example.locationsave.HEP.Hep.hep_DTO.hep_LocationTag;
+import com.example.locationsave.HEP.Hep.hep_DTO.hep_Recent;
 import com.example.locationsave.HEP.Hep.hep_DTO.hep_Tag;
 import com.example.locationsave.HEP.Hep.hep_FireBase;
 import com.example.locationsave.HEP.Hep.hep_LocationDetail.hep_LocationDetailActivity;
@@ -34,7 +37,6 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
@@ -308,7 +310,6 @@ public class hep_LocationSaveActivity extends AppCompatActivity {
             DatabaseReference locationReference = new hep_FireBase().getFireBaseDatabaseInstance().getReference().child("location").push();
 
             hep_Location hep_Location = new hep_Location(
-                    /* directoryid 값 가져오기 추가 필요*/
                     ((EditText)findViewById(R.id.locationName)).getText().toString(),
                     ((EditText)findViewById(R.id.locationAddr)).getText().toString(),
                     ((EditText)findViewById(R.id.locationDetailAddr)).getText().toString(),
@@ -324,38 +325,24 @@ public class hep_LocationSaveActivity extends AppCompatActivity {
             final String locationid = locationReference.getKey();
 
             for(int i = 0; i < new hep_HashTagArr().getHashTagArr().size(); i++) {
-                final int finalI = i;
-
                 // tag 중복 체크
-                Query tagQuery = new hep_FireBase().getFireBaseDatabaseInstance().getReference().child("tag").orderByChild("name").equalTo(new hep_HashTagArr().getHashTagArr().get(i));
-                tagQuery.addListenerForSingleValueEvent(new ValueEventListener() {
+                new hep_FireBase().insertTag(new hep_HashTagArr().getHashTagArr().get(i), new hep_Callback() {
                     @Override
-                    public void onDataChange(@NonNull DataSnapshot snapshot) {
-                        String tagid = "";
+                    public void onSuccess(hep_Recent hep_recent) {
 
-                        if(snapshot.exists()){ // tag가 있으면 getkey
-                            for(DataSnapshot issue : snapshot.getChildren())
-                                tagid = issue.getKey();
-                        }
+                    }
 
-                        else{  // tag가 없으면 tag 삽입 후 getkey
-                            Map<String, Object> hashMapTag = new HashMap<>();
-                            hashMapTag.put("name", new hep_HashTagArr().getHashTagArr().get(finalI));
-
-                            DatabaseReference tagReference = new hep_FireBase().getFireBaseDatabaseInstance().getReference().child("tag").push();
-                            tagReference.setValue(hashMapTag); // tag 저장
-                            tagid = tagReference.getKey();
-                        }
-
+                    @Override
+                    public void onSuccess(hep_LocationTag hep_locationTag) {
                         Map<String, Object> hashlocationtag = new HashMap<>();
                         hashlocationtag.put("locationid", locationid);
-                        hashlocationtag.put("tagid", tagid);
+                        hashlocationtag.put("tagid", hep_locationTag.tagid);
 
                         new hep_FireBase().getFireBaseDatabaseInstance().getReference().child("locationtag").push().setValue(hashlocationtag); // locationtag 저장
                     }
 
                     @Override
-                    public void onCancelled(@NonNull DatabaseError error) {
+                    public void onFail(String errorMessage) {
 
                     }
                 });
@@ -387,6 +374,7 @@ public class hep_LocationSaveActivity extends AppCompatActivity {
                 });
             }
 
+            new hep_HashTagArr().getHashTagArr().clear();
             new hep_locationImageDataArr().getImageDataArrayInstance().clear();
             setFragment();
 

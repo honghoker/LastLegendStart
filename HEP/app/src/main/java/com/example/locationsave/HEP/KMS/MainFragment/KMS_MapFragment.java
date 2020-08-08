@@ -6,6 +6,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -14,10 +15,13 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
-import com.example.locationsave.HEP.Address.ReverseGetAddress;
+import com.example.locationsave.HEP.Address.AreaSearch;
 import com.example.locationsave.HEP.Address.ReverseGeocodingAsyncTask;
-import com.example.locationsave.HEP.KMS_MainActivity;
+import com.example.locationsave.HEP.Address.ReverseGetAddress;
 import com.example.locationsave.HEP.KMS.Location.KMS_LocationFlagManager;
+import com.example.locationsave.HEP.KMS.Map.KMS_MapOption;
+import com.example.locationsave.HEP.KMS.Map.KMS_MarkerManager;
+import com.example.locationsave.HEP.KMS_MainActivity;
 import com.example.locationsave.R;
 import com.naver.maps.geometry.LatLng;
 import com.naver.maps.geometry.LatLngBounds;
@@ -26,11 +30,7 @@ import com.naver.maps.map.CameraPosition;
 import com.naver.maps.map.LocationTrackingMode;
 import com.naver.maps.map.MapFragment;
 import com.naver.maps.map.NaverMap;
-import com.naver.maps.map.NaverMapOptions;
 import com.naver.maps.map.OnMapReadyCallback;
-import com.naver.maps.map.UiSettings;
-import com.naver.maps.map.overlay.Marker;
-import com.naver.maps.map.overlay.OverlayImage;
 import com.naver.maps.map.util.FusedLocationSource;
 
 import java.util.concurrent.ExecutionException;
@@ -38,11 +38,7 @@ import java.util.concurrent.ExecutionException;
 //프래그먼트는 액티비티위에 올라가있을떄만 프래그먼트로서 동작할 수 있다.
 public class KMS_MapFragment extends Fragment implements OnMapReadyCallback {
 
-    KMS_MainActivity activity;
-    //프래그먼트
-
-    //네이버 api
-    NaverMapOptions options; //초기 옵션 설정을 위한 옵션
+    KMS_MainActivity activity; //프래그먼트
 
     //네이버 map 전역 변수
     public static NaverMap NMap;
@@ -51,6 +47,9 @@ public class KMS_MapFragment extends Fragment implements OnMapReadyCallback {
     private static final int LOCATION_PERMISSION_REQUEST_CODE = 1000;
     private FusedLocationSource locationSource;
 
+    //맵 옵션
+    KMS_MapOption mapOption = KMS_MapOption.getInstanceMapOption();
+    KMS_MarkerManager markerManager = new KMS_MarkerManager().getInstanceMarkerManager();
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
@@ -72,6 +71,20 @@ public class KMS_MapFragment extends Fragment implements OnMapReadyCallback {
 
         ViewGroup rootView = (ViewGroup) inflater.inflate(R.layout.kms_map_fragment, container, false);
 
+        Button btn = rootView.findViewById(R.id.button);
+        btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                markerManager.initMarker();
+            }
+        });
+        Button btn2 = rootView.findViewById(R.id.button2);
+        btn2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.d("####addMarker",   "남은 피카츄 수" + markerManager.markers.size());
+            }
+        });
         /*
         Button button = rootView.findViewById(R.id.button1);
         button.setOnClickListener(new View.OnClickListener() {
@@ -84,10 +97,11 @@ public class KMS_MapFragment extends Fragment implements OnMapReadyCallback {
         return rootView;
     }
 
-
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+
         //현재 위치
         locationSource = new FusedLocationSource(this, LOCATION_PERMISSION_REQUEST_CODE);
 
@@ -95,10 +109,10 @@ public class KMS_MapFragment extends Fragment implements OnMapReadyCallback {
         FragmentManager fm = getChildFragmentManager();
         MapFragment mapFragment = (MapFragment) fm.findFragmentById(R.id.map); //맵프래그먼트 객체 생성 map id 가져와서
 
-        setFirstOptions(); //1-8. 초기 옵션 설정
+
 
         if (mapFragment == null) { //맵프래그먼트 생성된 적 없으면
-            mapFragment = MapFragment.newInstance(options); //새로 만들어주고   // 1-8. 초기옵션 추가
+            mapFragment = MapFragment.newInstance(mapOption.setFirstOptions()); //새로 만들어주고   // 1-8. 초기옵션 추가
             Toast.makeText(getContext(), "맵 생성 완료", Toast.LENGTH_SHORT).show();
             fm.beginTransaction().add(R.id.map, mapFragment).commit(); // 프래그매니저에게 명령 map 레이아웃에 생성된 맵 객체를 add
         }
@@ -136,13 +150,6 @@ public class KMS_MapFragment extends Fragment implements OnMapReadyCallback {
 
     }
 
-    public void setFirstOptions() { //1-8. 초기옵션 설정
-        options = new NaverMapOptions()
-                .camera(new CameraPosition(new LatLng(35.857654, 128.498123), 16))
-
-                .mapType(NaverMap.MapType.Navi)
-                .nightModeEnabled(true);
-    } //1-8. 초기옵션 설정
 
     //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@보류
     public void setLocation(Context context) { //1-9. 카메라 위치 선언
@@ -170,7 +177,11 @@ public class KMS_MapFragment extends Fragment implements OnMapReadyCallback {
 
         Toast.makeText(context,
                 "현재위치 = 대상 지점 위도: " + cameraPosition.target.latitude + ", " +
-                        "대상 지점 경도: " + cameraPosition.target.longitude + ", ", Toast.LENGTH_SHORT).show();
+                        "대상 지점 경도: " + cameraPosition.target.longitude + ", " +
+                        "줌 레벨: " + cameraPosition.zoom + ", " +
+                        "기울임 각도: " + cameraPosition.tilt + ", " +
+                        "베어링 각도: " + cameraPosition.bearing,
+                Toast.LENGTH_SHORT).show();
     }// getL~~종료
 
     public void saveLocation(Context context) {
@@ -188,18 +199,12 @@ public class KMS_MapFragment extends Fragment implements OnMapReadyCallback {
 
     //1-12. 화면 좌표 <-> 지도 좌표 변환
 
-    //1-13. UI Setting
-    public void setMapUI(NaverMap naverMap) {
-        UiSettings uiSettings = naverMap.getUiSettings();
-        uiSettings.setZoomControlEnabled(false);
-        uiSettings.setLocationButtonEnabled(true);
-        uiSettings.isLocationButtonEnabled();
-    }
+
 
     //1-14. 현재 위치 setLocationSource
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,  @NonNull int[] grantResults) {
-        Log.d("현재위치","일단 호출됨");
+        Log.d("현재위치onRequestPermissionsResult","일단 호출됨");
         if (locationSource.onRequestPermissionsResult(
                 requestCode, permissions, grantResults)) {
             if (!locationSource.isCompassEnabled()) { // 권한 거부됨
@@ -212,36 +217,6 @@ public class KMS_MapFragment extends Fragment implements OnMapReadyCallback {
         Log.d("현재위치","super 호출");
     }
 
-    public void addMarker(){
-        CameraPosition cameraPosition = NMap.getCameraPosition(); //현재 위치 정보 반환하는 메소드
-        LatLng addMarkerLatLng = new LatLng(cameraPosition.target.latitude, cameraPosition.target.longitude);
-        //현재 장소 위경도값 받아와서 좌표 추가
-        Marker marker = new Marker();
-        marker.setPosition(addMarkerLatLng);
-
-        //마커 텍스트
-        marker.setCaptionText("향후 위경도 기반 주소나 지정 이름 올 것");
-        marker.setCaptionRequestedWidth(200); //이름 최대 폭
-
-        //마커 이미지
-        marker.setIcon(OverlayImage.fromResource(R.drawable.marker_design_pika2));
-        marker.setWidth(120);
-        marker.setHeight(160);
-
-        marker.setMap(NMap);
-        Log.d("addMarker","장소 추가");
-    }
-
-    //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@보류 타 액티비티에서 이벤트 주기
-/*    public void onClickFragmentBtn(View v) {
-        switch (v.getId()) {
-            case R.id.btncameraLocation:
-                setLocation(getActivity());
-                break;
-            default:
-                break;
-        }
-    }*/
 
     int im = 0;
 
@@ -255,10 +230,12 @@ public class KMS_MapFragment extends Fragment implements OnMapReadyCallback {
             public void onCameraIdle() {
                 //getLocationPosition(activity, NMap);
                 //saveLocation(activity);
-                KMS_FragmentManager fragmentManager = KMS_FragmentManager.getInstanceFragment();
+                final AreaSearch areaSearch = new AreaSearch();
+                KMS_FragmentFlagManager fragmentManager = KMS_FragmentFlagManager.getInstanceFragment();
                 KMS_LocationFlagManager locationFragment = KMS_LocationFlagManager.getInstanceLocation();
 
                 CameraPosition cameraPosition = NMap.getCameraPosition(); //현재 위치 정보 반환하는 메소드
+
                 if(fragmentManager.flagCheckFragment() == true && locationFragment.flagGetLocation() == true) {
 
                     Log.d("MapMap", "onCameraIdle 위도 : " + cameraPosition.target.latitude + "경도 : " + cameraPosition.target.longitude + im++);
@@ -274,28 +251,126 @@ public class KMS_MapFragment extends Fragment implements OnMapReadyCallback {
                         e.printStackTrace();
                     }
                 }
+
+
+
+                Toast.makeText(getActivity(),
+                        "현재위치 = 대상 지점 위도: " + cameraPosition.target.latitude + ", " +
+                                "대상 지점 경도: " + cameraPosition.target.longitude, Toast.LENGTH_SHORT);
+                Log.d("MapMap", "onCameraIdle 위도 : " + cameraPosition.target.latitude + "경도 : " + cameraPosition.target.longitude + im++);
             }
         });
-        NMap.setContentPadding(0, 100, 0, 50);
-        setMapUI(NMap);
+
+
+
+        markerManager.loadMarker(NMap); //초기 마커값 불러옴
+
+        mapOption.setMapPadding(NMap);  //좌표 중앙 패딩 설정
+        mapOption.setMapUI(NMap); //맵 ui 설정
 
         //현재위치
         NMap.setLocationSource(locationSource); //얘가 있으면 버튼이 활성화
         Log.d("현재위치","onMapReady, " + locationSource);
 
 
+/////////////////////////////////////////////////////////////////////
 
+        /*///마커 갱신 코드
+        LatLng initialPosition = new LatLng(35.857654, 128.498123);
+        CameraUpdate cameraUpdate = CameraUpdate.scrollTo(initialPosition);
+        naverMap.moveCamera(cameraUpdate);
+
+        //KMS_MapSetting.InitPosition(markersPosition);
+        //1. markerPosition 에 기존 가진 마커들을 모두 추가한다.
+        markersPosition = new Vector<LatLng>();
+        for (int x = 0; x < 100; ++x) {
+            for (int y = 0; y < 100; ++y) {
+                markersPosition.add(new LatLng(
+                        initialPosition.latitude - (REFERANCE_LAT * x),
+                        initialPosition.longitude + (REFERANCE_LNG * y)
+                ));
+                markersPosition.add(new LatLng(
+                        initialPosition.latitude + (REFERANCE_LAT * x),
+                        initialPosition.longitude - (REFERANCE_LNG * y)
+                ));
+                markersPosition.add(new LatLng(
+                        initialPosition.latitude + (REFERANCE_LAT * x),
+                        initialPosition.longitude + (REFERANCE_LNG * y)
+                ));
+                markersPosition.add(new LatLng(
+                        initialPosition.latitude - (REFERANCE_LAT * x),
+                        initialPosition.longitude - (REFERANCE_LNG * y)
+                ));
+            }
+        }
+
+        NMap.addOnCameraChangeListener(new NaverMap.OnCameraChangeListener() {
+            @Override
+            public void onCameraChange(int reason, boolean animated) {
+
+                freeActiveMarkers(); //지도에 표시된 마커 모두 삭제
+                // 정의된 마커위치들중 가시거리 내에있는것들만 마커 생성
+
+                //2.현재 카메라가 보고있는 좌표 생성
+                LatLng currentPosition = getCurrentPosition(NMap);
+
+                //3-1. 마커포지션 개수만큼 반복
+                for (LatLng markerPosition: markersPosition) {
+                    //3-2. 만약 마커가 가시거리 3키로 이내에 없으면
+                    if (!withinSightMarker(currentPosition, markerPosition)) //만약 위경도 하나라도 3키로 밖으로 벗어나면
+                        continue; //마커 다시 찍는다.
+                    Marker marker = new Marker();
+                    marker.setPosition(markerPosition);
+                    marker.setMap(NMap);
+                    activeMarkers.add(marker);
+                }
+            }
+        });*/
+/////////////////////////////////////////////////////////////////////
+
+    }//onMapReady
+
+    /////////////////////////////////////////////////////////////////////
+
+/*
+// 마커 정보 저장시킬 변수들 선언
+    private Vector<LatLng> markersPosition;
+    private Vector<Marker> activeMarkers;
+
+    // 선택한 마커의 위치가 가시거리(카메라가 보고있는 위치 반경 3km 내)에 있는지 확인
+    public final static double REFERANCE_LAT = 1 / 109.958489129649955;
+    public final static double REFERANCE_LNG = 1 / 88.74;
+    public final static double REFERANCE_LAT_X3 = 3 / 109.958489129649955;
+    public final static double REFERANCE_LNG_X3 = 3 / 88.74;
+
+    // 현재 카메라가 보고있는 위치
+    public LatLng getCurrentPosition(NaverMap naverMap) {
+        CameraPosition cameraPosition = naverMap.getCameraPosition();
+        return new LatLng(cameraPosition.target.latitude, cameraPosition.target.longitude);
     }
 
-/*    @Override
-    public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.btncameraLocation:
-                setLocation(getActivity());
-                break;
-            default:
-                break;
+    //현재 좌표에서 마커가 3키로 이내인지 판단
+    public boolean withinSightMarker(LatLng currentPosition, LatLng markerPosition) {
+        boolean withinSightMarkerLat = Math.abs(currentPosition.latitude - markerPosition.latitude) <= REFERANCE_LAT_X3;
+        boolean withinSightMarkerLng = Math.abs(currentPosition.longitude - markerPosition.longitude) <= REFERANCE_LNG_X3;
+        return withinSightMarkerLat && withinSightMarkerLng;
+    }
+
+    // 지도상에 표시되고있는 마커들 지도에서 삭제
+    private void freeActiveMarkers() {
+        if (activeMarkers == null) {
+            activeMarkers = new Vector<Marker>();
+            return;
         }
+        for (Marker activeMarker: activeMarkers) {
+            activeMarker.setMap(null);
+        }
+        activeMarkers = new Vector<Marker>();
     }*/
 
-}
+
+    /////////////////////////////////////////////////////////////////////
+
+
+
+} //전체코드

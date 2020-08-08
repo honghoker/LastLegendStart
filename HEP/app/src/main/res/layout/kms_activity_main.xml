@@ -118,7 +118,7 @@
             android:orientation="horizontal"
             android:visibility="gone">
 
-            <com.example.locationsave.HEP.KMS.Toolbar.KMS_ClearableEditTextSearchBar
+            <com.example.locationsave.HEP.KMS.Toolbar.KMS_ClearableEditText_LoadLocation
                 android:id="@+id/searchView"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -180,6 +180,7 @@
         android:layout_gravity="start"
         android:id="@+id/nav_view"
         app:headerLayout="@layout/ksh_nav_header"
-        app:menu="@menu/ksh_drawer_menu"/>
+        app:menu="@menu/ksh_drawer_menu">
+    </com.google.android.material.navigation.NavigationView>
 
 </androidx.drawerlayout.widget.DrawerLayout>

@@ -1,5 +1,6 @@
 package com.example.locationsave.HEP.Hep.hep_DTO;
 
+import com.example.locationsave.HEP.KMS_MainActivity;
 import com.google.firebase.database.Exclude;
 import com.google.firebase.database.IgnoreExtraProperties;
 
@@ -9,7 +10,7 @@ import java.util.Map;
 @IgnoreExtraProperties
 public class hep_Location {
 
-    public String diretoryid;
+    public String directoryid;
     public String name;
     public String addr;
     public String detailaddr;
@@ -25,6 +26,7 @@ public class hep_Location {
     public hep_Location(String name, String addr,
                         String detailaddr, String contact, String memo, double latitude, double longitude) {
 
+        this.directoryid = KMS_MainActivity.directoryid;
         this.name = name;
         this.addr = addr;
         this.detailaddr = detailaddr;
@@ -39,6 +41,7 @@ public class hep_Location {
     public Map<String, Object> toMap() {
         HashMap<String, Object> result = new HashMap<>();
 
+        result.put("directoryid", directoryid);
         result.put("name", name);
         result.put("addr", addr);
         result.put("detailaddr", detailaddr);
@@ -71,14 +74,6 @@ public class hep_Location {
 
     public String getMemo() {
         return memo;
-    }
-
-    public String getDiretoryid() {
-        return diretoryid;
-    }
-
-    public void setDiretoryid(String diretoryid) {
-        this.diretoryid = diretoryid;
     }
 
     public void setName(String name) {

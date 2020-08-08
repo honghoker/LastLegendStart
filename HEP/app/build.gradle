@@ -34,6 +34,7 @@ dependencies {
     implementation 'com.google.firebase:firebase-database:19.3.1'
     implementation 'androidx.recyclerview:recyclerview:1.1.0'
     implementation 'com.google.firebase:firebase-storage:19.1.1'
+    implementation 'com.google.android.gms:play-services-maps:17.0.0'
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test.ext:junit:1.1.1'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
@@ -49,6 +50,10 @@ dependencies {
 
     implementation 'com.google.firebase:firebase-analytics:17.2.2'
     implementation 'com.google.firebase:firebase-firestore:21.2.1'
+
+    // hep oauth2.0
+    implementation 'com.google.firebase:firebase-auth:19.3.2'
+    implementation 'com.google.android.gms:play-services-auth:18.1.0'
     ///////////////////////////////////////////////////////////////////////
 
     /////////////////////////Pcs dependencies
@@ -61,7 +66,7 @@ dependencies {
     //implementation 'com.google.firebase:firebase-firestore:21.5.0'
     //////////////////////////////////////////////////////////////////////////
 
-    ////////////// KMS, KSH
+    ////////////// KMS, KSH /////////////////////////////////////////////////////////
     //Recyclerview
     implementation 'com.android.support:recyclerview-v7:29.0.2'
     implementation 'it.xabaras.android:recyclerview-swipedecorator:1.2.2'
@@ -73,5 +78,10 @@ dependencies {
 
     //현재 위치
     implementation 'com.google.android.gms:play-services-location:16.0.0'
+
+    ///////////////////////////////////////////////////////////////////////////////////
+
+    ///////////////////CJH ///////////////////////////////////////////////
+    //implementation 'com.facebook.android:facebook-login:5.15.3'
 
 }

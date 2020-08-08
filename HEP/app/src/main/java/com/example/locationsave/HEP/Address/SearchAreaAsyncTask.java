@@ -8,27 +8,25 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
-public class GeocodingAsyncTask extends AsyncTask<Void,Void,String> {
-    String clientId = "03gjuk2ph9";//애플리케이션 클라이언트 아이디값";
-    String clientSecret = "kcPZZM7ikGyaHL4uJGav6IMequOkarvHIB3Sta8D";//애플리케이션 클라이언트 시크릿값";
+public class SearchAreaAsyncTask extends AsyncTask<Void,Void,String> {
+    String clientId = "iXMNvmvSAOguc7tlSbcQ"; //애플리케이션 클라이언트 아이디값";
+    String clientSecret = "n0VvnqlG_k";//애플리케이션 클라이언트 시크릿값";
     String simpleAddress;
 
-    public GeocodingAsyncTask(String simpleAddress) {
+    public SearchAreaAsyncTask(String simpleAddress) {
         this.simpleAddress = simpleAddress;
     }
+
 
     @Override
     protected String doInBackground(Void... voids) {
         try{
-            String apiURL = "https://naveropenapi.apigw.ntruss.com/map-geocode/v2/geocode?query="+simpleAddress;
-//            String apiURL = "https://naveropenapi.apigw.ntruss.com/map-geocode/v2/geocode?query=연사리 93";
-
+            String apiURL = "https://openapi.naver.com/v1/search/local.json?query="+simpleAddress+"&display=5&start=1&sort=random";
             URL url = new URL(apiURL);
             HttpURLConnection con = (HttpURLConnection)url.openConnection();
             con.setRequestMethod("GET");
-            con.setRequestProperty("X-NCP-APIGW-API-KEY-ID", clientId);
-            con.setRequestProperty("X-NCP-APIGW-API-KEY", clientSecret);
-
+            con.setRequestProperty("X-Naver-Client-Id", clientId);
+            con.setRequestProperty("X-Naver-Client-Secret", clientSecret);
             int responseCode = con.getResponseCode();
             BufferedReader br;
 //            br = new BufferedReader(new InputStreamReader(con.getInputStream()));
@@ -45,9 +43,10 @@ public class GeocodingAsyncTask extends AsyncTask<Void,Void,String> {
             br.close();
             return response.toString();
 
-        } catch (Exception e) {
+        }catch (Exception e){
             Log.d("5", "에러요"+String.valueOf(e));
         }
+
         return null;
     }
 }

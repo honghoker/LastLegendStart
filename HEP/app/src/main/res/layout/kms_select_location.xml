@@ -17,9 +17,10 @@
         android:elevation="0.1dp"
         android:minHeight="?attr/actionBarSize"
         android:theme="?attr/actionBarTheme"
+        android:visibility="visible"
         app:title="검색하기" />
 
-    <com.example.locationsave.HEP.KMS.Toolbar.KMS_ClearableEditTextSearchBar
+    <com.example.locationsave.HEP.KMS.Location.KMS_ClearableEditText_SearchLocation
         android:id="@+id/clearable_edit_sub"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
@@ -35,10 +36,10 @@
         <LinearLayout
             android:id="@+id/linearLayout_s"
             android:layout_width="wrap_content"
-            android:layout_height="100dp"
+            android:layout_height="60dp"
             android:background="@drawable/selectlocation"
             android:clickable="true"
-            android:minWidth="200dp"
+            android:minWidth="220dp"
             android:orientation="vertical">
 
             <TextView
@@ -46,9 +47,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:layout_marginTop="5dp"
+                android:layout_marginTop="0dp"
                 android:text="이 위치 저장"
-                android:textSize="18sp" />
+                android:textSize="14sp" />
 
             <TextView
                 android:id="@+id/selectLocation_AddressInfo"
@@ -57,14 +58,15 @@
                 android:layout_gravity="center"
                 android:layout_marginTop="10dp"
                 android:gravity="center"
-                android:textSize="15sp" />
+                android:textSize="10sp" />
 
         </LinearLayout>
 
         <ImageView
             android:id="@+id/imageView4"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="30dp"
+            android:layout_marginTop="0dp"
             app:srcCompat="@drawable/ic_down" />
 
         <ImageView
@@ -99,4 +101,13 @@
         android:text="  지도를 움직여서 위치를 정할 수 있습니다."
         android:textColor="#FFFFFF"
         android:textSize="15sp" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/searchResult_RecyclerVIew"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:layout_alignBottom="@id/textView8"
+        android:background="#FF1A1A"
+        android:visibility="visible"
+        tools:ignore="NotSibling" />
 </RelativeLayout>

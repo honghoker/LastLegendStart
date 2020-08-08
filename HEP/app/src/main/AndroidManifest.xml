@@ -17,8 +17,11 @@
         android:theme="@style/AppTheme">
         <activity android:name=".HEP.KSH.KSH_LoadingActivity"/>
         <activity android:name=".HEP.KSH.NavIntent.KSH_NoticeIntent"/>
+        <activity android:name=".HEP.KSH.NavIntent.KSH_HelpIntent"/>
+        <activity android:name=".HEP.KSH.NavIntent.KSH_SetIntent"/>
         <activity android:name=".HEP.KSH.KSH_AllSeeActivity"/>
         <activity android:name=".HEP.Hep.hep_LocationSave.hep_LocationSaveActivity"/>
+        <activity android:name=".HEP.Hep.hep_Login"/>
 
         <activity android:name=".HEP.KMS_MainActivity">
             <intent-filter>
@@ -30,9 +33,11 @@
         <activity android:name=".HEP.Hep.hep_LocationSave.hep_FullImage"/>
         <activity android:name=".HEP.Hep.hep_LocationDetail.hep_LocationDetailActivity"/>
 
+        <service android:name=".HEP.Hep.hep_closeAppService"
+            android:stopWithTask="false"/>
+
         <meta-data
             android:name="com.naver.maps.map.CLIENT_ID"
-            android:value="" />
+            android:value="8qhm9zaxf6" />
     </application>
-
 </manifest>
