@@ -21,6 +21,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -32,6 +33,19 @@ import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.example.locationsave.HEP.Address.GeocodingAsyncTask;
+import com.example.locationsave.HEP.Address.GetAddress;
+import com.example.locationsave.HEP.Hep.hep_LocationSave.hep_LocationSaveActivity;
+import com.example.locationsave.HEP.KMS.BackPressed.KMS_BackPressedForFinish;
+import com.example.locationsave.HEP.KMS.HashTag.KMS_FlowLayout;
+import com.example.locationsave.HEP.KMS.HashTag.KMS_HashTag;
+import com.example.locationsave.HEP.KMS.HashTag.KMS_HashTagCheckBoxManager;
+import com.example.locationsave.HEP.KMS.Location.KMS_LocationFlagManager;
+import com.example.locationsave.HEP.KMS.Location.KMS_SelectLocation;
+import com.example.locationsave.HEP.KMS.MainFragment.KMS_FragmentManager;
+import com.example.locationsave.HEP.KMS.MainFragment.KMS_MapFragment;
+import com.example.locationsave.HEP.KMS.Toolbar.KMS_ClearableEditTextSearchBar;
 
 import com.example.locationsave.HEP.Address.AreaSearch;
 import com.example.locationsave.HEP.Hep.hep_FireBase;
@@ -50,6 +64,7 @@ import com.example.locationsave.HEP.KMS.Location.KMS_SelectLocation;
 import com.example.locationsave.HEP.KMS.MainFragment.KMS_FragmentFlagManager;
 import com.example.locationsave.HEP.KMS.MainFragment.KMS_MapFragment;
 import com.example.locationsave.HEP.KMS.Toolbar.KMS_ClearableEditText_LoadLocation;
+
 import com.example.locationsave.HEP.KMS.Toolbar.KMS_RecycleVIewManager;
 import com.example.locationsave.HEP.KMS.Toolbar.KMS_SearchManager;
 import com.example.locationsave.HEP.KSH.KSH_AllSeeActivity;
@@ -57,9 +72,15 @@ import com.example.locationsave.HEP.KSH.KSH_DirectoryEntity;
 import com.example.locationsave.HEP.KSH.KSH_FireBase;
 import com.example.locationsave.HEP.KSH.KSH_LoadingActivity;
 import com.example.locationsave.HEP.KSH.KSH_RecyAdapter;
+
+import com.example.locationsave.HEP.KSH.KSH_RecyclerviewAdapter;
+import com.example.locationsave.HEP.KSH.NavIntent.KSH_NoticeIntent;
+import com.example.locationsave.HEP.pcs_RecyclerView.Pcs_LocationRecyclerView;
+
 import com.example.locationsave.HEP.KSH.NavIntent.KSH_HelpIntent;
 import com.example.locationsave.HEP.KSH.NavIntent.KSH_NoticeIntent;
 import com.example.locationsave.HEP.KSH.NavIntent.KSH_SetIntent;
+
 import com.example.locationsave.R;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
@@ -534,9 +555,6 @@ public class KMS_MainActivity extends AppCompatActivity implements NavigationVie
     // . Context 넘겨주기
     public static Context mainContext; //AddMainActivity 에 넘겨주기 위해 컨텍스트 생성
     public static final int ADD_MAIN_ACTIVITY_REQUEST_CODE = 1000;
-    public static final int ADD_MAIN_ACTIVITY_REPLY_CODE = 2000;
-    public static final int ALLSEE_ACTIVITY_REQUEST_CODE = 3000;
-    public static final int ALLSEE_ACTIVITY_REPLY_CODE = 4000;
 
     private ArrayList<KMS_LocationSearchResult> mArrayList;
     private KMS_SearchResultAdapter mAdapter;
@@ -829,4 +847,19 @@ public class KMS_MainActivity extends AppCompatActivity implements NavigationVie
         Log.d("hashtag #flag = ", "" + kms_hashTagCheckBoxFlagManager.flagGethashTagCheckBoxFlag());
 
     }
+    //This method receive intent from closed activity
+    //ADD_MAIN_ACTIVITY_REQUEST_CODE is
+    //when LocationSaveActivity closed, Showing fragment of Location Recyclerview
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+         if(requestCode == ADD_MAIN_ACTIVITY_REQUEST_CODE){
+             if(resultCode == RESULT_OK){
+                 if(data.getBooleanExtra("result",false)) {
+                     setFragmentLocationListLayout();
+                 }
+             }
+         }
+    }
+
 } //mainactivity 종료
