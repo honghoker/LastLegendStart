@@ -63,7 +63,6 @@ import com.example.locationsave.HEP.KSH.NavIntent.KSH_NoticeIntent;
 import com.example.locationsave.HEP.KSH.NavIntent.KSH_SetIntent;
 import com.example.locationsave.HEP.pcs_RecyclerView.Pcs_LocationRecyclerView;
 import com.example.locationsave.R;
-import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.database.DataSnapshot;
@@ -122,7 +121,7 @@ public class KMS_MainActivity extends AppCompatActivity implements NavigationVie
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 HashMap<String, Object> result = new HashMap<>();
-                CameraPosition cameraPosition = NMap.getCameraPosition();
+                com.naver.maps.map.CameraPosition cameraPosition = NMap.getCameraPosition();
                 result.put("latitude", cameraPosition.target.latitude);
                 result.put("longitude", cameraPosition.target.longitude);
                 if(directoryid != null)
