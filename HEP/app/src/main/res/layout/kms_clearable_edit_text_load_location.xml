@@ -6,15 +6,16 @@
     android:layout_height="wrap_content"
     >
 
-        <AutoCompleteTextView
+
+        <com.example.locationsave.HEP.Hep.hep_LocationSave.hep_LocationSave_AutoCompleteTextView
             android:id="@+id/clearable_edit_load_location"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="저장된 장소를 입력하세요."
-            android:paddingRight="35dip"
-            android:singleLine="true"
             android:completionThreshold="1"
-            android:imeOptions="actionSearch" />
+            android:hint="저장된 장소를 입력하세요."
+            android:lines="1"
+            android:paddingRight="35dip"
+            android:singleLine="true" />
 
 
         <Button

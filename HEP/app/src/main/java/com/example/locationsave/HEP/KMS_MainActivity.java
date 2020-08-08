@@ -35,7 +35,6 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.locationsave.HEP.Address.GeocodingAsyncTask;
-import com.example.locationsave.HEP.Address.GetAddress;
 import com.example.locationsave.HEP.Hep.hep_LocationSave.hep_LocationSaveActivity;
 import com.example.locationsave.HEP.KMS.BackPressed.KMS_BackPressedForFinish;
 import com.example.locationsave.HEP.KMS.HashTag.KMS_FlowLayout;
@@ -43,9 +42,7 @@ import com.example.locationsave.HEP.KMS.HashTag.KMS_HashTag;
 import com.example.locationsave.HEP.KMS.HashTag.KMS_HashTagCheckBoxManager;
 import com.example.locationsave.HEP.KMS.Location.KMS_LocationFlagManager;
 import com.example.locationsave.HEP.KMS.Location.KMS_SelectLocation;
-import com.example.locationsave.HEP.KMS.MainFragment.KMS_FragmentManager;
 import com.example.locationsave.HEP.KMS.MainFragment.KMS_MapFragment;
-import com.example.locationsave.HEP.KMS.Toolbar.KMS_ClearableEditTextSearchBar;
 
 import com.example.locationsave.HEP.Address.AreaSearch;
 import com.example.locationsave.HEP.Hep.hep_FireBase;
@@ -856,7 +853,8 @@ public class KMS_MainActivity extends AppCompatActivity implements NavigationVie
          if(requestCode == ADD_MAIN_ACTIVITY_REQUEST_CODE){
              if(resultCode == RESULT_OK){
                  if(data.getBooleanExtra("result",false)) {
-                     setFragmentLocationListLayout();
+                     KMS_FragmentFlagManager d = KMS_FragmentFlagManager.getInstanceFragment();
+                     d.setFragmentLocationListLayout();
                  }
              }
          }
