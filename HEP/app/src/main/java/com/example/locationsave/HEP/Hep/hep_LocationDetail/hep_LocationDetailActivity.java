@@ -2,7 +2,6 @@ package com.example.locationsave.HEP.Hep.hep_LocationDetail;
 
 import android.net.Uri;
 import android.os.Bundle;
-import android.util.Log;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -142,6 +141,7 @@ public class hep_LocationDetailActivity extends AppCompatActivity {
                             for(DataSnapshot dataSnapshot : snapshot.getChildren()){
                                 hep_Tag hep_tag = dataSnapshot.getValue(hep_Tag.class);
                                 ((TextView)findViewById(R.id.tagtext)).setText(((TextView)findViewById(R.id.tagtext)).getText() + ", " + hep_tag.name);
+
                             }
                         }
 

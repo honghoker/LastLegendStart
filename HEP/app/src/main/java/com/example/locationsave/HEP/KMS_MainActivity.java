@@ -638,22 +638,6 @@ public class KMS_MainActivity extends AppCompatActivity implements NavigationVie
                                 for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
                                     hep_Location hep_location = dataSnapshot.getValue(hep_Location.class);
                                     new KMS_MarkerManager().getInstanceMarkerManager().addMarker(hep_location.name, hep_location.latitude, hep_location.longitude);
-
-//                                    LatLng addMarkerLatLng = new LatLng(hep_location.latitude, hep_location.longitude);
-//                                    //현재 장소 위경도값 받아와서 좌표 추가
-//                                    Marker marker = new Marker();
-//                                    marker.setPosition(addMarkerLatLng);
-//
-//                                    //마커 텍스트
-//                                    marker.setCaptionText(hep_location.name);
-//                                    marker.setCaptionRequestedWidth(200); //이름 최대 폭
-//
-//                                    //마커 이미지
-//                                    marker.setIcon(OverlayImage.fromResource(R.drawable.marker_design_pika2));
-//                                    marker.setWidth(120);
-//                                    marker.setHeight(160);
-//
-//                                    marker.setMap(NMap);
                                 }
                             }
 
