@@ -73,7 +73,8 @@ public class hep_Login extends AppCompatActivity {
         // Check if user is signed in (non-null) and update UI accordingly.
         //FirebaseUser currentUser = mAuth.getCurrentUser();
         //updateUI(currentUser);
-        startIntent(mAuth.getCurrentUser());
+        if(mAuth.getCurrentUser() != null)
+            startIntent(mAuth.getCurrentUser());
     }
 
     // [START signin]

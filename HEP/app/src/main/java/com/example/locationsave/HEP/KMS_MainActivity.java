@@ -59,7 +59,6 @@ import com.example.locationsave.HEP.KMS.Toolbar.KMS_RecycleVIewManager;
 import com.example.locationsave.HEP.KMS.Toolbar.KMS_SearchManager;
 import com.example.locationsave.HEP.KSH.KSH_AllSeeActivity;
 import com.example.locationsave.HEP.KSH.KSH_DirectoryEntity;
-import com.example.locationsave.HEP.KSH.KSH_FireBase;
 import com.example.locationsave.HEP.KSH.KSH_LoadingActivity;
 import com.example.locationsave.HEP.KSH.KSH_RecyAdapter;
 import com.example.locationsave.HEP.KSH.NavIntent.KSH_HelpIntent;
@@ -167,7 +166,6 @@ public class KMS_MainActivity extends AppCompatActivity implements NavigationVie
         arrayKey = new ArrayList<>();
         drawerLayout = findViewById(R.id.drawer_layout);
         navigationView = findViewById(R.id.nav_view);
-        KSH_FireBase firebaseDatabase = KSH_FireBase.getInstance(); // 싱글톤
         AreaSearch areaSearch = new AreaSearch(); // 키자마자 한번 지오코딩 돌리는거
         areaSearch.Geocoding("신당동 164");
     }

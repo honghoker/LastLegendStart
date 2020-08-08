@@ -22,6 +22,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="e45014c7-91ba-4a6e-9906-406c4b19666c" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/app/src/main/res/drawable-v24/hep_locationdetail_layoutborder.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/caches/build_file_checksums.ser" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/caches/build_file_checksums.ser" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/libraries/Gradle__com_google_android_gms_play_services_location_16_0_0_aar.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__com_google_android_gms_play_services_location_16_0_0_aar.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/libraries/Gradle__com_naver_maps_geometry_1_2_0_aar.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__com_naver_maps_geometry_1_2_0_aar.xml" afterDir="false" />
@@ -29,6 +30,12 @@
       <change beforePath="$PROJECT_DIR$/.idea/libraries/Gradle__com_squareup_picasso_picasso_2_71828_aar.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__com_squareup_picasso_picasso_2_71828_aar.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/libraries/Gradle__it_xabaras_android_recyclerview_swipedecorator_1_2_2_aar.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__it_xabaras_android_recyclerview_swipedecorator_1_2_2_aar.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/locationsave/HEP/Hep/hep_LocationDetail/hep_LocationDetailActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/locationsave/HEP/Hep/hep_LocationDetail/hep_LocationDetailActivity.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/locationsave/HEP/Hep/hep_LocationSave/hep_LocationSaveActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/locationsave/HEP/Hep/hep_LocationSave/hep_LocationSaveActivity.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/locationsave/HEP/Hep/hep_Login.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/locationsave/HEP/Hep/hep_Login.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/locationsave/HEP/KMS_MainActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/locationsave/HEP/KMS_MainActivity.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/hep_locationdetailactivity.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/hep_locationdetailactivity.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/hep_locationsaveactivity.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/hep_locationsaveactivity.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -38,7 +45,7 @@
   <component name="CodeInsightWorkspaceSettings">
     <option name="optimizeImportsOnTheFly" value="true" />
   </component>
-  <component name="ExecutionTargetManager" SELECTED_TARGET="Pixel_3a_API_29" />
+  <component name="ExecutionTargetManager" SELECTED_TARGET="Pixel_2_API_29" />
   <component name="ExternalProjectsData">
     <projectState path="$PROJECT_DIR$">
       <ProjectState />
@@ -68,13 +75,8 @@
               <path>
                 <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
                 <item name="LocationSave" type="f1a62948:ProjectNode" />
-                <item name="app" type="2d1252cf:ModuleNode" />
-              </path>
-              <path>
-                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
-                <item name="LocationSave" type="f1a62948:ProjectNode" />
-                <item name="app" type="2d1252cf:ModuleNode" />
                 <item name="Tasks" type="e4a08cd1:TasksNode" />
+                <item name="android" type="c8890929:TasksNode$1" />
               </path>
             </expand>
             <select />
@@ -88,6 +90,7 @@
       <list>
         <option value="layoutResourceFile" />
         <option value="Class" />
+        <option value="resourceFile" />
       </list>
     </option>
   </component>
@@ -102,8 +105,8 @@
     <option name="showLibraryContents" value="true" />
   </component>
   <component name="PropertiesComponent">
-    <property name="DeviceAndSnapshotComboBoxAction.selectedDevice" value="Pixel_3_API_28" />
-    <property name="DeviceAndSnapshotComboBoxAction.selectionTime" value="2020-08-07T15:14:39.555Z" />
+    <property name="DeviceAndSnapshotComboBoxAction.selectedDevice" value="Pixel_2_API_29" />
+    <property name="DeviceAndSnapshotComboBoxAction.selectionTime" value="2020-08-08T08:14:50.283Z" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="last_directory_selection" value="$PROJECT_DIR$/app/src/main/java/com/example" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
@@ -239,11 +242,12 @@
     </state>
     <state x="541" y="113" key="#app/0.0.1536.824@0.0.1536.824" timestamp="1596776181659" />
     <state x="676" y="162" key="#app/1920.0.1536.832/0.0.1920.1040@0.0.1920.1040" timestamp="1596707652426" />
-    <state x="765" y="229" key="#com.intellij.ide.util.MemberChooser" timestamp="1596803860550">
+    <state x="765" y="229" key="#com.intellij.ide.util.MemberChooser" timestamp="1596879002739">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="937" y="136" key="#com.intellij.ide.util.MemberChooser/0.0.1536.824/1920.0.1080.770@0.0.1536.824" timestamp="1596701944569" />
     <state x="765" y="229" key="#com.intellij.ide.util.MemberChooser/1920.-205.1536.832/0.0.1920.1040@0.0.1920.1040" timestamp="1596803860550" />
+    <state x="765" y="229" key="#com.intellij.ide.util.MemberChooser/1920.0.1536.832/0.0.1920.1040@0.0.1920.1040" timestamp="1596879002739" />
     <state x="463" y="445" key="#com.intellij.refactoring.move.MoveHandler.SelectRefactoringDialog" timestamp="1596708981986">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>

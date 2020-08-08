@@ -12,7 +12,6 @@ import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -30,7 +29,6 @@ import com.example.locationsave.HEP.Hep.hep_DTO.hep_LocationTag;
 import com.example.locationsave.HEP.Hep.hep_DTO.hep_Recent;
 import com.example.locationsave.HEP.Hep.hep_DTO.hep_Tag;
 import com.example.locationsave.HEP.Hep.hep_FireBase;
-import com.example.locationsave.HEP.Hep.hep_LocationDetail.hep_LocationDetailActivity;
 import com.example.locationsave.HEP.KMS_MainActivity;
 import com.example.locationsave.HEP.pcs_RecyclerView.Pcs_LocationRecyclerView;
 import com.example.locationsave.R;
@@ -51,7 +49,6 @@ import java.util.Map;
 import java.util.UUID;
 
 import static android.content.ContentValues.TAG;
-import static android.content.Intent.FLAG_ACTIVITY_NEW_TASK;
 
 public class hep_LocationSaveActivity extends AppCompatActivity {
 
@@ -81,14 +78,6 @@ public class hep_LocationSaveActivity extends AppCompatActivity {
             ((TextView)findViewById(R.id.locationAddr)).setText("저장된 주소가 없습니다.");
         else
             ((TextView)findViewById(R.id.locationAddr)).setText(addr);
-
-        ((Button)findViewById(R.id.detailView)).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), hep_LocationDetailActivity.class);
-                getApplicationContext().startActivity(intent.addFlags(FLAG_ACTIVITY_NEW_TASK));
-            }
-        });
 
         hashEditText = findViewById(R.id.HashTagText);
         tagDataArrayList = new ArrayList<>();

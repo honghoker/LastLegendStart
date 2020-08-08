@@ -2,10 +2,13 @@ package com.example.locationsave.HEP.Hep.hep_LocationDetail;
 
 import android.net.Uri;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.widget.TextView;
+import androidx.appcompat.widget.Toolbar;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager.widget.ViewPager;
 
@@ -39,7 +42,28 @@ public class hep_LocationDetailActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.hep_locationdetailactivity);
 
+        setInit();
         setData();
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()){
+            case android.R.id.home:
+                finish();
+                break;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    public void setInit(){
+        Toolbar toolbar = findViewById(R.id.locationdetailToolbar);
+        setSupportActionBar(toolbar);
+
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.setDisplayShowCustomEnabled(true);
+        actionBar.setDisplayShowTitleEnabled(false);//기본 제목을 없애줍니다.
+        actionBar.setDisplayHomeAsUpEnabled(true);
     }
 
     public void setData(){
@@ -55,9 +79,13 @@ public class hep_LocationDetailActivity extends AppCompatActivity {
                         if(issue.getKey().equals(key)) {
                             hep_Location hep_Location = issue.getValue(hep_Location.class);
                             ((TextView) findViewById(R.id.locationDetailViewName)).setText(hep_Location.name);
+
                             ((TextView) findViewById(R.id.locationDetailViewAddr)).setText(hep_Location.addr);
+
                             ((TextView) findViewById(R.id.locationDetailViewDetailAddr)).setText(hep_Location.detailaddr);
+
                             ((TextView) findViewById(R.id.locationDetailViewContact)).setText(hep_Location.contact);
+
                             ((TextView) findViewById(R.id.locationDetailViewMemo)).setText(hep_Location.memo);
                         }
                     }
@@ -140,7 +168,15 @@ public class hep_LocationDetailActivity extends AppCompatActivity {
                         public void onDataChange(@NonNull DataSnapshot snapshot) {
                             for(DataSnapshot dataSnapshot : snapshot.getChildren()){
                                 hep_Tag hep_tag = dataSnapshot.getValue(hep_Tag.class);
-                                ((TextView)findViewById(R.id.tagtext)).setText(((TextView)findViewById(R.id.tagtext)).getText() + ", " + hep_tag.name);
+
+                                hep_FlowLayout.LayoutParams params = new hep_FlowLayout.LayoutParams(20, 0);
+                                TextView textView = new TextView(hep_LocationDetailActivity.this);
+                                textView.setText(hep_tag.name);
+                                textView.setBackgroundResource(R.drawable.hep_locationsave_hashtagborder);
+                                textView.setTextColor(android.graphics.Color.parseColor("#3F729B"));
+                                textView.setLayoutParams(params);
+
+                                ((hep_FlowLayout) findViewById(R.id.locationDetailhashtagFlowLayout)).addView(textView);
 
                             }
                         }
