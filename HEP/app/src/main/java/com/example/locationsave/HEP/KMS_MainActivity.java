@@ -172,6 +172,7 @@ public class KMS_MainActivity extends AppCompatActivity implements NavigationVie
     public static Fragment mapFragment = null;
     public static Fragment LocationFragmet = null;
     KMS_FragmentFlagManager kms_fragmentFlagManager;
+    public LinearLayout bottomBar;
     public void kms_init(){
         fragmentManager = getSupportFragmentManager();
         mapFragment = new KMS_MapFragment();
@@ -216,7 +217,6 @@ public class KMS_MainActivity extends AppCompatActivity implements NavigationVie
     // https://stackoverflow.com/questions/21192386/android-fragment-onclick-button-method
     //2.Bottomber
     //하단 바
-    public LinearLayout bottomBar;
     public void onBottomBarClicked(View v) { //Change Fragment
         switch (v.getId()) {
             case R.id.btnMain:
@@ -235,7 +235,6 @@ public class KMS_MainActivity extends AppCompatActivity implements NavigationVie
                 break;
         }
     }
-
     public void setBottomBar(LinearLayout bottomBar, boolean Flag) { //searchFlag 에 맞게 하단 바 가리기
         if (Flag == true){
             bottomBar.setVisibility(View.GONE);
