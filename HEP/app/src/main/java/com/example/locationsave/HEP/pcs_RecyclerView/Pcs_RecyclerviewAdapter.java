@@ -1,6 +1,7 @@
 package com.example.locationsave.HEP.pcs_RecyclerView;
 
 import android.content.Intent;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -34,19 +35,13 @@ public class Pcs_RecyclerviewAdapter extends FirebaseRecyclerAdapter<hep_Locatio
 
     @Override
     protected void onBindViewHolder(@NonNull ListHolder listHolder, int i, @NonNull hep_Location location) {
-        this.getSnapshots().getSnapshot(i).getKey();
-        listHolder.textViewTitle.setText(location.getName());
-        ArrayList<String> getTagString = getTagFromLocationTag(this.getSnapshots().getSnapshot(i).getKey()).get(0);
-        String tagString = null;
-        if(getTagString.isEmpty()){
-            tagString = "Empty";
-        }else{
-            for(String tag : getTagString){
-                tagString += tag;
-            }
-        }
 
+        listHolder.textViewTitle.setText(location.getName());
+        String tagString = getTagFromLocationTag(this.getSnapshots().getSnapshot(i).getKey());
+        if(tagString == null)
+            tagString = "Empty";
         listHolder.textViewTag.setText(tagString);
+        Log.d("tag", tagString+"TagString onBindViewHolder");
 //        listHolder.textViewAddrzess.setText(location.getAddr());
 //        listHolder.textViewTag.setText(getTag(location));
         //listHolder.textViewTag.setText(location.getTag());
@@ -101,15 +96,19 @@ public class Pcs_RecyclerviewAdapter extends FirebaseRecyclerAdapter<hep_Locatio
         else
             return "";
     }
-    private ArrayList<ArrayList> getTagFromLocationTag(String locationKey){
-        final ArrayList<ArrayList> tagStringArray = new ArrayList<>();
-        String tagString = null;
-        databaseReference.getDatabase().getReference().child(locationKey).equalTo(locationKey).addListenerForSingleValueEvent(new ValueEventListener() {
+    private String getTagFromLocationTag(String locationKey){
+        Log.d("tag", locationKey+"GetTagFromLocationTag");
+        final ArrayList<String> tagStringArray = new ArrayList<>();
+        final String[] tagString = {null};
+        databaseReference.getDatabase().getReference().child("locationtag").orderByChild("locationid").equalTo(locationKey).addListenerForSingleValueEvent(new ValueEventListener() {
+
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
+                Log.d("tag", "Inside onDataChange getTagFromLocationTag");
                 if(snapshot.exists()){
                     for(DataSnapshot dataSnapshot : snapshot.getChildren()){
-                        tagStringArray.add(getTagFromTag(dataSnapshot.getValue(hep_LocationTag.class).tagid));
+                        Log.d("tag", getTagFromTag(dataSnapshot.getValue(hep_LocationTag.class).tagid) + "tagID from getTagFromLocation");
+                        tagString[0] += tagStringArray.add(getTagFromTag(dataSnapshot.getValue(hep_LocationTag.class).tagid));
                     }
                 }
             }
@@ -117,35 +116,26 @@ public class Pcs_RecyclerviewAdapter extends FirebaseRecyclerAdapter<hep_Locatio
             public void onCancelled(@NonNull DatabaseError error) {
             }
         });
-        if(tagStringArray.get(0).isEmpty()){
-            tagString = "Empty";
-        }else{
-            for(String tag : tagStringArray.get(0)){
-                tagString += tag;
-            }
-        }
-        return tagStringArray;
+        return tagString[0];
     }
 
-    private ArrayList<String> getTagFromTag(final String tagID) {
-        final ArrayList<String> tagArray = new ArrayList<>(5);
-        String tagString = null;
+    private String getTagFromTag(final String tagID) {
+        final String[] tag = new String[1];
         databaseReference.getDatabase().getReference().child("tag").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
+                Log.d("tag", "Inside onDataChange getTagFromTag");
                 if(snapshot.exists()){
-                    if((String)snapshot.getKey() == tagID){
-                        tagArray.add(snapshot.getValue(hep_Tag.class).name);
-                    }
+                    Log.d("tag",snapshot.getValue(hep_Tag.class).getName() + "Name from getTagFromTag");
+                    tag[0] = snapshot.getValue(hep_Tag.class).getName();
                 }
             }
-
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
 
             }
         });
-        return tagArray;
+        return tag[0];
     }
 
 
