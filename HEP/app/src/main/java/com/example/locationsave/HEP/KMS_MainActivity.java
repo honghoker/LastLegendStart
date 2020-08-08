@@ -34,19 +34,6 @@ import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.locationsave.HEP.Address.GeocodingAsyncTask;
-import com.example.locationsave.HEP.Address.GetAddress;
-import com.example.locationsave.HEP.Hep.hep_LocationSave.hep_LocationSaveActivity;
-import com.example.locationsave.HEP.KMS.BackPressed.KMS_BackPressedForFinish;
-import com.example.locationsave.HEP.KMS.HashTag.KMS_FlowLayout;
-import com.example.locationsave.HEP.KMS.HashTag.KMS_HashTag;
-import com.example.locationsave.HEP.KMS.HashTag.KMS_HashTagCheckBoxManager;
-import com.example.locationsave.HEP.KMS.Location.KMS_LocationFlagManager;
-import com.example.locationsave.HEP.KMS.Location.KMS_SelectLocation;
-import com.example.locationsave.HEP.KMS.MainFragment.KMS_FragmentManager;
-import com.example.locationsave.HEP.KMS.MainFragment.KMS_MapFragment;
-import com.example.locationsave.HEP.KMS.Toolbar.KMS_ClearableEditTextSearchBar;
-
 import com.example.locationsave.HEP.Address.AreaSearch;
 import com.example.locationsave.HEP.Hep.hep_FireBase;
 import com.example.locationsave.HEP.Hep.hep_FirebaseUser;
@@ -64,7 +51,6 @@ import com.example.locationsave.HEP.KMS.Location.KMS_SelectLocation;
 import com.example.locationsave.HEP.KMS.MainFragment.KMS_FragmentFlagManager;
 import com.example.locationsave.HEP.KMS.MainFragment.KMS_MapFragment;
 import com.example.locationsave.HEP.KMS.Toolbar.KMS_ClearableEditText_LoadLocation;
-
 import com.example.locationsave.HEP.KMS.Toolbar.KMS_RecycleVIewManager;
 import com.example.locationsave.HEP.KMS.Toolbar.KMS_SearchManager;
 import com.example.locationsave.HEP.KSH.KSH_AllSeeActivity;
@@ -72,16 +58,12 @@ import com.example.locationsave.HEP.KSH.KSH_DirectoryEntity;
 import com.example.locationsave.HEP.KSH.KSH_FireBase;
 import com.example.locationsave.HEP.KSH.KSH_LoadingActivity;
 import com.example.locationsave.HEP.KSH.KSH_RecyAdapter;
-
-import com.example.locationsave.HEP.KSH.KSH_RecyclerviewAdapter;
-import com.example.locationsave.HEP.KSH.NavIntent.KSH_NoticeIntent;
-import com.example.locationsave.HEP.pcs_RecyclerView.Pcs_LocationRecyclerView;
-
 import com.example.locationsave.HEP.KSH.NavIntent.KSH_HelpIntent;
 import com.example.locationsave.HEP.KSH.NavIntent.KSH_NoticeIntent;
 import com.example.locationsave.HEP.KSH.NavIntent.KSH_SetIntent;
-
+import com.example.locationsave.HEP.pcs_RecyclerView.Pcs_LocationRecyclerView;
 import com.example.locationsave.R;
+import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.database.DataSnapshot;
@@ -220,18 +202,18 @@ public class KMS_MainActivity extends AppCompatActivity implements NavigationVie
 //        if (LocationFragmet != null)
 //            fragmentManager.beginTransaction().hide(LocationFragmet).commit();
 //    }
-//    public void setFragmentLocationListLayout() {  //리스트 프레그먼트 출력 시
-//        if (LocationFragmet == null) {
-//            LocationFragmet = new Pcs_LocationRecyclerView();
-//            fragmentManager.beginTransaction().add(R.id.frameLayout, LocationFragmet).commit();
-//        }
-//        if (mapFragment != null) {
-//            fragmentManager.beginTransaction().hide(mapFragment).commit();
-//        }
-//        if (LocationFragmet != null){
-//            fragmentManager.beginTransaction().show(LocationFragmet).commit();
-//        }
-//    }
+    public void setFragmentLocationListLayout() {  //리스트 프레그먼트 출력 시
+        if (LocationFragmet == null) {
+            LocationFragmet = new Pcs_LocationRecyclerView();
+            fragmentManager.beginTransaction().add(R.id.frameLayout, LocationFragmet).commit();
+        }
+        if (mapFragment != null) {
+            fragmentManager.beginTransaction().hide(mapFragment).commit();
+        }
+        if (LocationFragmet != null){
+            fragmentManager.beginTransaction().show(LocationFragmet).commit();
+        }
+    }
 
     // Fragment에 그 함수(android:onClicked에 해당하는 함수)를 정의하면 안된다고 합니다. 따로 못빼겠음
     // https://stackoverflow.com/questions/21192386/android-fragment-onclick-button-method
