@@ -102,12 +102,22 @@
         android:textColor="#FFFFFF"
         android:textSize="15sp" />
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/searchResult_RecyclerVIew"
+    <LinearLayout
+        android:id="@+id/searchResult_LinearLayout"
         android:layout_width="match_parent"
-        android:layout_height="200dp"
-        android:layout_alignBottom="@id/textView8"
-        android:background="#FF1A1A"
-        android:visibility="visible"
-        tools:ignore="NotSibling" />
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:orientation="vertical"
+        android:visibility="visible">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/searchResult_RecyclerVIew"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:background="#FF1A1A"
+            android:visibility="gone"
+            tools:ignore="NotSibling" />
+    </LinearLayout>
+
 </RelativeLayout>

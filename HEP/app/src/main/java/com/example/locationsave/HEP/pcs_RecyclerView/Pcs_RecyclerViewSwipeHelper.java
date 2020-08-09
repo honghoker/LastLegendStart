@@ -27,11 +27,12 @@ public class Pcs_RecyclerViewSwipeHelper extends ItemTouchHelper.Callback {
     private static final float buttonWidth = 200;
     private Pcs_RecyclerViewSwipeAction buttonsActions = null;
     private Context context;
-
+    private Pcs_RecyclerviewAdapter adapter;
 
     public Pcs_RecyclerViewSwipeHelper(Context context, Pcs_RecyclerViewSwipeAction buttonsActions) {
         this.buttonsActions = buttonsActions;
         this.context = context;
+        this.adapter = adapter;
     }
 
     @Override

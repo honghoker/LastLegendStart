@@ -21,6 +21,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.locationsave.HEP.Address.AreaSearch;
 import com.example.locationsave.HEP.Address.GeocodingArrayEntity;
 import com.example.locationsave.HEP.Address.SearchAreaArrayEntity;
+import com.example.locationsave.HEP.KMS_MainActivity;
 import com.example.locationsave.R;
 
 import java.util.ArrayList;
@@ -51,64 +52,13 @@ public class KMS_ClearableEditText_SearchLocation extends RelativeLayout {
 
     private void setLayout() {
         //레이아웃을 설정
+
         inflater = (LayoutInflater) getContext().getSystemService(
                 Context.LAYOUT_INFLATER_SERVICE);
         inflater.inflate(R.layout.kms_clearable_edit_text_search_location, this, true);
 
         editText = findViewById(R.id.clearable_edit_search_location);
-        editText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-            @Override
-            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-                if (actionId == EditorInfo.IME_ACTION_SEARCH) {
-                        // 공백이면
-                        if(editText.getText().toString().equals("")){
-                            Log.d("6","공백입니다");
-                            Toast.makeText(getContext(),"공백입니다. . .",Toast.LENGTH_SHORT).show();
-                            return false;
-                        }
-                        //공백 아닐 경우
-                    ime.hideSoftInputFromWindow(editText.getWindowToken(),0);
-
-                    //selectLocation.setSearchResultRecyclerView(getContext(), searchRecyclerView);
-
-                        AreaSearch areaSearch = new AreaSearch();
-                        ArrayList<SearchAreaArrayEntity> searchAreaArrayResult = areaSearch.SearchArea(editText.getText().toString());
-                        ArrayList<GeocodingArrayEntity> geocodingArrayResult = areaSearch.Geocoding(editText.getText().toString());
-
-                        if(searchAreaArrayResult.size()==0 && geocodingArrayResult.size()==0){
-                            Log.d("6","검색결과가 없습니다");
-                        }
-                        // ex) 신당동 164
-                        else if(searchAreaArrayResult.size()==0){
-                            for(int i=0; i<geocodingArrayResult.size();i++){
-                                Log.d("6",i + " jibunAddress "+ geocodingArrayResult.get(i).getJibunAddress()
-                                        + " roadAddress " + geocodingArrayResult.get(i).getRoadAddress() + " 위도 " +geocodingArrayResult.get(i).getLatitude()
-                                        + " 경도 " + geocodingArrayResult.get(i).getLongitude());
-                            }
-                        }
-                        // ex) 계명대학교
-                        else{
-                            ArrayList<GeocodingArrayEntity> temp;
-                            for(int i=0; i<searchAreaArrayResult.size();i++){
-                                temp = areaSearch.Geocoding(searchAreaArrayResult.get(i).getAddress());
-                                if(searchAreaArrayResult.get(i).getRoadAddress().equals("")){
-                                    Log.d("6",i+"title "+searchAreaArrayResult.get(i).getTitle().replaceAll("<(/)?([a-zA-Z]*)(\\s[a-zA-Z]*=[^>]*)?(\\s)*(/)?>", "")
-                                            +" address " + searchAreaArrayResult.get(i).getAddress()
-                                            + " 위도 "+ temp.get(0).getLatitude() + " 경도 " + temp.get(0).getLongitude());
-                                }
-                                else{
-                                    Log.d("6",i+"title "+searchAreaArrayResult.get(i).getTitle().replaceAll("<(/)?([a-zA-Z]*)(\\s[a-zA-Z]*=[^>]*)?(\\s)*(/)?>", "")
-                                            +" roadAddress " + searchAreaArrayResult.get(i).getRoadAddress()
-                                            + " 위도 "+ temp.get(0).getLatitude() + " 경도 " + temp.get(0).getLongitude());
-                                }
-                                temp.clear();
-                            }
-                        }
-                    return true;
-                } //키입력 했을 시 종료
-                return false;
-            } //key 입력 이벤트 종료
-        });
+        Log.d("6","####에딧 선언");
 
         btnClear = (Button) findViewById(R.id.clearable_search_location_button_clear);
         btnClear.setVisibility(RelativeLayout.INVISIBLE);
@@ -147,10 +97,13 @@ public class KMS_ClearableEditText_SearchLocation extends RelativeLayout {
     }
 
     private void clearText() {
+        Log.d("6","####에딧 엑스  클리어 내부");
         btnClear.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
                 editText.setText("");
+                Log.d("6","####에딧 엑스 클릭 클리어 내부");
+
             }
         });
     }
