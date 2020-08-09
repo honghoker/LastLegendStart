@@ -2,7 +2,7 @@ package com.example.locationsave.HEP.KMS.MainFragment;
 
 import androidx.fragment.app.ListFragment;
 
-import com.example.locationsave.HEP.pcs_RecyclerView.Pcs_LocationRecyclerView;
+import com.example.locationsave.HEP.pcs_RecyclerView.locationList.Pcs_LocationRecyclerView;
 import com.example.locationsave.R;
 
 import static com.example.locationsave.HEP.KMS_MainActivity.LocationFragmet;

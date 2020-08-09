@@ -1,8 +1,6 @@
-package com.example.locationsave.HEP.pcs_RecyclerView;
+package com.example.locationsave.HEP.pcs_RecyclerView.locationList;
 
 import android.content.Intent;
-import android.service.autofill.Dataset;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,7 +11,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.locationsave.HEP.Hep.hep_DTO.hep_Location;
 import com.example.locationsave.HEP.Hep.hep_DTO.hep_LocationTag;
-import com.example.locationsave.HEP.Hep.hep_DTO.hep_Tag;
 import com.example.locationsave.HEP.Hep.hep_FireBase;
 import com.example.locationsave.HEP.Hep.hep_LocationDetail.hep_LocationDetailActivity;
 import com.example.locationsave.R;
@@ -36,6 +33,7 @@ public class Pcs_RecyclerviewAdapter extends FirebaseRecyclerAdapter<hep_Locatio
     @Override
     protected void onBindViewHolder(@NonNull final ListHolder listHolder, int i, @NonNull hep_Location location) {
         listHolder.textViewTitle.setText(location.getName());
+        listHolder.textViewAddress.setText(location.getAddr());
         listHolder.textViewTag.setText("");
         getTagFromLocationTag(getSnapshots().getSnapshot(i).getKey(), new Pcs_Callback() {
 
@@ -52,6 +50,7 @@ public class Pcs_RecyclerviewAdapter extends FirebaseRecyclerAdapter<hep_Locatio
             }
 
         });
+
 
     }
 

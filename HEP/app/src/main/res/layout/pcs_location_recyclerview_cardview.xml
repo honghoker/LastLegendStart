@@ -19,23 +19,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/cardView_address"
+            android:maxLines="1"
             android:text="tag" />
-        <TextView
-            android:id="@+id/cardView_numeric"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:text="1"
-            android:textAppearance="@style/TextAppearance.AppCompat.Large"/>
-
-        <TextView
-            android:id="@+id/cardView_distance"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/cardView_numeric"
-            android:layout_alignParentEnd="true"
-            android:text="km"
-            android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
 
         <TextView
             android:id="@+id/cardView_title"
@@ -50,6 +35,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/cardView_title"
+            android:maxLines="1"
+            android:ems="20"
+            android:ellipsize="end"
             android:text="Address" />
     </RelativeLayout>
 

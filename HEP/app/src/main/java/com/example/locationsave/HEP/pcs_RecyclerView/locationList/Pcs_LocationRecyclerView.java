@@ -1,4 +1,4 @@
-package com.example.locationsave.HEP.pcs_RecyclerView;
+package com.example.locationsave.HEP.pcs_RecyclerView.locationList;
 
 import android.content.Context;
 import android.graphics.Canvas;
@@ -77,24 +77,13 @@ public class Pcs_LocationRecyclerView extends Fragment {
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
 
         switch (item.getItemId()){
-            case R.id.time_asc:
+            case R.id.sorting_time:
                 onStop();
                 adapter = getFirebaseData("time");
                 adapter.notifyDataSetChanged();
                 recyclerView.setAdapter(adapter);
                 break;
-            case R.id.time_desc:
-                onStop();
-                adapter = getFirebaseData("title");
-                recyclerView.setAdapter(adapter);
-                break;
-            case R.id.title_asc:
-                onStop();
-                adapter = getFirebaseData("title");
-                adapter.notifyDataSetChanged();
-                recyclerView.setAdapter(adapter);
-                break;
-            case R.id.title_desc:
+            case R.id.sorting_title:
                 onStop();
                 adapter = getFirebaseData("title");
                 adapter.notifyDataSetChanged();
