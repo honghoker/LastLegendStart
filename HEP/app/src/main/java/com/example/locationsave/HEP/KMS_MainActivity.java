@@ -59,6 +59,7 @@ import com.example.locationsave.HEP.KMS.Location.KMS_SearchResultAdapter;
 import com.example.locationsave.HEP.KMS.MainFragment.KMS_FragmentFlagManager;
 
 
+import com.example.locationsave.HEP.KMS.Map.KMS_MarkerManager;
 import com.example.locationsave.HEP.KMS.Toolbar.KMS_ClearableEditText_LoadLocation_auto;
 
 import com.example.locationsave.HEP.KMS.Toolbar.KMS_RecycleVIewManager;
@@ -203,6 +204,7 @@ public class KMS_MainActivity extends AppCompatActivity implements NavigationVie
     boolean intentAddLocationFlag = false;  //장소 추가 인탠트 플래그
     //10. BackPressed
     KMS_BackPressedForFinish backPressedForFinish; //백프레스 클래스
+    KMS_MarkerManager kms_markerManager;
 
     // . Context 넘겨주기
     public static Context mainContext; //AddMainActivity 에 넘겨주기 위해 컨텍스트 생성
@@ -577,11 +579,16 @@ public class KMS_MainActivity extends AppCompatActivity implements NavigationVie
     public void onBackPressed() {
         Log.d("6","000");
         // BackPressedForFinish 클래시의 onBackPressed() 함수를 호출한다.
+
+        /*else if(linearLayoutMakerInformation.getVisibility()== View.VISIBLE){
+            Log.d("####back 1 드로워 종료","1111");
+            kms_markerManager.setOffMarkerInformation(linearLayoutMakerInformation);
+        }*/
+
         if (drawerLayout.isDrawerOpen(GravityCompat.START)){
             Log.d("6","1111");
             drawerLayout.closeDrawer(GravityCompat.START);
         }
-
         else if (kms_searchFlagManager.flagGetSearch() == true) {
             Log.d("6","2222");
             getSupportActionBar().show();
@@ -590,6 +597,7 @@ public class KMS_MainActivity extends AppCompatActivity implements NavigationVie
             setSearchBar(kms_searchFlagManager.flagGetSearch());
             setFloatingItem(kms_searchFlagManager.flagGetSearch());
         }
+
         else if (kms_searchFlagManager.flagGetSearch() == false && kms_recycleVIewManager.flagCheckRecycleView() == false
                 && kms_locationFlagManager.flagGetLocation() == false && kms_hashTagCheckBoxFlagManager.flagGethashTagCheckBoxFlag() == false) {
             Log.d("6","333");

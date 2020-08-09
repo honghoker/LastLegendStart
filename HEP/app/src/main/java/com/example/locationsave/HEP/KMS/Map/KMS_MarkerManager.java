@@ -81,7 +81,8 @@ public class KMS_MarkerManager {
             @Override
             public boolean onClick(@NonNull Overlay overlay) {
                 cameraManager.MoveCameraOnMarkerPosition(marker, NMap); //카메라를 마커 위치로 이동
-                setMarkerInformation();
+                setOffMarkerInformation(KMS_MainActivity.linearLayoutMakerInformation);
+                setOnMarkerInformation(KMS_MainActivity.linearLayoutMakerInformation);
                 /*
                 //장소 삭제
                 marker.setMap(null);
@@ -109,6 +110,22 @@ public class KMS_MarkerManager {
             }
     }
 
+
+    public void setOffMarkerInformation(LinearLayout linearLayout){
+        if (linearLayout.getVisibility() == View.VISIBLE) {
+            Log.d("####KMS_SelectLocation","SetResultRecyclerLayout 숨김");
+            //Toast.makeText(context, "검색 바 / 서브 툴바 미출력", Toast.LENGTH_SHORT).show();
+            linearLayout.setVisibility(View.GONE);
+        }
+    }
+
+    public void setOnMarkerInformation(LinearLayout linearLayout) {
+        if (linearLayout.getVisibility() == View.GONE) {  //만약 셀렉트 로케이션이 보이지 않으면
+            Log.d("####KMS_SelectLocation", "SetResultRecyclerLayout 보임");
+            //Toast.makeText(context, "검색 바 / 서브 툴바 출력", Toast.LENGTH_SHORT).show();
+            linearLayout.setVisibility(View.VISIBLE);
+        }
+    }
     // 마커들 위치 정의 (대충 1km 간격 동서남북 방향으로 만개씩, 총 4만개)
 /*    public static void InitPosition(Vector<LatLng> markersPosition){
         NaverMap NMap = KMS_MapFragment.NMap;
