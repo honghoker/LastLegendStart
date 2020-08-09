@@ -550,8 +550,10 @@ public class KMS_MainActivity extends AppCompatActivity implements NavigationVie
     public static final int ADD_MAIN_ACTIVITY_REQUEST_CODE = 1000;
 
     private ArrayList<KMS_LocationSearchResult> mArrayList;
+    private int mArrayListSize = 0;
     private KMS_SearchResultAdapter mAdapter;
     public static int count = -1;
+
 
     public void AddRecyclerView(){
         count++;
@@ -559,10 +561,10 @@ public class KMS_MainActivity extends AppCompatActivity implements NavigationVie
         mArrayList.add(data); // RecyclerView의 마지막 줄에 삽입
         mAdapter.notifyDataSetChanged();
     }
-
+    //교대요
     public void LoadRecyclerView(){
         InitRecyclerView();
-        for(int i = 0; i < 5; i++){
+        for(int i = 0; i < mArrayListSize; i++){
             count++;
             KMS_LocationSearchResult data = new KMS_LocationSearchResult("Title : "+ count, " RoadAddress : " + count);
             //이걸로 카메라포지션 넘겨줌
@@ -830,9 +832,12 @@ public class KMS_MainActivity extends AppCompatActivity implements NavigationVie
                         }
                     }
                     // ex) 계명대학교
+                    //교대요
                     else{
                         ArrayList<GeocodingArrayEntity> temp;
                         for(int i=0; i<searchAreaArrayResult.size();i++){
+                            mArrayListSize = searchAreaArrayResult.size(); //1. 사이즈 부여
+
                             temp = areaSearch.Geocoding(searchAreaArrayResult.get(i).getAddress());
                             if(searchAreaArrayResult.get(i).getRoadAddress().equals("")){
                                 Log.d("6",i+"title "+searchAreaArrayResult.get(i).getTitle().replaceAll("<(/)?([a-zA-Z]*)(\\s[a-zA-Z]*=[^>]*)?(\\s)*(/)?>", "")
