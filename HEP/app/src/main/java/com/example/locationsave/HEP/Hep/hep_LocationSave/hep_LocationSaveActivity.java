@@ -74,6 +74,7 @@ public class hep_LocationSaveActivity extends AppCompatActivity {
         latitude = getIntent().getDoubleExtra("latitude", 0);
         longitude = getIntent().getDoubleExtra("longitude", 0);
         addr = getIntent().getStringExtra("addr");
+
         if(addr == null || addr.equals(""))
             ((TextView)findViewById(R.id.locationAddr)).setText("저장된 주소가 없습니다.");
         else
@@ -168,34 +169,6 @@ public class hep_LocationSaveActivity extends AppCompatActivity {
         } catch (Exception e){
             e.printStackTrace();
         }
-        /*
-        final CharSequence[] PhotoModels = {"갤러리", "카메라"};
-        final AlertDialog.Builder alt_bld = new AlertDialog.Builder(this);
-        alt_bld.setTitle("사진 가져오기");
-        alt_bld.setSingleChoiceItems(PhotoModels, -1, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                if (which == 0) {
-                    try {
-                        new GligarPicker().requestCode(pickImage).withActivity(hep_LocationSave.this).limit(imageSizeLimit).show();
-                    } catch (Exception e){
-                        e.printStackTrace();
-                    }
-
-                } else {
-                    // 카메라
-                    try {
-                        Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                        startActivityForResult(cameraIntent, captureImage);
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                }
-                dialog.cancel();
-            }
-        });
-        final AlertDialog alert = alt_bld.create();
-        alert.show();*/
     }
 
     @Override
@@ -242,6 +215,7 @@ public class hep_LocationSaveActivity extends AppCompatActivity {
 
                                 ((hep_FlowLayout) findViewById(R.id.imageFlowLayout)).addView(flowLayoutImageItem);
                             }
+
                             viewPagerAdapter = new hep_LocationSave_ViewPagerAdapter(this);
                             viewPager.setAdapter(viewPagerAdapter);
                             setVisibilityInformationImage();
@@ -256,21 +230,6 @@ public class hep_LocationSaveActivity extends AppCompatActivity {
                     }
                 }
                 break;
-/*
-            case captureImage: // 카메라
-                if(resultCode == RESULT_OK){
-                    try {
-                        Bitmap bitmap = (Bitmap) data.getExtras().get("data");
-                        if (bitmap != null) {
-                            imageDataArrayList.add(new hep_ImageData(bitmap));
-                            viewPagerAdapter = new hep_ViewPagerAdapter(this, imageDataArrayList);
-                            viewPager.setAdapter(viewPagerAdapter);
-                        }
-                    } catch (Exception e){
-                        e.printStackTrace();
-                    }
-                }
-                break;*/
         }
     }
 

@@ -1,15 +1,18 @@
 package com.example.locationsave.HEP.Hep.hep_LocationDetail;
 
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.TextView;
-import androidx.appcompat.widget.Toolbar;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.viewpager.widget.ViewPager;
 
 import com.example.locationsave.HEP.Hep.hep_DTO.hep_Image;
@@ -19,8 +22,10 @@ import com.example.locationsave.HEP.Hep.hep_DTO.hep_LocationTag;
 import com.example.locationsave.HEP.Hep.hep_DTO.hep_Tag;
 import com.example.locationsave.HEP.Hep.hep_FireBase;
 import com.example.locationsave.HEP.Hep.hep_LocationSave.hep_FlowLayout;
+import com.example.locationsave.HEP.Hep.hep_LocationSave.hep_HashTagArr;
 import com.example.locationsave.HEP.Hep.hep_LocationSave.hep_ImageData;
 import com.example.locationsave.HEP.Hep.hep_LocationSave.hep_locationImageDataArr;
+import com.example.locationsave.HEP.Hep.hep_LocationUpdate.hep_LocationUpdateActivity;
 import com.example.locationsave.R;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DataSnapshot;
@@ -36,7 +41,7 @@ public class hep_LocationDetailActivity extends AppCompatActivity {
 
     public ViewPager viewPager;
     String key;
-
+    hep_Location hep_Location;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -47,8 +52,25 @@ public class hep_LocationDetailActivity extends AppCompatActivity {
     }
 
     @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater menuInflater = getMenuInflater();
+        menuInflater.inflate(R.menu.hep_locationdetail_menu, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()){
+            case R.id.locationdetail_btnUpdate:
+                Intent intent = new Intent(this, hep_LocationUpdateActivity.class);
+                intent.putExtra("hep_Location", hep_Location);
+                intent.putExtra("key", key);
+                startActivity(intent);
+                break;
+            case R.id.locationdetail_btndelete:
+                new hep_FireBase().getFireBaseDatabaseInstance().getReference().child("location").child(key).removeValue();
+                finish();
+                break;
             case android.R.id.home:
                 finish();
                 break;
@@ -77,7 +99,7 @@ public class hep_LocationDetailActivity extends AppCompatActivity {
                 if(dataSnapshot.exists()) {
                     for(DataSnapshot issue : dataSnapshot.getChildren()){
                         if(issue.getKey().equals(key)) {
-                            hep_Location hep_Location = issue.getValue(hep_Location.class);
+                            hep_Location = issue.getValue(hep_Location.class);
                             ((TextView) findViewById(R.id.locationDetailViewName)).setText(hep_Location.name);
 
                             ((TextView) findViewById(R.id.locationDetailViewAddr)).setText(hep_Location.addr);
@@ -177,7 +199,7 @@ public class hep_LocationDetailActivity extends AppCompatActivity {
                                 textView.setLayoutParams(params);
 
                                 ((hep_FlowLayout) findViewById(R.id.locationDetailhashtagFlowLayout)).addView(textView);
-
+                                new hep_HashTagArr().getHashTagArr().add(hep_tag.name);
                             }
                         }
 
@@ -195,6 +217,4 @@ public class hep_LocationDetailActivity extends AppCompatActivity {
             }
         });
     }
-
-
 }
