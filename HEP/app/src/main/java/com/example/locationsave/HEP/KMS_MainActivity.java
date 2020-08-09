@@ -232,10 +232,14 @@ public class KMS_MainActivity extends AppCompatActivity implements NavigationVie
     public static final int ALLSEE_ACTIVITY_REPLY_CODE = 4000;
 
     private ArrayList<KMS_LocationSearchResult> mArrayList;
-    private KMS_SearchResultAdapter mAdapter;
+//    private KMS_SearchResultAdapter mAdapter;
     public static int count = -1;
 
     public static int selectView = 1;
+    RecyclerView mRecyclerView;
+    LinearLayoutManager mLinearLayoutManager;
+    ArrayList<KMS_LocationSearchResult> kms_locationSearchResults = new ArrayList<>();
+    KMS_LocationSearchResult kms_locationSearchResult;
 
     public void kms_init(){
         fragmentManager = getSupportFragmentManager();
@@ -298,6 +302,9 @@ public class KMS_MainActivity extends AppCompatActivity implements NavigationVie
         linearLayout_selectLocation = findViewById(R.id.linearLayout_s);
         //10.BackPressed
         backPressedForFinish = new KMS_BackPressedForFinish(this);
+
+        mRecyclerView = (RecyclerView) findViewById(R.id.searchResult_RecyclerVIew);
+        mLinearLayoutManager = new LinearLayoutManager(this);
     }
 
     //1.Fragment
@@ -689,30 +696,38 @@ public class KMS_MainActivity extends AppCompatActivity implements NavigationVie
 //    public static int count = -1;
 
 
-    public void AddRecyclerView(){
-        count++;
-        KMS_LocationSearchResult data = new KMS_LocationSearchResult(count + "1", "Apple" + count);
-        mArrayList.add(data); // RecyclerView의 마지막 줄에 삽입
-        mAdapter.notifyDataSetChanged();
-    }
+
+//    ArrayList<KMS_LocationSearchResult> kms_locationSearchResults = new ArrayList<>();
+//    KMS_LocationSearchResult kms_locationSearchResult;
     //교대요
     public void LoadRecyclerView(){
         InitRecyclerView();
-        for(int i = 0; i < mArrayList.size(); i++){
-            count++;
-            KMS_LocationSearchResult data = new KMS_LocationSearchResult("Title : "+ count, " RoadAddress : " + count);
-            //이걸로 카메라포지션 넘겨줌
-            data.setLatitude(35.857654);
-            data.setLongitude(128.498123); //받아온 값
-            mArrayList.add(data); // RecyclerView의 마지막 줄에 삽입
-            mAdapter.notifyDataSetChanged();
-        }
+//        RecyclerView mRecyclerView = (RecyclerView) findViewById(R.id.searchResult_RecyclerVIew);
+
+//        for(int i = 0; i < kms_locationSearchResults.size(); i++){
+//            count++;
+////            KMS_LocationSearchResult data = new KMS_LocationSearchResult("Title : "+ count, " RoadAddress : " + count);
+//            //이걸로 카메라포지션 넘겨줌
+////            data.setLatitude(35.857654);
+////            data.setLongitude(128.498123); //받아온 값
+////            mArrayList.add(data); // RecyclerView의 마지막 줄에 삽입
+//        }
+//        LinearLayoutManager mLinearLayoutManager = new LinearLayoutManager(this);
+        mRecyclerView.setLayoutManager(mLinearLayoutManager);
+//        mArrayList = new ArrayList<>();
+        KMS_SearchResultAdapter mAdapter = new KMS_SearchResultAdapter(kms_locationSearchResults);
+        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(mRecyclerView.getContext(),
+                mLinearLayoutManager.getOrientation());
+        mRecyclerView.addItemDecoration(dividerItemDecoration);
+//        mAdapter.notifyDataSetChanged();
+        mRecyclerView.setAdapter(mAdapter);
     }
 
     public void InitRecyclerView(){
-        count = -1;
-        mArrayList.clear();
-        mAdapter.notifyDataSetChanged();
+//        count = -1;
+//        mArrayList.clear();
+//        kms_locationSearchResults.clear();
+//        mAdapter.notifyDataSetChanged();
         KMS_SearchResultAdapter.LastPosition = -1;
     }
 
@@ -722,18 +737,8 @@ public class KMS_MainActivity extends AppCompatActivity implements NavigationVie
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.kms_activity_main);
-        RecyclerView mRecyclerView = (RecyclerView) findViewById(R.id.searchResult_RecyclerVIew);
-        LinearLayoutManager mLinearLayoutManager = new LinearLayoutManager(this);
-        mRecyclerView.setLayoutManager(mLinearLayoutManager);
-        mArrayList = new ArrayList<>();
-        mAdapter = new KMS_SearchResultAdapter(mArrayList);
-        mRecyclerView.setAdapter(mAdapter);
-        int e = 3;
 
-        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(mRecyclerView.getContext(),
-                mLinearLayoutManager.getOrientation());
-        mRecyclerView.addItemDecoration(dividerItemDecoration);
-        LoadRecyclerView(); //기존 저장 함수 불러옴
+//        LoadRecyclerView(); //기존 저장 함수 불러옴
         ksh_init();
         kms_init();
 
@@ -937,10 +942,11 @@ public class KMS_MainActivity extends AppCompatActivity implements NavigationVie
 //
         editText = findViewById(R.id.clearable_edit_search_location);
 //        Log.d("6","####에딧 메인 공백");
-//        searchRecyclerView = findViewById(R.id.searchResult_RecyclerVIew);
+        searchRecyclerView = findViewById(R.id.searchResult_RecyclerVIew);
         editText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                kms_locationSearchResults.clear();
                 if (actionId == EditorInfo.IME_ACTION_SEARCH) {
                     // 공백이면
                     if(editText.getText().toString().equals("")){
@@ -956,15 +962,21 @@ public class KMS_MainActivity extends AppCompatActivity implements NavigationVie
                     ArrayList<SearchAreaArrayEntity> searchAreaArrayResult = areaSearch.SearchArea(editText.getText().toString());
                     ArrayList<GeocodingArrayEntity> geocodingArrayResult = areaSearch.Geocoding(editText.getText().toString());
 
+//                    ArrayList<KMS_LocationSearchResult> kms_locationSearchResults = new ArrayList<>();
+//                    KMS_LocationSearchResult kms_locationSearchResult;
+
                     if(searchAreaArrayResult.size()==0 && geocodingArrayResult.size()==0){
                         Log.d("6","검색결과가 없습니다");
                     }
                     // ex) 신당동 164
                     else if(searchAreaArrayResult.size()==0){
                         for(int i=0; i<geocodingArrayResult.size();i++){
-                            Log.d("6",i + " jibunAddress "+ geocodingArrayResult.get(i).getJibunAddress()
-                                    + " roadAddress " + geocodingArrayResult.get(i).getRoadAddress() + " 위도 " +geocodingArrayResult.get(i).getLatitude()
-                                    + " 경도 " + geocodingArrayResult.get(i).getLongitude());
+//                            Log.d("6",i + " jibunAddress "+ geocodingArrayResult.get(i).getJibunAddress()
+//                                    + " roadAddress " + geocodingArrayResult.get(i).getRoadAddress() + " 위도 " +geocodingArrayResult.get(i).getLatitude()
+//                                    + " 경도 " + geocodingArrayResult.get(i).getLongitude());
+                            kms_locationSearchResult = new KMS_LocationSearchResult(editText.getText().toString(),geocodingArrayResult.get(i).getRoadAddress()
+                                    , geocodingArrayResult.get(i).getLongitude(), geocodingArrayResult.get(i).getLatitude());
+                            kms_locationSearchResults.add(kms_locationSearchResult);
                         }
                     }
                     // ex) 계명대학교
@@ -972,22 +984,31 @@ public class KMS_MainActivity extends AppCompatActivity implements NavigationVie
                     else{
                         ArrayList<GeocodingArrayEntity> temp;
                         for(int i=0; i<searchAreaArrayResult.size();i++){
-                            mArrayListSize = searchAreaArrayResult.size(); //1. 사이즈 부여
-
                             temp = areaSearch.Geocoding(searchAreaArrayResult.get(i).getAddress());
                             if(searchAreaArrayResult.get(i).getRoadAddress().equals("")){
-                                Log.d("6",i+"title "+searchAreaArrayResult.get(i).getTitle().replaceAll("<(/)?([a-zA-Z]*)(\\s[a-zA-Z]*=[^>]*)?(\\s)*(/)?>", "")
-                                        +" address " + searchAreaArrayResult.get(i).getAddress()
-                                        + " 위도 "+ temp.get(0).getLatitude() + " 경도 " + temp.get(0).getLongitude());
+//                                Log.d("6",i+"title "+searchAreaArrayResult.get(i).getTitle().replaceAll("<(/)?([a-zA-Z]*)(\\s[a-zA-Z]*=[^>]*)?(\\s)*(/)?>", "")
+//                                        +" address " + searchAreaArrayResult.get(i).getAddress()
+//                                        + " 위도 "+ temp.get(0).getLatitude() + " 경도 " + temp.get(0).getLongitude());
+                                kms_locationSearchResult = new KMS_LocationSearchResult(searchAreaArrayResult.get(i).getTitle().replaceAll("<(/)?([a-zA-Z]*)(\\s[a-zA-Z]*=[^>]*)?(\\s)*(/)?>", "")
+                                        ,searchAreaArrayResult.get(i).getAddress(), temp.get(0).getLongitude(), temp.get(0).getLatitude());
+                                kms_locationSearchResults.add(kms_locationSearchResult);
                             }
                             else{
-                                Log.d("6",i+"title "+searchAreaArrayResult.get(i).getTitle().replaceAll("<(/)?([a-zA-Z]*)(\\s[a-zA-Z]*=[^>]*)?(\\s)*(/)?>", "")
-                                        +" roadAddress " + searchAreaArrayResult.get(i).getRoadAddress()
-                                        + " 위도 "+ temp.get(0).getLatitude() + " 경도 " + temp.get(0).getLongitude());
+//                                Log.d("6",i+"title "+searchAreaArrayResult.get(i).getTitle().replaceAll("<(/)?([a-zA-Z]*)(\\s[a-zA-Z]*=[^>]*)?(\\s)*(/)?>", "")
+//                                        +" roadAddress " + searchAreaArrayResult.get(i).getRoadAddress()
+//                                        + " 위도 "+ temp.get(0).getLatitude() + " 경도 " + temp.get(0).getLongitude());
+                                kms_locationSearchResult = new KMS_LocationSearchResult(searchAreaArrayResult.get(i).getTitle().replaceAll("<(/)?([a-zA-Z]*)(\\s[a-zA-Z]*=[^>]*)?(\\s)*(/)?>", "")
+                                        ,searchAreaArrayResult.get(i).getRoadAddress(), temp.get(0).getLongitude(), temp.get(0).getLatitude());
+                                kms_locationSearchResults.add(kms_locationSearchResult);
                             }
                             temp.clear();
                         }
                     }
+                    for(int i=0; i<kms_locationSearchResults.size();i++){
+                        Log.d("6",i+" title " + kms_locationSearchResults.get(i).getTitle() + " address " + kms_locationSearchResults.get(i).getRoadAddress()
+                        + " 위도 "+kms_locationSearchResults.get(i).getLatitude() + " 경도 " +kms_locationSearchResults.get(i).getLongitude());
+                    }
+                    LoadRecyclerView(); //기존 저장 함수 불러옴
                     return true;
                 } //키입력 했을 시 종료
                 return false;
