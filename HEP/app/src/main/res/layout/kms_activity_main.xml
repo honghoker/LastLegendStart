@@ -24,7 +24,6 @@
             android:layout_weight="1"
             android:layout_marginBottom="57dp"
             >
-
         </FrameLayout>
 
         <include layout="@layout/kms_select_location" />

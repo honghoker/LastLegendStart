@@ -71,7 +71,7 @@ public class KMS_ClearableEditText_SearchLocation extends RelativeLayout {
 
                     //selectLocation.setSearchResultRecyclerView(getContext(), searchRecyclerView);
 
-                    AreaSearch areaSearch = new AreaSearch();
+                        AreaSearch areaSearch = new AreaSearch();
                         ArrayList<SearchAreaArrayEntity> searchAreaArrayResult = areaSearch.SearchArea(editText.getText().toString());
                         ArrayList<GeocodingArrayEntity> geocodingArrayResult = areaSearch.Geocoding(editText.getText().toString());
 

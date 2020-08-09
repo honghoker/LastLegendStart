@@ -33,7 +33,6 @@ public class KMS_ClearableEditText_LoadLocation extends RelativeLayout {
     static InputMethodManager ime = null;
 
 
-
     public KMS_ClearableEditText_LoadLocation(Context context, AttributeSet attrs) {
         super(context, attrs);
         setLayout();
