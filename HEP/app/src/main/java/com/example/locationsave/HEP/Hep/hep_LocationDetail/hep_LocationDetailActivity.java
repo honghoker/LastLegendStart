@@ -57,6 +57,7 @@ public class hep_LocationDetailActivity extends AppCompatActivity {
         menuInflater.inflate(R.menu.hep_locationdetail_menu, menu);
         return super.onCreateOptionsMenu(menu);
     }
+    final int updateFlag = 3000;
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
@@ -65,19 +66,41 @@ public class hep_LocationDetailActivity extends AppCompatActivity {
                 Intent intent = new Intent(this, hep_LocationUpdateActivity.class);
                 intent.putExtra("hep_Location", hep_Location);
                 intent.putExtra("key", key);
-                startActivity(intent);
+                startActivityForResult(intent, updateFlag);
                 break;
             case R.id.locationdetail_btndelete:
+                singletonArrClear();
                 new hep_FireBase().getFireBaseDatabaseInstance().getReference().child("location").child(key).removeValue();
                 finish();
                 break;
             case android.R.id.home:
+                singletonArrClear();
                 finish();
                 break;
         }
         return super.onOptionsItemSelected(item);
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        switch (requestCode){
+            case updateFlag:
+                if(resultCode == RESULT_OK){
+                    singletonArrClear();
+                    finish();
+                }
+                else if(resultCode == RESULT_CANCELED){
+
+                }
+                break;
+        }
+    }
+
+    public void singletonArrClear(){
+        new hep_HashTagArr().getHashTagArr().clear();
+        new hep_locationImageDataArr().getImageDataArrayInstance().clear();
+    }
     public void setInit(){
         Toolbar toolbar = findViewById(R.id.locationdetailToolbar);
         setSupportActionBar(toolbar);

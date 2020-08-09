@@ -3,6 +3,7 @@ package com.example.locationsave.HEP.Hep.hep_LocationUpdate;
 import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Build;
@@ -31,17 +32,23 @@ import com.example.locationsave.HEP.Hep.hep_LocationSave.hep_HashTagArr;
 import com.example.locationsave.HEP.Hep.hep_LocationSave.hep_ImageData;
 import com.example.locationsave.HEP.Hep.hep_LocationSave.hep_locationImageDataArr;
 import com.example.locationsave.R;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 import com.opensooq.supernova.gligar.GligarPicker;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Map;
+import java.util.UUID;
 
 import static android.content.ContentValues.TAG;
 
@@ -51,6 +58,7 @@ public class hep_LocationUpdateActivity extends AppCompatActivity {
     hep_Location hep_Location;
     String key;
     ArrayList<String> tagDataArrayList;
+    ArrayList<hep_ImageData> imagetempArrayList;
     int imageSizeLimit = 5;
     double latitude, longitude;
 
@@ -67,6 +75,9 @@ public class hep_LocationUpdateActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()){
             case android.R.id.home:
+                Intent intent = new Intent();
+                setResult(RESULT_CANCELED, intent);
+                finish();
                 finish();
                 break;
         }
@@ -77,6 +88,8 @@ public class hep_LocationUpdateActivity extends AppCompatActivity {
         key = getIntent().getStringExtra("key");
         hep_Location = getIntent().getParcelableExtra("hep_Location");
         tagDataArrayList = new ArrayList<>();
+        imagetempArrayList = new ArrayList<>();
+        imagetempArrayList.addAll(new hep_locationImageDataArr().getImageDataArrayInstance());
 
         Toolbar toolbar = findViewById(R.id.locationupdate_toolbar);
         setSupportActionBar(toolbar);
@@ -267,7 +280,7 @@ public class hep_LocationUpdateActivity extends AppCompatActivity {
     }
 
     public void onButtonLocationUpdateClicked(View v) {
-        hep_Location hep_Location = new hep_Location(
+        final hep_Location hep_Location = new hep_Location(
                 ((EditText)findViewById(R.id.locationupdate_locationName)).getText().toString(),
                 ((EditText)findViewById(R.id.locationupdate_locationAddr)).getText().toString(),
                 ((EditText)findViewById(R.id.locationupdate_locationDetailAddr)).getText().toString(),
@@ -280,42 +293,75 @@ public class hep_LocationUpdateActivity extends AppCompatActivity {
         Map<String, Object> hashMap = hep_Location.toMap();
         new hep_FireBase().getFireBaseDatabaseInstance().getReference().child("location").child(key).setValue(hashMap);
 
-        for(int i = 0; i < new hep_locationImageDataArr().getImageDataArrayInstance().size(); i++) {
-            Log.d("@@@@@@", new hep_locationImageDataArr().getImageDataArrayInstance().get(i).path + "" );
-//            1. locationimage 에서 locationid에 맞는 imageid 뽑기
-//            2. image에서 imageid
-//
-//
-//            1. image에서 imageid 뽑기
-//            2. locationimage에서 Location에 맞는 imageid 뽑고 imageid가 없는걸 삭제
 
-            Query imageQuery = new hep_FireBase().getFireBaseDatabaseInstance().getReference().child("image").orderByChild("child").equalTo(String.valueOf(new hep_locationImageDataArr().getImageDataArrayInstance().get(i).path));
-            imageQuery.addValueEventListener(new ValueEventListener() {
-                ArrayList<String> imageidList = new ArrayList<>();
+        ArrayList<hep_ImageData> insertImageArr = new ArrayList<>();
+        insertImageArr.addAll(new hep_locationImageDataArr().getImageDataArrayInstance());
+        insertImageArr.removeAll(imagetempArrayList);
+        for(int i = 0; i < insertImageArr.size(); i++){
+            if(insertImageArr.get(i).bitmap != null){
+                StorageReference LocationImagesRef = new hep_FireBase().getFirebaseStorageInstance().getReference().child("locationimages/" + UUID.randomUUID().toString()); // 랜덤 이름 생성
+                Bitmap bitmap = insertImageArr.get(i).bitmap;
+                ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+                byte[] data = baos.toByteArray();
+
+                UploadTask uploadTask = LocationImagesRef.putBytes(data);
+                uploadTask.addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                    @Override
+                    public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                        Map<String, Object> hashMapImage = new HashMap<>();
+                        hashMapImage.put("path", taskSnapshot.getMetadata().getPath());
+                        DatabaseReference imageReference = new hep_FireBase().getFireBaseDatabaseInstance().getReference().child("image").push();
+                        imageReference.setValue(hashMapImage);
+
+                        String imageid = imageReference.getKey();
+                        HashMap<String, Object> hashLocationImage = new HashMap<>();
+                        hashLocationImage.put("locationid", key);
+                        hashLocationImage.put("imageid", imageid);
+                        new hep_FireBase().getFireBaseDatabaseInstance().getReference().child("locationimage").push().setValue(hashLocationImage);
+                    }
+                });
+            }
+        }
+
+        imagetempArrayList.removeAll(new hep_locationImageDataArr().getImageDataArrayInstance()); // arraylist가 서로 같은지 비교
+        if(!imagetempArrayList.isEmpty()){
+            final ArrayList<Uri> pathList = new ArrayList<>();
+            for(hep_ImageData hep_imageData : new hep_locationImageDataArr().getImageDataArrayInstance()){
+                pathList.add(hep_imageData.path);
+            }
+
+            Query locationImageQuery = new hep_FireBase().getFireBaseDatabaseInstance().getReference().child("locationimage").orderByChild("locationid").equalTo(key);
+            locationImageQuery.addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot snapshot) {
-                    for(DataSnapshot dataSnapshot : snapshot.getChildren()){
-                        imageidList.add(dataSnapshot.getKey());
-                    }
-
-                    Query locationimageQuery = new hep_FireBase().getFireBaseDatabaseInstance().getReference().child("locationimage").orderByChild("imageid").equalTo(key);
-                    locationimageQuery.addValueEventListener(new ValueEventListener() {
-                        @Override
-                        public void onDataChange(@NonNull DataSnapshot snapshot) {
-                            for(DataSnapshot dataSnapshot : snapshot.getChildren()){
-                                hep_LocationImage hep_locationImage = dataSnapshot.getValue(hep_LocationImage.class);
-                                if(!imageidList.contains(hep_locationImage.imageid)){
-                                    new hep_FireBase().getFireBaseDatabaseInstance().getReference().child("locationimage").child(dataSnapshot.getKey()).removeValue();
+                    for(final DataSnapshot dataSnapshot : snapshot.getChildren()){
+                        hep_LocationImage hep_locationImage = dataSnapshot.getValue(hep_LocationImage.class);
+                        DatabaseReference imageRef = new hep_FireBase().getFireBaseDatabaseInstance().getReference().child("image").child(hep_locationImage.imageid);
+                        imageRef.addValueEventListener(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                for(final DataSnapshot dataSnapshot1 : snapshot.getChildren()){
+                                    String path = (String) dataSnapshot1.getValue();
+                                    StorageReference storageReference = new hep_FireBase().getFirebaseStorageInstance().getReference().child(path);
+                                    storageReference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                                        @Override
+                                        public void onSuccess(Uri uri) {
+                                            if(!pathList.contains(uri)){
+                                                new hep_FireBase().getFireBaseDatabaseInstance().getReference().child("locationimage").child(dataSnapshot.getKey()).removeValue();
+                                                new hep_FireBase().getFireBaseDatabaseInstance().getReference().child("image").child(dataSnapshot1.getKey()).removeValue();
+                                            }
+                                        }
+                                    });
                                 }
+                            }
+
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError error) {
 
                             }
-                        }
-
-                        @Override
-                        public void onCancelled(@NonNull DatabaseError error) {
-
-                        }
-                    });
+                        });
+                    }
                 }
 
                 @Override
@@ -323,8 +369,15 @@ public class hep_LocationUpdateActivity extends AppCompatActivity {
 
                 }
             });
-
         }
+        else{
+            imagetempArrayList.addAll(new hep_locationImageDataArr().getImageDataArrayInstance());
+        }
+
+        Intent intent = new Intent();
+        setResult(RESULT_OK, intent);
+        finish();
+
 //
 //        for(int i = 0; i < new hep_locationImageDataArr().getImageDataArrayInstance().size(); i++) {
 //            //image storage 저장
