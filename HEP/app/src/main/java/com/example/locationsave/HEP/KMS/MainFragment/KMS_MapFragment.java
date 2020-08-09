@@ -278,6 +278,9 @@ public class KMS_MapFragment extends Fragment implements OnMapReadyCallback {
         });
 
 
+        for(int i = 0; i < 3; i++){
+            markerManager.addMarker("그린빌" + i,35.857654 + i * 0.03, 128.498123  + i * 0.03);
+        }
 
         markerManager.loadMarker(NMap); //초기 마커값 불러옴
 

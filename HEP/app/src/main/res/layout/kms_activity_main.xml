@@ -25,6 +25,8 @@
             >
         </FrameLayout>
 
+        <include layout="@layout/kms_marker_info" />
+
         <include layout="@layout/kms_select_location" />
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton

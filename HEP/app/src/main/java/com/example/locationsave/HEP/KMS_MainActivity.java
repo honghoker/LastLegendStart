@@ -59,7 +59,6 @@ import com.example.locationsave.HEP.KMS.Location.KMS_SearchResultAdapter;
 import com.example.locationsave.HEP.KMS.MainFragment.KMS_FragmentFlagManager;
 
 
-import com.example.locationsave.HEP.KMS.Toolbar.KMS_ClearableEditText_LoadLocation;
 import com.example.locationsave.HEP.KMS.Toolbar.KMS_ClearableEditText_LoadLocation_auto;
 
 import com.example.locationsave.HEP.KMS.Toolbar.KMS_RecycleVIewManager;
@@ -1011,7 +1010,11 @@ public class KMS_MainActivity extends AppCompatActivity implements NavigationVie
 //        //10.BackPressed
 //        backPressedForFinish = new KMS_BackPressedForFinish(this);
 
+        linearLayoutMakerInformation = findViewById(R.id.linearLayoutMakerInformation);
+
     } //oncreate 종료
+
+    public static LinearLayout linearLayoutMakerInformation;
 
 //    Button btnClear;
 

@@ -1,15 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/linearLayoutMakerInformation"
     android:layout_width="355dp"
     android:layout_height="150dp"
+    android:layout_alignParentBottom="true"
+    android:layout_centerInParent="true"
     android:layout_gravity="bottom|center"
+
     android:layout_marginBottom="90dp"
     android:background="@drawable/kms_marker_info_border"
-    android:orientation="horizontal"
+
     android:clickable="false"
     android:focusable="false"
-    android:focusableInTouchMode="false">
+    android:focusableInTouchMode="false"
+    android:orientation="horizontal"
+    android:touchscreenBlocksFocus="false"
+    android:visibility="gone">
 
     <ImageView
         android:id="@+id/imageView8"
