@@ -58,6 +58,7 @@ import com.example.locationsave.HEP.KMS.Location.KMS_LocationSearchResult;
 import com.example.locationsave.HEP.KMS.Location.KMS_SearchResultAdapter;
 import com.example.locationsave.HEP.KMS.MainFragment.KMS_FragmentFlagManager;
 
+import com.example.locationsave.HEP.KMS.Toolbar.KMS_ClearableEditText_LoadLocation;
 import com.example.locationsave.HEP.KMS.Toolbar.KMS_ClearableEditText_LoadLocation_auto;
 import com.example.locationsave.HEP.KMS.Toolbar.KMS_RecycleVIewManager;
 import com.example.locationsave.HEP.KMS.Toolbar.KMS_SearchFlagManager;
@@ -193,12 +194,12 @@ public class KMS_MainActivity extends AppCompatActivity implements NavigationVie
     //4. Toolbar Search
     LinearLayout linearLayoutToolbarSearch;
     ConstraintLayout recy_con_layout;
-    KMS_SearchManager kms_searchManager = KMS_SearchManager.getInstanceSearch();
+    KMS_SearchFlagManager kms_searchFlagManager = KMS_SearchFlagManager.getInstanceSearch();
     //5. Animation
     Animation animation;
     Animation animationH;
     //6. 자동완성 텍스트 뷰
-    KMS_ClearableEditText_LoadLocation clearableEditText_loadLocation;
+    KMS_ClearableEditText_LoadLocation_auto clearableEditText_loadLocation_auto;
     static InputMethodManager inputMethodManager; //키보드 설정 위한
     //리스트뷰
     private List<String> list;
@@ -266,7 +267,7 @@ public class KMS_MainActivity extends AppCompatActivity implements NavigationVie
         linearLayoutToolbarSearch = findViewById(R.id.linearLayoutToolbarSearch);
 
         //6. 자동완성 텍스트 뷰
-        clearableEditText_loadLocation = findViewById(R.id.searchView); //프로젝트 단위
+        clearableEditText_loadLocation_auto = findViewById(R.id.searchView); //프로젝트 단위
 
         inputMethodManager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE); //키보드-시스템서비스
         list = new ArrayList<String>();
@@ -416,10 +417,10 @@ public class KMS_MainActivity extends AppCompatActivity implements NavigationVie
         }
     }
 
-    //4. Toolbar Search
-    LinearLayout linearLayoutToolbarSearch;
-    ConstraintLayout recy_con_layout;
-    KMS_SearchFlagManager kms_searchFlagManager = KMS_SearchFlagManager.getInstanceSearch();
+//    //4. Toolbar Search
+//    LinearLayout linearLayoutToolbarSearch;
+//    ConstraintLayout recy_con_layout;
+//    KMS_SearchFlagManager kms_searchFlagManager = KMS_SearchFlagManager.getInstanceSearch();
 
     public void hideRecyclerView() { //리사이클 플래그가 false 이면 - 리사이클러 뷰가 안보이면 실행해준다. true 로 바꾼다.
         if (kms_recycleVIewManager.flagCheckRecycleView() == true) { //호출하였을 때 리사이클이 떠있을 경우에만 실행한다. 안떠있을 때 재실행 방지.
@@ -448,7 +449,7 @@ public class KMS_MainActivity extends AppCompatActivity implements NavigationVie
                 if (getSupportActionBar().isShowing()) {
                     kms_searchFlagManager.flagSetTrueSearch();
                     getSupportActionBar().hide();
-                    clearableEditText_loadLocation.requestFocus();
+                    clearableEditText_loadLocation_auto.requestFocus();
                     inputMethodManager.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0);
                     setBottomBar(bottomBar, kms_searchFlagManager.flagGetSearch());
                     setSearchBar(kms_searchFlagManager.flagGetSearch());
@@ -473,16 +474,16 @@ public class KMS_MainActivity extends AppCompatActivity implements NavigationVie
             linearLayoutToolbarSearch.setVisibility(View.GONE);
     }
 
-    //5. Animation
-    Animation animation;
-    Animation animationH;
-
-    //6. 자동완성 텍스트 뷰
-    KMS_ClearableEditText_LoadLocation_auto clearableEditText_loadLocation;
-    static InputMethodManager inputMethodManager; //키보드 설정 위한
-
-    //리스트뷰
-    private List<String> list;
+//    //5. Animation
+//    Animation animation;
+//    Animation animationH;
+//
+//    //6. 자동완성 텍스트 뷰
+//    KMS_ClearableEditText_LoadLocation_auto clearableEditText_loadLocation;
+//    static InputMethodManager inputMethodManager; //키보드 설정 위한
+//
+//    //리스트뷰
+//    private List<String> list;
 
 //    //6. 자동완성 텍스트 뷰
 //    KMS_ClearableEditText_LoadLocation clearableEditText_loadLocation;
@@ -601,8 +602,8 @@ public class KMS_MainActivity extends AppCompatActivity implements NavigationVie
     AutoCompleteTextView editText;
     RecyclerView searchRecyclerView;
 
-    //10. BackPressed
-    KMS_BackPressedForFinish backPressedForFinish; //백프레스 클래스
+//    //10. BackPressed
+//    KMS_BackPressedForFinish backPressedForFinish; //백프레스 클래스
 
     @Override
     public void onBackPressed() {
@@ -679,13 +680,13 @@ public class KMS_MainActivity extends AppCompatActivity implements NavigationVie
         return true;
     }
 
-    // . Context 넘겨주기
-    public static Context mainContext; //AddMainActivity 에 넘겨주기 위해 컨텍스트 생성
-    public static final int ADD_MAIN_ACTIVITY_REQUEST_CODE = 1000;
-
-    private ArrayList<KMS_LocationSearchResult> mArrayList;
-    private KMS_SearchResultAdapter mAdapter;
-    public static int count = -1;
+//    // . Context 넘겨주기
+//    public static Context mainContext; //AddMainActivity 에 넘겨주기 위해 컨텍스트 생성
+//    public static final int ADD_MAIN_ACTIVITY_REQUEST_CODE = 1000;
+//
+//    private ArrayList<KMS_LocationSearchResult> mArrayList;
+//    private KMS_SearchResultAdapter mAdapter;
+//    public static int count = -1;
 
     public void AddRecyclerView(){
         count++;
@@ -696,7 +697,7 @@ public class KMS_MainActivity extends AppCompatActivity implements NavigationVie
 
     public void LoadRecyclerView(){
         InitRecyclerView();
-        for(int i = 0; i < 5; i++){
+        for(int i = 0; i < mArrayList.size(); i++){
             count++;
             KMS_LocationSearchResult data = new KMS_LocationSearchResult("Title : "+ count, " RoadAddress : " + count);
             //이걸로 카메라포지션 넘겨줌
@@ -885,11 +886,11 @@ public class KMS_MainActivity extends AppCompatActivity implements NavigationVie
             }
         });
 
-        //4. Toolbar Search
-        linearLayoutToolbarSearch = findViewById(R.id.linearLayoutToolbarSearch);
-
-        //6. 자동완성 텍스트 뷰
-        clearableEditText_loadLocation = findViewById(R.id.searchView); //프로젝트 단위
+//        //4. Toolbar Search
+//        linearLayoutToolbarSearch = findViewById(R.id.linearLayoutToolbarSearch);
+//
+//        //6. 자동완성 텍스트 뷰
+//        clearableEditText_loadLocation = findViewById(R.id.searchView); //프로젝트 단위
 
         inputMethodManager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE); //키보드-시스템서비스
         list = new ArrayList<String>();
@@ -898,10 +899,10 @@ public class KMS_MainActivity extends AppCompatActivity implements NavigationVie
         final AutoCompleteTextView autoCompleteTextView = (AutoCompleteTextView) findViewById(R.id.clearable_edit_load_location);
         autoCompleteTextView.setAdapter(new ArrayAdapter<String>(this,
                 android.R.layout.simple_dropdown_item_1line, list));
-
-        //7. HashTag
-        hastagView = findViewById(R.id.HasTagView);
-        hastagView.setBackgroundResource(R.drawable.hashtag);
+//
+//        //7. HashTag
+//        hastagView = findViewById(R.id.HasTagView);
+//        hastagView.setBackgroundResource(R.drawable.hashtag);
 
 //        addHashTag(); //해시태그 추가
 //        checkAllHashTag(); //체크 해시태그
@@ -911,13 +912,13 @@ public class KMS_MainActivity extends AppCompatActivity implements NavigationVie
         kms_hashTagCheckBoxManager.checkAllHashTag();
 
 
-        // 8.floating icon
-        floatingButton = findViewById(R.id.floatingActionButton);
-
-        //9. Location Layout && selectLocation
-        mainContext = this;
-        relativelayout_sub = findViewById(R.id.relativeLayout_s);
-        linearLayout_selectLocation = findViewById(R.id.linearLayout_s);
+//        // 8.floating icon
+//        floatingButton = findViewById(R.id.floatingActionButton);
+//
+//        //9. Location Layout && selectLocation
+//        mainContext = this;
+//        relativelayout_sub = findViewById(R.id.relativeLayout_s);
+//        linearLayout_selectLocation = findViewById(R.id.linearLayout_s);
         linearLayout_selectLocation.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
@@ -932,10 +933,10 @@ public class KMS_MainActivity extends AppCompatActivity implements NavigationVie
                 return false;
             }
         });
-
+//
         editText = findViewById(R.id.clearable_edit_search_location);
-        Log.d("6","####에딧 메인 공백");
-        searchRecyclerView = findViewById(R.id.searchResult_RecyclerVIew);
+//        Log.d("6","####에딧 메인 공백");
+//        searchRecyclerView = findViewById(R.id.searchResult_RecyclerVIew);
         editText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
@@ -989,7 +990,6 @@ public class KMS_MainActivity extends AppCompatActivity implements NavigationVie
             } //key 입력 이벤트 종료
         });
 
-
         btnClear = (Button) findViewById(R.id.clearable_search_location_button_clear);
         btnClear.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -1001,9 +1001,9 @@ public class KMS_MainActivity extends AppCompatActivity implements NavigationVie
             }
         });
 
-
-        //10.BackPressed
-        backPressedForFinish = new KMS_BackPressedForFinish(this);
+//
+//        //10.BackPressed
+//        backPressedForFinish = new KMS_BackPressedForFinish(this);
 
 
     } //oncreate 종료
