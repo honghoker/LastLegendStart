@@ -50,28 +50,8 @@
 
         </LinearLayout>
 
-        <LinearLayout
-            android:layout_width="350dp"
-            android:layout_height="150dp"
-            android:layout_gravity="bottom"
-            android:layout_marginBottom="80dp"
-            android:orientation="horizontal"
-            android:paddingEnd="100dp">
+        <include layout="@layout/kms_marker_info" />
 
-            <ImageView
-                android:id="@+id/imageView8"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="0.4"
-                app:srcCompat="@drawable/marker_design_pika" />
-
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="0.4">
-
-            </RelativeLayout>
-        </LinearLayout>
     </FrameLayout>
 
 </RelativeLayout>
