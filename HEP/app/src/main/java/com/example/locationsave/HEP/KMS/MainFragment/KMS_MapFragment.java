@@ -94,6 +94,22 @@ public class KMS_MapFragment extends Fragment implements OnMapReadyCallback {
             }
         });
         */
+        Button btn3 = rootView.findViewById(R.id.button3);
+        btn3.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+//                RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(
+//                        RelativeLayout.LayoutParams.WRAP_CONTENT,
+//                        RelativeLayout.LayoutParams.WRAP_CONTENT
+//                );
+//                params.setMargins(0,0,0,0);
+//                fView.setLayoutParams(params);
+
+//                RelativeLayout.LayoutParams test = (RelativeLayout.LayoutParams) fView.getLayoutParams();
+//                test.bottomMargin = 0;
+//                fView.setLayoutParams(test);
+            }
+        });
         return rootView;
     }
 

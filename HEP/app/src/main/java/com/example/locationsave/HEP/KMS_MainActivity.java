@@ -58,6 +58,7 @@ import com.example.locationsave.HEP.KMS.Location.KMS_LocationSearchResult;
 import com.example.locationsave.HEP.KMS.Location.KMS_SearchResultAdapter;
 import com.example.locationsave.HEP.KMS.MainFragment.KMS_FragmentFlagManager;
 
+import com.example.locationsave.HEP.KMS.Toolbar.KMS_ClearableEditText_LoadLocation;
 import com.example.locationsave.HEP.KMS.Toolbar.KMS_ClearableEditText_LoadLocation_auto;
 import com.example.locationsave.HEP.KMS.Toolbar.KMS_RecycleVIewManager;
 import com.example.locationsave.HEP.KMS.Toolbar.KMS_SearchFlagManager;
@@ -110,16 +111,6 @@ public class KMS_MainActivity extends AppCompatActivity implements NavigationVie
     2. oncreate
     ---END---
      */
-    public static String directoryid = null;
-    private DrawerLayout drawerLayout;
-    private boolean recyFrag = false;
-    private RecyclerView recyclerView;
-    private View rView;
-    private View fView;
-    private View allSeeView;
-    private RecyclerView.Adapter recyAdapter;
-    private ArrayList<KSH_DirectoryEntity> arrayList;
-    private ArrayList<String> arrayKey;
 
     @Override
     protected void onDestroy() {
@@ -157,8 +148,18 @@ public class KMS_MainActivity extends AppCompatActivity implements NavigationVie
         Toast.makeText(getApplicationContext(), "onDestroy", Toast.LENGTH_SHORT).show();
     }
 
-    //    private Spinner spinner;
+//    private Spinner spinner;
 //    private Toolbar toolbar;
+    public static String directoryid = null;
+    private DrawerLayout drawerLayout;
+    private boolean recyFrag = false;
+    private RecyclerView recyclerView;
+    private View rView;
+    public static View fView;
+    private View allSeeView;
+    private RecyclerView.Adapter recyAdapter;
+    private ArrayList<KSH_DirectoryEntity> arrayList;
+    private ArrayList<String> arrayKey;
     private NavigationView navigationView;
     private KSH_DirectoryEntity ksh_directoryEntity;
     public void ksh_init(){
@@ -183,11 +184,120 @@ public class KMS_MainActivity extends AppCompatActivity implements NavigationVie
     public static Fragment mapFragment = null;
     public static Fragment LocationFragmet = null;
     KMS_FragmentFlagManager kms_fragmentFlagManager;
+    //2.Bottomber
+    public LinearLayout bottomBar;
+    //3-1. Toolbar
+    //우선 style.xml 액션바 제거
+    Toolbar toolbar;
+    Spinner spinner;
+    KMS_RecycleVIewManager kms_recycleVIewManager = KMS_RecycleVIewManager.getInstanceRecycleView();
+    //4. Toolbar Search
+    LinearLayout linearLayoutToolbarSearch;
+    ConstraintLayout recy_con_layout;
+    KMS_SearchFlagManager kms_searchFlagManager = KMS_SearchFlagManager.getInstanceSearch();
+    //5. Animation
+    Animation animation;
+    Animation animationH;
+    //6. 자동완성 텍스트 뷰
+    KMS_ClearableEditText_LoadLocation_auto clearableEditText_loadLocation_auto;
+    static InputMethodManager inputMethodManager; //키보드 설정 위한
+    //리스트뷰
+    private List<String> list;
+    //7. HashTag
+    public static LinearLayout hastagView;
+    //    CheckBox checkBoxAllHashTag; //체크박스 명 선언
+    public static KMS_HashTag[] msHashTag = new KMS_HashTag[10]; //태그 배열
+    public static KMS_FlowLayout.LayoutParams params = new KMS_FlowLayout.LayoutParams(20, 20);
+    ; //해시태그 레이아웃을 위한 parms
+    KMS_HashTagCheckBoxFlagManager kms_hashTagCheckBoxFlagManager = KMS_HashTagCheckBoxFlagManager.getInstanceHashTagCheckBox();
+    //    HasTagOnClickListener hasTagOnClickListener = new HasTagOnClickListener();
+    KMS_HashTagCheckBoxManager kms_hashTagCheckBoxManager = KMS_HashTagCheckBoxManager.getInstanceHashTagCheckBox();
+    //8. FloatingIcon
+    FloatingActionButton floatingButton;
+    KMS_LocationFlagManager kms_locationFlagManager = KMS_LocationFlagManager.getInstanceLocation();
+    //9. Location Layout
+    public static RelativeLayout relativelayout_sub;  // SelectLocation 단의 리니어 레이아웃
+    LinearLayout linearLayout_selectLocation; // SelectLocation 단의 리니어 레이아웃
+    KMS_SelectLocation selectLocation = new KMS_SelectLocation();
+    boolean selectLocationFlag = false;     //장소추가 플래그
+    boolean intentAddLocationFlag = false;  //장소 추가 인탠트 플래그
+    //10. BackPressed
+    KMS_BackPressedForFinish backPressedForFinish; //백프레스 클래스
+
+    // . Context 넘겨주기
+    public static Context mainContext; //AddMainActivity 에 넘겨주기 위해 컨텍스트 생성
+    public static final int ADD_MAIN_ACTIVITY_REQUEST_CODE = 1000;
+    public static final int ADD_MAIN_ACTIVITY_REPLY_CODE = 2000;
+    public static final int ALLSEE_ACTIVITY_REQUEST_CODE = 3000;
+    public static final int ALLSEE_ACTIVITY_REPLY_CODE = 4000;
+
+    private ArrayList<KMS_LocationSearchResult> mArrayList;
+    private KMS_SearchResultAdapter mAdapter;
+    public static int count = -1;
+
+    public static int selectView = 1;
+
     public void kms_init(){
         fragmentManager = getSupportFragmentManager();
         mapFragment = new KMS_MapFragment();
         fragmentManager.beginTransaction().replace(R.id.frameLayout, mapFragment).commit();
         kms_fragmentFlagManager = KMS_FragmentFlagManager.getInstanceFragment();
+        //2. BottomBar
+        bottomBar = findViewById(R.id.linearBottombar);
+        //3. Toolbar
+        //3-1. tollbar 선언
+        toolbar = findViewById(R.id.toolbar);
+        toolbar.setTitle("Last Legend Start");
+        // **NoActionBar 해주고 이 메서드 호출하면 toolbar를 Activity의 앱바로 사용가능
+        setSupportActionBar(toolbar);
+        // drawer
+        navigationView.setNavigationItemSelectedListener(this);
+
+        // navigationview에 사용자 이름, 이메일 출력
+        View header = navigationView.getHeaderView(0);
+
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this,drawerLayout,toolbar,R.string.drawer_open,R.string.drawer_close);
+        drawerLayout.addDrawerListener(toggle);
+        toggle.syncState();
+
+        //3-2. spinner 선언 & RecycleView
+        spinner = findViewById(R.id.spinner);
+
+        //4. Toolbar Search
+        linearLayoutToolbarSearch = findViewById(R.id.linearLayoutToolbarSearch);
+
+        //6. 자동완성 텍스트 뷰
+        clearableEditText_loadLocation_auto = findViewById(R.id.searchView); //프로젝트 단위
+
+        inputMethodManager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE); //키보드-시스템서비스
+        list = new ArrayList<String>();
+
+        //https://sharp57dev.tistory.com/12 자동완성
+        final AutoCompleteTextView autoCompleteTextView = (AutoCompleteTextView) findViewById(R.id.clearable_edit_load_location);
+        autoCompleteTextView.setAdapter(new ArrayAdapter<String>(this,
+                android.R.layout.simple_dropdown_item_1line, list));
+
+        //7. HashTag
+        hastagView = findViewById(R.id.HasTagView);
+        hastagView.setBackgroundResource(R.drawable.hashtag);
+
+//        addHashTag(); //해시태그 추가
+//        checkAllHashTag(); //체크 해시태그
+        View test_view = findViewById(R.id.drawer_layout);
+        KMS_HashTagCheckBoxManager kms_hashTagCheckBoxManager = new KMS_HashTagCheckBoxManager(this, test_view);
+        kms_hashTagCheckBoxManager.addHashTag();
+        kms_hashTagCheckBoxManager.checkAllHashTag();
+
+
+        // 8.floating icon
+        floatingButton = findViewById(R.id.floatingActionButton);
+
+        //9. Location Layout
+        mainContext = this;
+        relativelayout_sub = findViewById(R.id.relativeLayout_s);
+        linearLayout_selectLocation = findViewById(R.id.linearLayout_s);
+        //10.BackPressed
+        backPressedForFinish = new KMS_BackPressedForFinish(this);
     }
 
     //1.Fragment
@@ -227,7 +337,6 @@ public class KMS_MainActivity extends AppCompatActivity implements NavigationVie
     // https://stackoverflow.com/questions/21192386/android-fragment-onclick-button-method
     //2.Bottomber
     //하단 바
-    public LinearLayout bottomBar;
     public void onBottomBarClicked(View v) { //Change Fragment
         switch (v.getId()) {
             case R.id.btnMain:
@@ -246,7 +355,6 @@ public class KMS_MainActivity extends AppCompatActivity implements NavigationVie
                 break;
         }
     }
-
     public void setBottomBar(LinearLayout bottomBar, boolean Flag) { //searchFlag 에 맞게 하단 바 가리기
         if (Flag == true){
             bottomBar.setVisibility(View.GONE);
@@ -255,12 +363,27 @@ public class KMS_MainActivity extends AppCompatActivity implements NavigationVie
             bottomBar.setVisibility(View.VISIBLE);
         }
     }
+    public void setMargin(){
+//        DisplayMetrics displayMetrics = getResources().getDisplayMetrics();
+//        int size = Math.round(20 * displayMetrics.density);
+
+//        RelativeLayout.LayoutParams test = (RelativeLayout.LayoutParams) fView.getLayoutParams();
+//        test.bottomMargin = 0;
+//        fView.setLayoutParams(test);
+//
+//            RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(
+//                    RelativeLayout.LayoutParams.WRAP_CONTENT,
+//                    RelativeLayout.LayoutParams.WRAP_CONTENT
+//                );
+//            params.setMargins(0,0,0,size);
+//            fView.setLayoutParams(params);
+    }
 
     //3-1. Toolbar
     //우선 style.xml 액션바 제거
-    Toolbar toolbar;
-    Spinner spinner;
-    KMS_RecycleVIewManager kms_recycleVIewManager = KMS_RecycleVIewManager.getInstanceRecycleView();
+//    Toolbar toolbar;
+//    Spinner spinner;
+//    KMS_RecycleVIewManager kms_recycleVIewManager = KMS_RecycleVIewManager.getInstanceRecycleView();
 
     // Activity가 시작될 때 호출되는 함수 -> MenuItem 생성과 초기화 진행
     @Override
@@ -294,10 +417,10 @@ public class KMS_MainActivity extends AppCompatActivity implements NavigationVie
         }
     }
 
-    //4. Toolbar Search
-    LinearLayout linearLayoutToolbarSearch;
-    ConstraintLayout recy_con_layout;
-    KMS_SearchFlagManager kms_searchFlagManager = KMS_SearchFlagManager.getInstanceSearch();
+//    //4. Toolbar Search
+//    LinearLayout linearLayoutToolbarSearch;
+//    ConstraintLayout recy_con_layout;
+//    KMS_SearchFlagManager kms_searchFlagManager = KMS_SearchFlagManager.getInstanceSearch();
 
     public void hideRecyclerView() { //리사이클 플래그가 false 이면 - 리사이클러 뷰가 안보이면 실행해준다. true 로 바꾼다.
         if (kms_recycleVIewManager.flagCheckRecycleView() == true) { //호출하였을 때 리사이클이 떠있을 경우에만 실행한다. 안떠있을 때 재실행 방지.
@@ -308,10 +431,15 @@ public class KMS_MainActivity extends AppCompatActivity implements NavigationVie
         }
     }
 
+    // 여기
     //상단 툴바 클릭 이벤트
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.menu_item_search: {//상단 검색 버튼 클릭 시
+                // frame bottomMargin 57dp -> search click -> bottomMargin 0
+//                RelativeLayout.LayoutParams test = (RelativeLayout.LayoutParams) fView.getLayoutParams();
+//                test.bottomMargin = 0;
+//                fView.setLayoutParams(test);
                 if(kms_recycleVIewManager.flagCheckRecycleView() == true){ // 만약 리사이클뷰 열려있으면 닫아준다.
                     setSpinner(); //이걸로 제어
                     hideRecyclerView(); //일단 디렉토리 열려있으면 삭제
@@ -321,7 +449,7 @@ public class KMS_MainActivity extends AppCompatActivity implements NavigationVie
                 if (getSupportActionBar().isShowing()) {
                     kms_searchFlagManager.flagSetTrueSearch();
                     getSupportActionBar().hide();
-                    clearableEditText_loadLocation.requestFocus();
+                    clearableEditText_loadLocation_auto.requestFocus();
                     inputMethodManager.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0);
                     setBottomBar(bottomBar, kms_searchFlagManager.flagGetSearch());
                     setSearchBar(kms_searchFlagManager.flagGetSearch());
@@ -346,19 +474,26 @@ public class KMS_MainActivity extends AppCompatActivity implements NavigationVie
             linearLayoutToolbarSearch.setVisibility(View.GONE);
     }
 
-    //5. Animation
-    Animation animation;
-    Animation animationH;
+//    //5. Animation
+//    Animation animation;
+//    Animation animationH;
+//
+//    //6. 자동완성 텍스트 뷰
+//    KMS_ClearableEditText_LoadLocation_auto clearableEditText_loadLocation;
+//    static InputMethodManager inputMethodManager; //키보드 설정 위한
+//
+//    //리스트뷰
+//    private List<String> list;
 
-    //6. 자동완성 텍스트 뷰
-    KMS_ClearableEditText_LoadLocation_auto clearableEditText_loadLocation;
-    static InputMethodManager inputMethodManager; //키보드 설정 위한
-
-    //리스트뷰
-    private List<String> list;
-
-    //7. HashTag
-    public static LinearLayout hastagView;
+//    //6. 자동완성 텍스트 뷰
+//    KMS_ClearableEditText_LoadLocation clearableEditText_loadLocation;
+//    static InputMethodManager inputMethodManager; //키보드 설정 위한
+//
+//    //리스트뷰
+//    private List<String> list;
+//
+//    //7. HashTag
+//    public static LinearLayout hastagView;
 
     //해시태그 선택
 //    public class HasTagOnClickListener implements Button.OnClickListener {
@@ -368,15 +503,15 @@ public class KMS_MainActivity extends AppCompatActivity implements NavigationVie
 //        }
 //    }
 
-//    CheckBox checkBoxAllHashTag; //체크박스 명 선언
-    public static KMS_HashTag[] msHashTag = new KMS_HashTag[10]; //태그 배열
-    public static KMS_FlowLayout.LayoutParams params = new KMS_FlowLayout.LayoutParams(20, 20);
-    ; //해시태그 레이아웃을 위한 parms
-    KMS_HashTagCheckBoxFlagManager kms_hashTagCheckBoxFlagManager = KMS_HashTagCheckBoxFlagManager.getInstanceHashTagCheckBox();
-//    HasTagOnClickListener hasTagOnClickListener = new HasTagOnClickListener();
-    KMS_HashTagCheckBoxManager kms_hashTagCheckBoxManager = KMS_HashTagCheckBoxManager.getInstanceHashTagCheckBox();
-    // 확인을 눌렀을 때 눌린 태그들의 id값을 가져온다.
+////    CheckBox checkBoxAllHashTag; //체크박스 명 선언
+//    public static KMS_HashTag[] msHashTag = new KMS_HashTag[10]; //태그 배열
+//    public static KMS_FlowLayout.LayoutParams params = new KMS_FlowLayout.LayoutParams(20, 20);
+//    ; //해시태그 레이아웃을 위한 parms
+//    KMS_HashTagCheckBoxFlagManager kms_hashTagCheckBoxFlagManager = KMS_HashTagCheckBoxFlagManager.getInstanceHashTagCheckBox();
+////    HasTagOnClickListener hasTagOnClickListener = new HasTagOnClickListener();
+//    KMS_HashTagCheckBoxManager kms_hashTagCheckBoxManager = KMS_HashTagCheckBoxManager.getInstanceHashTagCheckBox();
 
+    // 확인을 눌렀을 때 눌린 태그들의 id값을 가져온다.
     public void onHashTagFilterButtonClicked(View v) {
         switch (v.getId()) {
             case R.id.btnFilterSelect:
@@ -409,9 +544,9 @@ public class KMS_MainActivity extends AppCompatActivity implements NavigationVie
         }
     }
 
-    //8. FloatingIcon
-    FloatingActionButton floatingButton;
-    KMS_LocationFlagManager kms_locationFlagManager = KMS_LocationFlagManager.getInstanceLocation();
+//    //8. FloatingIcon
+//    FloatingActionButton floatingButton;
+//    KMS_LocationFlagManager kms_locationFlagManager = KMS_LocationFlagManager.getInstanceLocation();
 
     public void setFloatingItem(boolean searchFlag) { //searchFlag 에 맞게 상단 검색 바 출력
         if (searchFlag == true)
@@ -439,12 +574,12 @@ public class KMS_MainActivity extends AppCompatActivity implements NavigationVie
         }
     } //onfloatingbuttoned 종료
 
-    //9. Location Layout
-    public static RelativeLayout relativelayout_sub;  // SelectLocation 단의 리니어 레이아웃
-    LinearLayout linearLayout_selectLocation; // SelectLocation 단의 리니어 레이아웃
-    KMS_SelectLocation selectLocation = new KMS_SelectLocation();
-    boolean selectLocationFlag = false;     //장소추가 플래그
-    boolean intentAddLocationFlag = false;  //장소 추가 인탠트 플래그
+//    //9. Location Layout
+//    public static RelativeLayout relativelayout_sub;  // SelectLocation 단의 리니어 레이아웃
+//    LinearLayout linearLayout_selectLocation; // SelectLocation 단의 리니어 레이아웃
+//    KMS_SelectLocation selectLocation = new KMS_SelectLocation();
+//    boolean selectLocationFlag = false;     //장소추가 플래그
+//    boolean intentAddLocationFlag = false;  //장소 추가 인탠트 플래그
 
     public void IntentAddLocation() {
         Intent intent = new Intent(KMS_MainActivity.this, hep_LocationSaveActivity.class);
@@ -467,8 +602,8 @@ public class KMS_MainActivity extends AppCompatActivity implements NavigationVie
     AutoCompleteTextView editText;
     RecyclerView searchRecyclerView;
 
-    //10. BackPressed
-    KMS_BackPressedForFinish backPressedForFinish; //백프레스 클래스
+//    //10. BackPressed
+//    KMS_BackPressedForFinish backPressedForFinish; //백프레스 클래스
 
     @Override
     public void onBackPressed() {
@@ -545,14 +680,13 @@ public class KMS_MainActivity extends AppCompatActivity implements NavigationVie
         return true;
     }
 
-    // . Context 넘겨주기
-    public static Context mainContext; //AddMainActivity 에 넘겨주기 위해 컨텍스트 생성
-    public static final int ADD_MAIN_ACTIVITY_REQUEST_CODE = 1000;
-
-    private ArrayList<KMS_LocationSearchResult> mArrayList;
-    private int mArrayListSize = 0;
-    private KMS_SearchResultAdapter mAdapter;
-    public static int count = -1;
+//    // . Context 넘겨주기
+//    public static Context mainContext; //AddMainActivity 에 넘겨주기 위해 컨텍스트 생성
+//    public static final int ADD_MAIN_ACTIVITY_REQUEST_CODE = 1000;
+//
+//    private ArrayList<KMS_LocationSearchResult> mArrayList;
+//    private KMS_SearchResultAdapter mAdapter;
+//    public static int count = -1;
 
 
     public void AddRecyclerView(){
@@ -564,7 +698,7 @@ public class KMS_MainActivity extends AppCompatActivity implements NavigationVie
     //교대요
     public void LoadRecyclerView(){
         InitRecyclerView();
-        for(int i = 0; i < mArrayListSize; i++){
+        for(int i = 0; i < mArrayList.size(); i++){
             count++;
             KMS_LocationSearchResult data = new KMS_LocationSearchResult("Title : "+ count, " RoadAddress : " + count);
             //이걸로 카메라포지션 넘겨줌
@@ -582,7 +716,7 @@ public class KMS_MainActivity extends AppCompatActivity implements NavigationVie
         KMS_SearchResultAdapter.LastPosition = -1;
     }
 
-    public static int selectView = 1;
+//    public static int selectView = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -602,6 +736,8 @@ public class KMS_MainActivity extends AppCompatActivity implements NavigationVie
         LoadRecyclerView(); //기존 저장 함수 불러옴
         ksh_init();
         kms_init();
+
+        setMargin();
         logtest("온크리트 초기 flag  값");
 
 //        Query directoryQuery = new hep_FireBase().getFireBaseDatabaseInstance().getReference().child("directory").orderByChild("token").equalTo(new hep_FirebaseUser().getFirebaseUserInstance().getUid());
@@ -702,28 +838,28 @@ public class KMS_MainActivity extends AppCompatActivity implements NavigationVie
 //        Fragment mapFragment = new KMS_MapFragment();
 //        fragmentManager.beginTransaction().replace(R.id.frameLayout, mapFragment).commit();
 
-        //2. BottomBar
-        bottomBar = findViewById(R.id.linearBottombar);
+//        //2. BottomBar
+//        bottomBar = findViewById(R.id.linearBottombar);
 
-        //3. Toolbar
-        //3-1. tollbar 선언
-        toolbar = findViewById(R.id.toolbar);
-        toolbar.setTitle("Last Legend Start");
-        // **NoActionBar 해주고 이 메서드 호출하면 toolbar를 Activity의 앱바로 사용가능
-        setSupportActionBar(toolbar);
-
-        // drawer
-        navigationView.setNavigationItemSelectedListener(this);
-
-        // navigationview에 사용자 이름, 이메일 출력
-        View header = navigationView.getHeaderView(0);
-
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this,drawerLayout,toolbar,R.string.drawer_open,R.string.drawer_close);
-        drawerLayout.addDrawerListener(toggle);
-        toggle.syncState();
-
-        //3-2. spinner 선언 & RecycleView
-        spinner = findViewById(R.id.spinner);
+//        //3. Toolbar
+//        //3-1. tollbar 선언
+//        toolbar = findViewById(R.id.toolbar);
+//        toolbar.setTitle("Last Legend Start");
+//        // **NoActionBar 해주고 이 메서드 호출하면 toolbar를 Activity의 앱바로 사용가능
+//        setSupportActionBar(toolbar);
+//
+//        // drawer
+//        navigationView.setNavigationItemSelectedListener(this);
+//
+//        // navigationview에 사용자 이름, 이메일 출력
+//        View header = navigationView.getHeaderView(0);
+//
+//        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this,drawerLayout,toolbar,R.string.drawer_open,R.string.drawer_close);
+//        drawerLayout.addDrawerListener(toggle);
+//        toggle.syncState();
+//
+//        //3-2. spinner 선언 & RecycleView
+//        spinner = findViewById(R.id.spinner);
         // spinner 터치(클릭) 시 이벤트처리
         spinner.setOnTouchListener(new View.OnTouchListener() {
             @Override
@@ -751,11 +887,11 @@ public class KMS_MainActivity extends AppCompatActivity implements NavigationVie
             }
         });
 
-        //4. Toolbar Search
-        linearLayoutToolbarSearch = findViewById(R.id.linearLayoutToolbarSearch);
-
-        //6. 자동완성 텍스트 뷰
-        clearableEditText_loadLocation = findViewById(R.id.searchView); //프로젝트 단위
+//        //4. Toolbar Search
+//        linearLayoutToolbarSearch = findViewById(R.id.linearLayoutToolbarSearch);
+//
+//        //6. 자동완성 텍스트 뷰
+//        clearableEditText_loadLocation = findViewById(R.id.searchView); //프로젝트 단위
 
         inputMethodManager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE); //키보드-시스템서비스
         list = new ArrayList<String>();
@@ -764,10 +900,10 @@ public class KMS_MainActivity extends AppCompatActivity implements NavigationVie
         final AutoCompleteTextView autoCompleteTextView = (AutoCompleteTextView) findViewById(R.id.clearable_edit_load_location);
         autoCompleteTextView.setAdapter(new ArrayAdapter<String>(this,
                 android.R.layout.simple_dropdown_item_1line, list));
-
-        //7. HashTag
-        hastagView = findViewById(R.id.HasTagView);
-        hastagView.setBackgroundResource(R.drawable.hashtag);
+//
+//        //7. HashTag
+//        hastagView = findViewById(R.id.HasTagView);
+//        hastagView.setBackgroundResource(R.drawable.hashtag);
 
 //        addHashTag(); //해시태그 추가
 //        checkAllHashTag(); //체크 해시태그
@@ -777,13 +913,13 @@ public class KMS_MainActivity extends AppCompatActivity implements NavigationVie
         kms_hashTagCheckBoxManager.checkAllHashTag();
 
 
-        // 8.floating icon
-        floatingButton = findViewById(R.id.floatingActionButton);
-
-        //9. Location Layout && selectLocation
-        mainContext = this;
-        relativelayout_sub = findViewById(R.id.relativeLayout_s);
-        linearLayout_selectLocation = findViewById(R.id.linearLayout_s);
+//        // 8.floating icon
+//        floatingButton = findViewById(R.id.floatingActionButton);
+//
+//        //9. Location Layout && selectLocation
+//        mainContext = this;
+//        relativelayout_sub = findViewById(R.id.relativeLayout_s);
+//        linearLayout_selectLocation = findViewById(R.id.linearLayout_s);
         linearLayout_selectLocation.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
@@ -798,10 +934,10 @@ public class KMS_MainActivity extends AppCompatActivity implements NavigationVie
                 return false;
             }
         });
-
+//
         editText = findViewById(R.id.clearable_edit_search_location);
-        Log.d("6","####에딧 메인 공백");
-        searchRecyclerView = findViewById(R.id.searchResult_RecyclerVIew);
+//        Log.d("6","####에딧 메인 공백");
+//        searchRecyclerView = findViewById(R.id.searchResult_RecyclerVIew);
         editText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
@@ -858,7 +994,6 @@ public class KMS_MainActivity extends AppCompatActivity implements NavigationVie
             } //key 입력 이벤트 종료
         });
 
-
         btnClear = (Button) findViewById(R.id.clearable_search_location_button_clear);
         btnClear.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -870,9 +1005,9 @@ public class KMS_MainActivity extends AppCompatActivity implements NavigationVie
             }
         });
 
-
-        //10.BackPressed
-        backPressedForFinish = new KMS_BackPressedForFinish(this);
+//
+//        //10.BackPressed
+//        backPressedForFinish = new KMS_BackPressedForFinish(this);
 
 
     } //oncreate 종료
