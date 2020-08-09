@@ -46,7 +46,7 @@ public class hep_LocationDetailActivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.hep_locationdetailactivity);
-
+        singletonArrClear();
         setInit();
         setData();
     }
@@ -57,6 +57,7 @@ public class hep_LocationDetailActivity extends AppCompatActivity {
         menuInflater.inflate(R.menu.hep_locationdetail_menu, menu);
         return super.onCreateOptionsMenu(menu);
     }
+
     final int updateFlag = 3000;
 
     @Override
@@ -87,8 +88,8 @@ public class hep_LocationDetailActivity extends AppCompatActivity {
         switch (requestCode){
             case updateFlag:
                 if(resultCode == RESULT_OK){
-                    singletonArrClear();
-                    finish();
+                    //singletonArrClear();
+                    //finish();
                 }
                 else if(resultCode == RESULT_CANCELED){
 
@@ -101,6 +102,7 @@ public class hep_LocationDetailActivity extends AppCompatActivity {
         new hep_HashTagArr().getHashTagArr().clear();
         new hep_locationImageDataArr().getImageDataArrayInstance().clear();
     }
+
     public void setInit(){
         Toolbar toolbar = findViewById(R.id.locationdetailToolbar);
         setSupportActionBar(toolbar);
@@ -211,6 +213,8 @@ public class hep_LocationDetailActivity extends AppCompatActivity {
                     tagQuery.addValueEventListener(new ValueEventListener() {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot snapshot) {
+                            ((hep_FlowLayout) findViewById(R.id.locationDetailhashtagFlowLayout)).removeAllViews();
+                            new hep_HashTagArr().getHashTagArr().clear();
                             for(DataSnapshot dataSnapshot : snapshot.getChildren()){
                                 hep_Tag hep_tag = dataSnapshot.getValue(hep_Tag.class);
 
