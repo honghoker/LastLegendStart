@@ -177,7 +177,9 @@ public class KMS_MainActivity extends AppCompatActivity implements NavigationVie
     Animation animation;
     Animation animationH;
     //6. 자동완성 텍스트 뷰
-    KMS_ClearableEditText_LoadLocation_auto clearableEditText_loadLocation_auto;
+    //KMS_ClearableEditText_LoadLocation_auto clearableEditText_loadLocation_auto;
+    KMS_ClearableEditText_LoadLocation clearableEditText_loadLocation_auto;
+
     static InputMethodManager inputMethodManager; //키보드 설정 위한
     //리스트뷰
     private List<String> list;
@@ -868,9 +870,9 @@ public class KMS_MainActivity extends AppCompatActivity implements NavigationVie
         list = new ArrayList<String>();
 
         //https://sharp57dev.tistory.com/12 자동완성
-        final AutoCompleteTextView autoCompleteTextView = (AutoCompleteTextView) findViewById(R.id.clearable_edit_load_location);
-        autoCompleteTextView.setAdapter(new ArrayAdapter<String>(this,
-                android.R.layout.simple_dropdown_item_1line, list));
+//        final AutoCompleteTextView autoCompleteTextView = (AutoCompleteTextView) findViewById(R.id.clearable_edit_load_location);
+//        autoCompleteTextView.setAdapter(new ArrayAdapter<String>(this,
+//                android.R.layout.simple_dropdown_item_1line, list));
 //
 //        //7. HashTag
 //        hastagView = findViewById(R.id.HasTagView);
