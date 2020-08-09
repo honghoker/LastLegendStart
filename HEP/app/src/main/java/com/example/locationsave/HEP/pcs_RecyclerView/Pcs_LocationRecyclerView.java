@@ -180,6 +180,7 @@ public class Pcs_LocationRecyclerView extends Fragment {
                     }
 
                 }).show();
+
             }
         });
         ItemTouchHelper itemTouchHelper = new ItemTouchHelper(recyclerViewSwipeHelper);

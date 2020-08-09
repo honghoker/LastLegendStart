@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 
 import com.example.locationsave.HEP.Hep.hep_DTO.hep_Callback;
 import com.example.locationsave.HEP.Hep.hep_DTO.hep_LocationTag;
+import com.example.locationsave.HEP.pcs_RecyclerView.Pcs_Callback;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -30,6 +31,11 @@ public class hep_FireBase {
         if(firebaseStorage == null)
             firebaseStorage = FirebaseStorage.getInstance();
         return firebaseStorage;
+    }
+
+    // 태그 가져오기(Pcsc_Re)
+    public void getTag(Pcs_Callback pcs_callback){
+
     }
 
     // 태그 저장(hep_LocationSaveActivity)
@@ -59,7 +65,6 @@ public class hep_FireBase {
 
             }
         });
-
     }
 
 //    // 최근 지역, 디렉토리 뽑기(KMS_MainActivity)
