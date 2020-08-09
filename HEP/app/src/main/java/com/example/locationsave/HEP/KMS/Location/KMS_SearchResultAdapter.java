@@ -12,7 +12,13 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.locationsave.HEP.KMS.MainFragment.KMS_MapFragment;
+import com.example.locationsave.HEP.KMS.Map.KMS_CameraManager;
+import com.example.locationsave.HEP.KMS_MainActivity;
 import com.example.locationsave.R;
+
+import com.naver.maps.geometry.LatLng;
+import com.naver.maps.map.NaverMap;
 
 import java.util.ArrayList;
 
@@ -27,11 +33,13 @@ public class KMS_SearchResultAdapter extends RecyclerView.Adapter<KMS_SearchResu
 */
 
     public static int LastPosition = -1; //단일 선택 위한 변수
+    ArrayList<KMS_LocationSearchResult> kms_locationSearchResults = new ArrayList<KMS_LocationSearchResult>();
+    KMS_CameraManager kms_cameraManager = KMS_CameraManager.getInstanceCameraManager();
+    NaverMap naverMap = KMS_MapFragment.NMap;
 
     public class CustomViewHolder extends RecyclerView.ViewHolder {
         protected TextView Title;
         protected TextView RoadAddress;
-
         public CustomViewHolder(View view) {
             super(view);
             this.Title = (TextView) view.findViewById(R.id.title_listitem);
@@ -52,6 +60,7 @@ public class KMS_SearchResultAdapter extends RecyclerView.Adapter<KMS_SearchResu
                 .inflate(R.layout.kms_search_result_list, viewGroup, false);
 
         final CustomViewHolder viewHolder = new CustomViewHolder(view);
+
         /*
         RecyclerView의 Adapter는 전체 아이템의 개수 기반
 
@@ -66,8 +75,12 @@ public class KMS_SearchResultAdapter extends RecyclerView.Adapter<KMS_SearchResu
             @Override
             public void onClick(View v) {
                 int position = viewHolder.getAdapterPosition();
+                LastPosition = position; //마지막 선택 값 저장
 
-                LastPosition = position; //마지막 선택 값 저장.
+                kms_locationSearchResults = KMS_MainActivity.kms_locationSearchResults;
+                LatLng latlng = new LatLng(kms_locationSearchResults.get(position).getLatitude(), kms_locationSearchResults.get(position).getLongitude());
+                kms_cameraManager.MoveCameraOnLatlngPosition(latlng,naverMap);
+
                 notifyDataSetChanged(); //값 변경 확인함.
 
 //개별 선택 위한 코드

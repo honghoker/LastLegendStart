@@ -219,7 +219,7 @@ public class KMS_MainActivity extends AppCompatActivity implements NavigationVie
     public static int selectView = 1;
     RecyclerView mRecyclerView;
     LinearLayoutManager mLinearLayoutManager;
-    ArrayList<KMS_LocationSearchResult> kms_locationSearchResults = new ArrayList<>();
+    public static ArrayList<KMS_LocationSearchResult> kms_locationSearchResults = new ArrayList<>();
     KMS_LocationSearchResult kms_locationSearchResult;
     AutoCompleteTextView editText;
     RecyclerView searchRecyclerView;
