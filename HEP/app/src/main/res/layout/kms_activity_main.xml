@@ -22,9 +22,7 @@
             android:layout_height="match_parent"
             android:layout_centerInParent="true"
             android:layout_weight="1"
-            android:layout_marginBottom="57dp"
             >
-
         </FrameLayout>
 
         <include layout="@layout/kms_select_location" />
@@ -118,12 +116,10 @@
             android:orientation="horizontal"
             android:visibility="gone">
 
-            <com.example.locationsave.HEP.KMS.Toolbar.KMS_ClearableEditText_LoadLocation
+            <com.example.locationsave.HEP.KMS.Toolbar.KMS_ClearableEditText_LoadLocation_auto
                 android:id="@+id/searchView"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_centerHorizontal="true"
-                android:layout_centerVertical="true"/>
+                android:layout_height="match_parent" />
 
             <ListView
                 android:id="@+id/listView"

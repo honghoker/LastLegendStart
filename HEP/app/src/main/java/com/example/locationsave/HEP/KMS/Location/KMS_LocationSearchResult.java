@@ -5,12 +5,14 @@ public class KMS_LocationSearchResult {
     private String RoadAddress;   //도로명 주소
     private double longitude; // 경도 y
     private double latitude; // 위도 x
+    private String tempLongitude;
+    private String tempLatitude;
 
-    public KMS_LocationSearchResult(String title, String roadAddress) {
+    public KMS_LocationSearchResult(String title, String roadAddress, String longitude, String latitude) {
         Title = title;
         RoadAddress = roadAddress;
-        this.longitude = longitude;
-        this.latitude = latitude;
+        this.longitude = Double.parseDouble(longitude);
+        this.latitude = Double.parseDouble(latitude);
     }
 /*
     public KMS_LocationSearchResult(Dictionary d)
