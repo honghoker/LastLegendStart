@@ -82,6 +82,7 @@ import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.naver.maps.map.CameraPosition;
 
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -937,7 +938,7 @@ public class KMS_MainActivity extends AppCompatActivity implements NavigationVie
 //
         editText = findViewById(R.id.clearable_edit_search_location);
 //        Log.d("6","####에딧 메인 공백");
-//        searchRecyclerView = findViewById(R.id.searchResult_RecyclerVIew);
+        searchRecyclerView = findViewById(R.id.searchResult_RecyclerVIew);
         editText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
@@ -972,8 +973,6 @@ public class KMS_MainActivity extends AppCompatActivity implements NavigationVie
                     else{
                         ArrayList<GeocodingArrayEntity> temp;
                         for(int i=0; i<searchAreaArrayResult.size();i++){
-                            mArrayListSize = searchAreaArrayResult.size(); //1. 사이즈 부여
-
                             temp = areaSearch.Geocoding(searchAreaArrayResult.get(i).getAddress());
                             if(searchAreaArrayResult.get(i).getRoadAddress().equals("")){
                                 Log.d("6",i+"title "+searchAreaArrayResult.get(i).getTitle().replaceAll("<(/)?([a-zA-Z]*)(\\s[a-zA-Z]*=[^>]*)?(\\s)*(/)?>", "")
