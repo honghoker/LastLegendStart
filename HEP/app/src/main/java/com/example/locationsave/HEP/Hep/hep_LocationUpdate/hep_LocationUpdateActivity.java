@@ -288,9 +288,26 @@ public class hep_LocationUpdateActivity extends AppCompatActivity {
     }
 
     public void onButtonLocationUpdateClicked(View v) {
+        int delay;
+        if(new hep_locationImageDataArr().getImageDataArrayInstance().size() > new hep_HashTagArr().getHashTagArr().size())
+            delay = new hep_locationImageDataArr().getImageDataArrayInstance().size();
+        else
+            delay = new hep_HashTagArr().getHashTagArr().size();
+
         firebaseImageInsert();
         firebaseTagInsert();
         firebaseLocationInsert();
+
+        Log.d("@@@@@", "handler 생성");
+        Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                Log.d("@@@@@", "handler run");
+                setResult(RESULT_OK);
+                finish();
+            }
+        },1000 * delay);
     }
 
     public void firebaseLocationInsert(){
@@ -309,11 +326,13 @@ public class hep_LocationUpdateActivity extends AppCompatActivity {
     }
 
     public void firebaseTagInsert(){
-        if(!temphashArrayList.containsAll(new hep_HashTagArr().getHashTagArr())){
+        if(new hep_HashTagArr().getHashTagArr().containsAll(temphashArrayList) != temphashArrayList.containsAll(new hep_HashTagArr().getHashTagArr())){
+
             Query locatiotagQuery = new hep_FireBase().getFireBaseDatabaseInstance().getReference().child("locationtag").orderByChild("locationid").equalTo(key);
             locatiotagQuery.addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    Log.d("@@@@@", "locationtag Count = " + snapshot.getChildrenCount());
                     for(DataSnapshot dataSnapshot : snapshot.getChildren()){
                         new hep_FireBase().getFireBaseDatabaseInstance().getReference().child("locationtag").child(dataSnapshot.getKey()).removeValue();
                         Log.d("@@@@@", "locationtag 제거");
@@ -440,17 +459,6 @@ public class hep_LocationUpdateActivity extends AppCompatActivity {
         else{
             imagetempArrayList.addAll(new hep_locationImageDataArr().getImageDataArrayInstance());
         }
-
-        Log.d("@@@@@", "handler 생성");
-        Handler handler = new Handler();
-        handler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                Log.d("@@@@@", "handler run");
-                setResult(RESULT_OK);
-                finish();
-            }
-        },1000 * new hep_locationImageDataArr().getImageDataArrayInstance().size());
     }
 
 

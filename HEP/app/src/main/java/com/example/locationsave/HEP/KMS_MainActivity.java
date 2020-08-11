@@ -40,7 +40,10 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.locationsave.HEP.Address.GeocodingArrayEntity;
 import com.example.locationsave.HEP.Address.SearchAreaArrayEntity;
+import com.example.locationsave.HEP.Hep.hep_DTO.hep_Callback;
 import com.example.locationsave.HEP.Hep.hep_DTO.hep_Location;
+import com.example.locationsave.HEP.Hep.hep_DTO.hep_LocationTag;
+import com.example.locationsave.HEP.Hep.hep_DTO.hep_Recent;
 import com.example.locationsave.HEP.Hep.hep_LocationSave.hep_LocationSaveActivity;
 import com.example.locationsave.HEP.KMS.BackPressed.KMS_BackPressedForFinish;
 import com.example.locationsave.HEP.KMS.HashTag.KMS_FlowLayout;
@@ -818,6 +821,11 @@ public class KMS_MainActivity extends AppCompatActivity implements NavigationVie
                     }
 
                     @Override
+                    public void onSuccess(hep_LocationTag hep_locationTag) {
+
+                    }
+
+                    @Override
                     public void onSuccess(hep_Recent hep_recent) {
                         for (int i = 0; i < arrayKey.size(); i++) {
                             if (directoryid == null) {
@@ -851,11 +859,6 @@ public class KMS_MainActivity extends AppCompatActivity implements NavigationVie
 
                             }
                         });
-                    }
-
-                    @Override
-                    public void onSuccess(hep_LocationTag hep_locationTag) {
-
                     }
                 });
             }
