@@ -17,7 +17,6 @@ import java.util.ArrayList;
 
 public class KSH_LoadResultAdapter extends RecyclerView.Adapter<KSH_LoadResultAdapter.CustomViewHolder>{
     private ArrayList<hep_Location> hep_locationArrayList;
-    double latitude, longitude;
 
     public KSH_LoadResultAdapter(ArrayList<hep_Location> list) {
         this.hep_locationArrayList = list;
@@ -28,6 +27,17 @@ public class KSH_LoadResultAdapter extends RecyclerView.Adapter<KSH_LoadResultAd
 
         public CustomViewHolder(View view) {
             super(view);
+
+            view.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    int pos = getAdapterPosition();
+                    if(pos != RecyclerView.NO_POSITION){
+                        Log.d("@@@@@", "name = " + hep_locationArrayList.get(pos).name + ", lati = " + hep_locationArrayList.get(pos).latitude + ", longi = " + hep_locationArrayList.get(pos).longitude);
+                    }
+                }
+            });
+
             this.Title = (TextView) view.findViewById(R.id.load_title);
         }
     }
@@ -46,8 +56,6 @@ public class KSH_LoadResultAdapter extends RecyclerView.Adapter<KSH_LoadResultAd
     @Override
     public void onBindViewHolder(@NonNull CustomViewHolder holder, int position) {
         holder.Title.setText(hep_locationArrayList.get(position).name);
-        latitude = hep_locationArrayList.get(position).latitude;
-        longitude = hep_locationArrayList.get(position).longitude;
     }
 
     @Override

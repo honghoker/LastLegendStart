@@ -111,11 +111,11 @@ public class KMS_ClearableEditText_LoadLocation extends RelativeLayout {
 
                     if(count_test>0){
                         Log.d("6","ㅁㄴㅇㅁㄴㅇ");
-                        KSH_LoadResultAdapter mAdapter = new KSH_LoadResultAdapter(test);
-                        loadRecyclerView.setAdapter(mAdapter);
+                        //KSH_LoadResultAdapter mAdapter = new KSH_LoadResultAdapter(test);
+                        //loadRecyclerView.setAdapter(mAdapter);
 
                         // setSearchResultRecyclerView : gone -> visible, visible -> gone
-                        ksh_loadLocation.setSearchResultRecyclerView(mContext, loadRecyclerView);
+                        //ksh_loadLocation.setSearchResultRecyclerView(mContext, loadRecyclerView);
                         loadRecyclerView.setLayoutManager(mLinearLayoutManager);
                         // recyclerview, list 1개 이상이면 1 아니면 0
                         // 쓸일 있을지 모르겠다 이건

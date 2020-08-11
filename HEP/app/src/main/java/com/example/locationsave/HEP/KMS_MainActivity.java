@@ -65,6 +65,7 @@ import com.example.locationsave.HEP.KMS.Map.KMS_MarkerInformationFlagManager;
 import com.example.locationsave.HEP.KMS.Map.KMS_MarkerManager;
 import com.example.locationsave.HEP.KMS.Toolbar.KMS_ClearableEditText_LoadLocation;
 
+import com.example.locationsave.HEP.KMS.Toolbar.KMS_ClearableEditText_LoadLocation_auto;
 import com.example.locationsave.HEP.KMS.Toolbar.KMS_RecycleVIewManager;
 import com.example.locationsave.HEP.KMS.Toolbar.KMS_SearchBarManager;
 import com.example.locationsave.HEP.KMS.Toolbar.KMS_SearchFlagManager;
@@ -655,7 +656,6 @@ public class KMS_MainActivity extends AppCompatActivity implements NavigationVie
             setSearchBar(kms_searchFlagManager.flagGetSearch());
             setFloatingItem(kms_searchFlagManager.flagGetSearch());
 //            ksh_loadLocation.setSearchResultRecyclerView(getApplicationContext(), loadRecyclerView);
-            ksh_loadLocation.setSearchResultRecyclerView(getApplicationContext(), loadRecyclerView);
             kms_searchBarManager.setOffLoadLocationSearchBar(relativeLayoutRoadLoaction);
         }
 
