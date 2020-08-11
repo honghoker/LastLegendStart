@@ -108,7 +108,7 @@ public class KMS_MainActivity extends AppCompatActivity implements NavigationVie
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 HashMap<String, Object> result = new HashMap<>();
-                com.naver.maps.map.CameraPosition cameraPosition = NMap.getCameraPosition();
+                CameraPosition cameraPosition = NMap.getCameraPosition();
                 result.put("latitude", cameraPosition.target.latitude);
                 result.put("longitude", cameraPosition.target.longitude);
                 if(directoryid != null)
@@ -645,7 +645,8 @@ public class KMS_MainActivity extends AppCompatActivity implements NavigationVie
             Log.d("6","#####맵 & 마커 인포" + kms_fragmentFlagManager.flagCheckFragment() + kms_markerInformationFlagManager.flagGetMarkerInformationFlag());
 
             if (kms_locationFlagManager.flagGetLocation() == true) {
-                Log.d("6","444");
+                Log.d("6","444 location add on");
+
                 hideAddLocation();
                 editText.setText(null);
                 mRecyclerView.setVisibility(View.GONE);
