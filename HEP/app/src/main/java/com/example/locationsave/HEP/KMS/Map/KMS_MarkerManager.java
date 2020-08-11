@@ -4,6 +4,7 @@ import android.content.Context;
 import android.util.Log;
 import android.view.View;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -34,8 +35,11 @@ public class KMS_MarkerManager {
 
     KMS_CameraManager cameraManager = KMS_CameraManager.getInstanceCameraManager();
     KMS_MarkerInformation kms_markerInformation = new KMS_MarkerInformation().getInstanceMarkerInformation();
+    KMS_MarkerInformationFlagManager kms_markerInformationFlagManager = KMS_MarkerInformationFlagManager.getMarkerInformationFlagManagerInstance();
 
     public ArrayList<Marker> markers = new ArrayList<>(); //모든 곳에서 사용할 마커 어레이 리스트
+
+    //TextView textView = KMS_MainActivity.textViewMarkerInformationTitle;
 
     public void initMarker() { //맵의 모든 마커 삭제, 초기화
         for(Marker marker : markers){
@@ -84,7 +88,19 @@ public class KMS_MarkerManager {
                 cameraManager.MoveCameraOnMarkerPosition(marker, NMap); //카메라를 마커 위치로 이동
                 setOffMarkerInformation(KMS_MainActivity.linearLayoutMakerInformation);
                 setOnMarkerInformation(KMS_MainActivity.linearLayoutMakerInformation);
-                kms_markerInformation.setMarkerInformation(marker.getCaptionText());
+                Log.d("####마커인포",   "#####셋 마커 에드");
+                //kms_markerInformation.setMarkerInformation(marker.getCaptionText());
+
+                //레이아웃 업데이트
+                Log.d("####마커인포",   "#####셋 마커 에드 전" + kms_markerInformationFlagManager.flagGetMarkerInformationFlag() );
+
+                new KMS_MarkerInformation().setMarkerInformation(marker.getCaptionText());
+                kms_markerInformationFlagManager.flagSetTrueMarkerInformation();
+                KMS_MainActivity.floatingButton.hide();
+
+                //textView.setText(marker.getCaptionText());
+                Log.d("####마커인포",   "#####셋 마커 에드 후" + kms_markerInformationFlagManager.flagGetMarkerInformationFlag() );
+
                 /*
                 //장소 삭제
                 marker.setMap(null);

@@ -1,5 +1,6 @@
 package com.example.locationsave.HEP.KMS.Map;
 
+import android.util.Log;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -18,6 +19,10 @@ public class KMS_MarkerInformation {
     }
 
     public void setMarkerInformation(String Title){
+        Log.d("####마커인포",   "#####셋 마커 인포메이션" );
+
         textView.setText(Title);
+        Log.d("####마커인포",   "#####셋 마커 인포메이션 종료" );
+
     }
 }

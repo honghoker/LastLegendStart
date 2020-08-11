@@ -59,6 +59,8 @@ import com.example.locationsave.HEP.KMS.Location.KMS_SearchResultAdapter;
 import com.example.locationsave.HEP.KMS.MainFragment.KMS_FragmentFlagManager;
 
 
+import com.example.locationsave.HEP.KMS.Map.KMS_MarkerInformation;
+import com.example.locationsave.HEP.KMS.Map.KMS_MarkerInformationFlagManager;
 import com.example.locationsave.HEP.KMS.Map.KMS_MarkerManager;
 import com.example.locationsave.HEP.KMS.Toolbar.KMS_ClearableEditText_LoadLocation_auto;
 
@@ -194,7 +196,7 @@ public class KMS_MainActivity extends AppCompatActivity implements NavigationVie
     //    HasTagOnClickListener hasTagOnClickListener = new HasTagOnClickListener();
     KMS_HashTagCheckBoxManager kms_hashTagCheckBoxManager = KMS_HashTagCheckBoxManager.getInstanceHashTagCheckBox();
     //8. FloatingIcon
-    FloatingActionButton floatingButton;
+    public static FloatingActionButton floatingButton;
     KMS_LocationFlagManager kms_locationFlagManager = KMS_LocationFlagManager.getInstanceLocation();
     //9. Location Layout
     public static RelativeLayout relativelayout_sub;  // SelectLocation 단의 리니어 레이아웃
@@ -204,7 +206,6 @@ public class KMS_MainActivity extends AppCompatActivity implements NavigationVie
     boolean intentAddLocationFlag = false;  //장소 추가 인탠트 플래그
     //10. BackPressed
     KMS_BackPressedForFinish backPressedForFinish; //백프레스 클래스
-    KMS_MarkerManager kms_markerManager;
 
     // . Context 넘겨주기
     public static Context mainContext; //AddMainActivity 에 넘겨주기 위해 컨텍스트 생성
@@ -225,7 +226,9 @@ public class KMS_MainActivity extends AppCompatActivity implements NavigationVie
     AutoCompleteTextView editText;
     RecyclerView searchRecyclerView;
     Button btnClear;
+    KMS_MarkerInformationFlagManager kms_markerInformationFlagManager = KMS_MarkerInformationFlagManager.getMarkerInformationFlagManagerInstance();
     LinearLayout LinearLayoutMakerInformation;
+
     public void kms_init(){
         fragmentManager = getSupportFragmentManager();
         mapFragment = new KMS_MapFragment();
@@ -599,19 +602,29 @@ public class KMS_MainActivity extends AppCompatActivity implements NavigationVie
             setFloatingItem(kms_searchFlagManager.flagGetSearch());
         }
 
-        else if (kms_searchFlagManager.flagGetSearch() == false && kms_recycleVIewManager.flagCheckRecycleView() == false
+        else if (kms_markerInformationFlagManager.flagGetMarkerInformationFlag() == false && kms_searchFlagManager.flagGetSearch() == false && kms_recycleVIewManager.flagCheckRecycleView() == false
                 && kms_locationFlagManager.flagGetLocation() == false && kms_hashTagCheckBoxFlagManager.flagGethashTagCheckBoxFlag() == false) {
             Log.d("6","333");
             backPressedForFinish.onBackPressed();
             //서치상태 아닐때만 종료 가능
         }
         else { //드로워블도 없고 종료도 아니면 실행
+            Log.d("6","#####맵 & 마커 인포 전");
+            Log.d("6","#####맵 & 마커 인포" + kms_fragmentFlagManager.flagCheckFragment() + kms_markerInformationFlagManager.flagGetMarkerInformationFlag());
+
             if (kms_locationFlagManager.flagGetLocation() == true) {
                 Log.d("6","444");
                 hideAddLocation();
                 editText.setText(null);
                 mRecyclerView.setVisibility(View.GONE);
             }
+            else if(kms_markerInformationFlagManager.flagGetMarkerInformationFlag() == true && kms_fragmentFlagManager.flagCheckFragment() == true){
+                Log.d("6","#####맵 & 마커 인포" + kms_fragmentFlagManager.flagCheckFragment() + kms_markerInformationFlagManager.flagGetMarkerInformationFlag());
+                new KMS_MarkerManager().getInstanceMarkerManager().setOffMarkerInformation(KMS_MainActivity.linearLayoutMakerInformation);
+                kms_markerInformationFlagManager.flagSetFalseMarkerInformation();
+                floatingButton.show();
+            }
+
             else if (intentAddLocationFlag == true && kms_fragmentFlagManager.flagCheckFragment() == true){ // 인텐트 상태이면서 맵에서 넘어왔을 경우
                 intentAddLocationFlag = false; //인텐트 플래그 트루면 폴스로 바꿔줌
                 Log.d("6","5555");

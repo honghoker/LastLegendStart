@@ -70,7 +70,7 @@ public class KMS_MapFragment extends Fragment implements OnMapReadyCallback {
         //프래그먼트 메인을 인플레이트해주고 컨테이너에 붙여달라는 뜻임
 
         ViewGroup rootView = (ViewGroup) inflater.inflate(R.layout.kms_map_fragment, container, false);
-
+/*
         Button btn = rootView.findViewById(R.id.button);
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -78,38 +78,8 @@ public class KMS_MapFragment extends Fragment implements OnMapReadyCallback {
                 markerManager.initMarker();
             }
         });
-        Button btn2 = rootView.findViewById(R.id.button2);
-        btn2.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Log.d("####addMarker",   "남은 피카츄 수" + markerManager.markers.size());
-            }
-        });
-        /*
-        Button button = rootView.findViewById(R.id.button1);
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                activity.onFragmentChange(1);
-            }
-        });
-        */
-        Button btn3 = rootView.findViewById(R.id.button3);
-        btn3.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-//                RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(
-//                        RelativeLayout.LayoutParams.WRAP_CONTENT,
-//                        RelativeLayout.LayoutParams.WRAP_CONTENT
-//                );
-//                params.setMargins(0,0,0,0);
-//                fView.setLayoutParams(params);
+*/
 
-//                RelativeLayout.LayoutParams test = (RelativeLayout.LayoutParams) fView.getLayoutParams();
-//                test.bottomMargin = 0;
-//                fView.setLayoutParams(test);
-            }
-        });
         return rootView;
     }
 
