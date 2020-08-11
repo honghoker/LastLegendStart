@@ -15,7 +15,15 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.locationsave.HEP.KMS_MainActivity;
 import com.example.locationsave.R;
+
+import java.util.ArrayList;
+
+import static com.example.locationsave.HEP.KMS_MainActivity.ksh_loadLocation;
+import static com.example.locationsave.HEP.KMS_MainActivity.loadRecyclerView;
+import static com.example.locationsave.HEP.KMS_MainActivity.mLinearLayoutManager;
+import static com.example.locationsave.HEP.KMS_MainActivity.test_1;
 
 
 /**
@@ -29,6 +37,11 @@ public class KMS_ClearableEditText_LoadLocation extends RelativeLayout {
     Button btnClear;
     public static Context mContext;
 
+    //test
+    int count_test = 0;
+    ArrayList<String> test = new ArrayList<>();
+    /////
+    public static int SET_LOAD_RECYCLER_FLAG = 0;
 
     static InputMethodManager ime = null;
 
@@ -84,7 +97,30 @@ public class KMS_ClearableEditText_LoadLocation extends RelativeLayout {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 if (s.length() > 0) {
+                    Log.d("6","확인 "+s.toString());
                     btnClear.setVisibility(RelativeLayout.VISIBLE);
+
+                    // test_1 은 arraylist 5개 걸그룹 내가 임의로 넣은거
+                    // test는 arraylist, 같으면 add 해서 adapter에 넣기
+                    for(int i=0; i<test_1.size();i++){
+                        if(test_1.get(i).equals(s.toString())){
+                            test.add(s.toString());
+                            count_test++;
+                        }
+                    }
+                    if(count_test>0){
+                        Log.d("6","ㅁㄴㅇㅁㄴㅇ");
+                        KSH_LoadResultAdapter mAdapter = new KSH_LoadResultAdapter(test);
+                        loadRecyclerView.setAdapter(mAdapter);
+
+                        // setSearchResultRecyclerView : gone -> visible, visible -> gone
+                        ksh_loadLocation.setSearchResultRecyclerView(mContext, loadRecyclerView);
+                        loadRecyclerView.setLayoutManager(mLinearLayoutManager);
+                        // recyclerview, list 1개 이상이면 1 아니면 0
+                        // 쓸일 있을지 모르겠다 이건
+                        SET_LOAD_RECYCLER_FLAG = 1;
+                    }
+
                 } else {
                     btnClear.setVisibility(RelativeLayout.INVISIBLE);
                 }
@@ -92,6 +128,7 @@ public class KMS_ClearableEditText_LoadLocation extends RelativeLayout {
 
             @Override
             public void afterTextChanged(Editable s) {
+
 //                if(s.toString().contains(" ")){
 //                    ((MainActivity)mContext).hashtag_Add(s.toString().replaceAll(" ", "").trim());
 //                }

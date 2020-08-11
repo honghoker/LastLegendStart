@@ -66,6 +66,10 @@ public class KMS_ClearableEditText_LoadLocation_auto extends RelativeLayout {
         btnClear = (Button) findViewById(R.id.clearable_load_location_button_clear);
         btnClear.setVisibility(RelativeLayout.INVISIBLE);
 
+        TextView textView;
+        textView = (TextView) findViewById(R.id.searchLordResult_RecyclerVIew);
+        textView.setVisibility(RelativeLayout.VISIBLE);
+
         clearText();
         showHideClearButton();
     }

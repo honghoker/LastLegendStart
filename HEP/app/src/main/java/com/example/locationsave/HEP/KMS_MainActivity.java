@@ -66,6 +66,8 @@ import com.example.locationsave.HEP.KMS.Toolbar.KMS_ClearableEditText_LoadLocati
 
 import com.example.locationsave.HEP.KMS.Toolbar.KMS_RecycleVIewManager;
 import com.example.locationsave.HEP.KMS.Toolbar.KMS_SearchFlagManager;
+import com.example.locationsave.HEP.KMS.Toolbar.KSH_LoadLocation;
+import com.example.locationsave.HEP.KMS.Toolbar.KSH_LoadResultAdapter;
 import com.example.locationsave.HEP.KSH.KSH_AllSeeActivity;
 import com.example.locationsave.HEP.KSH.KSH_DirectoryEntity;
 import com.example.locationsave.HEP.KSH.KSH_FireBase;
@@ -93,6 +95,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import static com.example.locationsave.HEP.KMS.MainFragment.KMS_MapFragment.NMap;
+import static com.example.locationsave.HEP.KMS.Toolbar.KMS_ClearableEditText_LoadLocation.SET_LOAD_RECYCLER_FLAG;
 
 public class KMS_MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
     @Override
@@ -182,7 +185,9 @@ public class KMS_MainActivity extends AppCompatActivity implements NavigationVie
     Animation animation;
     Animation animationH;
     //6. 자동완성 텍스트 뷰
-    KMS_ClearableEditText_LoadLocation_auto clearableEditText_loadLocation_auto;
+    //KMS_ClearableEditText_LoadLocation_auto clearableEditText_loadLocation_auto;
+    KMS_ClearableEditText_LoadLocation clearableEditText_loadLocation_auto;
+
     static InputMethodManager inputMethodManager; //키보드 설정 위한
     //리스트뷰
     private List<String> list;
@@ -206,6 +211,8 @@ public class KMS_MainActivity extends AppCompatActivity implements NavigationVie
     boolean intentAddLocationFlag = false;  //장소 추가 인탠트 플래그
     //10. BackPressed
     KMS_BackPressedForFinish backPressedForFinish; //백프레스 클래스
+    public static KSH_LoadLocation ksh_loadLocation = new KSH_LoadLocation();
+    public static RelativeLayout relativeLayout_load;
 
     // . Context 넘겨주기
     public static Context mainContext; //AddMainActivity 에 넘겨주기 위해 컨텍스트 생성
@@ -220,14 +227,15 @@ public class KMS_MainActivity extends AppCompatActivity implements NavigationVie
 
     public static int selectView = 1;
     RecyclerView mRecyclerView;
-    LinearLayoutManager mLinearLayoutManager;
-    public static ArrayList<KMS_LocationSearchResult> kms_locationSearchResults = new ArrayList<>();
+    public static LinearLayoutManager mLinearLayoutManager;
+    ArrayList<KMS_LocationSearchResult> kms_locationSearchResults = new ArrayList<>();
     KMS_LocationSearchResult kms_locationSearchResult;
     AutoCompleteTextView editText;
     RecyclerView searchRecyclerView;
     Button btnClear;
-    KMS_MarkerInformationFlagManager kms_markerInformationFlagManager = KMS_MarkerInformationFlagManager.getMarkerInformationFlagManagerInstance();
-    LinearLayout LinearLayoutMakerInformation;
+
+    public static RecyclerView loadRecyclerView;
+    public static ArrayList<String> test_1 = new ArrayList<>();
 
     public void kms_init(){
         fragmentManager = getSupportFragmentManager();
@@ -265,6 +273,7 @@ public class KMS_MainActivity extends AppCompatActivity implements NavigationVie
         floatingButton = findViewById(R.id.floatingActionButton);  // 8.floating icon
         mainContext = this; //9. Location Layout
         relativelayout_sub = findViewById(R.id.relativeLayout_s);
+        relativeLayout_load = findViewById(R.id.relativeLayout_l);
         linearLayout_selectLocation = findViewById(R.id.linearLayout_s);
         backPressedForFinish = new KMS_BackPressedForFinish(this);  //10.BackPressed
         mRecyclerView = (RecyclerView) findViewById(R.id.searchResult_RecyclerVIew);
@@ -272,7 +281,16 @@ public class KMS_MainActivity extends AppCompatActivity implements NavigationVie
         editText = findViewById(R.id.clearable_edit_search_location);
         searchRecyclerView = findViewById(R.id.searchResult_RecyclerVIew);
         btnClear = (Button) findViewById(R.id.clearable_search_location_button_clear);
+
+        loadRecyclerView = findViewById(R.id.searchLordResult_RecyclerVIew);
+
+        test_1.add("오마이걸");
+        test_1.add("여자아이들");
+        test_1.add("러블리즈");
+        test_1.add("우주소녀");
+        test_1.add("레드벨벳");
     }
+
 
     //1.Fragment
 //    public FragmentManager fragmentManager;
@@ -414,6 +432,16 @@ public class KMS_MainActivity extends AppCompatActivity implements NavigationVie
 //                RelativeLayout.LayoutParams test = (RelativeLayout.LayoutParams) fView.getLayoutParams();
 //                test.bottomMargin = 0;
 //                fView.setLayoutParams(test);
+
+//                ksh_loadLocation.SetLinearLayout(getApplicationContext(),relativeLayout_load);
+
+                // 임시
+//                ksh_loadLocation.setSearchResultRecyclerView(getApplicationContext(), loadRecyclerView);
+//                loadRecyclerView.setLayoutManager(mLinearLayoutManager);
+
+//                KSH_LoadResultAdapter mAdapter = new KSH_LoadResultAdapter(test_1);
+//                loadRecyclerView.setAdapter(mAdapter);
+
                 if(kms_recycleVIewManager.flagCheckRecycleView() == true){ // 만약 리사이클뷰 열려있으면 닫아준다.
                     setSpinner(); //이걸로 제어
                     hideRecyclerView(); //일단 디렉토리 열려있으면 삭제
@@ -600,6 +628,7 @@ public class KMS_MainActivity extends AppCompatActivity implements NavigationVie
             setBottomBar(bottomBar, kms_searchFlagManager.flagGetSearch());
             setSearchBar(kms_searchFlagManager.flagGetSearch());
             setFloatingItem(kms_searchFlagManager.flagGetSearch());
+            ksh_loadLocation.setSearchResultRecyclerView(getApplicationContext(), loadRecyclerView);
         }
 
         else if (kms_markerInformationFlagManager.flagGetMarkerInformationFlag() == false && kms_searchFlagManager.flagGetSearch() == false && kms_recycleVIewManager.flagCheckRecycleView() == false
@@ -892,9 +921,9 @@ public class KMS_MainActivity extends AppCompatActivity implements NavigationVie
         list = new ArrayList<String>();
 
         //https://sharp57dev.tistory.com/12 자동완성
-        final AutoCompleteTextView autoCompleteTextView = (AutoCompleteTextView) findViewById(R.id.clearable_edit_load_location);
-        autoCompleteTextView.setAdapter(new ArrayAdapter<String>(this,
-                android.R.layout.simple_dropdown_item_1line, list));
+//        final AutoCompleteTextView autoCompleteTextView = (AutoCompleteTextView) findViewById(R.id.clearable_edit_load_location);
+//        autoCompleteTextView.setAdapter(new ArrayAdapter<String>(this,
+//                android.R.layout.simple_dropdown_item_1line, list));
 //
 //        //7. HashTag
 //        hastagView = findViewById(R.id.HasTagView);
