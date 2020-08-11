@@ -29,7 +29,9 @@ import com.example.locationsave.HEP.Hep.hep_DTO.hep_LocationTag;
 import com.example.locationsave.HEP.Hep.hep_FireBase;
 import com.example.locationsave.HEP.Hep.hep_LocationSave.hep_LocationSaveActivity;
 import com.example.locationsave.HEP.KMS_MainActivity;
+import com.example.locationsave.HEP.pcs_RecyclerView.DirectoryList.Pcs_DicRecyclerviewAdapter;
 import com.example.locationsave.HEP.pcs_RecyclerView.DirectoryList.Pcs_DirectoryCustomPopupWindow;
+import com.example.locationsave.HEP.pcs_RecyclerView.DirectoryList.Pcs_tempPopup;
 import com.example.locationsave.R;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.google.android.material.snackbar.Snackbar;
@@ -146,8 +148,19 @@ public class Pcs_LocationRecyclerView extends Fragment {
         FirebaseRecyclerOptions options = new FirebaseRecyclerOptions.Builder<hep_Location>()
                 .setQuery(query, hep_Location.class)
                 .build();
+        Log.d("tag", "locationList Recyclerview " + String.valueOf(options.getSnapshots().isEmpty()));
         return new Pcs_RecyclerviewAdapter(options);
     }
+
+    private Pcs_DicRecyclerviewAdapter getFirebaseData(){
+        Query query = db1.getReference().child("location").orderByChild("title");
+        FirebaseRecyclerOptions options = new FirebaseRecyclerOptions.Builder<hep_Location>()
+                .setQuery(query, hep_Location.class)
+                .build();
+        Log.d("tag", "locationList Recyclerview " + String.valueOf(options.getSnapshots().isEmpty()));
+        return new Pcs_DicRecyclerviewAdapter(options);
+    }
+
 
 
     private void setUpSwipeHelper() {
@@ -156,11 +169,18 @@ public class Pcs_LocationRecyclerView extends Fragment {
             @Override
             public void onLeftClicked(int position) {
 //                Intent intent = new Intent(getActivity(), Pcs_DirectoryCustomPopupWindow.class);
-                View popupView = LayoutInflater.from(getActivity()).inflate(R.layout.pcs_directory_popupactivity, null);
-                final Pcs_DirectoryCustomPopupWindow popupWindow = new Pcs_DirectoryCustomPopupWindow(getContext());
-                hep_Location hep_location = adapter.getDirectoryKey(position);
+                View popupView = getView();
 
-                popupWindow.show(getActivity().findViewById(R.id.drawer_layout),0, -250, hep_location.getDirectoryid());
+                final Pcs_DirectoryCustomPopupWindow popupWindow = new Pcs_DirectoryCustomPopupWindow(getContext());
+//                final Pcs_tempPopup tempPopup = new Pcs_tempPopup(getContext(), getFirebaseData());
+//                tempPopup.setHeight(WindowManager.LayoutParams.WRAP_CONTENT);
+//                tempPopup.setWidth(WindowManager.LayoutParams.WRAP_CONTENT);
+//                tempPopup.setOutsideTouchable(true);
+//                tempPopup.setFocusable(true);
+//                tempPopup.showAtLocation(popupView, Gravity.CENTER, 10, 10);
+//                hep_Location hep_location = adapter.getDirectoryKey(position);
+                popupWindow.show(popupView,10, 10);
+//                popupWindow.show(getActivity().findViewById(R.id.drawer_layout),0, -250, hep_location.getDirectoryid());
 
 //                startActivity(intent);
             }
