@@ -1,5 +1,6 @@
 package com.example.locationsave.HEP.KMS.Map;
 
+import com.example.locationsave.HEP.KMS.MainFragment.KMS_MapFragment;
 import com.naver.maps.geometry.LatLng;
 import com.naver.maps.map.CameraPosition;
 import com.naver.maps.map.NaverMap;
@@ -28,6 +29,13 @@ public class KMS_MapOption {
         return options;
     } //1-8. 초기옵션 설정
 
+    public void setOnLightMap(){
+        KMS_MapFragment.NMap.setNightModeEnabled(false);
+    }
+
+    public void setOnNightMap(){
+        KMS_MapFragment.NMap.setNightModeEnabled(true);
+    }
 
     //1-13. UI Setting
     public void setMapUI(NaverMap naverMap) {
