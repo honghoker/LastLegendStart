@@ -120,4 +120,7 @@ public class hep_Location {
         return longitude;
     }
 
+    public String getDirectoryid() {
+        return directoryid;
+    }
 }

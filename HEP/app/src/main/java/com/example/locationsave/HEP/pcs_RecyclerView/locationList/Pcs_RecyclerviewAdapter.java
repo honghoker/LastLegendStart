@@ -70,6 +70,11 @@ public class Pcs_RecyclerviewAdapter extends FirebaseRecyclerAdapter<hep_Locatio
         return new CapsulizeData(dataSnapshot.getValue(hep_Location.class), getSnapshots().getSnapshot(position).getKey());
     }
 
+    public hep_Location getDirectoryKey(int position) {
+         return getSnapshots().getSnapshot(position).getValue(hep_Location.class);
+
+    }
+
     class ListHolder extends RecyclerView.ViewHolder{
         public DataSnapshot getData(int position){
             return getSnapshots().getSnapshot(position);
@@ -82,6 +87,7 @@ public class Pcs_RecyclerviewAdapter extends FirebaseRecyclerAdapter<hep_Locatio
 
         public ListHolder(@NonNull View itemView) {
             super(itemView);
+            //HEP
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -94,7 +100,7 @@ public class Pcs_RecyclerviewAdapter extends FirebaseRecyclerAdapter<hep_Locatio
 
             textViewTitle = itemView.findViewById(R.id.cardView_title);
             textViewAddress = itemView.findViewById(R.id.cardView_address);
-            textViewTag = itemView.findViewById(R.id.cardView_tag);
+            textViewTag = itemView.findViewById(R.id.pcs_directoryTextview);
         }
     }
 
@@ -130,8 +136,4 @@ public class Pcs_RecyclerviewAdapter extends FirebaseRecyclerAdapter<hep_Locatio
         });
     }
 
-
-    public void setTagListholder(int position){
-
-    }
 }

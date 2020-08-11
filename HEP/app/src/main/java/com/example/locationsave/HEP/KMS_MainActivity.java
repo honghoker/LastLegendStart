@@ -1,5 +1,6 @@
 package com.example.locationsave.HEP;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -1069,5 +1070,4 @@ public class KMS_MainActivity extends AppCompatActivity implements NavigationVie
              }
          }
     }
-
 } //mainactivity 종료

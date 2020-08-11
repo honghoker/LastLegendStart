@@ -1,15 +1,19 @@
 package com.example.locationsave.HEP.pcs_RecyclerView.locationList;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Canvas;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
+import android.widget.PopupWindow;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -25,6 +29,7 @@ import com.example.locationsave.HEP.Hep.hep_DTO.hep_LocationTag;
 import com.example.locationsave.HEP.Hep.hep_FireBase;
 import com.example.locationsave.HEP.Hep.hep_LocationSave.hep_LocationSaveActivity;
 import com.example.locationsave.HEP.KMS_MainActivity;
+import com.example.locationsave.HEP.pcs_RecyclerView.DirectoryList.Pcs_DirectoryCustomPopupWindow;
 import com.example.locationsave.R;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.google.android.material.snackbar.Snackbar;
@@ -100,11 +105,11 @@ public class Pcs_LocationRecyclerView extends Fragment {
     @Override
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
-        if (kms_activity instanceof KMS_MainActivity)
-            kms_activity = (KMS_MainActivity) getActivity();
-        else if(hep_locationSaveActivity instanceof hep_LocationSaveActivity)
-            hep_locationSaveActivity = (hep_LocationSaveActivity) hep_locationSaveActivity;
-            // 여기 문제
+//        if (kms_activity instanceof KMS_MainActivity)
+//            kms_activity = (KMS_MainActivity) getActivity();
+//        else if(hep_locationSaveActivity instanceof hep_LocationSaveActivity)
+//            hep_locationSaveActivity = (hep_LocationSaveActivity) hep_locationSaveActivity;
+        kms_activity = (KMS_MainActivity) getActivity();
     }
 
     @Override
@@ -150,7 +155,14 @@ public class Pcs_LocationRecyclerView extends Fragment {
 
             @Override
             public void onLeftClicked(int position) {
+//                Intent intent = new Intent(getActivity(), Pcs_DirectoryCustomPopupWindow.class);
+                View popupView = LayoutInflater.from(getActivity()).inflate(R.layout.pcs_directory_popupactivity, null);
+                final Pcs_DirectoryCustomPopupWindow popupWindow = new Pcs_DirectoryCustomPopupWindow(getContext());
+                hep_Location hep_location = adapter.getDirectoryKey(position);
 
+                popupWindow.show(getActivity().findViewById(R.id.drawer_layout),0, -250, hep_location.getDirectoryid());
+
+//                startActivity(intent);
             }
 
             @Override
