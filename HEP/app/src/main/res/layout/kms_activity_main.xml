@@ -25,7 +25,10 @@
             >
         </FrameLayout>
 
+        <include layout="@layout/kms_marker_info" />
+
         <include layout="@layout/kms_select_location" />
+        <include layout="@layout/kms_clearable_edit_text_load_location" />
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/floatingActionButton"
@@ -118,11 +121,6 @@
 
             <com.example.locationsave.HEP.KMS.Toolbar.KMS_ClearableEditText_LoadLocation_auto
                 android:id="@+id/searchView"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent" />
-
-            <ListView
-                android:id="@+id/listView"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent" />
 

@@ -7,6 +7,7 @@ import android.util.AttributeSet;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.ArrayAdapter;
@@ -15,13 +16,23 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
+
+import com.example.locationsave.HEP.Hep.hep_DTO.hep_Location;
 import com.example.locationsave.HEP.Hep.hep_LocationSave.hep_HangulUtils;
 import com.example.locationsave.HEP.Hep.hep_LocationSave.hep_LocationSaveActivity;
 import com.example.locationsave.HEP.Hep.hep_LocationSave.hep_LocationSave_AutoCompleteTextView;
+import com.example.locationsave.HEP.KMS_MainActivity;
 import com.example.locationsave.R;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static com.example.locationsave.HEP.KMS_MainActivity.autoCompleteLocationList;
+import static com.example.locationsave.HEP.KMS_MainActivity.ksh_loadLocation;
+import static com.example.locationsave.HEP.KMS_MainActivity.loadRecyclerView;
+import static com.example.locationsave.HEP.KMS_MainActivity.mLinearLayoutManager;
 
 
 public class KMS_ClearableEditText_LoadLocation_auto extends RelativeLayout {
@@ -87,24 +98,22 @@ public class KMS_ClearableEditText_LoadLocation_auto extends RelativeLayout {
                 if (s.length() > 0) {
                     btnClear.setVisibility(RelativeLayout.VISIBLE);
 
-                    //LocationRepository locationRepository = new LocationRepository(mContext.getApplicationContext());
+                    KSH_LoadResultAdapter mAdapter = new KSH_LoadResultAdapter(setChangeListData(s.toString()));
+                    loadRecyclerView.setAdapter(mAdapter);
 
-                    //String query = searchSql(s.toString()); // 초성검색 SQL
-                    //List list = locationRepository.searchTag(query);
+                    ksh_loadLocation.setOnSearchResultRecyclerView(mContext, loadRecyclerView);
+                    loadRecyclerView.setLayoutManager(mLinearLayoutManager);
 
-                    autoCompleteTextView.setAdapter(new ArrayAdapter<String>(mContext, android.R.layout.simple_dropdown_item_1line, setChangeListData(s.toString())));
-                    autoCompleteTextView.showDropDown();
                 } else {
+                    ksh_loadLocation.setOffSearchResultRecyclerView2(mContext, loadRecyclerView);
+                    loadRecyclerView.setLayoutManager(mLinearLayoutManager);
                     btnClear.setVisibility(RelativeLayout.INVISIBLE);
-                    autoCompleteTextView.dismissDropDown();
                 }
             }
 
             @Override
             public void afterTextChanged(Editable s) {
-                if (s.toString().contains(" ")) {
-                    ((hep_LocationSaveActivity) mContext).hashTagAdd(s.toString().replaceAll(" ", "").trim());
-                }
+
             }
         });
     }
@@ -125,19 +134,19 @@ public class KMS_ClearableEditText_LoadLocation_auto extends RelativeLayout {
         });
     }
 
-    public List setChangeListData(String searchKeyword){
-        List temp = new ArrayList<>();
-        ArrayList<String> tag = ((hep_LocationSaveActivity)mContext).getTagDataArrayList();
-        for(String t: tag){
+    public ArrayList<hep_Location> setChangeListData(String searchKeyword){
+        ArrayList<hep_Location> temp = new ArrayList<>();
+        for(int i = 0; i < autoCompleteLocationList.size(); i++){
             boolean isAdd = false;
-            String iniName = hep_HangulUtils.getHangulInitialSound(t, searchKeyword);
-            if(iniName.indexOf(searchKeyword) >= 0){
+            String iniName = hep_HangulUtils.getHangulInitialSound(autoCompleteLocationList.get(i).name, searchKeyword.toString());
+            if(iniName.indexOf(searchKeyword.toString()) >= 0){
                 isAdd = true;
             }
             if(isAdd){
-                temp.add(t);
+                temp.add(autoCompleteLocationList.get(i));
             }
         }
+
         return temp;
     }
 

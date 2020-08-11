@@ -41,6 +41,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.locationsave.HEP.Address.GeocodingArrayEntity;
 import com.example.locationsave.HEP.Address.SearchAreaArrayEntity;
+import com.example.locationsave.HEP.Hep.hep_DTO.hep_Location;
 import com.example.locationsave.HEP.Hep.hep_LocationSave.hep_LocationSaveActivity;
 import com.example.locationsave.HEP.KMS.BackPressed.KMS_BackPressedForFinish;
 import com.example.locationsave.HEP.KMS.HashTag.KMS_FlowLayout;
@@ -60,10 +61,15 @@ import com.example.locationsave.HEP.KMS.Location.KMS_SearchResultAdapter;
 import com.example.locationsave.HEP.KMS.MainFragment.KMS_FragmentFlagManager;
 
 
-import com.example.locationsave.HEP.KMS.Toolbar.KMS_ClearableEditText_LoadLocation_auto;
 
+import com.example.locationsave.HEP.KMS.Map.KMS_MarkerInformationFlagManager;
+import com.example.locationsave.HEP.KMS.Map.KMS_MarkerManager;
+
+import com.example.locationsave.HEP.KMS.Toolbar.KMS_ClearableEditText_LoadLocation_auto;
 import com.example.locationsave.HEP.KMS.Toolbar.KMS_RecycleVIewManager;
+import com.example.locationsave.HEP.KMS.Toolbar.KMS_SearchBarManager;
 import com.example.locationsave.HEP.KMS.Toolbar.KMS_SearchFlagManager;
+import com.example.locationsave.HEP.KMS.Toolbar.KSH_LoadLocation;
 import com.example.locationsave.HEP.KSH.KSH_AllSeeActivity;
 import com.example.locationsave.HEP.KSH.KSH_DirectoryEntity;
 import com.example.locationsave.HEP.KSH.KSH_FireBase;
@@ -85,7 +91,6 @@ import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.naver.maps.map.CameraPosition;
 
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -102,7 +107,7 @@ public class KMS_MainActivity extends AppCompatActivity implements NavigationVie
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 HashMap<String, Object> result = new HashMap<>();
-                com.naver.maps.map.CameraPosition cameraPosition = NMap.getCameraPosition();
+                CameraPosition cameraPosition = NMap.getCameraPosition();
                 result.put("latitude", cameraPosition.target.latitude);
                 result.put("longitude", cameraPosition.target.longitude);
                 if(directoryid != null)
@@ -180,7 +185,9 @@ public class KMS_MainActivity extends AppCompatActivity implements NavigationVie
     Animation animation;
     Animation animationH;
     //6. 자동완성 텍스트 뷰
+    //KMS_ClearableEditText_LoadLocation_auto clearableEditText_loadLocation_auto;
     KMS_ClearableEditText_LoadLocation_auto clearableEditText_loadLocation_auto;
+
     static InputMethodManager inputMethodManager; //키보드 설정 위한
     //리스트뷰
     private List<String> list;
@@ -194,7 +201,7 @@ public class KMS_MainActivity extends AppCompatActivity implements NavigationVie
     //    HasTagOnClickListener hasTagOnClickListener = new HasTagOnClickListener();
     KMS_HashTagCheckBoxManager kms_hashTagCheckBoxManager = KMS_HashTagCheckBoxManager.getInstanceHashTagCheckBox();
     //8. FloatingIcon
-    FloatingActionButton floatingButton;
+    public static FloatingActionButton floatingButton;
     KMS_LocationFlagManager kms_locationFlagManager = KMS_LocationFlagManager.getInstanceLocation();
     //9. Location Layout
     public static RelativeLayout relativelayout_sub;  // SelectLocation 단의 리니어 레이아웃
@@ -204,6 +211,8 @@ public class KMS_MainActivity extends AppCompatActivity implements NavigationVie
     boolean intentAddLocationFlag = false;  //장소 추가 인탠트 플래그
     //10. BackPressed
     KMS_BackPressedForFinish backPressedForFinish; //백프레스 클래스
+    public static KSH_LoadLocation ksh_loadLocation = new KSH_LoadLocation();
+    public static RelativeLayout relativeLayout_load;
 
     // . Context 넘겨주기
     public static Context mainContext; //AddMainActivity 에 넘겨주기 위해 컨텍스트 생성
@@ -218,13 +227,42 @@ public class KMS_MainActivity extends AppCompatActivity implements NavigationVie
 
     public static int selectView = 1;
     RecyclerView mRecyclerView;
-    LinearLayoutManager mLinearLayoutManager;
-    ArrayList<KMS_LocationSearchResult> kms_locationSearchResults = new ArrayList<>();
+    public static LinearLayoutManager mLinearLayoutManager;
+    public static ArrayList<KMS_LocationSearchResult> kms_locationSearchResults = new ArrayList<>();
     KMS_LocationSearchResult kms_locationSearchResult;
     AutoCompleteTextView editText;
     RecyclerView searchRecyclerView;
     Button btnClear;
+
+    public static RecyclerView loadRecyclerView;
+    public static ArrayList<String> test_1 = new ArrayList<>();
+
+    KMS_MarkerInformationFlagManager kms_markerInformationFlagManager = KMS_MarkerInformationFlagManager.getMarkerInformationFlagManagerInstance();
+
+    public static ArrayList<hep_Location> autoCompleteLocationList;
+
+    KMS_SearchBarManager kms_searchBarManager = new KMS_SearchBarManager();
     public void kms_init(){
+        autoCompleteLocationList = new ArrayList<>();
+
+        //location name 자동완성
+        //Query locationQuery = new hep_FireBase().getFireBaseDatabaseInstance().getReference().child("location").orderByChild("directoryid").equalTo(directoryid);
+        new hep_FireBase().getFireBaseDatabaseInstance().getReference().child("location").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                autoCompleteLocationList.clear();
+                for(DataSnapshot dataSnapshot : snapshot.getChildren()){
+                    hep_Location hep_location = dataSnapshot.getValue(hep_Location.class);
+                    autoCompleteLocationList.add(hep_location);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
         fragmentManager = getSupportFragmentManager();
         mapFragment = new KMS_MapFragment();
         fragmentManager.beginTransaction().replace(R.id.frameLayout, mapFragment).commit();
@@ -260,6 +298,7 @@ public class KMS_MainActivity extends AppCompatActivity implements NavigationVie
         floatingButton = findViewById(R.id.floatingActionButton);  // 8.floating icon
         mainContext = this; //9. Location Layout
         relativelayout_sub = findViewById(R.id.relativeLayout_s);
+        relativeLayout_load = findViewById(R.id.relativeLayout_loadLoaction);
         linearLayout_selectLocation = findViewById(R.id.linearLayout_s);
         backPressedForFinish = new KMS_BackPressedForFinish(this);  //10.BackPressed
         mRecyclerView = (RecyclerView) findViewById(R.id.searchResult_RecyclerVIew);
@@ -267,7 +306,16 @@ public class KMS_MainActivity extends AppCompatActivity implements NavigationVie
         editText = findViewById(R.id.clearable_edit_search_location);
         searchRecyclerView = findViewById(R.id.searchResult_RecyclerVIew);
         btnClear = (Button) findViewById(R.id.clearable_search_location_button_clear);
+
+        loadRecyclerView = findViewById(R.id.searchLordResult_RecyclerVIew);
+
+        test_1.add("오마이걸");
+        test_1.add("여자아이들");
+        test_1.add("러블리즈");
+        test_1.add("우주소녀");
+        test_1.add("레드벨벳");
     }
+
 
     //1.Fragment
 //    public FragmentManager fragmentManager;
@@ -409,11 +457,22 @@ public class KMS_MainActivity extends AppCompatActivity implements NavigationVie
 //                RelativeLayout.LayoutParams test = (RelativeLayout.LayoutParams) fView.getLayoutParams();
 //                test.bottomMargin = 0;
 //                fView.setLayoutParams(test);
+
+//                ksh_loadLocation.SetLinearLayout(getApplicationContext(),relativeLayout_load);
+
+                // 임시
+//                ksh_loadLocation.setSearchResultRecyclerView(getApplicationContext(), loadRecyclerView);
+//                loadRecyclerView.setLayoutManager(mLinearLayoutManager);
+
+//                KSH_LoadResultAdapter mAdapter = new KSH_LoadResultAdapter(test_1);
+//                loadRecyclerView.setAdapter(mAdapter);
+
                 if(kms_recycleVIewManager.flagCheckRecycleView() == true){ // 만약 리사이클뷰 열려있으면 닫아준다.
                     setSpinner(); //이걸로 제어
                     hideRecyclerView(); //일단 디렉토리 열려있으면 삭제
                 }//임시
                 Toast.makeText(getApplicationContext(), "검색할 장소를 입력하세요.", Toast.LENGTH_LONG).show();
+
                 //툴바 제거
                 if (getSupportActionBar().isShowing()) {
                     kms_searchFlagManager.flagSetTrueSearch();
@@ -423,6 +482,7 @@ public class KMS_MainActivity extends AppCompatActivity implements NavigationVie
                     setBottomBar(bottomBar, kms_searchFlagManager.flagGetSearch());
                     setSearchBar(kms_searchFlagManager.flagGetSearch());
                     setFloatingItem(kms_searchFlagManager.flagGetSearch());
+                    kms_searchBarManager.setOnLoadLocationSearchBar(relativeLayoutRoadLoaction);
                 }
                 return true;
             } //검색 버튼 종료
@@ -578,11 +638,16 @@ public class KMS_MainActivity extends AppCompatActivity implements NavigationVie
     public void onBackPressed() {
         Log.d("6","000");
         // BackPressedForFinish 클래시의 onBackPressed() 함수를 호출한다.
+
+        /*else if(linearLayoutMakerInformation.getVisibility()== View.VISIBLE){
+            Log.d("####back 1 드로워 종료","1111");
+            kms_markerManager.setOffMarkerInformation(linearLayoutMakerInformation);
+        }*/
+
         if (drawerLayout.isDrawerOpen(GravityCompat.START)){
             Log.d("6","1111");
             drawerLayout.closeDrawer(GravityCompat.START);
         }
-
         else if (kms_searchFlagManager.flagGetSearch() == true) {
             Log.d("6","2222");
             getSupportActionBar().show();
@@ -590,20 +655,34 @@ public class KMS_MainActivity extends AppCompatActivity implements NavigationVie
             setBottomBar(bottomBar, kms_searchFlagManager.flagGetSearch());
             setSearchBar(kms_searchFlagManager.flagGetSearch());
             setFloatingItem(kms_searchFlagManager.flagGetSearch());
+//            ksh_loadLocation.setSearchResultRecyclerView(getApplicationContext(), loadRecyclerView);
+            kms_searchBarManager.setOffLoadLocationSearchBar(relativeLayoutRoadLoaction);
         }
-        else if (kms_searchFlagManager.flagGetSearch() == false && kms_recycleVIewManager.flagCheckRecycleView() == false
+
+        else if (kms_markerInformationFlagManager.flagGetMarkerInformationFlag() == false && kms_searchFlagManager.flagGetSearch() == false && kms_recycleVIewManager.flagCheckRecycleView() == false
                 && kms_locationFlagManager.flagGetLocation() == false && kms_hashTagCheckBoxFlagManager.flagGethashTagCheckBoxFlag() == false) {
             Log.d("6","333");
             backPressedForFinish.onBackPressed();
             //서치상태 아닐때만 종료 가능
         }
         else { //드로워블도 없고 종료도 아니면 실행
+            Log.d("6","#####맵 & 마커 인포 전");
+            Log.d("6","#####맵 & 마커 인포" + kms_fragmentFlagManager.flagCheckFragment() + kms_markerInformationFlagManager.flagGetMarkerInformationFlag());
+
             if (kms_locationFlagManager.flagGetLocation() == true) {
-                Log.d("6","444");
+                Log.d("6","444 location add on");
+
                 hideAddLocation();
                 editText.setText(null);
                 mRecyclerView.setVisibility(View.GONE);
             }
+            else if(kms_markerInformationFlagManager.flagGetMarkerInformationFlag() == true && kms_fragmentFlagManager.flagCheckFragment() == true){
+                Log.d("6","#####맵 & 마커 인포" + kms_fragmentFlagManager.flagCheckFragment() + kms_markerInformationFlagManager.flagGetMarkerInformationFlag());
+                new KMS_MarkerManager().getInstanceMarkerManager().setOffMarkerInformation(KMS_MainActivity.linearLayoutMakerInformation);
+                kms_markerInformationFlagManager.flagSetFalseMarkerInformation();
+                floatingButton.show();
+            }
+
             else if (intentAddLocationFlag == true && kms_fragmentFlagManager.flagCheckFragment() == true){ // 인텐트 상태이면서 맵에서 넘어왔을 경우
                 intentAddLocationFlag = false; //인텐트 플래그 트루면 폴스로 바꿔줌
                 Log.d("6","5555");
@@ -871,9 +950,9 @@ public class KMS_MainActivity extends AppCompatActivity implements NavigationVie
         list = new ArrayList<String>();
 
         //https://sharp57dev.tistory.com/12 자동완성
-        final AutoCompleteTextView autoCompleteTextView = (AutoCompleteTextView) findViewById(R.id.clearable_edit_load_location);
-        autoCompleteTextView.setAdapter(new ArrayAdapter<String>(this,
-                android.R.layout.simple_dropdown_item_1line, list));
+//        final AutoCompleteTextView autoCompleteTextView = (AutoCompleteTextView) findViewById(R.id.clearable_edit_load_location);
+//        autoCompleteTextView.setAdapter(new ArrayAdapter<String>(this,
+//                android.R.layout.simple_dropdown_item_1line, list));
 //
 //        //7. HashTag
 //        hastagView = findViewById(R.id.HasTagView);
@@ -1011,8 +1090,21 @@ public class KMS_MainActivity extends AppCompatActivity implements NavigationVie
 //        //10.BackPressed
 //        backPressedForFinish = new KMS_BackPressedForFinish(this);
 
+        textViewMarkerInformationTitle= findViewById(R.id.titleTextView);
+        linearLayoutMakerInformation = findViewById(R.id.linearLayoutMakerInformation);
+        linearLayoutMakerInformation.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.d("6","####마커인포 클릭");
+            }
+        });
+        relativeLayoutRoadLoaction = findViewById(R.id.relativeLayout_loadLoaction);
+
     } //oncreate 종료
 
+    public static LinearLayout linearLayoutMakerInformation;
+    public static TextView textViewMarkerInformationTitle;
+    public static RelativeLayout relativeLayoutRoadLoaction;
 //    Button btnClear;
 
 
