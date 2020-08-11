@@ -9,17 +9,18 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.locationsave.HEP.Hep.hep_DTO.hep_Location;
 import com.example.locationsave.HEP.KMS.Location.KMS_LocationSearchResult;
 import com.example.locationsave.R;
 
 import java.util.ArrayList;
 
 public class KSH_LoadResultAdapter extends RecyclerView.Adapter<KSH_LoadResultAdapter.CustomViewHolder>{
-    private ArrayList<String> a;
+    private ArrayList<hep_Location> hep_locationArrayList;
+    double latitude, longitude;
 
-    public KSH_LoadResultAdapter(ArrayList<String> list) {
-        a = list;
-        Log.d("6","a size = "+a.size());
+    public KSH_LoadResultAdapter(ArrayList<hep_Location> list) {
+        this.hep_locationArrayList = list;
     }
 
     public class CustomViewHolder extends RecyclerView.ViewHolder {
@@ -44,11 +45,13 @@ public class KSH_LoadResultAdapter extends RecyclerView.Adapter<KSH_LoadResultAd
 
     @Override
     public void onBindViewHolder(@NonNull CustomViewHolder holder, int position) {
-        holder.Title.setText(a.get(position));
+        holder.Title.setText(hep_locationArrayList.get(position).name);
+        latitude = hep_locationArrayList.get(position).latitude;
+        longitude = hep_locationArrayList.get(position).longitude;
     }
 
     @Override
     public int getItemCount() {
-        return (null != a ? a.size() : 0);
+        return (null != hep_locationArrayList ? hep_locationArrayList.size() : 0);
     }
 }

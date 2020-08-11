@@ -108,6 +108,7 @@ public class KMS_ClearableEditText_LoadLocation extends RelativeLayout {
                             count_test++;
                         }
                     }
+
                     if(count_test>0){
                         Log.d("6","ㅁㄴㅇㅁㄴㅇ");
                         KSH_LoadResultAdapter mAdapter = new KSH_LoadResultAdapter(test);

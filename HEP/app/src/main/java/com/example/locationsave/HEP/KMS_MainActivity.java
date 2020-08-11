@@ -40,6 +40,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.locationsave.HEP.Address.GeocodingArrayEntity;
 import com.example.locationsave.HEP.Address.SearchAreaArrayEntity;
+import com.example.locationsave.HEP.Hep.hep_DTO.hep_Location;
+import com.example.locationsave.HEP.Hep.hep_DTO.hep_Tag;
 import com.example.locationsave.HEP.Hep.hep_LocationSave.hep_LocationSaveActivity;
 import com.example.locationsave.HEP.KMS.BackPressed.KMS_BackPressedForFinish;
 import com.example.locationsave.HEP.KMS.HashTag.KMS_FlowLayout;
@@ -90,7 +92,6 @@ import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.naver.maps.map.CameraPosition;
 
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -108,7 +109,7 @@ public class KMS_MainActivity extends AppCompatActivity implements NavigationVie
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 HashMap<String, Object> result = new HashMap<>();
-                com.naver.maps.map.CameraPosition cameraPosition = NMap.getCameraPosition();
+                CameraPosition cameraPosition = NMap.getCameraPosition();
                 result.put("latitude", cameraPosition.target.latitude);
                 result.put("longitude", cameraPosition.target.longitude);
                 if(directoryid != null)
@@ -187,7 +188,7 @@ public class KMS_MainActivity extends AppCompatActivity implements NavigationVie
     Animation animationH;
     //6. 자동완성 텍스트 뷰
     //KMS_ClearableEditText_LoadLocation_auto clearableEditText_loadLocation_auto;
-    KMS_ClearableEditText_LoadLocation clearableEditText_loadLocation_auto;
+    KMS_ClearableEditText_LoadLocation_auto clearableEditText_loadLocation_auto;
 
     static InputMethodManager inputMethodManager; //키보드 설정 위한
     //리스트뷰
@@ -240,7 +241,29 @@ public class KMS_MainActivity extends AppCompatActivity implements NavigationVie
 
     KMS_MarkerInformationFlagManager kms_markerInformationFlagManager = KMS_MarkerInformationFlagManager.getMarkerInformationFlagManagerInstance();
 
+    public static ArrayList<hep_Location> autoCompleteLocationList;
+
     public void kms_init(){
+        autoCompleteLocationList = new ArrayList<>();
+
+        //location name 자동완성
+        //Query locationQuery = new hep_FireBase().getFireBaseDatabaseInstance().getReference().child("location").orderByChild("directoryid").equalTo(directoryid);
+        new hep_FireBase().getFireBaseDatabaseInstance().getReference().child("location").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                autoCompleteLocationList.clear();
+                for(DataSnapshot dataSnapshot : snapshot.getChildren()){
+                    hep_Location hep_location = dataSnapshot.getValue(hep_Location.class);
+                    autoCompleteLocationList.add(hep_location);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
         fragmentManager = getSupportFragmentManager();
         mapFragment = new KMS_MapFragment();
         fragmentManager.beginTransaction().replace(R.id.frameLayout, mapFragment).commit();
@@ -631,7 +654,7 @@ public class KMS_MainActivity extends AppCompatActivity implements NavigationVie
             setBottomBar(bottomBar, kms_searchFlagManager.flagGetSearch());
             setSearchBar(kms_searchFlagManager.flagGetSearch());
             setFloatingItem(kms_searchFlagManager.flagGetSearch());
-            ksh_loadLocation.setSearchResultRecyclerView(getApplicationContext(), loadRecyclerView);
+//            ksh_loadLocation.setSearchResultRecyclerView(getApplicationContext(), loadRecyclerView);
         }
 
         else if (kms_markerInformationFlagManager.flagGetMarkerInformationFlag() == false && kms_searchFlagManager.flagGetSearch() == false && kms_recycleVIewManager.flagCheckRecycleView() == false
