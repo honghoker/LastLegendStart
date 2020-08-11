@@ -61,16 +61,14 @@ import com.example.locationsave.HEP.KMS.Location.KMS_SearchResultAdapter;
 import com.example.locationsave.HEP.KMS.MainFragment.KMS_FragmentFlagManager;
 
 
-import com.example.locationsave.HEP.KMS.Map.KMS_MarkerInformation;
 import com.example.locationsave.HEP.KMS.Map.KMS_MarkerInformationFlagManager;
 import com.example.locationsave.HEP.KMS.Map.KMS_MarkerManager;
 import com.example.locationsave.HEP.KMS.Toolbar.KMS_ClearableEditText_LoadLocation;
-import com.example.locationsave.HEP.KMS.Toolbar.KMS_ClearableEditText_LoadLocation_auto;
 
 import com.example.locationsave.HEP.KMS.Toolbar.KMS_RecycleVIewManager;
+import com.example.locationsave.HEP.KMS.Toolbar.KMS_SearchBarManager;
 import com.example.locationsave.HEP.KMS.Toolbar.KMS_SearchFlagManager;
 import com.example.locationsave.HEP.KMS.Toolbar.KSH_LoadLocation;
-import com.example.locationsave.HEP.KMS.Toolbar.KSH_LoadResultAdapter;
 import com.example.locationsave.HEP.KSH.KSH_AllSeeActivity;
 import com.example.locationsave.HEP.KSH.KSH_DirectoryEntity;
 import com.example.locationsave.HEP.KSH.KSH_FireBase;
@@ -97,7 +95,6 @@ import java.util.HashMap;
 import java.util.List;
 
 import static com.example.locationsave.HEP.KMS.MainFragment.KMS_MapFragment.NMap;
-import static com.example.locationsave.HEP.KMS.Toolbar.KMS_ClearableEditText_LoadLocation.SET_LOAD_RECYCLER_FLAG;
 
 public class KMS_MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
     @Override
@@ -243,6 +240,7 @@ public class KMS_MainActivity extends AppCompatActivity implements NavigationVie
 
     public static ArrayList<hep_Location> autoCompleteLocationList;
 
+    KMS_SearchBarManager kms_searchBarManager = new KMS_SearchBarManager();
     public void kms_init(){
         autoCompleteLocationList = new ArrayList<>();
 
@@ -299,7 +297,7 @@ public class KMS_MainActivity extends AppCompatActivity implements NavigationVie
         floatingButton = findViewById(R.id.floatingActionButton);  // 8.floating icon
         mainContext = this; //9. Location Layout
         relativelayout_sub = findViewById(R.id.relativeLayout_s);
-        relativeLayout_load = findViewById(R.id.relativeLayout_l);
+        relativeLayout_load = findViewById(R.id.relativeLayout_loadLoaction);
         linearLayout_selectLocation = findViewById(R.id.linearLayout_s);
         backPressedForFinish = new KMS_BackPressedForFinish(this);  //10.BackPressed
         mRecyclerView = (RecyclerView) findViewById(R.id.searchResult_RecyclerVIew);
@@ -473,6 +471,7 @@ public class KMS_MainActivity extends AppCompatActivity implements NavigationVie
                     hideRecyclerView(); //일단 디렉토리 열려있으면 삭제
                 }//임시
                 Toast.makeText(getApplicationContext(), "검색할 장소를 입력하세요.", Toast.LENGTH_LONG).show();
+
                 //툴바 제거
                 if (getSupportActionBar().isShowing()) {
                     kms_searchFlagManager.flagSetTrueSearch();
@@ -482,6 +481,7 @@ public class KMS_MainActivity extends AppCompatActivity implements NavigationVie
                     setBottomBar(bottomBar, kms_searchFlagManager.flagGetSearch());
                     setSearchBar(kms_searchFlagManager.flagGetSearch());
                     setFloatingItem(kms_searchFlagManager.flagGetSearch());
+                    kms_searchBarManager.setOnLoadLocationSearchBar(relativeLayoutRoadLoaction);
                 }
                 return true;
             } //검색 버튼 종료
@@ -655,6 +655,8 @@ public class KMS_MainActivity extends AppCompatActivity implements NavigationVie
             setSearchBar(kms_searchFlagManager.flagGetSearch());
             setFloatingItem(kms_searchFlagManager.flagGetSearch());
 //            ksh_loadLocation.setSearchResultRecyclerView(getApplicationContext(), loadRecyclerView);
+            ksh_loadLocation.setSearchResultRecyclerView(getApplicationContext(), loadRecyclerView);
+            kms_searchBarManager.setOffLoadLocationSearchBar(relativeLayoutRoadLoaction);
         }
 
         else if (kms_markerInformationFlagManager.flagGetMarkerInformationFlag() == false && kms_searchFlagManager.flagGetSearch() == false && kms_recycleVIewManager.flagCheckRecycleView() == false
@@ -668,7 +670,8 @@ public class KMS_MainActivity extends AppCompatActivity implements NavigationVie
             Log.d("6","#####맵 & 마커 인포" + kms_fragmentFlagManager.flagCheckFragment() + kms_markerInformationFlagManager.flagGetMarkerInformationFlag());
 
             if (kms_locationFlagManager.flagGetLocation() == true) {
-                Log.d("6","444");
+                Log.d("6","444 location add on");
+
                 hideAddLocation();
                 editText.setText(null);
                 mRecyclerView.setVisibility(View.GONE);
@@ -1095,11 +1098,13 @@ public class KMS_MainActivity extends AppCompatActivity implements NavigationVie
                 Log.d("6","####마커인포 클릭");
             }
         });
+        relativeLayoutRoadLoaction = findViewById(R.id.relativeLayout_loadLoaction);
 
     } //oncreate 종료
 
     public static LinearLayout linearLayoutMakerInformation;
     public static TextView textViewMarkerInformationTitle;
+    public static RelativeLayout relativeLayoutRoadLoaction;
 //    Button btnClear;
 
 
