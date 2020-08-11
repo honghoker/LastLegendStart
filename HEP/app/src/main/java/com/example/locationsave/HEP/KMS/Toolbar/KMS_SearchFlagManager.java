@@ -2,13 +2,13 @@ package com.example.locationsave.HEP.KMS.Toolbar;
 
 import android.util.Log;
 
-public class KMS_SearchManager {
-    private static final KMS_SearchManager searchInstance = new KMS_SearchManager(); //정적 변수에 인스턴스를 만들어 바로 초기화
+public class KMS_SearchFlagManager {
+    private static final KMS_SearchFlagManager searchInstance = new KMS_SearchFlagManager(); //정적 변수에 인스턴스를 만들어 바로 초기화
     //정적 변수는 객체가 생성되기 전 클래스가 메모리에 로딩될 때 만들어진다. 따라서, 초기에 한번 생성된 인스턴스를 반환.
 
-    private KMS_SearchManager() {}
+    private KMS_SearchFlagManager() {}
 
-    public static KMS_SearchManager getInstanceSearch(){
+    public static KMS_SearchFlagManager getInstanceSearch(){
         return searchInstance;
     }
 

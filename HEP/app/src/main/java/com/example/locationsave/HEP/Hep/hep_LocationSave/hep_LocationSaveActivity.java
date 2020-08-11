@@ -20,7 +20,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
-import androidx.fragment.app.FragmentTransaction;
 import androidx.viewpager.widget.ViewPager;
 
 import com.example.locationsave.HEP.Hep.hep_DTO.hep_Callback;
@@ -62,6 +61,8 @@ public class hep_LocationSaveActivity extends AppCompatActivity {
     String addr;
     double latitude, longitude;
     int imageSizeLimit = 5; // imagepicker 최대 이미지 수
+
+    public static final boolean LOCATION_RECYCLERVIEW_FRAGMENT = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -329,6 +330,7 @@ public class hep_LocationSaveActivity extends AppCompatActivity {
             new hep_HashTagArr().getHashTagArr().clear();
             new hep_locationImageDataArr().getImageDataArrayInstance().clear();
             setFragment();
+
         }
         else{
             toastMake("이름을 입력해주세요");
@@ -340,8 +342,8 @@ public class hep_LocationSaveActivity extends AppCompatActivity {
     }
 
     private void setFragment(){
-        FragmentTransaction trans = getSupportFragmentManager().beginTransaction();
-        trans.replace(R.id.fragmentContainer, pcsFragment).commit();
+        setResult(RESULT_OK, new Intent().putExtra("result",LOCATION_RECYCLERVIEW_FRAGMENT));
+        finish();
     }
 
     public void onbtnChangeAddrClicked(View v){
@@ -350,4 +352,10 @@ public class hep_LocationSaveActivity extends AppCompatActivity {
         KMS_MapFragment mapFragment = new KMS_MapFragment();
         hep_LocationSaveActivity.this.getSupportFragmentManager().beginTransaction().add(R.id.fragmentContainer, mapFragment).commit();
     }
+
+    @Override
+    public void startActivityForResult(Intent intent, int requestCode) {
+        super.startActivityForResult(intent, requestCode);
+    }
+
 }

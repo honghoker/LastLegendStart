@@ -71,7 +71,7 @@ public class KMS_MapFragment extends Fragment implements OnMapReadyCallback {
         //프래그먼트 메인을 인플레이트해주고 컨테이너에 붙여달라는 뜻임
 
         ViewGroup rootView = (ViewGroup) inflater.inflate(R.layout.kms_map_fragment, container, false);
-
+/*
         Button btn = rootView.findViewById(R.id.button);
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -79,22 +79,8 @@ public class KMS_MapFragment extends Fragment implements OnMapReadyCallback {
                 markerManager.initMarker();
             }
         });
-        Button btn2 = rootView.findViewById(R.id.button2);
-        btn2.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Log.d("####addMarker",   "남은 피카츄 수" + markerManager.markers.size());
-            }
-        });
-        /*
-        Button button = rootView.findViewById(R.id.button1);
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                activity.onFragmentChange(1);
-            }
-        });
-        */
+*/
+
         return rootView;
     }
 
@@ -263,6 +249,9 @@ public class KMS_MapFragment extends Fragment implements OnMapReadyCallback {
         });
 
 
+        for(int i = 0; i < 3; i++){
+            markerManager.addMarker("그린빌" + i,35.857654 + i * 0.03, 128.498123  + i * 0.03);
+        }
 
         markerManager.loadMarker(NMap); //초기 마커값 불러옴
 

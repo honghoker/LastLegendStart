@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/linearLayoutMakerInformation"
+    android:layout_width="355dp"
+    android:layout_height="150dp"
+    android:layout_alignParentBottom="true"
+    android:layout_centerInParent="true"
+    android:layout_gravity="bottom|center"
+
+    android:layout_marginBottom="90dp"
+    android:background="@drawable/kms_marker_info_border"
+
+    android:clickable="false"
+    android:focusable="false"
+    android:focusableInTouchMode="false"
+    android:orientation="horizontal"
+    android:touchscreenBlocksFocus="false"
+    android:visibility="gone">
+
+    <ImageView
+        android:id="@+id/imageView8"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:layout_gravity="center"
+        app:srcCompat="@drawable/marker_design_pika" />
+
+    <LinearLayout
+        android:layout_width="205dp"
+        android:layout_height="150dp"
+        android:layout_gravity="center"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/titleTextView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Legend Start"
+            android:textSize="18sp" />
+
+        <TextView
+            android:id="@+id/textView4"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:lines="2"
+            android:text="Legend Never Die. . ."
+            android:textSize="14sp" />
+
+        <TextView
+            android:id="@+id/textView5"
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:text="TextView" />
+
+        <Button
+            android:id="@+id/btnEditMarkerInfo"
+            android:layout_width="50dp"
+            android:layout_height="35dp"
+            android:layout_gravity="right"
+            android:layout_marginTop="5dp"
+            android:layout_marginRight="5dp"
+            android:text="편집"
+            android:textSize="10dp" />
+    </LinearLayout>
+
+</LinearLayout>
