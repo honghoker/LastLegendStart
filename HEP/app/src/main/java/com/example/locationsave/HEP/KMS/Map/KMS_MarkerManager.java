@@ -33,6 +33,7 @@ public class KMS_MarkerManager {
     }
 
     KMS_CameraManager cameraManager = KMS_CameraManager.getInstanceCameraManager();
+    KMS_MarkerInformation kms_markerInformation = new KMS_MarkerInformation().getInstanceMarkerInformation();
 
     public ArrayList<Marker> markers = new ArrayList<>(); //모든 곳에서 사용할 마커 어레이 리스트
 
@@ -83,6 +84,7 @@ public class KMS_MarkerManager {
                 cameraManager.MoveCameraOnMarkerPosition(marker, NMap); //카메라를 마커 위치로 이동
                 setOffMarkerInformation(KMS_MainActivity.linearLayoutMakerInformation);
                 setOnMarkerInformation(KMS_MainActivity.linearLayoutMakerInformation);
+                kms_markerInformation.setMarkerInformation(marker.getCaptionText());
                 /*
                 //장소 삭제
                 marker.setMap(null);

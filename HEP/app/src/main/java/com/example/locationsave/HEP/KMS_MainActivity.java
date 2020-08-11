@@ -225,6 +225,7 @@ public class KMS_MainActivity extends AppCompatActivity implements NavigationVie
     AutoCompleteTextView editText;
     RecyclerView searchRecyclerView;
     Button btnClear;
+    LinearLayout LinearLayoutMakerInformation;
     public void kms_init(){
         fragmentManager = getSupportFragmentManager();
         mapFragment = new KMS_MapFragment();
@@ -1018,12 +1019,19 @@ public class KMS_MainActivity extends AppCompatActivity implements NavigationVie
 //        //10.BackPressed
 //        backPressedForFinish = new KMS_BackPressedForFinish(this);
 
+        textViewMarkerInformationTitle= findViewById(R.id.titleTextView);
         linearLayoutMakerInformation = findViewById(R.id.linearLayoutMakerInformation);
+        linearLayoutMakerInformation.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.d("6","####마커인포 클릭");
+            }
+        });
 
     } //oncreate 종료
 
     public static LinearLayout linearLayoutMakerInformation;
-
+    public static TextView textViewMarkerInformationTitle;
 //    Button btnClear;
 
 
