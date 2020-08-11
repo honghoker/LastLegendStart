@@ -32,7 +32,6 @@ import com.example.locationsave.HEP.Hep.hep_LocationDetail.hep_LocationDetailAct
 import com.example.locationsave.HEP.KMS_MainActivity;
 import com.example.locationsave.HEP.pcs_RecyclerView.locationList.Pcs_LocationRecyclerView;
 import com.example.locationsave.HEP.KMS.MainFragment.KMS_MapFragment;
-import com.example.locationsave.HEP.pcs_RecyclerView.Pcs_LocationRecyclerView;
 import com.example.locationsave.R;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DataSnapshot;

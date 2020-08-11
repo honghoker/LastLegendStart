@@ -23,7 +23,7 @@ public class hep_Location implements Parcelable {
     public double longitude; // 경도
     public long time;
 
-    public hep_Location(){
+    public hep_Location() {
     }
 
     private hep_Location(Parcel in) {
@@ -80,7 +80,6 @@ public class hep_Location implements Parcelable {
 
         return result;
     }
-
 
 
     public String getName() {
@@ -149,14 +148,15 @@ public class hep_Location implements Parcelable {
 
     public String getDirectoryid() {
         return directoryid;
-        
+    }
+
     @Override
-    public int describeContents() {
+    public int describeContents () {
         return 0;
     }
 
     @Override
-    public void writeToParcel(Parcel dest, int flags) {
+    public void writeToParcel (Parcel dest,int flags){
         dest.writeString(directoryid);
         dest.writeString(name);
         dest.writeString(addr);
