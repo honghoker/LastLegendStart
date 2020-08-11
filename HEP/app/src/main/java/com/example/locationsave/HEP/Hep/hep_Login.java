@@ -153,6 +153,7 @@ public class hep_Login extends AppCompatActivity {
 
     private void startIntent(FirebaseUser firebaseUser){
         new hep_FirebaseUser().setFirebaseUser(firebaseUser);
+
         Log.d("@@@@@@", "Uid = " + firebaseUser.getUid() + ", Name = " + firebaseUser.getDisplayName() + ", Email = " + firebaseUser.getEmail());
         Intent intent = new Intent(getApplication(), KMS_MainActivity.class);
         startActivity(intent);
