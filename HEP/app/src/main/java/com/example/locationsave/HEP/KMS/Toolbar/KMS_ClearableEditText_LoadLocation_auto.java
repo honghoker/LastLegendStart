@@ -77,10 +77,6 @@ public class KMS_ClearableEditText_LoadLocation_auto extends RelativeLayout {
         btnClear = (Button) findViewById(R.id.clearable_load_location_button_clear);
         btnClear.setVisibility(RelativeLayout.INVISIBLE);
 
-//        TextView textView;
-//        textView = (TextView) findViewById(R.id.searchLordResult_RecyclerVIew);
-//        textView.setVisibility(RelativeLayout.VISIBLE);
-
         clearText();
         showHideClearButton();
     }
@@ -111,16 +107,13 @@ public class KMS_ClearableEditText_LoadLocation_auto extends RelativeLayout {
                 } else {
                     ksh_loadLocation.setOffSearchResultRecyclerView2(mContext, loadRecyclerView);
                     loadRecyclerView.setLayoutManager(mLinearLayoutManager);
-//                    btnClear.setVisibility(RelativeLayout.INVISIBLE);
-//                    autoCompleteTextView.dismissDropDown();
+                    btnClear.setVisibility(RelativeLayout.INVISIBLE);
                 }
             }
 
             @Override
             public void afterTextChanged(Editable s) {
-//                if (s.toString().contains(" ")) {
-//                    ((hep_LocationSaveActivity) mContext).hashTagAdd(s.toString().replaceAll(" ", "").trim());
-//                }
+
             }
         });
     }
