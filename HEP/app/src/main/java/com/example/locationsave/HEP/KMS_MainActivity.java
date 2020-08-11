@@ -41,7 +41,10 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.locationsave.HEP.Address.GeocodingArrayEntity;
 import com.example.locationsave.HEP.Address.SearchAreaArrayEntity;
+import com.example.locationsave.HEP.Hep.hep_DTO.hep_Callback;
 import com.example.locationsave.HEP.Hep.hep_DTO.hep_Location;
+import com.example.locationsave.HEP.Hep.hep_DTO.hep_LocationTag;
+import com.example.locationsave.HEP.Hep.hep_DTO.hep_Recent;
 import com.example.locationsave.HEP.Hep.hep_LocationSave.hep_LocationSaveActivity;
 import com.example.locationsave.HEP.KMS.BackPressed.KMS_BackPressedForFinish;
 import com.example.locationsave.HEP.KMS.HashTag.KMS_FlowLayout;
@@ -72,7 +75,6 @@ import com.example.locationsave.HEP.KMS.Toolbar.KMS_SearchFlagManager;
 import com.example.locationsave.HEP.KMS.Toolbar.KSH_LoadLocation;
 import com.example.locationsave.HEP.KSH.KSH_AllSeeActivity;
 import com.example.locationsave.HEP.KSH.KSH_DirectoryEntity;
-import com.example.locationsave.HEP.KSH.KSH_FireBase;
 import com.example.locationsave.HEP.KSH.KSH_LoadingActivity;
 import com.example.locationsave.HEP.KSH.KSH_RecyAdapter;
 
@@ -89,6 +91,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.UploadTask;
 import com.naver.maps.map.CameraPosition;
 
 import java.util.ArrayList;
@@ -160,7 +163,6 @@ public class KMS_MainActivity extends AppCompatActivity implements NavigationVie
         arrayKey = new ArrayList<>();
         drawerLayout = findViewById(R.id.drawer_layout);
         navigationView = findViewById(R.id.nav_view);
-        KSH_FireBase firebaseDatabase = KSH_FireBase.getInstance(); // 싱글톤
         AreaSearch areaSearch = new AreaSearch(); // 키자마자 한번 지오코딩 돌리는거
         areaSearch.Geocoding("신당동 164");
     }
@@ -794,91 +796,81 @@ public class KMS_MainActivity extends AppCompatActivity implements NavigationVie
         setMargin();  // ???
         logtest("온크리트 초기 flag  값");
 
-//        Query directoryQuery = new hep_FireBase().getFireBaseDatabaseInstance().getReference().child("directory").orderByChild("token").equalTo(new hep_FirebaseUser().getFirebaseUserInstance().getUid());
-//        directoryQuery.addValueEventListener(new ValueEventListener() {
-//            @Override
-//            public void onDataChange(@NonNull DataSnapshot snapshot) {
-//                arrayList.clear();
-//                arrayKey.clear();
-//                for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
-//                    ksh_directoryEntity = dataSnapshot.getValue(KSH_DirectoryEntity.class); // 만들어둔 Test 객체에 데이터를 담는다
-//                    String key = dataSnapshot.getKey();
-//                    arrayList.add(ksh_directoryEntity);  // 담은 데이터들을 arraylist에 넣고 recyclerview로 보낼 준비
-//                    arrayKey.add(key);
-//                }
-//                if (recyAdapter != null)
-//                    recyAdapter.notifyDataSetChanged(); // list 저장 및 새로고침
-//
-//                new hep_FireBase().getRecentData(new hep_Callback() {
-//                    @Override
-//                    public void onSuccess(hep_Recent hep_recent) {
-//                        for (int i = 0; i < arrayKey.size(); i++) {
-//                            if (directoryid == null) {
-//                                if (hep_recent.directoryid.equals(arrayKey.get(i))) {
-//                                    selectView = i + 1;
-//                                    directoryid = hep_recent.directoryid;
-//                                }
-//
-//                                if (arrayKey.size() == i && selectView == 0) {
-//                                    directoryid = arrayKey.get(0);
-//                                    selectView = 1;
-//                                }
-//                            }
-//                        }
-//                        recyAdapter = new KSH_RecyAdapter(KMS_MainActivity.this, arrayList, arrayKey, ksh_directoryEntity, selectView);
-//                        recyclerView.setAdapter(recyAdapter);
-//
-//                        Query latilonginameQuery = new hep_FireBase().getFireBaseDatabaseInstance().getReference().child("location").orderByChild("directoryid").equalTo(directoryid);
-//                        latilonginameQuery.addValueEventListener(new ValueEventListener() {
-//                            @Override
-//                            public void onDataChange(@NonNull DataSnapshot snapshot) {
-//                                new KMS_MarkerManager().getInstanceMarkerManager().initMarker();
-//                                for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
-//                                    hep_Location hep_location = dataSnapshot.getValue(hep_Location.class);
-//                                    new KMS_MarkerManager().getInstanceMarkerManager().addMarker(hep_location.name, hep_location.latitude, hep_location.longitude);
-//
-////                                    LatLng addMarkerLatLng = new LatLng(hep_location.latitude, hep_location.longitude);
-////                                    //현재 장소 위경도값 받아와서 좌표 추가
-////                                    Marker marker = new Marker();
-////                                    marker.setPosition(addMarkerLatLng);
-////
-////                                    //마커 텍스트
-////                                    marker.setCaptionText(hep_location.name);
-////                                    marker.setCaptionRequestedWidth(200); //이름 최대 폭
-////
-////                                    //마커 이미지
-////                                    marker.setIcon(OverlayImage.fromResource(R.drawable.marker_design_pika2));
-////                                    marker.setWidth(120);
-////                                    marker.setHeight(160);
-////
-////                                    marker.setMap(NMap);
-//                                }
-//                            }
-//
-//                            @Override
-//                            public void onCancelled(@NonNull DatabaseError error) {
-//
-//                            }
-//                        });
-//                    }
-//
-//                    @Override
-//                    public void onSuccess(hep_LocationTag hep_locationTag) {
-//
-//                    }
-//
-//                    @Override
-//                    public void onFail(String errorMessage) {
-//
-//                    }
-//                });
-//            }
-//
-//            @Override
-//            public void onCancelled(@NonNull DatabaseError databaseError) {
-//                Log.d("1", " error "+String.valueOf(databaseError.toException()));
-//            }
-//        });
+        Query directoryQuery = new hep_FireBase().getFireBaseDatabaseInstance().getReference().child("directory").orderByChild("token").equalTo(new hep_FirebaseUser().getFirebaseUserInstance().getUid());
+        directoryQuery.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                arrayList.clear();
+                arrayKey.clear();
+                for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                    ksh_directoryEntity = dataSnapshot.getValue(KSH_DirectoryEntity.class); // 만들어둔 Test 객체에 데이터를 담는다
+                    String key = dataSnapshot.getKey();
+                    arrayList.add(ksh_directoryEntity);  // 담은 데이터들을 arraylist에 넣고 recyclerview로 보낼 준비
+                    arrayKey.add(key);
+                }
+                if (recyAdapter != null)
+                    recyAdapter.notifyDataSetChanged(); // list 저장 및 새로고침
+
+                new hep_FireBase().getRecentData(new hep_Callback() {
+                    @Override
+                    public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+
+                    }
+
+                    @Override
+                    public void onSuccess(DataSnapshot dataSnapshot, DataSnapshot dataSnapshot1) {
+
+                    }
+
+                    @Override
+                    public void onSuccess(hep_LocationTag hep_locationTag) {
+
+                    }
+
+                    @Override
+                    public void onSuccess(hep_Recent hep_recent) {
+                        for (int i = 0; i < arrayKey.size(); i++) {
+                            if (directoryid == null) {
+                                if (hep_recent.directoryid.equals(arrayKey.get(i))) {
+                                    selectView = i + 1;
+                                    directoryid = hep_recent.directoryid;
+                                }
+
+                                if (arrayKey.size() == i && selectView == 0) {
+                                    directoryid = arrayKey.get(0);
+                                    selectView = 1;
+                                }
+                            }
+                        }
+                        recyAdapter = new KSH_RecyAdapter(KMS_MainActivity.this, arrayList, arrayKey, ksh_directoryEntity, selectView);
+                        recyclerView.setAdapter(recyAdapter);
+
+                        Query latilonginameQuery = new hep_FireBase().getFireBaseDatabaseInstance().getReference().child("location").orderByChild("directoryid").equalTo(directoryid);
+                        latilonginameQuery.addValueEventListener(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                new KMS_MarkerManager().getInstanceMarkerManager().initMarker();
+                                for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                                    hep_Location hep_location = dataSnapshot.getValue(hep_Location.class);
+                                    new KMS_MarkerManager().getInstanceMarkerManager().addMarker(hep_location.name, hep_location.latitude, hep_location.longitude);
+                                }
+                            }
+
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError error) {
+
+                            }
+                        });
+                    }
+                });
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                Log.d("1", " error "+String.valueOf(databaseError.toException()));
+            }
+        });
+
         recyAdapter = new KSH_RecyAdapter(KMS_MainActivity.this, arrayList, arrayKey, ksh_directoryEntity, selectView);
         recyclerView.setAdapter(recyAdapter);
 
