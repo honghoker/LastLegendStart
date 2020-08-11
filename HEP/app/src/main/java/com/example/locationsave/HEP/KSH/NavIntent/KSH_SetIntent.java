@@ -1,7 +1,12 @@
 package com.example.locationsave.HEP.KSH.NavIntent;
 
+import android.content.Context;
 import android.os.Bundle;
+import android.util.AttributeSet;
+import android.util.Log;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -9,7 +14,13 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.drawerlayout.widget.DrawerLayout;
 
+import com.example.locationsave.HEP.KMS.MainFragment.KMS_FragmentFlagManager;
+import com.example.locationsave.HEP.KMS.MainFragment.KMS_MapFragment;
 import com.example.locationsave.R;
+
+import static com.example.locationsave.HEP.KMS_MainActivity.LocationFragmet;
+import static com.example.locationsave.HEP.KMS_MainActivity.fragmentManager;
+import static com.example.locationsave.HEP.KMS_MainActivity.mapFragment;
 
 public class KSH_SetIntent extends AppCompatActivity {
     private Toolbar toolbar;

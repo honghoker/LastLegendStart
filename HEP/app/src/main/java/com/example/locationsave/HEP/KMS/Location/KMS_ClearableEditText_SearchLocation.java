@@ -63,6 +63,7 @@ public class KMS_ClearableEditText_SearchLocation extends RelativeLayout {
         btnClear = (Button) findViewById(R.id.clearable_search_location_button_clear);
         btnClear.setVisibility(RelativeLayout.INVISIBLE);
 
+
         clearText();
         showHideClearButton();
     }
