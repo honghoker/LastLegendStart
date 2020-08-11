@@ -62,6 +62,7 @@ import com.example.locationsave.HEP.KMS.MainFragment.KMS_FragmentFlagManager;
 import com.example.locationsave.HEP.KMS.Map.KMS_MarkerInformation;
 import com.example.locationsave.HEP.KMS.Map.KMS_MarkerInformationFlagManager;
 import com.example.locationsave.HEP.KMS.Map.KMS_MarkerManager;
+import com.example.locationsave.HEP.KMS.Toolbar.KMS_ClearableEditText_LoadLocation;
 import com.example.locationsave.HEP.KMS.Toolbar.KMS_ClearableEditText_LoadLocation_auto;
 
 import com.example.locationsave.HEP.KMS.Toolbar.KMS_RecycleVIewManager;
@@ -228,7 +229,7 @@ public class KMS_MainActivity extends AppCompatActivity implements NavigationVie
     public static int selectView = 1;
     RecyclerView mRecyclerView;
     public static LinearLayoutManager mLinearLayoutManager;
-    ArrayList<KMS_LocationSearchResult> kms_locationSearchResults = new ArrayList<>();
+    public static ArrayList<KMS_LocationSearchResult> kms_locationSearchResults = new ArrayList<>();
     KMS_LocationSearchResult kms_locationSearchResult;
     AutoCompleteTextView editText;
     RecyclerView searchRecyclerView;
@@ -236,6 +237,8 @@ public class KMS_MainActivity extends AppCompatActivity implements NavigationVie
 
     public static RecyclerView loadRecyclerView;
     public static ArrayList<String> test_1 = new ArrayList<>();
+
+    KMS_MarkerInformationFlagManager kms_markerInformationFlagManager = KMS_MarkerInformationFlagManager.getMarkerInformationFlagManagerInstance();
 
     public void kms_init(){
         fragmentManager = getSupportFragmentManager();
