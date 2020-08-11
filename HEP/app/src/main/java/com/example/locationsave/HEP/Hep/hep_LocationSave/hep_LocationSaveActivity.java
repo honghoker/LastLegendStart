@@ -29,7 +29,7 @@ import com.example.locationsave.HEP.Hep.hep_DTO.hep_LocationTag;
 import com.example.locationsave.HEP.Hep.hep_DTO.hep_Recent;
 import com.example.locationsave.HEP.Hep.hep_DTO.hep_Tag;
 import com.example.locationsave.HEP.Hep.hep_FireBase;
-import com.example.locationsave.HEP.KMS_MainActivity;
+import com.example.locationsave.HEP.KMS.MainFragment.KMS_MapFragment;
 import com.example.locationsave.HEP.pcs_RecyclerView.Pcs_LocationRecyclerView;
 import com.example.locationsave.R;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -345,7 +345,9 @@ public class hep_LocationSaveActivity extends AppCompatActivity {
     }
 
     public void onbtnChangeAddrClicked(View v){
-        Intent intent = new Intent(getApplicationContext(), KMS_MainActivity.class);
-        this.startActivity(intent);
+//        Intent intent = new Intent(getApplicationContext(), KMS_MainActivity.class);
+//        this.startActivity(intent);
+        KMS_MapFragment mapFragment = new KMS_MapFragment();
+        hep_LocationSaveActivity.this.getSupportFragmentManager().beginTransaction().add(R.id.fragmentContainer, mapFragment).commit();
     }
 }
