@@ -259,10 +259,7 @@ public class KMS_MainActivity extends AppCompatActivity implements NavigationVie
         linearLayoutToolbarSearch = findViewById(R.id.linearLayoutToolbarSearch);  //4. Toolbar Search
         clearableEditText_loadLocation_auto = findViewById(R.id.searchView); //프로젝트 단위 //6. 자동완성 텍스트 뷰
         inputMethodManager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE); //키보드-시스템서비스
-        list = new ArrayList<String>();
-        final AutoCompleteTextView autoCompleteTextView = (AutoCompleteTextView) findViewById(R.id.clearable_edit_load_location);   //https://sharp57dev.tistory.com/12 자동완성
-        autoCompleteTextView.setAdapter(new ArrayAdapter<String>(this,
-                android.R.layout.simple_dropdown_item_1line, list));
+
         hastagView = findViewById(R.id.HasTagView); //7. HashTag
         hastagView.setBackgroundResource(R.drawable.hashtag);
 
@@ -631,6 +628,8 @@ public class KMS_MainActivity extends AppCompatActivity implements NavigationVie
             setBottomBar(bottomBar, kms_searchFlagManager.flagGetSearch());
             setSearchBar(kms_searchFlagManager.flagGetSearch());
             setFloatingItem(kms_searchFlagManager.flagGetSearch());
+
+            // 뒤로갔을때 recyclerview gone -> visible, visible -> gone
             ksh_loadLocation.setSearchResultRecyclerView(getApplicationContext(), loadRecyclerView);
         }
 
