@@ -71,6 +71,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.UploadTask;
 import com.naver.maps.map.CameraPosition;
 
 import java.util.ArrayList;
@@ -611,6 +612,16 @@ public class KMS_MainActivity extends AppCompatActivity implements NavigationVie
 
                 new hep_FireBase().getRecentData(new hep_Callback() {
                     @Override
+                    public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+
+                    }
+
+                    @Override
+                    public void onSuccess(DataSnapshot dataSnapshot, DataSnapshot dataSnapshot1) {
+
+                    }
+
+                    @Override
                     public void onSuccess(hep_Recent hep_recent) {
                         for (int i = 0; i < arrayKey.size(); i++) {
                             if (directoryid == null) {
@@ -648,11 +659,6 @@ public class KMS_MainActivity extends AppCompatActivity implements NavigationVie
 
                     @Override
                     public void onSuccess(hep_LocationTag hep_locationTag) {
-
-                    }
-
-                    @Override
-                    public void onFail(String errorMessage) {
 
                     }
                 });

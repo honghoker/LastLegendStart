@@ -3,11 +3,11 @@ package com.example.locationsave.HEP.Hep.hep_LocationUpdate;
 import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
@@ -25,7 +25,6 @@ import androidx.viewpager.widget.ViewPager;
 
 import com.example.locationsave.HEP.Hep.hep_DTO.hep_Callback;
 import com.example.locationsave.HEP.Hep.hep_DTO.hep_Location;
-import com.example.locationsave.HEP.Hep.hep_DTO.hep_LocationImage;
 import com.example.locationsave.HEP.Hep.hep_DTO.hep_LocationTag;
 import com.example.locationsave.HEP.Hep.hep_DTO.hep_Recent;
 import com.example.locationsave.HEP.Hep.hep_DTO.hep_Tag;
@@ -34,6 +33,7 @@ import com.example.locationsave.HEP.Hep.hep_LocationSave.hep_FlowLayout;
 import com.example.locationsave.HEP.Hep.hep_LocationSave.hep_HashTagArr;
 import com.example.locationsave.HEP.Hep.hep_LocationSave.hep_ImageData;
 import com.example.locationsave.HEP.Hep.hep_LocationSave.hep_locationImageDataArr;
+import com.example.locationsave.HEP.KMS.MainFragment.KMS_MapFragment;
 import com.example.locationsave.R;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DataSnapshot;
@@ -45,13 +45,11 @@ import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 import com.opensooq.supernova.gligar.GligarPicker;
 
-import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.UUID;
 
 import static android.content.ContentValues.TAG;
 
@@ -79,8 +77,7 @@ public class hep_LocationUpdateActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()){
             case android.R.id.home:
-                Intent intent = new Intent();
-                setResult(RESULT_CANCELED, intent);
+                setResult(RESULT_CANCELED);
                 finish();
                 break;
         }
@@ -91,6 +88,7 @@ public class hep_LocationUpdateActivity extends AppCompatActivity {
         key = getIntent().getStringExtra("key");
         hep_Location = getIntent().getParcelableExtra("hep_Location");
         tagDataArrayList = new ArrayList<>();
+
         imagetempArrayList = new ArrayList<>();
         imagetempArrayList.addAll(new hep_locationImageDataArr().getImageDataArrayInstance());
 
@@ -233,6 +231,10 @@ public class hep_LocationUpdateActivity extends AppCompatActivity {
         }
     }
 
+    public void onButtonHashTagAddClicked(View v){
+        hashTagAdd(((TextView) findViewById(R.id.locationupdate_locationTag)).getText().toString().trim());
+    }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -286,7 +288,13 @@ public class hep_LocationUpdateActivity extends AppCompatActivity {
     }
 
     public void onButtonLocationUpdateClicked(View v) {
-        final hep_Location hep_Location = new hep_Location(
+        firebaseImageInsert();
+        firebaseTagInsert();
+        firebaseLocationInsert();
+    }
+
+    public void firebaseLocationInsert(){
+        hep_Location hep_Location = new hep_Location(
                 ((EditText)findViewById(R.id.locationupdate_locationName)).getText().toString(),
                 ((EditText)findViewById(R.id.locationupdate_locationAddr)).getText().toString(),
                 ((EditText)findViewById(R.id.locationupdate_locationDetailAddr)).getText().toString(),
@@ -298,21 +306,65 @@ public class hep_LocationUpdateActivity extends AppCompatActivity {
 
         Map<String, Object> hashMap = hep_Location.toMap();
         new hep_FireBase().getFireBaseDatabaseInstance().getReference().child("location").child(key).setValue(hashMap);
+    }
 
+    public void firebaseTagInsert(){
+        if(!temphashArrayList.containsAll(new hep_HashTagArr().getHashTagArr())){
+            Query locatiotagQuery = new hep_FireBase().getFireBaseDatabaseInstance().getReference().child("locationtag").orderByChild("locationid").equalTo(key);
+            locatiotagQuery.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    for(DataSnapshot dataSnapshot : snapshot.getChildren()){
+                        new hep_FireBase().getFireBaseDatabaseInstance().getReference().child("locationtag").child(dataSnapshot.getKey()).removeValue();
+                        Log.d("@@@@@", "locationtag 제거");
+                    }
+
+                    for(int i = 0; i < new hep_HashTagArr().getHashTagArr().size(); i++){
+                        new hep_FireBase().insertTag(new hep_HashTagArr().getHashTagArr().get(i), new hep_Callback() {
+                            @Override
+                            public void onSuccess(UploadTask.TaskSnapshot dataSnapshot) {
+
+                            }
+
+                            @Override
+                            public void onSuccess(DataSnapshot dataSnapshot, DataSnapshot dataSnapshot1) {
+
+                            }
+
+                            @Override
+                            public void onSuccess(hep_Recent hep_recent) {
+
+                            }
+
+                            @Override
+                            public void onSuccess(hep_LocationTag hep_locationTag) {
+                                Map<String, Object> hashlocationtag = new HashMap<>();
+                                hashlocationtag.put("locationid", key);
+                                hashlocationtag.put("tagid", hep_locationTag.tagid);
+
+                                new hep_FireBase().getFireBaseDatabaseInstance().getReference().child("locationtag").push().setValue(hashlocationtag); // locationtag 저장
+                                Log.d("@@@@@", "locationtag 삽입");
+                            }
+                        });
+                    }
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+
+                }
+            });
+        }
+    }
+
+    public void firebaseImageInsert(){
 
         ArrayList<hep_ImageData> insertImageArr = new ArrayList<>();
         insertImageArr.addAll(new hep_locationImageDataArr().getImageDataArrayInstance());
         insertImageArr.removeAll(imagetempArrayList);
         for(int i = 0; i < insertImageArr.size(); i++){
             if(insertImageArr.get(i).bitmap != null){
-                StorageReference LocationImagesRef = new hep_FireBase().getFirebaseStorageInstance().getReference().child("locationimages/" + UUID.randomUUID().toString()); // 랜덤 이름 생성
-                Bitmap bitmap = insertImageArr.get(i).bitmap;
-                ByteArrayOutputStream baos = new ByteArrayOutputStream();
-                bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
-                byte[] data = baos.toByteArray();
-
-                UploadTask uploadTask = LocationImagesRef.putBytes(data);
-                uploadTask.addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                new hep_FireBase().updateImageBitmap(insertImageArr.get(i).bitmap, new hep_Callback() {
                     @Override
                     public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
                         Map<String, Object> hashMapImage = new HashMap<>();
@@ -326,6 +378,22 @@ public class hep_LocationUpdateActivity extends AppCompatActivity {
                         hashLocationImage.put("imageid", imageid);
                         new hep_FireBase().getFireBaseDatabaseInstance().getReference().child("locationimage").push().setValue(hashLocationImage);
                     }
+
+                    @Override
+                    public void onSuccess(DataSnapshot dataSnapshot, DataSnapshot dataSnapshot1) {
+
+                    }
+
+                    @Override
+                    public void onSuccess(hep_Recent hep_recent) {
+
+                    }
+
+                    @Override
+                    public void onSuccess(hep_LocationTag hep_locationTag) {
+
+                    }
+
                 });
             }
         }
@@ -337,41 +405,34 @@ public class hep_LocationUpdateActivity extends AppCompatActivity {
                 pathList.add(hep_imageData.path);
             }
 
-            Query locationImageQuery = new hep_FireBase().getFireBaseDatabaseInstance().getReference().child("locationimage").orderByChild("locationid").equalTo(key);
-            locationImageQuery.addListenerForSingleValueEvent(new ValueEventListener() {
+            new hep_FireBase().updateImageUri(key, new hep_Callback() {
                 @Override
-                public void onDataChange(@NonNull DataSnapshot snapshot) {
-                    for(final DataSnapshot dataSnapshot : snapshot.getChildren()){
-                        hep_LocationImage hep_locationImage = dataSnapshot.getValue(hep_LocationImage.class);
-                        DatabaseReference imageRef = new hep_FireBase().getFireBaseDatabaseInstance().getReference().child("image").child(hep_locationImage.imageid);
-                        imageRef.addListenerForSingleValueEvent(new ValueEventListener() {
-                            @Override
-                            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                                for(final DataSnapshot dataSnapshot1 : snapshot.getChildren()){
-                                    String path = (String) dataSnapshot1.getValue();
-                                    StorageReference storageReference = new hep_FireBase().getFirebaseStorageInstance().getReference().child(path);
-                                    storageReference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-                                        @Override
-                                        public void onSuccess(Uri uri) {
-                                            if(!pathList.contains(uri)){
-                                                new hep_FireBase().getFireBaseDatabaseInstance().getReference().child("locationimage").child(dataSnapshot.getKey()).removeValue();
-                                                new hep_FireBase().getFireBaseDatabaseInstance().getReference().child("image").child(dataSnapshot1.getKey()).removeValue();
-                                            }
-                                        }
-                                    });
-                                }
-                            }
+                public void onSuccess(UploadTask.TaskSnapshot dataSnapshot) {
 
-                            @Override
-                            public void onCancelled(@NonNull DatabaseError error) {
-
-                            }
-                        });
-                    }
                 }
 
                 @Override
-                public void onCancelled(@NonNull DatabaseError error) {
+                public void onSuccess(final DataSnapshot dataSnapshot, final DataSnapshot dataSnapshot1) {
+                    String path = (String) dataSnapshot1.getValue();
+                    StorageReference storageReference = new hep_FireBase().getFirebaseStorageInstance().getReference().child(path);
+                    storageReference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                        @Override
+                        public void onSuccess(Uri uri) {
+                            if(!pathList.contains(uri)){
+                                new hep_FireBase().getFireBaseDatabaseInstance().getReference().child("locationimage").child(dataSnapshot.getKey()).removeValue();
+                                new hep_FireBase().getFireBaseDatabaseInstance().getReference().child("image").child(dataSnapshot1.getKey()).removeValue();
+                            }
+                        }
+                    });
+                }
+
+                @Override
+                public void onSuccess(hep_Recent hep_recent) {
+
+                }
+
+                @Override
+                public void onSuccess(hep_LocationTag hep_locationTag) {
 
                 }
             });
@@ -380,48 +441,35 @@ public class hep_LocationUpdateActivity extends AppCompatActivity {
             imagetempArrayList.addAll(new hep_locationImageDataArr().getImageDataArrayInstance());
         }
 
-
-        Query locatiotagQuery = new hep_FireBase().getFireBaseDatabaseInstance().getReference().child("locationtag").orderByChild("locationid").equalTo(key);
-        locatiotagQuery.addListenerForSingleValueEvent(new ValueEventListener() {
+        Log.d("@@@@@", "handler 생성");
+        Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
             @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                for(DataSnapshot dataSnapshot : snapshot.getChildren()){
-                    new hep_FireBase().getFireBaseDatabaseInstance().getReference().child("locationtag").child(dataSnapshot.getKey()).removeValue();
-                }
-
-                for(int i = 0; i < new hep_HashTagArr().getHashTagArr().size(); i++){
-                    new hep_FireBase().insertTag(new hep_HashTagArr().getHashTagArr().get(i), new hep_Callback() {
-                        @Override
-                        public void onSuccess(hep_Recent hep_recent) {
-
-                        }
-
-                        @Override
-                        public void onSuccess(hep_LocationTag hep_locationTag) {
-                            Map<String, Object> hashlocationtag = new HashMap<>();
-                            hashlocationtag.put("locationid", key);
-                            hashlocationtag.put("tagid", hep_locationTag.tagid);
-
-                            new hep_FireBase().getFireBaseDatabaseInstance().getReference().child("locationtag").push().setValue(hashlocationtag); // locationtag 저장
-                        }
-
-                        @Override
-                        public void onFail(String errorMessage) {
-
-                        }
-                    });
-                }
+            public void run() {
+                Log.d("@@@@@", "handler run");
+                setResult(RESULT_OK);
+                finish();
             }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });
+        },1000 * new hep_locationImageDataArr().getImageDataArrayInstance().size());
+    }
 
 
-        Intent intent = new Intent();
-        setResult(RESULT_OK, intent);
-        finish();
+
+
+    public void onbtnChangeAddrClicked(View v){
+        KMS_MapFragment mapFragment = new KMS_MapFragment();
+        hep_LocationUpdateActivity.this.getSupportFragmentManager().beginTransaction().add(R.id.locationupdate_fragmentContainer, mapFragment).commit();
+
+//        fragmentManager.beginTransaction().show(LocationFragmet).commit();
+
+
+//        hep_LocationUpdateActivity.(hep_LocationUpdateActivity.this, new KMS_MapFragment());
+//        Object localObject = new Bundle();
+//        ((Bundle)localObject).putString("calledFrom", "UpdateActivity");
+//        ((Bundle)localObject).putString("query", v);
+//        hep_LocationUpdateActivity.this.mapFragment.setArguments((Bundle)localObject);
+        //hep_LocationUpdateActivity.access$1402(hep_LocationUpdateActivity.this, true);
+
+
     }
 }

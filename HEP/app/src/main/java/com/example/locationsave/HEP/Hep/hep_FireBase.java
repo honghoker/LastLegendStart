@@ -1,12 +1,17 @@
 package com.example.locationsave.HEP.Hep;
 
+import android.graphics.Bitmap;
+import android.util.Log;
+
 import androidx.annotation.NonNull;
 
 import com.example.locationsave.HEP.Hep.hep_DTO.hep_Callback;
+import com.example.locationsave.HEP.Hep.hep_DTO.hep_LocationImage;
 import com.example.locationsave.HEP.Hep.hep_DTO.hep_LocationTag;
 import com.example.locationsave.HEP.Hep.hep_DTO.hep_Recent;
 import com.example.locationsave.HEP.KSH.KSH_Date;
 import com.example.locationsave.HEP.KSH.KSH_DirectoryEntity;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -14,9 +19,13 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 
+import java.io.ByteArrayOutputStream;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.UUID;
 
 
 public class hep_FireBase {
@@ -34,6 +43,55 @@ public class hep_FireBase {
             firebaseStorage = FirebaseStorage.getInstance();
         return firebaseStorage;
     }
+
+    // 이미지 업데이트(hep_locationupdateactivity)
+    public void updateImageBitmap(Bitmap bitmap, final hep_Callback hep_callback){
+        StorageReference LocationImagesRef = new hep_FireBase().getFirebaseStorageInstance().getReference().child("locationimages/" + UUID.randomUUID().toString()); // 랜덤 이름 생성
+        Bitmap b = bitmap;
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        b.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+        byte[] data = baos.toByteArray();
+
+        UploadTask uploadTask = LocationImagesRef.putBytes(data);
+        uploadTask.addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+            @Override
+            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                hep_callback.onSuccess(taskSnapshot);
+            }
+        });
+    }
+
+    public void updateImageUri(String key, final hep_Callback hep_callback){
+        Query locationImageQuery = new hep_FireBase().getFireBaseDatabaseInstance().getReference().child("locationimage").orderByChild("locationid").equalTo(key);
+        locationImageQuery.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for(final DataSnapshot dataSnapshot : snapshot.getChildren()){
+                    hep_LocationImage hep_locationImage = dataSnapshot.getValue(hep_LocationImage.class);
+                    DatabaseReference imageRef = new hep_FireBase().getFireBaseDatabaseInstance().getReference().child("image").child(hep_locationImage.imageid);
+                    imageRef.addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+                            for(final DataSnapshot dataSnapshot1 : snapshot.getChildren()){
+                                hep_callback.onSuccess(dataSnapshot, dataSnapshot1);
+                            }
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError error) {
+
+                        }
+                    });
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+    }
+
 
     // 태그 저장(hep_LocationSaveActivity)
     public void insertTag(final String tag, final hep_Callback callback){
@@ -53,6 +111,7 @@ public class hep_FireBase {
                     DatabaseReference tagReference = new hep_FireBase().getFireBaseDatabaseInstance().getReference().child("tag").push();
                     tagReference.setValue(hashMapTag); // tag 저장
                     hep_locationTag.tagid = tagReference.getKey();
+                    Log.d("@@@@@", "tag 삽입");
                 }
                 callback.onSuccess(hep_locationTag);
             }

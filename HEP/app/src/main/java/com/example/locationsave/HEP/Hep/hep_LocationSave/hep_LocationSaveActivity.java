@@ -250,7 +250,6 @@ public class hep_LocationSaveActivity extends AppCompatActivity {
     }
 
 
-    //DatabaseReference imageReference = new hep_FireBase().getFireBaseDatabaseInstance().getReference().child("locationimage").push();
     public void onButtonLocationSaveClicked(View v){
         if(!((EditText)findViewById(R.id.locationName)).getText().toString().trim().equals("")){
 
@@ -275,6 +274,16 @@ public class hep_LocationSaveActivity extends AppCompatActivity {
                 // tag 중복 체크
                 new hep_FireBase().insertTag(new hep_HashTagArr().getHashTagArr().get(i), new hep_Callback() {
                     @Override
+                    public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+
+                    }
+
+                    @Override
+                    public void onSuccess(DataSnapshot dataSnapshot, DataSnapshot dataSnapshot1) {
+
+                    }
+
+                    @Override
                     public void onSuccess(hep_Recent hep_recent) {
 
                     }
@@ -288,10 +297,6 @@ public class hep_LocationSaveActivity extends AppCompatActivity {
                         new hep_FireBase().getFireBaseDatabaseInstance().getReference().child("locationtag").push().setValue(hashlocationtag); // locationtag 저장
                     }
 
-                    @Override
-                    public void onFail(String errorMessage) {
-
-                    }
                 });
             }
 
