@@ -117,7 +117,7 @@
             android:focusableInTouchMode="true"
             android:foreground="@android:color/transparent"
             android:orientation="horizontal"
-            android:visibility="gone">
+            android:visibility="visible">
 
             <com.example.locationsave.HEP.KMS.Toolbar.KMS_ClearableEditText_LoadLocation_auto
                 android:id="@+id/searchView"
