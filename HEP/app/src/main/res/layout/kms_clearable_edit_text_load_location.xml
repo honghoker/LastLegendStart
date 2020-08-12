@@ -5,7 +5,7 @@
     android:id="@+id/relativeLayout_loadLoaction"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:visibility="visible">
+    android:visibility="gone">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -19,6 +19,7 @@
                     android:completionThreshold="1"
                     android:hint="저장된 장소를 입력하세요."
                     android:lines="1"
+                    android:maxLength="18"
                     android:paddingRight="35dip"
                     android:singleLine="true" />
 

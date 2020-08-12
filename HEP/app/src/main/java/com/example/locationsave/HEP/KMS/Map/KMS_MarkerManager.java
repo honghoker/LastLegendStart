@@ -82,6 +82,7 @@ public class KMS_MarkerManager {
         marker.setIcon(OverlayImage.fromResource(R.drawable.marker_design_pika2));
         marker.setWidth(120);
         marker.setHeight(160);
+        marker.setHideCollidedSymbols(true); //겹치는 오버레이 제거
         marker.setOnClickListener(new Overlay.OnClickListener() { //마커 클릭이벤트 추가
             @Override
             public boolean onClick(@NonNull Overlay overlay) {
