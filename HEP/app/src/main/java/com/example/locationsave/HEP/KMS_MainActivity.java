@@ -1,5 +1,6 @@
 package com.example.locationsave.HEP;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -40,6 +41,10 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.locationsave.HEP.Address.GeocodingArrayEntity;
 import com.example.locationsave.HEP.Address.SearchAreaArrayEntity;
+import com.example.locationsave.HEP.Hep.hep_DTO.hep_Callback;
+import com.example.locationsave.HEP.Hep.hep_DTO.hep_Location;
+import com.example.locationsave.HEP.Hep.hep_DTO.hep_LocationTag;
+import com.example.locationsave.HEP.Hep.hep_DTO.hep_Recent;
 import com.example.locationsave.HEP.Hep.hep_LocationSave.hep_LocationSaveActivity;
 import com.example.locationsave.HEP.KMS.BackPressed.KMS_BackPressedForFinish;
 import com.example.locationsave.HEP.KMS.HashTag.KMS_FlowLayout;
@@ -59,19 +64,17 @@ import com.example.locationsave.HEP.KMS.Location.KMS_SearchResultAdapter;
 import com.example.locationsave.HEP.KMS.MainFragment.KMS_FragmentFlagManager;
 
 
-import com.example.locationsave.HEP.KMS.Map.KMS_MarkerInformation;
+
 import com.example.locationsave.HEP.KMS.Map.KMS_MarkerInformationFlagManager;
 import com.example.locationsave.HEP.KMS.Map.KMS_MarkerManager;
-import com.example.locationsave.HEP.KMS.Toolbar.KMS_ClearableEditText_LoadLocation;
-import com.example.locationsave.HEP.KMS.Toolbar.KMS_ClearableEditText_LoadLocation_auto;
 
+import com.example.locationsave.HEP.KMS.Toolbar.KMS_ClearableEditText_LoadLocation_auto;
 import com.example.locationsave.HEP.KMS.Toolbar.KMS_RecycleVIewManager;
+import com.example.locationsave.HEP.KMS.Toolbar.KMS_SearchBarManager;
 import com.example.locationsave.HEP.KMS.Toolbar.KMS_SearchFlagManager;
 import com.example.locationsave.HEP.KMS.Toolbar.KSH_LoadLocation;
-import com.example.locationsave.HEP.KMS.Toolbar.KSH_LoadResultAdapter;
 import com.example.locationsave.HEP.KSH.KSH_AllSeeActivity;
 import com.example.locationsave.HEP.KSH.KSH_DirectoryEntity;
-import com.example.locationsave.HEP.KSH.KSH_FireBase;
 import com.example.locationsave.HEP.KSH.KSH_LoadingActivity;
 import com.example.locationsave.HEP.KSH.KSH_RecyAdapter;
 
@@ -80,7 +83,7 @@ import com.example.locationsave.HEP.KSH.NavIntent.KSH_NoticeIntent;
 
 import com.example.locationsave.HEP.KSH.NavIntent.KSH_HelpIntent;
 import com.example.locationsave.HEP.KSH.NavIntent.KSH_SetIntent;
-import com.example.locationsave.HEP.pcs_RecyclerView.Pcs_LocationRecyclerView;
+import com.example.locationsave.HEP.pcs_RecyclerView.locationList.Pcs_LocationRecyclerView;
 import com.example.locationsave.R;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
@@ -88,15 +91,14 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.UploadTask;
 import com.naver.maps.map.CameraPosition;
-
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
 import static com.example.locationsave.HEP.KMS.MainFragment.KMS_MapFragment.NMap;
-import static com.example.locationsave.HEP.KMS.Toolbar.KMS_ClearableEditText_LoadLocation.SET_LOAD_RECYCLER_FLAG;
 
 public class KMS_MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
     @Override
@@ -108,7 +110,7 @@ public class KMS_MainActivity extends AppCompatActivity implements NavigationVie
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 HashMap<String, Object> result = new HashMap<>();
-                com.naver.maps.map.CameraPosition cameraPosition = NMap.getCameraPosition();
+                CameraPosition cameraPosition = NMap.getCameraPosition();
                 result.put("latitude", cameraPosition.target.latitude);
                 result.put("longitude", cameraPosition.target.longitude);
                 if(directoryid != null)
@@ -161,7 +163,6 @@ public class KMS_MainActivity extends AppCompatActivity implements NavigationVie
         arrayKey = new ArrayList<>();
         drawerLayout = findViewById(R.id.drawer_layout);
         navigationView = findViewById(R.id.nav_view);
-        KSH_FireBase firebaseDatabase = KSH_FireBase.getInstance(); // 싱글톤
         AreaSearch areaSearch = new AreaSearch(); // 키자마자 한번 지오코딩 돌리는거
         areaSearch.Geocoding("신당동 164");
     }
@@ -187,7 +188,7 @@ public class KMS_MainActivity extends AppCompatActivity implements NavigationVie
     Animation animationH;
     //6. 자동완성 텍스트 뷰
     //KMS_ClearableEditText_LoadLocation_auto clearableEditText_loadLocation_auto;
-    KMS_ClearableEditText_LoadLocation clearableEditText_loadLocation_auto;
+    KMS_ClearableEditText_LoadLocation_auto clearableEditText_loadLocation_auto;
 
     static InputMethodManager inputMethodManager; //키보드 설정 위한
     //리스트뷰
@@ -240,7 +241,30 @@ public class KMS_MainActivity extends AppCompatActivity implements NavigationVie
 
     KMS_MarkerInformationFlagManager kms_markerInformationFlagManager = KMS_MarkerInformationFlagManager.getMarkerInformationFlagManagerInstance();
 
+    public static ArrayList<hep_Location> autoCompleteLocationList;
+
+    KMS_SearchBarManager kms_searchBarManager = new KMS_SearchBarManager();
     public void kms_init(){
+        autoCompleteLocationList = new ArrayList<>();
+
+        //location name 자동완성
+        //Query locationQuery = new hep_FireBase().getFireBaseDatabaseInstance().getReference().child("location").orderByChild("directoryid").equalTo(directoryid);
+        new hep_FireBase().getFireBaseDatabaseInstance().getReference().child("location").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                autoCompleteLocationList.clear();
+                for(DataSnapshot dataSnapshot : snapshot.getChildren()){
+                    hep_Location hep_location = dataSnapshot.getValue(hep_Location.class);
+                    autoCompleteLocationList.add(hep_location);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
         fragmentManager = getSupportFragmentManager();
         mapFragment = new KMS_MapFragment();
         fragmentManager.beginTransaction().replace(R.id.frameLayout, mapFragment).commit();
@@ -273,7 +297,7 @@ public class KMS_MainActivity extends AppCompatActivity implements NavigationVie
         floatingButton = findViewById(R.id.floatingActionButton);  // 8.floating icon
         mainContext = this; //9. Location Layout
         relativelayout_sub = findViewById(R.id.relativeLayout_s);
-        relativeLayout_load = findViewById(R.id.relativeLayout_l);
+        relativeLayout_load = findViewById(R.id.relativeLayout_loadLoaction);
         linearLayout_selectLocation = findViewById(R.id.linearLayout_s);
         backPressedForFinish = new KMS_BackPressedForFinish(this);  //10.BackPressed
         mRecyclerView = (RecyclerView) findViewById(R.id.searchResult_RecyclerVIew);
@@ -447,6 +471,7 @@ public class KMS_MainActivity extends AppCompatActivity implements NavigationVie
                     hideRecyclerView(); //일단 디렉토리 열려있으면 삭제
                 }//임시
                 Toast.makeText(getApplicationContext(), "검색할 장소를 입력하세요.", Toast.LENGTH_LONG).show();
+
                 //툴바 제거
                 if (getSupportActionBar().isShowing()) {
                     kms_searchFlagManager.flagSetTrueSearch();
@@ -456,6 +481,7 @@ public class KMS_MainActivity extends AppCompatActivity implements NavigationVie
                     setBottomBar(bottomBar, kms_searchFlagManager.flagGetSearch());
                     setSearchBar(kms_searchFlagManager.flagGetSearch());
                     setFloatingItem(kms_searchFlagManager.flagGetSearch());
+                    kms_searchBarManager.setOnLoadLocationSearchBar(relativeLayoutRoadLoaction);
                 }
                 return true;
             } //검색 버튼 종료
@@ -628,9 +654,8 @@ public class KMS_MainActivity extends AppCompatActivity implements NavigationVie
             setBottomBar(bottomBar, kms_searchFlagManager.flagGetSearch());
             setSearchBar(kms_searchFlagManager.flagGetSearch());
             setFloatingItem(kms_searchFlagManager.flagGetSearch());
-
-            // 뒤로갔을때 recyclerview gone -> visible, visible -> gone
-            ksh_loadLocation.setSearchResultRecyclerView(getApplicationContext(), loadRecyclerView);
+//            ksh_loadLocation.setSearchResultRecyclerView(getApplicationContext(), loadRecyclerView);
+            kms_searchBarManager.setOffLoadLocationSearchBar(relativeLayoutRoadLoaction);
         }
 
         else if (kms_markerInformationFlagManager.flagGetMarkerInformationFlag() == false && kms_searchFlagManager.flagGetSearch() == false && kms_recycleVIewManager.flagCheckRecycleView() == false
@@ -644,7 +669,8 @@ public class KMS_MainActivity extends AppCompatActivity implements NavigationVie
             Log.d("6","#####맵 & 마커 인포" + kms_fragmentFlagManager.flagCheckFragment() + kms_markerInformationFlagManager.flagGetMarkerInformationFlag());
 
             if (kms_locationFlagManager.flagGetLocation() == true) {
-                Log.d("6","444");
+                Log.d("6","444 location add on");
+
                 hideAddLocation();
                 editText.setText(null);
                 mRecyclerView.setVisibility(View.GONE);
@@ -767,91 +793,81 @@ public class KMS_MainActivity extends AppCompatActivity implements NavigationVie
         setMargin();  // ???
         logtest("온크리트 초기 flag  값");
 
-//        Query directoryQuery = new hep_FireBase().getFireBaseDatabaseInstance().getReference().child("directory").orderByChild("token").equalTo(new hep_FirebaseUser().getFirebaseUserInstance().getUid());
-//        directoryQuery.addValueEventListener(new ValueEventListener() {
-//            @Override
-//            public void onDataChange(@NonNull DataSnapshot snapshot) {
-//                arrayList.clear();
-//                arrayKey.clear();
-//                for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
-//                    ksh_directoryEntity = dataSnapshot.getValue(KSH_DirectoryEntity.class); // 만들어둔 Test 객체에 데이터를 담는다
-//                    String key = dataSnapshot.getKey();
-//                    arrayList.add(ksh_directoryEntity);  // 담은 데이터들을 arraylist에 넣고 recyclerview로 보낼 준비
-//                    arrayKey.add(key);
-//                }
-//                if (recyAdapter != null)
-//                    recyAdapter.notifyDataSetChanged(); // list 저장 및 새로고침
-//
-//                new hep_FireBase().getRecentData(new hep_Callback() {
-//                    @Override
-//                    public void onSuccess(hep_Recent hep_recent) {
-//                        for (int i = 0; i < arrayKey.size(); i++) {
-//                            if (directoryid == null) {
-//                                if (hep_recent.directoryid.equals(arrayKey.get(i))) {
-//                                    selectView = i + 1;
-//                                    directoryid = hep_recent.directoryid;
-//                                }
-//
-//                                if (arrayKey.size() == i && selectView == 0) {
-//                                    directoryid = arrayKey.get(0);
-//                                    selectView = 1;
-//                                }
-//                            }
-//                        }
-//                        recyAdapter = new KSH_RecyAdapter(KMS_MainActivity.this, arrayList, arrayKey, ksh_directoryEntity, selectView);
-//                        recyclerView.setAdapter(recyAdapter);
-//
-//                        Query latilonginameQuery = new hep_FireBase().getFireBaseDatabaseInstance().getReference().child("location").orderByChild("directoryid").equalTo(directoryid);
-//                        latilonginameQuery.addValueEventListener(new ValueEventListener() {
-//                            @Override
-//                            public void onDataChange(@NonNull DataSnapshot snapshot) {
-//                                new KMS_MarkerManager().getInstanceMarkerManager().initMarker();
-//                                for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
-//                                    hep_Location hep_location = dataSnapshot.getValue(hep_Location.class);
-//                                    new KMS_MarkerManager().getInstanceMarkerManager().addMarker(hep_location.name, hep_location.latitude, hep_location.longitude);
-//
-////                                    LatLng addMarkerLatLng = new LatLng(hep_location.latitude, hep_location.longitude);
-////                                    //현재 장소 위경도값 받아와서 좌표 추가
-////                                    Marker marker = new Marker();
-////                                    marker.setPosition(addMarkerLatLng);
-////
-////                                    //마커 텍스트
-////                                    marker.setCaptionText(hep_location.name);
-////                                    marker.setCaptionRequestedWidth(200); //이름 최대 폭
-////
-////                                    //마커 이미지
-////                                    marker.setIcon(OverlayImage.fromResource(R.drawable.marker_design_pika2));
-////                                    marker.setWidth(120);
-////                                    marker.setHeight(160);
-////
-////                                    marker.setMap(NMap);
-//                                }
-//                            }
-//
-//                            @Override
-//                            public void onCancelled(@NonNull DatabaseError error) {
-//
-//                            }
-//                        });
-//                    }
-//
-//                    @Override
-//                    public void onSuccess(hep_LocationTag hep_locationTag) {
-//
-//                    }
-//
-//                    @Override
-//                    public void onFail(String errorMessage) {
-//
-//                    }
-//                });
-//            }
-//
-//            @Override
-//            public void onCancelled(@NonNull DatabaseError databaseError) {
-//                Log.d("1", " error "+String.valueOf(databaseError.toException()));
-//            }
-//        });
+        Query directoryQuery = new hep_FireBase().getFireBaseDatabaseInstance().getReference().child("directory").orderByChild("token").equalTo(new hep_FirebaseUser().getFirebaseUserInstance().getUid());
+        directoryQuery.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                arrayList.clear();
+                arrayKey.clear();
+                for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                    ksh_directoryEntity = dataSnapshot.getValue(KSH_DirectoryEntity.class); // 만들어둔 Test 객체에 데이터를 담는다
+                    String key = dataSnapshot.getKey();
+                    arrayList.add(ksh_directoryEntity);  // 담은 데이터들을 arraylist에 넣고 recyclerview로 보낼 준비
+                    arrayKey.add(key);
+                }
+                if (recyAdapter != null)
+                    recyAdapter.notifyDataSetChanged(); // list 저장 및 새로고침
+
+                new hep_FireBase().getRecentData(new hep_Callback() {
+                    @Override
+                    public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+
+                    }
+
+                    @Override
+                    public void onSuccess(DataSnapshot dataSnapshot, DataSnapshot dataSnapshot1) {
+
+                    }
+
+                    @Override
+                    public void onSuccess(hep_LocationTag hep_locationTag) {
+
+                    }
+
+                    @Override
+                    public void onSuccess(hep_Recent hep_recent) {
+                        for (int i = 0; i < arrayKey.size(); i++) {
+                            if (directoryid == null) {
+                                if (hep_recent.directoryid.equals(arrayKey.get(i))) {
+                                    selectView = i + 1;
+                                    directoryid = hep_recent.directoryid;
+                                }
+
+                                if (arrayKey.size() == i && selectView == 0) {
+                                    directoryid = arrayKey.get(0);
+                                    selectView = 1;
+                                }
+                            }
+                        }
+                        recyAdapter = new KSH_RecyAdapter(KMS_MainActivity.this, arrayList, arrayKey, ksh_directoryEntity, selectView);
+                        recyclerView.setAdapter(recyAdapter);
+
+                        Query latilonginameQuery = new hep_FireBase().getFireBaseDatabaseInstance().getReference().child("location").orderByChild("directoryid").equalTo(directoryid);
+                        latilonginameQuery.addValueEventListener(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                new KMS_MarkerManager().getInstanceMarkerManager().initMarker();
+                                for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                                    hep_Location hep_location = dataSnapshot.getValue(hep_Location.class);
+                                    new KMS_MarkerManager().getInstanceMarkerManager().addMarker(hep_location.name, hep_location.latitude, hep_location.longitude);
+                                }
+                            }
+
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError error) {
+
+                            }
+                        });
+                    }
+                });
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                Log.d("1", " error "+String.valueOf(databaseError.toException()));
+            }
+        });
+
         recyAdapter = new KSH_RecyAdapter(KMS_MainActivity.this, arrayList, arrayKey, ksh_directoryEntity, selectView);
         recyclerView.setAdapter(recyAdapter);
 
@@ -1071,11 +1087,13 @@ public class KMS_MainActivity extends AppCompatActivity implements NavigationVie
                 Log.d("6","####마커인포 클릭");
             }
         });
+        relativeLayoutRoadLoaction = findViewById(R.id.relativeLayout_loadLoaction);
 
     } //oncreate 종료
 
     public static LinearLayout linearLayoutMakerInformation;
     public static TextView textViewMarkerInformationTitle;
+    public static RelativeLayout relativeLayoutRoadLoaction;
 //    Button btnClear;
 
 
@@ -1133,5 +1151,4 @@ public class KMS_MainActivity extends AppCompatActivity implements NavigationVie
              }
          }
     }
-
 } //mainactivity 종료

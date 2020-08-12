@@ -8,7 +8,9 @@
     <uses-permission android:name="android.permission.INTERNET"/>
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
 
-    <application
+    <!--android:requestLegacyExternalStorage="true" // android 10부터 사진권한 받기위해 추가  https://darkstart.tistory.com/66 -->
+    <application android:requestLegacyExternalStorage="true"
+
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -21,9 +23,13 @@
         <activity android:name=".HEP.KSH.NavIntent.KSH_SetIntent"/>
         <activity android:name=".HEP.KSH.KSH_AllSeeActivity"/>
         <activity android:name=".HEP.Hep.hep_LocationSave.hep_LocationSaveActivity"/>
-        <activity android:name=".HEP.Hep.hep_Login"/>
+        <activity android:name=".HEP.Hep.hep_LocationUpdate.hep_LocationUpdateActivity"/>
+        <activity android:name=".HEP.Hep.hep_LocationDetail.hep_LocationDetailActivity"/>
+        <activity android:name=".HEP.Hep.hep_LocationSave.hep_FullImage"/>
 
-        <activity android:name=".HEP.KMS_MainActivity"
+        <activity android:name=".HEP.KMS_MainActivity"/>
+
+        <activity android:name=".HEP.Hep.hep_Login"
             android:windowSoftInputMode="adjustNothing">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -31,8 +37,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".HEP.Hep.hep_LocationSave.hep_FullImage"/>
-        <activity android:name=".HEP.Hep.hep_LocationDetail.hep_LocationDetailActivity"/>
 
         <service android:name=".HEP.Hep.hep_closeAppService"
             android:stopWithTask="false"/>
@@ -40,5 +44,9 @@
         <meta-data
             android:name="com.naver.maps.map.CLIENT_ID"
             android:value="8qhm9zaxf6" />
+        <!--This is PCS -->
+        <activity android:name=".HEP.pcs_RecyclerView.DirectoryList.Pcs_DirectoryCustomPopupWindow"
+            android:theme="@style/dicPopupTheme" android:screenOrientation="portrait"></activity>
+
     </application>
 </manifest>

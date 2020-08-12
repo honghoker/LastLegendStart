@@ -18,7 +18,7 @@ public class KSH_LoadLocation extends AppCompatActivity {
     }
 
     public void SetLinearLayout(Context context, RelativeLayout relativeLayout) {
-        Log.d("####KMS_SelectLocation.SetLinearLayout","샛리니어레이아웃 실행");
+        Log.d("####KMS_SelectLocation.SetLinearLayout", "샛리니어레이아웃 실행");
         if (relativeLayout.getVisibility() == View.GONE) {  //만약 셀렉트 로케이션이 보이지 않으면
             //Toast.makeText(context, "검색 바 / 서브 툴바 출력", Toast.LENGTH_SHORT).show();
             relativeLayout.setVisibility(View.VISIBLE);
@@ -28,11 +28,15 @@ public class KSH_LoadLocation extends AppCompatActivity {
         } //서브 툴바 숨기기
     }
 
-    public void setSearchResultRecyclerView(Context context, RecyclerView recyclerView) {
+    public void setOnSearchResultRecyclerView(Context context, RecyclerView recyclerView) {
         if (recyclerView.getVisibility() == View.GONE) {  //만약 셀렉트 로케이션이 보이지 않으면
             //Toast.makeText(context, "검색 바 / 서브 툴바 출력", Toast.LENGTH_SHORT).show();
             recyclerView.setVisibility(View.VISIBLE);
-        } else if (recyclerView.getVisibility() == View.VISIBLE) {
+        }
+    }
+
+    public void setOffSearchResultRecyclerView2(Context context, RecyclerView recyclerView) {
+        if (recyclerView.getVisibility() == View.VISIBLE) {
             //Toast.makeText(context, "검색 바 / 서브 툴바 미출력", Toast.LENGTH_SHORT).show();
             recyclerView.setVisibility(View.GONE);
         }

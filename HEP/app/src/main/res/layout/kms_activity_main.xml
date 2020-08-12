@@ -119,7 +119,7 @@
             android:orientation="horizontal"
             android:visibility="gone">
 
-            <com.example.locationsave.HEP.KMS.Toolbar.KMS_ClearableEditText_LoadLocation
+            <com.example.locationsave.HEP.KMS.Toolbar.KMS_ClearableEditText_LoadLocation_auto
                 android:id="@+id/searchView"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent" />

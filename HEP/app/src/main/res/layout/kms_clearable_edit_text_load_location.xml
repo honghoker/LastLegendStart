@@ -2,14 +2,16 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/relativeLayout_loadLoaction"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:id="@+id/relativeLayout_l"
-    >
+    android:visibility="visible">
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
+
                 <com.example.locationsave.HEP.Hep.hep_LocationSave.hep_LocationSave_AutoCompleteTextView
                     android:id="@+id/clearable_edit_load_location"
                     android:layout_width="380dp"
@@ -19,6 +21,7 @@
                     android:lines="1"
                     android:paddingRight="35dip"
                     android:singleLine="true" />
+
                 <Button
                     android:id="@+id/clearable_load_location_button_clear"
                     android:layout_width="30dip"
@@ -30,17 +33,17 @@
         </LinearLayout>
 
         <LinearLayout
-            android:layout_marginTop="57dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="57dp"
             android:orientation="vertical">
+
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/searchLordResult_RecyclerVIew"
                     android:layout_width="match_parent"
                     android:layout_height="150dp"
                     android:background="#FFFFFF"
-                    android:visibility="gone"
-                    />
+                    android:visibility="gone" />
         </LinearLayout>
 
 </RelativeLayout>
