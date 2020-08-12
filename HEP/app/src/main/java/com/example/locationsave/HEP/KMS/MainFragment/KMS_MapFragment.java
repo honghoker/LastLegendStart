@@ -1,5 +1,6 @@
 package com.example.locationsave.HEP.KMS.MainFragment;
 
+import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
@@ -38,7 +39,7 @@ import java.util.concurrent.ExecutionException;
 //프래그먼트는 액티비티위에 올라가있을떄만 프래그먼트로서 동작할 수 있다.
 public class KMS_MapFragment extends Fragment implements OnMapReadyCallback {
 
-    KMS_MainActivity activity; //프래그먼트
+    Activity activity; //프래그먼트
 
     //네이버 map 전역 변수
     public static NaverMap NMap;
@@ -54,7 +55,7 @@ public class KMS_MapFragment extends Fragment implements OnMapReadyCallback {
     public void onAttach(Context context) {
         super.onAttach(context);
         //이 메소드가 호출될떄는 프래그먼트가 엑티비티위에 올라와있는거니깐 getActivity메소드로 엑티비티참조가능
-        activity = (KMS_MainActivity) getActivity();
+        activity = getActivity();
     }
 
     @Override

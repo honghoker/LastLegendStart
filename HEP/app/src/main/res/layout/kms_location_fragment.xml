@@ -5,11 +5,24 @@
     android:background="@android:color/holo_purple"
     android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/fragment"
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="location fragment"
-        android:textSize="45dp" />
+        android:layout_height="match_parent">
+
+        <fragment
+            android:id="@+id/map"
+            android:name="com.naver.maps.map.MapFragment"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+        <TextView
+            android:id="@+id/fragment"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#FD1D1D"
+            android:text="location fragment"
+            android:textSize="45dp" />
+
+    </FrameLayout>
 
 </LinearLayout>
