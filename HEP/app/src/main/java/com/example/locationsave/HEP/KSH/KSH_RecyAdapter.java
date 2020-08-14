@@ -16,6 +16,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.locationsave.HEP.Hep.hep_DTO.hep_Location;
 import com.example.locationsave.HEP.Hep.hep_FireBase;
 import com.example.locationsave.HEP.KMS.Map.KMS_MarkerManager;
+import com.example.locationsave.HEP.pcs_RecyclerView.Pcs_LocationRecyclerView;
 import com.example.locationsave.R;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -25,6 +26,7 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
+import static com.example.locationsave.HEP.KMS_MainActivity.LocationFragmet;
 import static com.example.locationsave.HEP.KMS_MainActivity.directoryid;
 
 public class KSH_RecyAdapter extends RecyclerView.Adapter<KSH_RecyAdapter.ViewHolder> {
@@ -37,6 +39,7 @@ public class KSH_RecyAdapter extends RecyclerView.Adapter<KSH_RecyAdapter.ViewHo
     KSH_DirectoryEntity ksh_directoryEntity;
     KSH_Date ksh_date = new KSH_Date();
     private int selectView = 0;
+    KMS_MarkerManager kms_markerManager = new KMS_MarkerManager().getInstanceMarkerManager();
 
     public KSH_RecyAdapter(Context context, ArrayList<KSH_DirectoryEntity> arrayList,ArrayList<String> arrayKey, KSH_DirectoryEntity ksh_directoryEntity, int selectView) {
         mcontext = context;
@@ -153,7 +156,14 @@ public class KSH_RecyAdapter extends RecyclerView.Adapter<KSH_RecyAdapter.ViewHo
                                 new KMS_MarkerManager().getInstanceMarkerManager().initMarker();
                                 for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
                                     hep_Location hep_location = dataSnapshot.getValue(hep_Location.class);
+<<<<<<< HEAD
                                     new KMS_MarkerManager().getInstanceMarkerManager().addMarker(hep_location.name, hep_location.latitude, hep_location.longitude);
+                                    //Pcs_LocationRecyclerView pcs_locationRecyclerView = new Pcs_LocationRecyclerView();
+
+                                    //setUpRecyclerView();
+=======
+                                    new KMS_MarkerManager().getInstanceMarkerManager().addMarker(kms_markerManager.markers, hep_location.name, hep_location.latitude, hep_location.longitude);
+>>>>>>> 11313fc4c7cbe64f6e543f2c088781c8029f842a
                                 }
                             }
 

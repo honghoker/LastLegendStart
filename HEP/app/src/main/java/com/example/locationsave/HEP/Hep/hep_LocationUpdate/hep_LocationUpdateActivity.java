@@ -24,6 +24,7 @@ import androidx.core.app.ActivityCompat;
 import androidx.viewpager.widget.ViewPager;
 
 import com.example.locationsave.HEP.Hep.hep_DTO.hep_Callback;
+import com.example.locationsave.HEP.Hep.hep_DTO.hep_DirectoryTag;
 import com.example.locationsave.HEP.Hep.hep_DTO.hep_Location;
 import com.example.locationsave.HEP.Hep.hep_DTO.hep_LocationTag;
 import com.example.locationsave.HEP.Hep.hep_DTO.hep_Recent;
@@ -34,6 +35,7 @@ import com.example.locationsave.HEP.Hep.hep_LocationSave.hep_HashTagArr;
 import com.example.locationsave.HEP.Hep.hep_LocationSave.hep_ImageData;
 import com.example.locationsave.HEP.Hep.hep_LocationSave.hep_locationImageDataArr;
 import com.example.locationsave.HEP.KMS.MainFragment.KMS_MapFragment;
+import com.example.locationsave.HEP.KSH.KSH_DirectoryEntity;
 import com.example.locationsave.R;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DataSnapshot;
@@ -289,10 +291,13 @@ public class hep_LocationUpdateActivity extends AppCompatActivity {
 
     public void onButtonLocationUpdateClicked(View v) {
         int delay;
+
         if(new hep_locationImageDataArr().getImageDataArrayInstance().size() > new hep_HashTagArr().getHashTagArr().size())
             delay = new hep_locationImageDataArr().getImageDataArrayInstance().size();
         else
             delay = new hep_HashTagArr().getHashTagArr().size();
+        if(new hep_locationImageDataArr().getImageDataArrayInstance().size() == 0 && new hep_HashTagArr().getHashTagArr().size() == 0)
+            delay = 3;
 
         firebaseImageInsert();
         firebaseTagInsert();
@@ -332,8 +337,32 @@ public class hep_LocationUpdateActivity extends AppCompatActivity {
             locatiotagQuery.addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot snapshot) {
-                    Log.d("@@@@@", "locationtag Count = " + snapshot.getChildrenCount());
                     for(DataSnapshot dataSnapshot : snapshot.getChildren()){
+                        hep_LocationTag hep_locationTag = dataSnapshot.getValue(hep_LocationTag.class);
+                        new hep_FireBase().getFireBaseDatabaseInstance().getReference().child("directorytag").orderByChild("tagid").equalTo(hep_locationTag.tagid).addListenerForSingleValueEvent(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                for(DataSnapshot dataSnapshot1 : snapshot.getChildren()){
+                                    hep_DirectoryTag hep_directoryTag = dataSnapshot1.getValue(hep_DirectoryTag.class);
+                                    if(hep_directoryTag.count == 1){
+                                        new hep_FireBase().getFireBaseDatabaseInstance().getReference().child("directorytag").child(dataSnapshot1.getKey()).removeValue();
+                                    }
+                                    else
+                                    {
+                                        hep_directoryTag.count -= 1;
+                                        Map<String, Object> hashDirectoryTag = new HashMap<>();
+                                        hashDirectoryTag = hep_directoryTag.toMap();
+                                        new hep_FireBase().getFireBaseDatabaseInstance().getReference().child("directorytag").child(dataSnapshot1.getKey()).updateChildren(hashDirectoryTag);
+                                    }
+                                }
+                            }
+
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError error) {
+
+                            }
+                        });
+
                         new hep_FireBase().getFireBaseDatabaseInstance().getReference().child("locationtag").child(dataSnapshot.getKey()).removeValue();
                         Log.d("@@@@@", "locationtag 제거");
                     }
@@ -412,7 +441,6 @@ public class hep_LocationUpdateActivity extends AppCompatActivity {
                     public void onSuccess(hep_LocationTag hep_locationTag) {
 
                     }
-
                 });
             }
         }
@@ -460,8 +488,6 @@ public class hep_LocationUpdateActivity extends AppCompatActivity {
             imagetempArrayList.addAll(new hep_locationImageDataArr().getImageDataArrayInstance());
         }
     }
-
-
 
 
     public void onbtnChangeAddrClicked(View v){

@@ -1,7 +1,10 @@
 package com.example.locationsave.HEP.Hep.hep_DTO;
 
+import com.example.locationsave.HEP.KSH.KSH_DirectoryEntity;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.storage.UploadTask;
+
+import java.util.ArrayList;
 
 public interface hep_Callback {
     void onSuccess(UploadTask.TaskSnapshot taskSnapshot);

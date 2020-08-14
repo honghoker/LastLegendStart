@@ -59,6 +59,7 @@ public class KSH_AllSeeAdapter extends RecyclerView.Adapter<KSH_AllSeeAdapter.Vi
         String Title = String.valueOf(arrayList.get(position).getName());
         String createTime = String.valueOf(arrayList.get(position).getCreateTime());
         String updateTime = String.valueOf(arrayList.get(position).getUpdateTime());
+
         holder.recy_test_title.setText(Title);
         holder.createTime.setText(createTime);
         holder.updateTime.setText(updateTime);
