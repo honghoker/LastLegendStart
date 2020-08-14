@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.graphics.Color;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,8 +19,10 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.locationsave.HEP.Hep.hep_DTO.hep_Location;
 import com.example.locationsave.HEP.Hep.hep_FireBase;
 import com.example.locationsave.HEP.KMS.Map.KMS_MarkerManager;
+
 import com.example.locationsave.HEP.KMS_MainActivity;
 import com.example.locationsave.HEP.pcs_RecyclerView.Pcs_LocationRecyclerView;
+
 import com.example.locationsave.R;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -42,14 +45,19 @@ public class KSH_RecyAdapter extends RecyclerView.Adapter<KSH_RecyAdapter.ViewHo
     KSH_DirectoryEntity ksh_directoryEntity;
     KSH_Date ksh_date = new KSH_Date();
     private int selectView = 0;
+    public static int LastPosition = -1; //단일 선택 위한 변수
+
+    private sunghunTest mCallback;
     KMS_MarkerManager kms_markerManager = new KMS_MarkerManager().getInstanceMarkerManager();
 
-    public KSH_RecyAdapter(Context context, ArrayList<KSH_DirectoryEntity> arrayList,ArrayList<String> arrayKey, KSH_DirectoryEntity ksh_directoryEntity, int selectView) {
+    public KSH_RecyAdapter(Context context, ArrayList<KSH_DirectoryEntity> arrayList,ArrayList<String> arrayKey, KSH_DirectoryEntity ksh_directoryEntity, int selectView, sunghunTest listener) {
         mcontext = context;
         this.arrayList = arrayList;
         this.ksh_directoryEntity = ksh_directoryEntity;
         this.arrayKey = arrayKey;
         this.selectView = selectView;
+
+        mCallback = listener;
 
         // 싱글톤
         KSH_FireBase firebaseDatabase = KSH_FireBase.getInstance();
@@ -92,14 +100,22 @@ public class KSH_RecyAdapter extends RecyclerView.Adapter<KSH_RecyAdapter.ViewHo
 
     @Override
     public void onBindViewHolder(@NonNull KSH_RecyAdapter.ViewHolder holder, int position) {
-        if(position == selectView && selectView != 0) {
-            holder.itemView.setBackgroundColor(Color.RED);
-        }
+        Log.d("6","position 확인 " + position);
+//        holder.itemView.setBackgroundColor(Color.parseColor("#cccccc"));
+
+//        if(position == selectView && selectView != 0) {
+//            // 여기
+//        }
 
         if(holder instanceof HeaderViewHolder){
             HeaderViewHolder headerViewHolder = (HeaderViewHolder) holder;
         }
         else{
+            if (position == LastPosition)
+                holder.itemView.setBackgroundColor(Color.RED);
+            else
+                holder.itemView.setBackgroundColor(Color.parseColor("#cccccc"));
+
             String Title = String.valueOf(arrayList.get(position-1).getName());
             String createTime = String.valueOf(arrayList.get(position-1).getCreateTime());
             holder.recy_test_title.setText(Title);
@@ -151,7 +167,12 @@ public class KSH_RecyAdapter extends RecyclerView.Adapter<KSH_RecyAdapter.ViewHo
                         builder.show();
                     }
                     else{
+                        Log.d("6", "last = " + LastPosition + " pos = "+pos);
                         directoryid = arrayKey.get(pos-1);
+
+                        LastPosition = pos;
+                        String Title = String.valueOf(arrayList.get(pos-1).getName());
+                        mCallback.onClick(Title, v);
                         Query latilonginameQuery = new hep_FireBase().getFireBaseDatabaseInstance().getReference().child("location").orderByChild("directoryid").equalTo(directoryid);
                         latilonginameQuery.addValueEventListener(new ValueEventListener() {
                             @Override
@@ -174,6 +195,7 @@ public class KSH_RecyAdapter extends RecyclerView.Adapter<KSH_RecyAdapter.ViewHo
                             }
                         });
                     }
+                    notifyDataSetChanged();
                 }
             });
         }
