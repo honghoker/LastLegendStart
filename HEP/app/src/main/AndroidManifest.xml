@@ -27,10 +27,10 @@
         <activity android:name=".HEP.Hep.hep_LocationDetail.hep_LocationDetailActivity"/>
         <activity android:name=".HEP.Hep.hep_LocationSave.hep_FullImage"/>
 
-        <activity android:name=".HEP.KMS_MainActivity"/>
+        <activity android:name=".HEP.KMS_MainActivity"
+            android:windowSoftInputMode="adjustNothing"/>
 
-        <activity android:name=".HEP.Hep.hep_Login"
-            android:windowSoftInputMode="adjustNothing">
+        <activity android:name=".HEP.Hep.hep_Login">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

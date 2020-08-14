@@ -114,10 +114,13 @@
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/searchResult_RecyclerVIew"
             android:layout_width="match_parent"
-            android:layout_height="150dp"
+            android:layout_height="170dp"
             android:background="#FFFFFF"
             android:visibility="gone"
-            tools:ignore="NotSibling" />
+            tools:ignore="NotSibling"
+            android:scrollbars="vertical"
+            android:scrollbarThumbVertical="@color/common_google_signin_btn_text_dark_disabled"
+            android:scrollbarSize="15dp"/>
     </LinearLayout>
 
 </RelativeLayout>
