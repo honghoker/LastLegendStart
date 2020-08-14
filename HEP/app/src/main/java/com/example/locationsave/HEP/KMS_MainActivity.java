@@ -106,7 +106,7 @@ import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 import com.naver.maps.map.CameraPosition;
-import com.squareup.picasso.Picasso;
+
 
 import java.io.IOException;
 import java.util.ArrayList;
