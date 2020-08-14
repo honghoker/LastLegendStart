@@ -83,20 +83,6 @@ public class KMS_SearchResultAdapter extends RecyclerView.Adapter<KMS_SearchResu
 
                 notifyDataSetChanged(); //값 변경 확인함.
 
-//개별 선택 위한 코드
-/*
-
- Log.d("View", "viewHolder Event Position : " + position + " mSize : " + mList.size());
-                    if (mSelectedItems.get(position, false)) { //흰색 안눌렀을때가 false 이고 이때 true 로 변경된다.
-                        Log.d("View", "파랑 클릭? viewHolder Event Item bool false: " + mSelectedItems.get(position, false));
-                        mSelectedItems.put(position, false);
-                        v.setBackgroundColor(Color.WHITE);
-                    }
-                    else{
-                        Log.d("View", "흰색 클릭? viewHolder Event Item bool true: " + mSelectedItems.get(position, true));
-                        mSelectedItems.put(position, true);
-                        v.setBackgroundColor(Color.BLUE);
-                    }*/
             }
         }); //클릭 리스너 종료
 
@@ -113,17 +99,6 @@ public class KMS_SearchResultAdapter extends RecyclerView.Adapter<KMS_SearchResu
             viewholder.itemView.setBackgroundColor(Color.BLUE);
         else
             viewholder.itemView.setBackgroundColor(Color.WHITE);
-
-
-/*
-//개별 선택 위한 코드
-        if (mSelectedItems.get(position, false)) {
-            viewholder.itemView.setBackgroundColor(Color.BLUE);
-        } else {
-            viewholder.itemView.setBackgroundColor(Color.WHITE);
-        }
-*/
-
 
         viewholder.Title.setTextSize(TypedValue.COMPLEX_UNIT_SP, 10);
         viewholder.RoadAddress.setTextSize(TypedValue.COMPLEX_UNIT_SP, 10);
