@@ -42,6 +42,8 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
+import static com.example.locationsave.HEP.KMS_MainActivity.directoryid;
+
 
 public class Pcs_LocationRecyclerView extends Fragment {
     private final static String DEFAULT_FILED = "name";
@@ -131,7 +133,7 @@ public class Pcs_LocationRecyclerView extends Fragment {
         adapter.stopListening();
     }
 
-    private void setUpRecyclerView(){
+    public void setUpRecyclerView(){
 //        adapter = getFirebaseData(DEFAULT_FILED, DEFAULT_QUERY_DIRECTION);\
         adapter = getFirebaseData(DEFAULT_FILED);
         recyclerView = rootView.findViewById(R.id.locationRecyclcerView);
@@ -142,7 +144,8 @@ public class Pcs_LocationRecyclerView extends Fragment {
 
     //Get firebase data and put into adapter
     private Pcs_RecyclerviewAdapter getFirebaseData(String field){
-        Query query = db1.getReference().child("location").orderByChild(field);
+        //Query query = db1.getReference().child("location").orderByChild(field);
+        Query query = db1.getReference().child("location").orderByChild("directoryid").equalTo(directoryid);
         FirebaseRecyclerOptions options = new FirebaseRecyclerOptions.Builder<hep_Location>()
                 .setQuery(query, hep_Location.class)
                 .build();

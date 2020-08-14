@@ -24,7 +24,6 @@ import androidx.core.app.ActivityCompat;
 import androidx.viewpager.widget.ViewPager;
 
 import com.example.locationsave.HEP.Hep.hep_DTO.hep_Callback;
-import com.example.locationsave.HEP.Hep.hep_DTO.hep_DirectoryTag;
 import com.example.locationsave.HEP.Hep.hep_DTO.hep_Location;
 import com.example.locationsave.HEP.Hep.hep_DTO.hep_LocationTag;
 import com.example.locationsave.HEP.Hep.hep_DTO.hep_Recent;
@@ -34,13 +33,13 @@ import com.example.locationsave.HEP.Hep.hep_LocationDetail.hep_LocationDetailAct
 import com.example.locationsave.HEP.KMS_MainActivity;
 import com.example.locationsave.HEP.pcs_RecyclerView.locationList.Pcs_LocationRecyclerView;
 import com.example.locationsave.HEP.KMS.MainFragment.KMS_MapFragment;
-import com.example.locationsave.HEP.KMS_MainActivity;
+import com.example.locationsave.HEP.KSH.KSH_DirectoryEntity;
+import com.example.locationsave.HEP.pcs_RecyclerView.Pcs_LocationRecyclerView;
 import com.example.locationsave.R;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
@@ -301,45 +300,9 @@ public class hep_LocationSaveActivity extends AppCompatActivity {
                         hashlocationtag.put("locationid", locationid);
                         hashlocationtag.put("tagid", hep_locationTag.tagid);
 
-                        final String tagid = hep_locationTag.tagid;
-
                         new hep_FireBase().getFireBaseDatabaseInstance().getReference().child("locationtag").push().setValue(hashlocationtag); // locationtag 저장
-
-                        Query directorytagQuery = new hep_FireBase().getFireBaseDatabaseInstance().getReference().child("directorytag").orderByChild("directoryid").equalTo(KMS_MainActivity.directoryid);
-                        directorytagQuery.addListenerForSingleValueEvent(new ValueEventListener() {
-                            @Override
-                            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                                Map<String, Object> directorytag = new HashMap<>();
-
-                                if(snapshot.exists()) {
-                                    for(DataSnapshot dataSnapshot : snapshot.getChildren()){
-
-                                        hep_DirectoryTag hep_directoryTag = dataSnapshot.getValue(hep_DirectoryTag.class);
-
-                                        if(hep_directoryTag.tagid.equals(tagid)){
-                                            directorytag.put("directoryid", hep_directoryTag.directoryid);
-                                            directorytag.put("tagid", hep_directoryTag.tagid);
-                                            directorytag.put("count", hep_directoryTag.count + 1);
-
-                                            new hep_FireBase().getFireBaseDatabaseInstance().getReference().child("directorytag").child(dataSnapshot.getKey()).updateChildren(directorytag);
-                                        }
-                                    }
-                                }
-                                else {
-                                    directorytag.put("directoryid", KMS_MainActivity.directoryid);
-                                    directorytag.put("tagid", hep_locationTag.tagid);
-                                    directorytag.put("count", 1);
-
-                                    new hep_FireBase().getFireBaseDatabaseInstance().getReference().child("directorytag").push().setValue(directorytag);
-                                }
-                            }
-
-                            @Override
-                            public void onCancelled(@NonNull DatabaseError error) {
-
-                            }
-                        });
                     }
+
                 });
             }
 
@@ -375,6 +338,8 @@ public class hep_LocationSaveActivity extends AppCompatActivity {
                 delay = new hep_locationImageDataArr().getImageDataArrayInstance().size();
             else
                 delay = new hep_HashTagArr().getHashTagArr().size();
+            if(new hep_locationImageDataArr().getImageDataArrayInstance().size() == 0 && new hep_HashTagArr().getHashTagArr().size() == 0)
+                delay = 3;
 
             toastMake("저장 중");
             Handler handler = new Handler();

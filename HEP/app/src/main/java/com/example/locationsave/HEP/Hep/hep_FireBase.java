@@ -6,6 +6,7 @@ import android.util.Log;
 import androidx.annotation.NonNull;
 
 import com.example.locationsave.HEP.Hep.hep_DTO.hep_Callback;
+import com.example.locationsave.HEP.Hep.hep_DTO.hep_DirectoryTag;
 import com.example.locationsave.HEP.Hep.hep_DTO.hep_LocationImage;
 import com.example.locationsave.HEP.Hep.hep_DTO.hep_LocationTag;
 import com.example.locationsave.HEP.pcs_RecyclerView.locationList.Pcs_Callback;
@@ -25,9 +26,12 @@ import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
 import java.io.ByteArrayOutputStream;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
+
+import static com.example.locationsave.HEP.KMS_MainActivity.directoryid;
 
 
 public class hep_FireBase {
@@ -46,7 +50,7 @@ public class hep_FireBase {
         return firebaseStorage;
     }
 
-    // 이미지 업데이트(hep_locationupdateactivity)
+    // 이미지 업데이트 bitmap(hep_locationupdateactivity)
     public void updateImageBitmap(Bitmap bitmap, final hep_Callback hep_callback){
         StorageReference LocationImagesRef = new hep_FireBase().getFirebaseStorageInstance().getReference().child("locationimages/" + UUID.randomUUID().toString()); // 랜덤 이름 생성
         Bitmap b = bitmap;
@@ -63,6 +67,7 @@ public class hep_FireBase {
         });
     }
 
+    // 이미지 업데이트 Uri(hep_locationupdateactivity)
     public void updateImageUri(String key, final hep_Callback hep_callback){
         Query locationImageQuery = new hep_FireBase().getFireBaseDatabaseInstance().getReference().child("locationimage").orderByChild("locationid").equalTo(key);
         locationImageQuery.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -106,7 +111,7 @@ public class hep_FireBase {
         tagQuery.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                hep_LocationTag hep_locationTag = new hep_LocationTag();
+                final hep_LocationTag hep_locationTag = new hep_LocationTag();
 
                 if(snapshot.exists()){ // tag가 있으면 getkey
                     for(DataSnapshot dataSnapshot : snapshot.getChildren())
@@ -118,8 +123,43 @@ public class hep_FireBase {
                     DatabaseReference tagReference = new hep_FireBase().getFireBaseDatabaseInstance().getReference().child("tag").push();
                     tagReference.setValue(hashMapTag); // tag 저장
                     hep_locationTag.tagid = tagReference.getKey();
-                    Log.d("@@@@@", "tag 삽입");
                 }
+
+                Query directorytagQuery = new hep_FireBase().getFireBaseDatabaseInstance().getReference().child("directorytag").orderByChild("tagid").equalTo(hep_locationTag.tagid);
+                directorytagQuery.addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        Map<String, Object> hashDirectoryTag = new HashMap<>();
+                        boolean flag = false;
+
+                        if (snapshot.exists()) {
+                            for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                                hep_DirectoryTag hep_directoryTag = dataSnapshot.getValue(hep_DirectoryTag.class);
+                                if (hep_directoryTag.directoryid.equals(directoryid)) {
+                                    hashDirectoryTag.put("directoryid", hep_directoryTag.directoryid);
+                                    hashDirectoryTag.put("tagid", hep_directoryTag.tagid);
+                                    hashDirectoryTag.put("count", hep_directoryTag.count + 1);
+
+                                    new hep_FireBase().getFireBaseDatabaseInstance().getReference().child("directorytag").child(dataSnapshot.getKey()).updateChildren(hashDirectoryTag);
+                                    flag = true;
+                                }
+                            }
+                        }
+
+                        if(!flag){
+                            hashDirectoryTag.put("directoryid", directoryid);
+                            hashDirectoryTag.put("tagid", hep_locationTag.tagid);
+                            hashDirectoryTag.put("count", 1);
+                            new hep_FireBase().getFireBaseDatabaseInstance().getReference().child("directorytag").push().setValue(hashDirectoryTag);
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+
+                    }
+                });
+
                 callback.onSuccess(hep_locationTag);
             }
 
