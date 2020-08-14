@@ -116,17 +116,13 @@ public class KMS_MapFragment extends Fragment implements OnMapReadyCallback {
 
         if (mapFragment == null) { //맵프래그먼트 생성된 적 없으면
             mapFragment = MapFragment.newInstance(mapOption.setFirstOptions()); //새로 만들어주고   // 1-8. 초기옵션 추가
+
             Toast.makeText(getContext(), "main맵 생성 완료", Toast.LENGTH_SHORT).show();
             fm.beginTransaction().add(R.id.map, mapFragment).commit(); // 프래그매니저에게 명령 map 레이아웃에 생성된 맵 객체를 add
         }
         //1-3. 맵 프래그먼트에 NaverMap 객체 가져옴 : MapFragment 및 MapView는 지도에 대한 뷰 역할만을 담당하므로 API를 호출하려면 인터페이스 역할을 하는 NaverMap 객체가 필요
         mapFragment.getMapAsync(this); //이거 만들면 onMapReady 사용 가능
 
-        //1-4. LatLng : 위경도 좌표를 나타내는 클래스. latitude 속성이 위도를, longitude 속성이 경도를 나타냅니다. LatLng의 모든 속성은 final이므로 각 속성은 생성자로만 지정할 수 있고, 한 번 생성된 객체의 속성은 변경할 수 없습니다.
-        LatLng coord = new LatLng(37.5670135, 126.9783740); //위경도좌표 coord 는 새로운 좌표(위도, 경도)
-
-        Toast.makeText(getContext(), "위도: " + coord.latitude + ", 경도: " + coord.longitude, Toast.LENGTH_SHORT).show(); //coord.latitude : 위도값, coord.longitude : 경도값 반환
-        //-> 주소 저장할 때 각 위경도 값을 저장
 
         //1-5. 다른 좌표 표현방법
         Utmk utmk = new Utmk(953935.5, 1952044.1);
@@ -275,103 +271,7 @@ public class KMS_MapFragment extends Fragment implements OnMapReadyCallback {
         Log.d("현재위치","onMapReady, " + locationSource);
 
 
-/////////////////////////////////////////////////////////////////////
-
-        /*///마커 갱신 코드
-        LatLng initialPosition = new LatLng(35.857654, 128.498123);
-        CameraUpdate cameraUpdate = CameraUpdate.scrollTo(initialPosition);
-        naverMap.moveCamera(cameraUpdate);
-
-        //KMS_MapSetting.InitPosition(markersPosition);
-        //1. markerPosition 에 기존 가진 마커들을 모두 추가한다.
-        markersPosition = new Vector<LatLng>();
-        for (int x = 0; x < 100; ++x) {
-            for (int y = 0; y < 100; ++y) {
-                markersPosition.add(new LatLng(
-                        initialPosition.latitude - (REFERANCE_LAT * x),
-                        initialPosition.longitude + (REFERANCE_LNG * y)
-                ));
-                markersPosition.add(new LatLng(
-                        initialPosition.latitude + (REFERANCE_LAT * x),
-                        initialPosition.longitude - (REFERANCE_LNG * y)
-                ));
-                markersPosition.add(new LatLng(
-                        initialPosition.latitude + (REFERANCE_LAT * x),
-                        initialPosition.longitude + (REFERANCE_LNG * y)
-                ));
-                markersPosition.add(new LatLng(
-                        initialPosition.latitude - (REFERANCE_LAT * x),
-                        initialPosition.longitude - (REFERANCE_LNG * y)
-                ));
-            }
-        }
-
-        NMap.addOnCameraChangeListener(new NaverMap.OnCameraChangeListener() {
-            @Override
-            public void onCameraChange(int reason, boolean animated) {
-
-                freeActiveMarkers(); //지도에 표시된 마커 모두 삭제
-                // 정의된 마커위치들중 가시거리 내에있는것들만 마커 생성
-
-                //2.현재 카메라가 보고있는 좌표 생성
-                LatLng currentPosition = getCurrentPosition(NMap);
-
-                //3-1. 마커포지션 개수만큼 반복
-                for (LatLng markerPosition: markersPosition) {
-                    //3-2. 만약 마커가 가시거리 3키로 이내에 없으면
-                    if (!withinSightMarker(currentPosition, markerPosition)) //만약 위경도 하나라도 3키로 밖으로 벗어나면
-                        continue; //마커 다시 찍는다.
-                    Marker marker = new Marker();
-                    marker.setPosition(markerPosition);
-                    marker.setMap(NMap);
-                    activeMarkers.add(marker);
-                }
-            }
-        });*/
-/////////////////////////////////////////////////////////////////////
 
     }//onMapReady
-
-    /////////////////////////////////////////////////////////////////////
-
-/*
-// 마커 정보 저장시킬 변수들 선언
-    private Vector<LatLng> markersPosition;
-    private Vector<Marker> activeMarkers;
-
-    // 선택한 마커의 위치가 가시거리(카메라가 보고있는 위치 반경 3km 내)에 있는지 확인
-    public final static double REFERANCE_LAT = 1 / 109.958489129649955;
-    public final static double REFERANCE_LNG = 1 / 88.74;
-    public final static double REFERANCE_LAT_X3 = 3 / 109.958489129649955;
-    public final static double REFERANCE_LNG_X3 = 3 / 88.74;
-
-    // 현재 카메라가 보고있는 위치
-    public LatLng getCurrentPosition(NaverMap naverMap) {
-        CameraPosition cameraPosition = naverMap.getCameraPosition();
-        return new LatLng(cameraPosition.target.latitude, cameraPosition.target.longitude);
-    }
-
-    //현재 좌표에서 마커가 3키로 이내인지 판단
-    public boolean withinSightMarker(LatLng currentPosition, LatLng markerPosition) {
-        boolean withinSightMarkerLat = Math.abs(currentPosition.latitude - markerPosition.latitude) <= REFERANCE_LAT_X3;
-        boolean withinSightMarkerLng = Math.abs(currentPosition.longitude - markerPosition.longitude) <= REFERANCE_LNG_X3;
-        return withinSightMarkerLat && withinSightMarkerLng;
-    }
-
-    // 지도상에 표시되고있는 마커들 지도에서 삭제
-    private void freeActiveMarkers() {
-        if (activeMarkers == null) {
-            activeMarkers = new Vector<Marker>();
-            return;
-        }
-        for (Marker activeMarker: activeMarkers) {
-            activeMarker.setMap(null);
-        }
-        activeMarkers = new Vector<Marker>();
-    }*/
-
-
-    /////////////////////////////////////////////////////////////////////
-
 
 } //전체코드

@@ -149,7 +149,10 @@ public class Pcs_LocationRecyclerView extends Fragment {
         FirebaseRecyclerOptions options = new FirebaseRecyclerOptions.Builder<hep_Location>()
                 .setQuery(query, hep_Location.class)
                 .build();
-        return new Pcs_RecyclerviewAdapter(options);
+
+        if(options.getSnapshots() == null) return new Pcs_RecyclerviewAdapter(null);
+        else return new Pcs_RecyclerviewAdapter(options);
+
     }
 
 

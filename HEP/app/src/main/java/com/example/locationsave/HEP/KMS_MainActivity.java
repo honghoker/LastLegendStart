@@ -14,7 +14,6 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.AdapterView;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
@@ -37,7 +36,6 @@ import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
 
 import com.example.locationsave.HEP.Address.GeocodingArrayEntity;
 import com.example.locationsave.HEP.Address.ReverseGeocodingAsyncTask;
@@ -65,8 +63,7 @@ import com.example.locationsave.HEP.KMS.Location.KMS_LocationSearchResult;
 import com.example.locationsave.HEP.KMS.Location.KMS_SearchResultAdapter;
 import com.example.locationsave.HEP.KMS.MainFragment.KMS_FragmentFlagManager;
 
-
-
+import com.example.locationsave.HEP.KMS.Map.KMS_MapOption;
 import com.example.locationsave.HEP.KMS.Map.KMS_MarkerInformationFlagManager;
 import com.example.locationsave.HEP.KMS.Map.KMS_MarkerManager;
 
@@ -95,7 +92,6 @@ import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.UploadTask;
 import com.naver.maps.map.CameraPosition;
-
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -207,6 +203,7 @@ public class KMS_MainActivity extends AppCompatActivity implements NavigationVie
     LinearLayout linearLayoutToolbarSearch;
     ConstraintLayout recy_con_layout;
     KMS_SearchFlagManager kms_searchFlagManager = KMS_SearchFlagManager.getInstanceSearch();
+    KMS_MapOption kms_mapOption = KMS_MapOption.getInstanceMapOption();
     //5. Animation
     Animation animation;
     Animation animationH;
@@ -342,7 +339,6 @@ public class KMS_MainActivity extends AppCompatActivity implements NavigationVie
 
         loadRecyclerView = findViewById(R.id.searchLordResult_RecyclerVIew);
 
-        // 버그다 이거 ㅅㅂ 좀따 다시 확인
         kms_searchFlagManager.flagSetFalseSearch();
         setSearchBar(kms_searchFlagManager.flagGetSearch());
         relativeLayoutRoadLoaction = findViewById(R.id.relativeLayout_loadLoaction);
@@ -682,6 +678,7 @@ public class KMS_MainActivity extends AppCompatActivity implements NavigationVie
         selectLocation.SetLinearLayout(getApplicationContext(), relativelayout_sub);
         setBottomBar(bottomBar, selectLocationFlag);
         setFloatingItem(selectLocationFlag);
+        Log.d("#####hide add","정상작동");
     }
 
 //    AutoCompleteTextView editText;
@@ -925,6 +922,8 @@ public class KMS_MainActivity extends AppCompatActivity implements NavigationVie
 
                             }
                         });
+                        kms_mapOption.LastLatitude = hep_recent.latitude;
+                        kms_mapOption.LastLongitued = hep_recent.longitude;
 
                         recyAdapter = new KSH_RecyAdapter(KMS_MainActivity.this, arrayList, arrayKey, ksh_directoryEntity, selectView, (sunghunTest) OnItemClickListener);
                         recyclerView.setAdapter(recyAdapter);
@@ -936,7 +935,7 @@ public class KMS_MainActivity extends AppCompatActivity implements NavigationVie
                                 new KMS_MarkerManager().getInstanceMarkerManager().initMarker();
                                 for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
                                     hep_Location hep_location = dataSnapshot.getValue(hep_Location.class);
-                                    new KMS_MarkerManager().getInstanceMarkerManager().addMarker(kms_markerManager.markers, hep_location.name, hep_location.latitude, hep_location.longitude);
+                                    new KMS_MarkerManager().getInstanceMarkerManager().addMarker(kms_markerManager.markers, hep_location, dataSnapshot.getKey());
                                 }
                             }
 
@@ -954,7 +953,6 @@ public class KMS_MainActivity extends AppCompatActivity implements NavigationVie
                 Log.d("1", " error "+String.valueOf(databaseError.toException()));
             }
         });
-
         // loading
         Intent intent = new Intent(this, KSH_LoadingActivity.class);
         startActivity(intent);
@@ -1074,12 +1072,23 @@ public class KMS_MainActivity extends AppCompatActivity implements NavigationVie
                         IntentAddLocation();      //추후 수정해야함
 
                         if(kms_fragmentFlagManager.flagCheckFragment() == true)
-                            hideAddLocation(); //맵프레그먼트에서 넘어왔으면 추가 창 숨기기
+                            //hideAddLocation(); //맵프레그먼트에서 넘어왔으면 추가 창 숨기기
                         return true;
                 }
                 return false;
             }
         });
+
+
+
+        Button button = findViewById(R.id.markerinfoclosebtn);
+        button.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ((LinearLayout)findViewById(R.id.linearLayoutMakerInformation)).setVisibility(GONE);
+            }
+        });
+
 //
 //        editText = findViewById(R.id.clearable_edit_search_location);
 //        searchRecyclerView = findViewById(R.id.searchResult_RecyclerVIew);
@@ -1255,6 +1264,9 @@ public class KMS_MainActivity extends AppCompatActivity implements NavigationVie
                  if(data.getBooleanExtra("result",false)) {
                      KMS_FragmentFlagManager d = KMS_FragmentFlagManager.getInstanceFragment();
                      d.setFragmentLocationListLayout();
+                     hideAddLocation();
+                     Log.d("######제발.. ", "제발요..");
+
                  }
              }
          }

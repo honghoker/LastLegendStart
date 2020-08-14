@@ -32,15 +32,35 @@
         android:layout_gravity="center"
         android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/titleTextView"
-            android:layout_width="match_parent"
+        <LinearLayout
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Legend Start"
-            android:textSize="18sp" />
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/titleTextView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Legend Start"
+                android:textSize="18sp" />
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_weight="1" />
+
+            <Button
+                android:id="@+id/markerinfoclosebtn"
+                android:layout_width="30dp"
+                android:layout_height="match_parent"
+                android:layout_gravity="right"
+                android:background="@android:color/transparent"
+                android:text="X" />
+        </LinearLayout>
 
         <TextView
-            android:id="@+id/textView4"
+            android:id="@+id/addressTextView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:lines="2"
@@ -48,7 +68,7 @@
             android:textSize="14sp" />
 
         <TextView
-            android:id="@+id/textView5"
+            android:id="@+id/detailaddressTextView"
             android:layout_width="match_parent"
             android:layout_height="45dp"
             android:text="TextView" />

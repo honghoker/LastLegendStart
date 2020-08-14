@@ -89,6 +89,9 @@ public class hep_LocationUpdateActivity extends AppCompatActivity {
     public void setInit(){
         key = getIntent().getStringExtra("key");
         hep_Location = getIntent().getParcelableExtra("hep_Location");
+        this.latitude = hep_Location.latitude;
+        this.longitude = hep_Location.longitude;
+
         tagDataArrayList = new ArrayList<>();
 
         imagetempArrayList = new ArrayList<>();
