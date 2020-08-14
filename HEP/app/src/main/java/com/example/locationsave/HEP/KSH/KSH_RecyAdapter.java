@@ -44,6 +44,7 @@ public class KSH_RecyAdapter extends RecyclerView.Adapter<KSH_RecyAdapter.ViewHo
     KSH_DirectoryEntity ksh_directoryEntity;
     KSH_Date ksh_date = new KSH_Date();
     private int selectView = 0;
+    KMS_MarkerManager kms_markerManager = new KMS_MarkerManager().getInstanceMarkerManager();
     public static int LastPosition = -1; //단일 선택 위한 변수
 
     private sunghunTest mCallback;

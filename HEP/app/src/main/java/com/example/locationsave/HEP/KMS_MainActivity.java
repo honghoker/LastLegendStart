@@ -40,6 +40,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 
 import com.example.locationsave.HEP.Address.GeocodingArrayEntity;
+import com.example.locationsave.HEP.Address.ReverseGeocodingAsyncTask;
+import com.example.locationsave.HEP.Address.ReverseGetAddress;
 import com.example.locationsave.HEP.Address.SearchAreaArrayEntity;
 import com.example.locationsave.HEP.Hep.hep_DTO.hep_Callback;
 import com.example.locationsave.HEP.Hep.hep_DTO.hep_Location;
@@ -98,6 +100,7 @@ import com.naver.maps.map.CameraPosition;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 import static android.widget.AdapterView.*;
 import static com.example.locationsave.HEP.KMS.MainFragment.KMS_MapFragment.NMap;
@@ -620,6 +623,20 @@ public class KMS_MainActivity extends AppCompatActivity implements NavigationVie
                     kms_locationFlagManager.flagSetTrueLocation();
                     SetToolbar(); //툴바 세팅
                     selectLocation.SetLinearLayout(getApplicationContext(), relativelayout_sub);
+
+                    CameraPosition cameraPosition = NMap.getCameraPosition(); //현재 위치 정보 반환하는 메소드
+                    ReverseGeocodingAsyncTask asyncTask = new ReverseGeocodingAsyncTask(cameraPosition.target.latitude, cameraPosition.target.longitude);
+                    ReverseGetAddress reverseGetAddress = new ReverseGetAddress();
+                    try {
+                        String resultAddr = reverseGetAddress.getJsonString(asyncTask.execute().get());
+                        ((TextView)findViewById(R.id.selectLocation_AddressInfo)).setText(resultAddr);
+                    } catch (ExecutionException e) {
+                        e.printStackTrace();
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+
+
                 } else {
                     IntentAddLocation();
                 }
@@ -1117,8 +1134,8 @@ public class KMS_MainActivity extends AppCompatActivity implements NavigationVie
                         Log.d("6",i+" title " + kms_locationSearchResults.get(i).getTitle() + " address " + kms_locationSearchResults.get(i).getRoadAddress()
                         + " 위도 "+kms_locationSearchResults.get(i).getLatitude() + " 경도 " +kms_locationSearchResults.get(i).getLongitude());
                     }
-
-                    selectLocation.setSearchResultRecyclerView(getApplicationContext(), searchRecyclerView, searchResultBar);
+                    kms_markerManager.AddRecyclerViewMarker();
+                    selectLocation.setSearchResultRecyclerView(getApplicationContext(), searchRecyclerView);
                     LoadRecyclerView(); //기존 저장 함수 불러옴
                     return true;
                 } //키입력 했을 시 종료

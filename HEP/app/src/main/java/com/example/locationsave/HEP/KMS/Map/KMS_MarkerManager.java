@@ -136,17 +136,6 @@ public class KMS_MarkerManager {
             @Override
             public boolean onClick(@NonNull Overlay overlay) {
                 cameraManager.MoveCameraOnMarkerPosition(marker, NMap); //카메라를 마커 위치로 이동
-                setOffMarkerInformation(KMS_MainActivity.linearLayoutMakerInformation);
-                setOnMarkerInformation(KMS_MainActivity.linearLayoutMakerInformation);
-                Log.d("####마커인포",   "#####셋 마커 에드");
-                //kms_markerInformation.setMarkerInformation(marker.getCaptionText());
-
-                //레이아웃 업데이트
-                Log.d("####마커인포",   "#####셋 마커 에드 전" + kms_markerInformationFlagManager.flagGetMarkerInformationFlag() );
-
-                new KMS_MarkerInformation().setMarkerInformation(marker.getCaptionText());
-                kms_markerInformationFlagManager.flagSetTrueMarkerInformation();
-                KMS_MainActivity.floatingButton.hide();
 
                 //textView.setText(marker.getCaptionText());
                 Log.d("####마커인포",   "#####셋 마커 에드 후" + kms_markerInformationFlagManager.flagGetMarkerInformationFlag() );
@@ -195,8 +184,7 @@ public class KMS_MarkerManager {
             addRecycleMarker(recyclerviewMarkers, title, latitude, longitude);
 
             if(i == 0){ //만약 첫 값이 있다면 카메라 이동해줌
-                LatLng firstLatLng = new LatLng(latitude, longitude);
-                kms_cameraManager.MoveCameraOnLatlngPosition(firstLatLng, NMap);
+                kms_cameraManager.MoveCameraOnLatlngPosition(latitude, longitude, NMap);
             }
         }
     }
