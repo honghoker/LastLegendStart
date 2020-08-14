@@ -379,4 +379,10 @@ public class hep_LocationSaveActivity extends AppCompatActivity {
         super.startActivityForResult(intent, requestCode);
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        new hep_HashTagArr().getHashTagArr().clear();
+        new hep_locationImageDataArr().getImageDataArrayInstance().clear();
+    }
 }

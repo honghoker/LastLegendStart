@@ -817,8 +817,6 @@ public class KMS_MainActivity extends AppCompatActivity implements NavigationVie
         KMS_SearchResultAdapter.LastPosition = -1;
     }
 
-//    public static int selectView = 1;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

@@ -20,9 +20,6 @@ import com.example.locationsave.HEP.Hep.hep_DTO.hep_Location;
 import com.example.locationsave.HEP.Hep.hep_FireBase;
 import com.example.locationsave.HEP.KMS.Map.KMS_MarkerManager;
 
-import com.example.locationsave.HEP.KMS_MainActivity;
-import com.example.locationsave.HEP.pcs_RecyclerView.Pcs_LocationRecyclerView;
-
 import com.example.locationsave.R;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -111,7 +108,10 @@ public class KSH_RecyAdapter extends RecyclerView.Adapter<KSH_RecyAdapter.ViewHo
             HeaderViewHolder headerViewHolder = (HeaderViewHolder) holder;
         }
         else{
-            if (position == LastPosition)
+            if(LastPosition == -1)
+                LastPosition = selectView;
+
+            if (position == LastPosition && selectView != 0)
                 holder.itemView.setBackgroundColor(Color.RED);
             else
                 holder.itemView.setBackgroundColor(Color.parseColor("#cccccc"));
