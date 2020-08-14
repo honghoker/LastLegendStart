@@ -19,17 +19,6 @@ public class KMS_SelectLocation extends AppCompatActivity {
         super.onCreate(savedInstanceState);
     }
 
-    public void saveAddLocationTitle(String title){
-        AddLocationTitle = title;
-    }
-
-    public String loadAddLocationTitle(){
-        return AddLocationTitle;
-    }
-
-    public void initAddLocationTitle(){
-        AddLocationTitle = null;
-    }
 
 
 
