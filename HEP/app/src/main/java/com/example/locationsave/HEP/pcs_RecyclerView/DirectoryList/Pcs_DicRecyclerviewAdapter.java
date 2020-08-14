@@ -1,6 +1,5 @@
 package com.example.locationsave.HEP.pcs_RecyclerView.DirectoryList;
 
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -21,7 +20,7 @@ import com.google.firebase.database.DatabaseReference;
 
 import java.util.ArrayList;
 
-public class Pcs_DicRecyclerviewAdapter extends FirebaseRecyclerAdapter<hep_Location, Pcs_DicRecyclerviewAdapter.Listholder> {
+public class Pcs_DicRecyclerviewAdapter extends FirebaseRecyclerAdapter<KSH_DirectoryEntity, Pcs_DicRecyclerviewAdapter.Listholder> {
     private DatabaseReference databaseReference = new hep_FireBase().getFireBaseDatabaseInstance().getReference();
     private static RadioButton lastCheckedRB = null;
     private static int lastCheckedPos = 0;
@@ -29,22 +28,27 @@ public class Pcs_DicRecyclerviewAdapter extends FirebaseRecyclerAdapter<hep_Loca
     public int mSelectedItem = -1;
 
 
-    public Pcs_DicRecyclerviewAdapter(@NonNull FirebaseRecyclerOptions<hep_Location> options) {
+    public Pcs_DicRecyclerviewAdapter(@NonNull FirebaseRecyclerOptions options) {
         super(options);
     }
+    public Pcs_DicRecyclerviewAdapter(@NonNull FirebaseRecyclerOptions options, String selectDirectoryKey) {
+        super(options);
+        this.selectDirectoryKey = selectDirectoryKey;
+    }
+
 
     @Override
-    protected void onBindViewHolder(@NonNull final Listholder holder, final int position, @NonNull hep_Location hep_location) {
+    protected void onBindViewHolder(@NonNull final Listholder holder, final int position, @NonNull KSH_DirectoryEntity ksh_directoryEntity) {
 
 //        holder.directoryTextView.setText(getSnapshots().getSnapshot(position).getValue(KSH_DirectoryEntity.class).getName());
-        holder.directoryTextView.setText(hep_location.getName());
-//        if(getSnapshots().getSnapshot(position).getKey() == selectDirectoryKey) {
-//            holder.selectRadioButton.setChecked(true);
-//            lastCheckedPos = position;
-//            lastCheckedRB = holder.selectRadioButton;
-//        }
-//        else
-//            holder.selectRadioButton.setChecked(false);
+        holder.directoryTextView.setText(getSnapshots().getSnapshot(position).getValue(hep_Location.class).getName());
+        if(getSnapshots().getSnapshot(position).getKey() == selectDirectoryKey) {
+            holder.selectRadioButton.setChecked(true);
+            lastCheckedPos = position;
+            lastCheckedRB = holder.selectRadioButton;
+        }
+        else
+            holder.selectRadioButton.setChecked(false);
 
 //        holder.selectRadioButton.setOnClickListener(new View.OnClickListener(){
 //            @Override
@@ -65,8 +69,7 @@ public class Pcs_DicRecyclerviewAdapter extends FirebaseRecyclerAdapter<hep_Loca
     @NonNull
     @Override
     public Listholder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.pcs_directory_cardview, parent, false);
-        return new Listholder(v);
+        return null;
     }
 
 
@@ -85,15 +88,15 @@ public class Pcs_DicRecyclerviewAdapter extends FirebaseRecyclerAdapter<hep_Loca
             super(itemView);
             directoryTextView = itemView.findViewById(R.id.pcs_directoryTextview);
             selectRadioButton = itemView.findViewById(R.id.pcs_directoryRadiobutton);
-//            View.OnClickListener clickListener = new View.OnClickListener(){
-//                @Override
-//                public void onClick(View v) {
-//                    mSelectedItem = getAdapterPosition();
-//                    notifyDataSetChanged();
-//                }
-//            };
-//            itemView.setOnClickListener(clickListener);
-//            selectRadioButton.setOnClickListener(clickListener);
+            View.OnClickListener clickListener = new View.OnClickListener(){
+                @Override
+                public void onClick(View v) {
+                    mSelectedItem = getAdapterPosition();
+                    notifyDataSetChanged();
+                }
+            };
+            itemView.setOnClickListener(clickListener);
+            selectRadioButton.setOnClickListener(clickListener);
         }
     }
 
