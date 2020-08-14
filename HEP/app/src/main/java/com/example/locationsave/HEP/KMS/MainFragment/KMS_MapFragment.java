@@ -66,7 +66,6 @@ public class KMS_MapFragment extends Fragment implements OnMapReadyCallback {
     public void onAttach(Context context) {
         super.onAttach(context);
         //이 메소드가 호출될떄는 프래그먼트가 엑티비티위에 올라와있는거니깐 getActivity메소드로 엑티비티참조가능
-        //activity = (KMS_MainActivity) getActivity();
         activity = getActivity();
     }
 
