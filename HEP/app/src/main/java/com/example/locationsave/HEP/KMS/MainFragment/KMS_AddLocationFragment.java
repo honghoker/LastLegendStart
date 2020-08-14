@@ -135,25 +135,23 @@ public class KMS_AddLocationFragment extends Fragment implements OnMapReadyCallb
         ViewGroup rootView = (ViewGroup) inflater.inflate(R.layout.kms_location_fragment, container, false);
         setHasOptionsMenu(true);
 
-        textView = rootView.findViewById(R.id.fragment);
-
         String a2 = getArguments().getString("Title");
         String a3 = getArguments().getString("Address");
 
         Log.d("#####액티비티 -> 프레그먼트로 넘어온 값 title : ", a2 + " / address : " + a3);
 
-        onTimePickerSetListener.onTimePickerSet(2131232, 3, textView.getText().toString()); //값 넘겨줌
+        onTimePickerSetListener.onTimePickerSet(2131232, 3, "스트링 테스트"); //값 넘겨줌
         Log.d("#####", "값 넘겨줌");
 
 
-        Button btn = rootView.findViewById(R.id.button);
+/*        Button btn = rootView.findViewById(R.id.button);
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 kms_cameraManager.MoveCameraOnLatlngPosition(37.5670135, 126.9783740, AddMap);
                 Log.d("#####", "맵 이동");
             }
-        });
+        });*/
 
         return rootView;
     }

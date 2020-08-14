@@ -1,35 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@android:color/holo_purple"
     android:orientation="vertical">
 
-    <FrameLayout
+    <fragment
+        android:id="@+id/addmap"
+        android:name="com.naver.maps.map.MapFragment"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent" />
 
-
-        <fragment
-            android:id="@+id/addmap"
-            android:name="com.naver.maps.map.MapFragment"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" />
-
-        <Button
-            android:id="@+id/button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Button" />
-
-        <TextView
-            android:id="@+id/fragment"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="#FD1D1D"
-            android:text="location fragment"
-            android:textSize="45dp" />
-
-    </FrameLayout>
-
-</LinearLayout>
+</RelativeLayout>

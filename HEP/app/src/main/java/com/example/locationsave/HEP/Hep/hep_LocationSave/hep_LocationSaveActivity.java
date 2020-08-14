@@ -456,18 +456,12 @@ public class hep_LocationSaveActivity extends AppCompatActivity implements KMS_A
 
 
     public void onbtnChangeAddrClicked(View v){
-
-/*
-        KMS_MapFragment mapFragment = new KMS_MapFragment();
-        hep_LocationSaveActivity.this.getSupportFragmentManager().beginTransaction().add(R.id.fragmentContainer, mapFragment).commit();
-*/
         if (LocationAddFragment == null && addFragmentFlag == false) { //프래그먼트 있을 때 누르면 숨김
 //            LocationAddFragment = new KMS_AddLocationFragment();
 
             fragmentManager = getSupportFragmentManager();
             LocationAddFragment = new KMS_AddLocationFragment();
             fragmentManager.beginTransaction().replace(R.id.fragmentContainer, LocationAddFragment).commit();
-
 
             Bundle bundle = new Bundle(4); // 파라미터는 전달할 데이터 개수
             bundle.putDouble("latitude",kms_cameraManager.getCameraCurrentLatitued());
@@ -483,15 +477,8 @@ public class hep_LocationSaveActivity extends AppCompatActivity implements KMS_A
             //fragmentTransaction.add(R.id.fragmentContainer, LocationAddFragment).commit();
             addFragmentFlag = true;
 
-
             //hep_LocationSaveActivity.this.getSupportFragmentManager().beginTransaction().add(R.id.fragmentContainer, LocationAddFragment).commit();
-
-
-
-
         }
-
-
         else if(LocationAddFragment != null && addFragmentFlag == false){ //생성된 프레그먼트 있으면
             toastMake("프래그먼트 show");
             //fragmentTransaction.show(LocationAddFragment).commit();
