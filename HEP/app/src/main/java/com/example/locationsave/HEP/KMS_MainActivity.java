@@ -1135,8 +1135,7 @@ public class KMS_MainActivity extends AppCompatActivity implements NavigationVie
                         + " 위도 "+kms_locationSearchResults.get(i).getLatitude() + " 경도 " +kms_locationSearchResults.get(i).getLongitude());
                     }
                     kms_markerManager.AddRecyclerViewMarker();
-                    selectLocation.setSearchResultRecyclerView(getApplicationContext(), searchRecyclerView);
-                    LoadRecyclerView(); //기존 저장 함수 불러옴
+                    selectLocation.setSearchResultRecyclerView(getApplicationContext(), searchRecyclerView, searchResultBar);                    LoadRecyclerView(); //기존 저장 함수 불러옴
                     return true;
                 } //키입력 했을 시 종료
                 return false;
