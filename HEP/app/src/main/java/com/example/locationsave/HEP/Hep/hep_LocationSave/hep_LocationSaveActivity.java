@@ -35,6 +35,7 @@ import com.example.locationsave.HEP.Hep.hep_DTO.hep_Tag;
 import com.example.locationsave.HEP.Hep.hep_FireBase;
 import com.example.locationsave.HEP.Hep.hep_LocationDetail.hep_LocationDetailActivity;
 import com.example.locationsave.HEP.KMS.MainFragment.KMS_AddLocationFragment;
+import com.example.locationsave.HEP.KMS.MainFragment.KMS_FragmentFlagManager;
 import com.example.locationsave.HEP.KMS_MainActivity;
 import com.example.locationsave.HEP.pcs_RecyclerView.locationList.Pcs_LocationRecyclerView;
 import com.example.locationsave.HEP.KMS.MainFragment.KMS_MapFragment;
@@ -421,19 +422,29 @@ public class hep_LocationSaveActivity extends AppCompatActivity implements KMS_A
     @Override
     public void onBackPressed() {
         //super.onBackPressed();
-        if(addFragmentFlag == false){
+        if(LocationAddFragment == null){
+            toastMake("프래그먼트 생성조차 되지 않음");
+            finish();
+        }
+
+        else if(addFragmentFlag == false){
             toastMake("프래그먼트 remove & flag false");
             //fragmentTransaction.remove(LocationAddFragment).commit();
-            hep_LocationSaveActivity.this.getSupportFragmentManager().beginTransaction().remove(LocationAddFragment).commit();
+            fragmentManager.beginTransaction().remove(LocationAddFragment).commit();
+
+            //hep_LocationSaveActivity.this.getSupportFragmentManager().beginTransaction().remove(LocationAddFragment).commit();
             LocationAddFragment = null;
             finish();
         }
         else if (LocationAddFragment != null) { //프래그먼트 있을 때 누르면 숨김
             toastMake("프래그먼트 hide");
             //fragmentTransaction.hide(LocationAddFragment).commit();
+            fragmentManager.beginTransaction().hide(LocationAddFragment).commit();
             hep_LocationSaveActivity.this.getSupportFragmentManager().beginTransaction().hide(LocationAddFragment).commit();
             addFragmentFlag = false;
         }
+        else
+            toastMake("프래그먼트 종료 오류");
     }
 
 
@@ -446,7 +457,12 @@ public class hep_LocationSaveActivity extends AppCompatActivity implements KMS_A
 */
         if (LocationAddFragment == null && addFragmentFlag == false) { //프래그먼트 있을 때 누르면 숨김
 //            LocationAddFragment = new KMS_AddLocationFragment();
+
+            fragmentManager = getSupportFragmentManager();
             LocationAddFragment = new KMS_AddLocationFragment();
+            fragmentManager.beginTransaction().replace(R.id.fragmentContainer, LocationAddFragment).commit();
+
+
             Bundle bundle = new Bundle(2); // 파라미터는 전달할 데이터 개수
             bundle.putString("Title", locationnameTextView.getText().toString()); // key , value
             bundle.putString("Address",locationaddrTextView.getText().toString());
@@ -456,7 +472,13 @@ public class hep_LocationSaveActivity extends AppCompatActivity implements KMS_A
             toastMake("프래그먼트 new");
             //fragmentTransaction.add(R.id.fragmentContainer, LocationAddFragment).commit();
             addFragmentFlag = true;
-            hep_LocationSaveActivity.this.getSupportFragmentManager().beginTransaction().add(R.id.fragmentContainer, LocationAddFragment).commit();
+
+
+            //hep_LocationSaveActivity.this.getSupportFragmentManager().beginTransaction().add(R.id.fragmentContainer, LocationAddFragment).commit();
+
+
+
+
         }
 
 

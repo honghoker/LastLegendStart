@@ -51,22 +51,29 @@ public class KMS_AddLocationFragment extends Fragment implements OnMapReadyCallb
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Log.d("####맵생성안됨",   "카메라를 위경도 위치로 이동");
 
         //프래그먼트
         FragmentManager addFragmentManager = getChildFragmentManager();
         MapFragment addMapFragment = (MapFragment) addFragmentManager.findFragmentById(R.id.addmap); //맵프래그먼트 객체 생성 map id 가져와서
-
+/*
         if (addMapFragment == null) { //맵프래그먼트 생성된 적 없으면
             addMapFragment = MapFragment.newInstance(mapOption.setFirstOptions()); //새로 만들어주고   // 1-8. 초기옵션 추가
             Toast.makeText(getContext(), "add맵 생성 완료", Toast.LENGTH_SHORT).show();
             addFragmentManager.beginTransaction().add(R.id.map, addMapFragment).commit(); // 프래그매니저에게 명령 map 레이아웃에 생성된 맵 객체를 add
-        }
+            Log.d("####맵생성안됨",   "프레그먼트 추가");
+        }         */
+
+        addMapFragment = MapFragment.newInstance(mapOption.setFirstOptions()); //새로 만들어주고   // 1-8. 초기옵션 추가
+        addFragmentManager.beginTransaction().add(R.id.addmap, addMapFragment).commit(); // 프래그매니저에게 명령 map 레이아웃에 생성된 맵 객체를 add
+
         addMapFragment.getMapAsync(this); //이거 만들면 onMapReady 사용 가능
+        Log.d("####맵생성안됨",   "온맵레디");
 
 
         //현재 위치
         locationSource = new FusedLocationSource(this, LOCATION_PERMISSION_REQUEST_CODE);
-
+        Log.d("####맵생성안됨",   "현재위치");
         CameraPosition cameraPosition = KMS_MapFragment.NMap.getCameraPosition();
         double latitude = cameraPosition.target.latitude;
         double longitude =cameraPosition.target.longitude;
@@ -78,14 +85,14 @@ public class KMS_AddLocationFragment extends Fragment implements OnMapReadyCallb
 */
 
 
-        LatLng latLng = new LatLng(35.857654, 128.498123);
+        LatLng latLng = new LatLng(135.857654, 128.498123);
         CameraUpdate cameraUpdate = CameraUpdate.scrollTo(latLng); //카메라 업데이트 위해 클릭마커 좌표 입력
 
 
         cameraUpdate.animate(CameraAnimation.Fly); //애니메이션
         Log.d("####MoveCamera",   "카메라를 위경도 위치로 이동" + " " + latitude +"  " + longitude);
 
-        AddMap.moveCamera(cameraUpdate);
+        //AddMap.moveCamera(cameraUpdate);
 
         Log.d("##### 장소추가 프래그먼트 포지션 설정", "온크리트");
 
@@ -136,10 +143,18 @@ public class KMS_AddLocationFragment extends Fragment implements OnMapReadyCallb
 
     @Override
     public void onMapReady(@NonNull NaverMap naverMap) {
+        Log.d("#####", "온맵레디");
+
         AddMap = naverMap; //전역에 naverMap 당겨옴
         AddMap.addOnCameraIdleListener(new NaverMap.OnCameraIdleListener() {
             @Override
             public void onCameraIdle() {
+                CameraPosition cameraPosition = AddMap.getCameraPosition(); //현재 위치 정보 반환하는 메소드
+
+
+                    Log.d("MapMap", "onCameraIdle 위도 : " + cameraPosition.target.latitude + "경도 : " + cameraPosition.target.longitude);
+
+                    Log.d("#####", "온카메라아이들");
 
             }
         });

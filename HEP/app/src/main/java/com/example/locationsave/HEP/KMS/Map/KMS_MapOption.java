@@ -1,5 +1,6 @@
 package com.example.locationsave.HEP.KMS.Map;
 
+import android.util.Log;
 import android.view.Gravity;
 
 import com.example.locationsave.HEP.KMS.MainFragment.KMS_MapFragment;
@@ -29,9 +30,10 @@ public class KMS_MapOption {
     public NaverMapOptions setFirstOptions() { //1-8. 초기옵션 설정
         options = new NaverMapOptions()
                 .camera(new CameraPosition(new LatLng(35.857654, 128.498123), 16))
-
                 .mapType(NaverMap.MapType.Navi)
                 .nightModeEnabled(false);
+        Log.d("#####맵옵션",   "초기옵션");
+
 
         return options;
     } //1-8. 초기옵션 설정
