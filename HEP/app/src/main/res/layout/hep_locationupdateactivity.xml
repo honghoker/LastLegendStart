@@ -7,7 +7,7 @@
     android:layout_height="match_parent">
 
     <FrameLayout
-        android:id="@+id/fragmentContainer"
+        android:id="@+id/locationupdate_fragmentContainer"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:layout_editor_absoluteY="357dp">
@@ -21,27 +21,35 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
 
+                <androidx.appcompat.widget.Toolbar
+                    android:id="@+id/locationupdate_toolbar"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="?attr/colorPrimary"
+                    android:minHeight="?attr/actionBarSize"
+                    android:theme="?attr/actionBarTheme" />
+
                 <FrameLayout
                     android:layout_width="match_parent"
                     android:layout_height="350dp"
                     android:onClick="onButtonImageAddClicked">
 
                     <LinearLayout
-                        android:id="@+id/linearlayoutInformationImageAdd"
+                        android:id="@+id/locationupdate_linearlayoutInformationImageAdd"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:orientation="vertical">
 
                         <ImageView
-                            android:id="@+id/imageView"
+                            android:id="@+id/locationupdate_imageView"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
                             app:srcCompat="@drawable/hep_locationsave_imageupload" />
 
                         <TextView
-                            android:id="@+id/textView"
+                            android:id="@+id/locationupdate_textView"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
@@ -49,7 +57,7 @@
                     </LinearLayout>
 
                     <androidx.viewpager.widget.ViewPager
-                        android:id="@+id/viewPager"
+                        android:id="@+id/locationupdate_viewPager"
                         android:layout_width="match_parent"
                         android:layout_height="350dp">
 
@@ -57,7 +65,7 @@
                 </FrameLayout>
 
                 <LinearLayout
-                    android:id="@+id/imageListLayout"
+                    android:id="@+id/locationupdate_imageListLayout"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_marginTop="5dp"
@@ -65,7 +73,7 @@
                     android:orientation="horizontal">
 
                     <ImageView
-                        android:id="@+id/locationImage"
+                        android:id="@+id/locationupdate_locationImage"
                         android:layout_width="60dp"
                         android:layout_height="60dp"
                         android:layout_marginLeft="5dp"
@@ -77,7 +85,7 @@
                         tools:maxWidth="60dp" />
 
                     <com.example.locationsave.HEP.Hep.hep_LocationSave.hep_FlowLayout
-                        android:id="@+id/imageFlowLayout"
+                        android:id="@+id/locationupdate_imageFlowLayout"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content" />
 
@@ -89,14 +97,14 @@
                     android:orientation="horizontal">
 
                     <ImageView
-                        android:id="@+id/imageView2"
+                        android:id="@+id/locationupdate_imageView2"
                         android:layout_width="30dp"
                         android:layout_height="match_parent"
                         android:scaleType="fitCenter"
                         app:srcCompat="@drawable/hep_locationsave_person" />
 
                     <EditText
-                        android:id="@+id/locationName"
+                        android:id="@+id/locationupdate_locationName"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
@@ -105,7 +113,7 @@
                         android:inputType="textPersonName" />
 
                     <ImageButton
-                        android:id="@+id/imageButton"
+                        android:id="@+id/locationupdate_imageButton"
                         android:layout_width="30dp"
                         android:layout_height="match_parent"
                         android:background="@android:color/transparent"
@@ -123,7 +131,7 @@
                         android:layout_height="match_parent">
 
                         <ImageView
-                            android:id="@+id/imageView4"
+                            android:id="@+id/locationupdate_imageView4"
                             android:layout_width="30dp"
                             android:layout_height="match_parent"
                             android:background="@android:color/transparent"
@@ -131,7 +139,7 @@
                             app:srcCompat="@drawable/hep_locationsave_location" />
 
                         <EditText
-                            android:id="@+id/locationAddr"
+                            android:id="@+id/locationupdate_locationAddr"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
@@ -143,7 +151,7 @@
                             android:textIsSelectable="true" />
 
                         <Button
-                            android:id="@+id/btnChangeAddr"
+                            android:id="@+id/locationupdate_btnChangeAddr"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:background="@android:color/transparent"
@@ -156,7 +164,7 @@
                         android:layout_height="match_parent">
 
                         <EditText
-                            android:id="@+id/locationDetailAddr"
+                            android:id="@+id/locationupdate_locationDetailAddr"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_column="1"
@@ -174,23 +182,22 @@
                     android:orientation="horizontal">
 
                     <ImageView
-                        android:id="@+id/imageView3"
+                        android:id="@+id/locationupdate_imageView3"
                         android:layout_width="30dp"
                         android:layout_height="match_parent"
                         android:background="@android:color/transparent"
                         android:scaleType="fitCenter"
                         app:srcCompat="@drawable/hep_locationsave_tag" />
-
-                    <com.example.locationsave.HEP.Hep.hep_LocationSave.hep_HashEditText
-                        android:id="@+id/locationTag"
+                    <com.example.locationsave.HEP.Hep.hep_LocationUpdate.hep_LocationUpdate_HashEditText
+                        android:id="@+id/locationupdate_locationTag"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1">
+                    </com.example.locationsave.HEP.Hep.hep_LocationUpdate.hep_LocationUpdate_HashEditText>
 
-                    </com.example.locationsave.HEP.Hep.hep_LocationSave.hep_HashEditText>
 
                     <Button
-                        android:id="@+id/button5"
+                        android:id="@+id/locationupdate_button5"
                         android:layout_width="50dp"
                         android:layout_height="wrap_content"
                         android:background="@android:color/transparent"
@@ -200,7 +207,7 @@
                 </LinearLayout>
 
                 <com.example.locationsave.HEP.Hep.hep_LocationSave.hep_FlowLayout
-                    android:id="@+id/hashtagFlowLayout"
+                    android:id="@+id/locationupdate_hashtagFlowLayout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="30dp" />
@@ -211,7 +218,7 @@
                     android:orientation="horizontal">
 
                     <ImageView
-                        android:id="@+id/imageView5"
+                        android:id="@+id/locationupdate_imageView5"
                         android:layout_width="30dp"
                         android:layout_height="match_parent"
                         android:background="@android:color/transparent"
@@ -219,7 +226,7 @@
                         app:srcCompat="@drawable/hep_locationsave_contact" />
 
                     <EditText
-                        android:id="@+id/locationContact"
+                        android:id="@+id/locationupdate_locationContact"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
@@ -234,7 +241,7 @@
                     android:orientation="horizontal">
 
                     <ImageView
-                        android:id="@+id/imageView6"
+                        android:id="@+id/locationupdate_imageView6"
                         android:layout_width="30dp"
                         android:layout_height="match_parent"
                         android:background="@android:color/transparent"
@@ -242,7 +249,7 @@
                         app:srcCompat="@drawable/hep_locationsave_comment" />
 
                     <EditText
-                        android:id="@+id/locationMemo"
+                        android:id="@+id/locationupdate_locationMemo"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
@@ -252,11 +259,11 @@
                 </LinearLayout>
 
                 <Button
-                    android:id="@+id/btnSave"
+                    android:id="@+id/locationupdate_btnUpdate"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@android:color/transparent"
-                    android:onClick="onButtonLocationSaveClicked"
+                    android:onClick="onButtonLocationUpdateClicked"
                     android:text="저장" />
 
             </LinearLayout>

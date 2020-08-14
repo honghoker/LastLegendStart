@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -22,6 +21,14 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
+
+            <androidx.appcompat.widget.Toolbar
+                android:id="@+id/locationdetailToolbar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/colorPrimary"
+                android:minHeight="?attr/actionBarSize"
+                android:theme="?attr/actionBarTheme" />
 
             <FrameLayout
                 android:layout_width="match_parent"
@@ -52,7 +59,7 @@
                 <androidx.viewpager.widget.ViewPager
                     android:id="@+id/locationDetailViewPager"
                     android:layout_width="match_parent"
-                    android:layout_height="350dp"/>
+                    android:layout_height="350dp" />
 
             </FrameLayout>
 
@@ -73,7 +80,8 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="50dp"
+                android:background="@drawable/hep_locationdetail_layoutborder"
                 android:orientation="horizontal">
 
                 <ImageView
@@ -86,19 +94,23 @@
                 <TextView
                     android:id="@+id/locationDetailViewName"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:layout_weight="1"
+                    android:gravity="center_vertical"
                     android:hint="이름" />
 
             </LinearLayout>
 
             <TableLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="90dp"
+                android:layout_marginTop="7dp"
+                android:background="@drawable/hep_locationdetail_layoutborder">
 
                 <TableRow
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent">
+                    android:layout_height="25dp"
+                    android:minHeight="25dp">
 
                     <ImageView
                         android:id="@+id/imageView4"
@@ -110,23 +122,26 @@
 
                     <TextView
                         android:id="@+id/locationDetailViewAddr"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
                         android:layout_weight="1"
-                        android:hint="주소" />
+                        android:gravity="center_vertical"
+                        android:hint="저장된 주소가 없습니다." />
 
                 </TableRow>
 
                 <TableRow
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent">
+                    android:layout_height="25dp"
+                    android:minHeight="25dp">
 
                     <TextView
                         android:id="@+id/locationDetailViewDetailAddr"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
                         android:layout_column="1"
                         android:layout_weight="1"
+                        android:gravity="center_vertical"
                         android:hint="상세주소" />
 
                 </TableRow>
@@ -135,27 +150,9 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
-                <ImageView
-                    android:id="@+id/imageView3"
-                    android:layout_width="30dp"
-                    android:layout_height="match_parent"
-                    android:background="@android:color/transparent"
-                    android:scaleType="fitCenter"
-                    app:srcCompat="@drawable/hep_locationsave_tag" />
-
-                <com.example.locationsave.HEP.Hep.hep_LocationSave.hep_FlowLayout
-                    android:id="@+id/hashtagFlowLayout"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="50dp"
+                android:layout_marginTop="7dp"
+                android:background="@drawable/hep_locationdetail_layoutborder"
                 android:orientation="horizontal">
 
                 <ImageView
@@ -169,28 +166,31 @@
                 <TextView
                     android:id="@+id/locationDetailViewContact"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:hint="연락처" />
+                    android:gravity="center_vertical"
+                    android:hint="저장된 연락처가 없습니다." />
 
-                <ImageButton
-                    android:id="@+id/imageButton2"
-                    android:layout_width="30dp"
-                    android:layout_height="match_parent"
-                    android:scaleType="fitCenter"
-                    app:srcCompat="@drawable/hep_locationsave_comment" />
+                <Button
+                    android:id="@+id/locationDetailCall"
+                    android:layout_width="60dp"
+                    android:layout_height="wrap_content"
+                    android:onClick="ContactCallMessage"
+                    android:text="전화" />
 
-                <ImageButton
-                    android:id="@+id/imageButton3"
-                    android:layout_width="30dp"
-                    android:layout_height="match_parent"
-                    android:scaleType="fitCenter"
-                    app:srcCompat="@drawable/hep_locationsave_comment" />
+                <Button
+                    android:id="@+id/locationDetailMessage"
+                    android:layout_width="60dp"
+                    android:layout_height="wrap_content"
+                    android:onClick="ContactCallMessage"
+                    android:text="문자" />
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginTop="7dp"
+                android:background="@drawable/hep_locationdetail_layoutborder"
                 android:orientation="horizontal">
 
                 <ImageView
@@ -200,16 +200,21 @@
                     android:scaleType="fitCenter"
                     app:srcCompat="@drawable/hep_locationsave_tag" />
 
-                <TextView
-                    android:id="@+id/tagtext"
+                <com.example.locationsave.HEP.Hep.hep_LocationSave.hep_FlowLayout
+                    android:id="@+id/locationDetailhashtagFlowLayout"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginLeft="5dp"
                     android:layout_weight="1" />
+
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="50dp"
+                android:layout_marginTop="7dp"
+                android:background="@drawable/hep_locationdetail_layoutborder"
                 android:orientation="horizontal">
 
                 <ImageView
@@ -223,9 +228,10 @@
                 <TextView
                     android:id="@+id/locationDetailViewMemo"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:hint="메모" />
+                    android:gravity="center_vertical"
+                    android:hint="저장된 메모가 없습니다." />
 
             </LinearLayout>
 
