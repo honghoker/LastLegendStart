@@ -22,6 +22,8 @@ import com.naver.maps.map.NaverMap;
 
 import java.util.ArrayList;
 
+import static com.example.locationsave.HEP.KMS_MainActivity.kms_locationSearchResults;
+
 public class KMS_SearchResultAdapter extends RecyclerView.Adapter<KMS_SearchResultAdapter.CustomViewHolder> {
 
     private ArrayList<KMS_LocationSearchResult> mList;
@@ -78,11 +80,12 @@ public class KMS_SearchResultAdapter extends RecyclerView.Adapter<KMS_SearchResu
                 LastPosition = position; //마지막 선택 값 저장
 
                 kms_locationSearchResults = KMS_MainActivity.kms_locationSearchResults;
-                LatLng latlng = new LatLng(kms_locationSearchResults.get(position).getLatitude(), kms_locationSearchResults.get(position).getLongitude());
-                kms_cameraManager.MoveCameraOnLatlngPosition(latlng,naverMap);
+
+                double latitude = kms_locationSearchResults.get(position).getLatitude();
+                double longitude = kms_locationSearchResults.get(position).getLongitude();
+                kms_cameraManager.MoveCameraOnLatlngPosition(latitude, longitude, naverMap);
 
                 notifyDataSetChanged(); //값 변경 확인함.
-
             }
         }); //클릭 리스너 종료
 

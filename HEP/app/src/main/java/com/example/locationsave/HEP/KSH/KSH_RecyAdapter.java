@@ -12,12 +12,17 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.locationsave.HEP.Hep.hep_DTO.hep_Location;
 import com.example.locationsave.HEP.Hep.hep_FireBase;
 import com.example.locationsave.HEP.KMS.Map.KMS_MarkerManager;
+
+import com.example.locationsave.HEP.KMS_MainActivity;
 import com.example.locationsave.R;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -39,11 +44,11 @@ public class KSH_RecyAdapter extends RecyclerView.Adapter<KSH_RecyAdapter.ViewHo
     KSH_DirectoryEntity ksh_directoryEntity;
     KSH_Date ksh_date = new KSH_Date();
     private int selectView = 0;
+    KMS_MarkerManager kms_markerManager = new KMS_MarkerManager().getInstanceMarkerManager();
     public static int LastPosition = -1; //단일 선택 위한 변수
 
     private sunghunTest mCallback;
-    KMS_MarkerManager kms_markerManager = new KMS_MarkerManager().getInstanceMarkerManager();
-
+    FloatingActionButton floatingButton = KMS_MainActivity.floatingButton;
     public KSH_RecyAdapter(Context context, ArrayList<KSH_DirectoryEntity> arrayList,ArrayList<String> arrayKey, KSH_DirectoryEntity ksh_directoryEntity, int selectView, sunghunTest listener) {
         mcontext = context;
         this.arrayList = arrayList;
@@ -94,12 +99,11 @@ public class KSH_RecyAdapter extends RecyclerView.Adapter<KSH_RecyAdapter.ViewHo
 
     @Override
     public void onBindViewHolder(@NonNull KSH_RecyAdapter.ViewHolder holder, int position) {
-        Log.d("6","selectView 확인 " + selectView + " LastPosition " + LastPosition);
 //        holder.itemView.setBackgroundColor(Color.parseColor("#cccccc"));
 
-//        if(position == selectView && selectView != 0) {
-//            // 여기
-//        }
+        if(LastPosition == -1 && selectView != 0)
+            LastPosition = selectView;
+
 
         if(holder instanceof HeaderViewHolder){
             HeaderViewHolder headerViewHolder = (HeaderViewHolder) holder;
@@ -167,36 +171,45 @@ public class KSH_RecyAdapter extends RecyclerView.Adapter<KSH_RecyAdapter.ViewHo
                         builder.show();
                     }
                     else{
-                        Log.d("6", "last = " + LastPosition + " pos = "+pos);
-                        directoryid = arrayKey.get(pos-1);
+                        try {
+                            directoryid = arrayKey.get(pos - 1);
 
-                        LastPosition = pos;
-                        String Title = String.valueOf(arrayList.get(pos-1).getName());
-                        mCallback.onClick(Title, v);
-                        Query latilonginameQuery = new hep_FireBase().getFireBaseDatabaseInstance().getReference().child("location").orderByChild("directoryid").equalTo(directoryid);
-                        latilonginameQuery.addValueEventListener(new ValueEventListener() {
-                            @Override
-                            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                                new KMS_MarkerManager().getInstanceMarkerManager().initMarker();
-                                for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
-                                    hep_Location hep_location = dataSnapshot.getValue(hep_Location.class);
+                            LastPosition = pos;
 
-                                    //Pcs_LocationRecyclerView pcs_locationRecyclerView = new Pcs_LocationRecyclerView();
+                            String Title = String.valueOf(arrayList.get(pos-1).getName());
+                            mCallback.onClick(Title, v);
+                            Query latilonginameQuery = new hep_FireBase().getFireBaseDatabaseInstance().getReference().child("location").orderByChild("directoryid").equalTo(directoryid);
+                            latilonginameQuery.addValueEventListener(new ValueEventListener() {
+                                @Override
+                                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                    new KMS_MarkerManager().getInstanceMarkerManager().initMarker();
+                                    for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                                        hep_Location hep_location = dataSnapshot.getValue(hep_Location.class);
+                                        new KMS_MarkerManager().getInstanceMarkerManager().addMarker(kms_markerManager.markers, hep_location.name, hep_location.latitude, hep_location.longitude);
 
-                                    //setUpRecyclerView();
-                                    new KMS_MarkerManager().getInstanceMarkerManager().addMarker(kms_markerManager.markers, hep_location.name, hep_location.latitude, hep_location.longitude);
+                                        if(LocationFragmet != null) {
+                                            FragmentTransaction transaction = LocationFragmet.getFragmentManager().beginTransaction();
+                                            transaction.detach(LocationFragmet).attach(LocationFragmet).commit();
+                                        }
+                                    }
                                 }
-                            }
 
-                            @Override
-                            public void onCancelled(@NonNull DatabaseError error) {
+                                @Override
+                                public void onCancelled(@NonNull DatabaseError error) {
 
-                            }
-                        });
+                                }
+                            });
+                            notifyDataSetChanged();
+                        }
+                        catch(Exception e){
+                            e.printStackTrace();
+                        }
+
                     }
-                    notifyDataSetChanged();
                 }
             });
         }
     }
+
+
 }

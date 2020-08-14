@@ -21,6 +21,9 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.viewpager.widget.ViewPager;
 
 import com.example.locationsave.HEP.Hep.hep_DTO.hep_Callback;
@@ -30,6 +33,10 @@ import com.example.locationsave.HEP.Hep.hep_DTO.hep_Recent;
 import com.example.locationsave.HEP.Hep.hep_DTO.hep_Tag;
 import com.example.locationsave.HEP.Hep.hep_FireBase;
 import com.example.locationsave.HEP.Hep.hep_LocationDetail.hep_LocationDetailActivity;
+import com.example.locationsave.HEP.KMS.MainFragment.KMS_AddLocationFragment;
+import com.example.locationsave.HEP.KMS.MainFragment.KMS_FragmentFlagManager;
+import com.example.locationsave.HEP.KMS.Map.KMS_CameraManager;
+import com.example.locationsave.HEP.KMS.Map.KMS_MapOption;
 import com.example.locationsave.HEP.KMS_MainActivity;
 import com.example.locationsave.HEP.pcs_RecyclerView.locationList.Pcs_LocationRecyclerView;
 import com.example.locationsave.HEP.KMS.MainFragment.KMS_MapFragment;
@@ -53,7 +60,7 @@ import java.util.UUID;
 
 import static android.content.ContentValues.TAG;
 
-public class hep_LocationSaveActivity extends AppCompatActivity {
+public class hep_LocationSaveActivity extends AppCompatActivity implements KMS_AddLocationFragment.OnTimePickerSetListener{
 
     private Pcs_LocationRecyclerView pcsFragment;
 
@@ -68,11 +75,24 @@ public class hep_LocationSaveActivity extends AppCompatActivity {
 
     public static final boolean LOCATION_RECYCLERVIEW_FRAGMENT = true;
 
+    //public static FragmentManager LocationfragmentManager;
+    public static Fragment LocationAddFragment = null;
+    FragmentManager fragmentManager = getSupportFragmentManager();
+    FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+
+    TextView locationaddrTextView;
+    TextView locationnameTextView;
+
+    KMS_CameraManager kms_cameraManager = KMS_CameraManager.getInstanceCameraManager();
+    KMS_MapOption kms_mapOption = KMS_MapOption.getInstanceMapOption();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.hep_locationsaveactivity);
         setinit();
+
+        locationaddrTextView = findViewById(R.id.locationAddr);
+        locationnameTextView = findViewById(R.id.locationName);
     }
 
     public void setinit(){
@@ -367,11 +387,66 @@ public class hep_LocationSaveActivity extends AppCompatActivity {
         finish();
     }
 
+    boolean addFragmentFlag = false;
+
+    @Override
+    public void onBackPressed() {
+        //super.onBackPressed();
+        if(LocationAddFragment == null){
+            toastMake("프래그먼트 생성조차 되지 않음");
+            finish();
+        }
+
+        else if(addFragmentFlag == false){
+            toastMake("프래그먼트 remove & flag false");
+            //fragmentTransaction.remove(LocationAddFragment).commit();
+            fragmentManager.beginTransaction().remove(LocationAddFragment).commit();
+
+            //hep_LocationSaveActivity.this.getSupportFragmentManager().beginTransaction().remove(LocationAddFragment).commit();
+            LocationAddFragment = null;
+            finish();
+        }
+        else if (LocationAddFragment != null) { //프래그먼트 있을 때 누르면 숨김
+            toastMake("프래그먼트 hide");
+            //fragmentTransaction.hide(LocationAddFragment).commit();
+            fragmentManager.beginTransaction().hide(LocationAddFragment).commit();
+            hep_LocationSaveActivity.this.getSupportFragmentManager().beginTransaction().hide(LocationAddFragment).commit();
+            addFragmentFlag = false;
+        }
+        else
+            toastMake("프래그먼트 종료 오류");
+    }
+
+
     public void onbtnChangeAddrClicked(View v){
-//        Intent intent = new Intent(getApplicationContext(), KMS_MainActivity.class);
-//        this.startActivity(intent);
-        KMS_MapFragment mapFragment = new KMS_MapFragment();
-        hep_LocationSaveActivity.this.getSupportFragmentManager().beginTransaction().add(R.id.fragmentContainer, mapFragment).commit();
+        if (LocationAddFragment == null && addFragmentFlag == false) { //프래그먼트 있을 때 누르면 숨김
+//            LocationAddFragment = new KMS_AddLocationFragment();
+
+            fragmentManager = getSupportFragmentManager();
+            LocationAddFragment = new KMS_AddLocationFragment();
+            fragmentManager.beginTransaction().replace(R.id.fragmentContainer, LocationAddFragment).commit();
+
+            Bundle bundle = new Bundle(4); // 파라미터는 전달할 데이터 개수
+            bundle.putDouble("latitude",kms_cameraManager.getCameraCurrentLatitued());
+            bundle.putDouble("longitude",kms_cameraManager.getCameraCurrentlongitued());
+            kms_mapOption.setFirstAddOptions(kms_cameraManager.getCameraCurrentLatitued(),kms_cameraManager.getCameraCurrentlongitued());
+
+            bundle.putString("Title", locationnameTextView.getText().toString()); // key , value
+            bundle.putString("Address",locationaddrTextView.getText().toString());
+            LocationAddFragment.setArguments(bundle); //갱신?
+
+            toastMake("프래그먼트 new");
+            //fragmentTransaction.add(R.id.fragmentContainer, LocationAddFragment).commit();
+            addFragmentFlag = true;
+
+            //hep_LocationSaveActivity.this.getSupportFragmentManager().beginTransaction().add(R.id.fragmentContainer, LocationAddFragment).commit();
+        }
+        else if(LocationAddFragment != null && addFragmentFlag == false){ //생성된 프레그먼트 있으면
+            toastMake("프래그먼트 show");
+            //fragmentTransaction.show(LocationAddFragment).commit();
+            hep_LocationSaveActivity.this.getSupportFragmentManager().beginTransaction().show(LocationAddFragment).commit();
+            addFragmentFlag = true;
+        }
     }
 
     @Override
@@ -379,4 +454,21 @@ public class hep_LocationSaveActivity extends AppCompatActivity {
         super.startActivityForResult(intent, requestCode);
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        new hep_HashTagArr().getHashTagArr().clear();
+        new hep_locationImageDataArr().getImageDataArrayInstance().clear();
+    }
+
+    int mHour;
+    int mMin;
+
+    @Override
+    public void onTimePickerSet(int hour, int min, String s) {   //프레그먼트 데이터 받아오는 함수 오버라이드
+        mHour = hour;
+        mMin = min;
+        Log.d("#####프레그먼트 -> 액티비티", mHour + " / " + mMin + " / int to string : " + (Integer)mMin);
+        Log.d("#####프레그먼트 -> 액티비티", "스트링 값 : " + s);
+    }
 }

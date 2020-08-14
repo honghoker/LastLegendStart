@@ -2,7 +2,6 @@ package com.example.locationsave.HEP;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -40,6 +39,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 
 import com.example.locationsave.HEP.Address.GeocodingArrayEntity;
+import com.example.locationsave.HEP.Address.ReverseGeocodingAsyncTask;
+import com.example.locationsave.HEP.Address.ReverseGetAddress;
 import com.example.locationsave.HEP.Address.SearchAreaArrayEntity;
 import com.example.locationsave.HEP.Hep.hep_DTO.hep_Callback;
 import com.example.locationsave.HEP.Hep.hep_DTO.hep_Location;
@@ -85,7 +86,6 @@ import com.example.locationsave.HEP.KSH.NavIntent.KSH_SetIntent;
 import com.example.locationsave.HEP.KSH.sunghunTest;
 import com.example.locationsave.HEP.pcs_RecyclerView.locationList.Pcs_LocationRecyclerView;
 import com.example.locationsave.R;
-import com.google.android.gms.maps.model.LatLng;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.database.DataSnapshot;
@@ -95,9 +95,11 @@ import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.UploadTask;
 import com.naver.maps.map.CameraPosition;
 
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 import static android.widget.AdapterView.*;
 import static com.example.locationsave.HEP.KMS.MainFragment.KMS_MapFragment.NMap;
@@ -621,6 +623,20 @@ public class KMS_MainActivity extends AppCompatActivity implements NavigationVie
                     kms_locationFlagManager.flagSetTrueLocation();
                     SetToolbar(); //툴바 세팅
                     selectLocation.SetLinearLayout(getApplicationContext(), relativelayout_sub);
+
+                    CameraPosition cameraPosition = NMap.getCameraPosition(); //현재 위치 정보 반환하는 메소드
+                    ReverseGeocodingAsyncTask asyncTask = new ReverseGeocodingAsyncTask(cameraPosition.target.latitude, cameraPosition.target.longitude);
+                    ReverseGetAddress reverseGetAddress = new ReverseGetAddress();
+                    try {
+                        String resultAddr = reverseGetAddress.getJsonString(asyncTask.execute().get());
+                        ((TextView)findViewById(R.id.selectLocation_AddressInfo)).setText(resultAddr);
+                    } catch (ExecutionException e) {
+                        e.printStackTrace();
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+
+
                 } else {
                     IntentAddLocation();
                 }
@@ -817,8 +833,6 @@ public class KMS_MainActivity extends AppCompatActivity implements NavigationVie
 //        mAdapter.notifyDataSetChanged();
         KMS_SearchResultAdapter.LastPosition = -1;
     }
-
-//    public static int selectView = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -1119,9 +1133,8 @@ public class KMS_MainActivity extends AppCompatActivity implements NavigationVie
                         Log.d("6",i+" title " + kms_locationSearchResults.get(i).getTitle() + " address " + kms_locationSearchResults.get(i).getRoadAddress()
                         + " 위도 "+kms_locationSearchResults.get(i).getLatitude() + " 경도 " +kms_locationSearchResults.get(i).getLongitude());
                     }
-
-                    selectLocation.setSearchResultRecyclerView(getApplicationContext(), searchRecyclerView, searchResultBar);
-                    LoadRecyclerView(); //기존 저장 함수 불러옴
+                    kms_markerManager.AddRecyclerViewMarker();
+                    selectLocation.setSearchResultRecyclerView(getApplicationContext(), searchRecyclerView, searchResultBar);                    LoadRecyclerView(); //기존 저장 함수 불러옴
                     return true;
                 } //키입력 했을 시 종료
                 return false;
