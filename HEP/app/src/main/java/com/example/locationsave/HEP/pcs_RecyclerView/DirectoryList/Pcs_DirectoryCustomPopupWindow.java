@@ -46,7 +46,7 @@ public class Pcs_DirectoryCustomPopupWindow extends PopupWindow {
     private Context context;
     private DatabaseReference databaseReference = new hep_FireBase().getFireBaseDatabaseInstance().getReference();
 
-    public Pcs_DirectoryCustomPopupWindow(Context context) {
+    public Pcs_DirectoryCustomPopupWindow(Context context, View v) {
         super(context);
         this.context = context;
         this.popupView = LayoutInflater.from(context).inflate(R.layout.pcs_directory_popupactivity, null);
@@ -87,14 +87,10 @@ public class Pcs_DirectoryCustomPopupWindow extends PopupWindow {
     }
 
     private void setRecyclerview(){
-//        Query query = databaseReference.child("directory").orderByChild("name");
-//        FirebaseRecyclerOptions options = new FirebaseRecyclerOptions.Builder<KSH_DirectoryEntity>()
-//                .setQuery(query, KSH_DirectoryEntity.class)
-//                .build();
 
         Query query = databaseReference.child("location");
-        FirebaseRecyclerOptions options = new FirebaseRecyclerOptions.Builder<hep_Location>()
-                .setQuery(query, hep_Location.class)
+        FirebaseRecyclerOptions options = new FirebaseRecyclerOptions.Builder<KSH_DirectoryEntity>()
+                .setQuery(query, KSH_DirectoryEntity.class)
                 .build();
 
 

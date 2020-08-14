@@ -1,5 +1,6 @@
 package com.example.locationsave.HEP.pcs_RecyclerView.DirectoryList;
 
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -40,8 +41,7 @@ public class Pcs_DicRecyclerviewAdapter extends FirebaseRecyclerAdapter<KSH_Dire
     @Override
     protected void onBindViewHolder(@NonNull final Listholder holder, final int position, @NonNull KSH_DirectoryEntity ksh_directoryEntity) {
 
-//        holder.directoryTextView.setText(getSnapshots().getSnapshot(position).getValue(KSH_DirectoryEntity.class).getName());
-        holder.directoryTextView.setText(getSnapshots().getSnapshot(position).getValue(hep_Location.class).getName());
+        holder.directoryTextView.setText(getSnapshots().getSnapshot(position).getValue(KSH_DirectoryEntity.class).getName());
         if(getSnapshots().getSnapshot(position).getKey() == selectDirectoryKey) {
             holder.selectRadioButton.setChecked(true);
             lastCheckedPos = position;
@@ -69,7 +69,10 @@ public class Pcs_DicRecyclerviewAdapter extends FirebaseRecyclerAdapter<KSH_Dire
     @NonNull
     @Override
     public Listholder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        return null;
+        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.pcs_directory_cardview
+                ,parent,false);
+
+        return new Listholder(v);
     }
 
 

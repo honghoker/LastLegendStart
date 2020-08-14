@@ -52,6 +52,7 @@ import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 import com.opensooq.supernova.gligar.GligarPicker;
+import com.squareup.picasso.Picasso;
 
 import java.io.File;
 import java.io.IOException;

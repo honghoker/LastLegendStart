@@ -163,7 +163,7 @@ public class Pcs_LocationRecyclerView extends Fragment {
             public void onLeftClicked(int position) {
 //                Intent intent = new Intent(getActivity(), Pcs_DirectoryCustomPopupWindow.class);
                 View popupView = LayoutInflater.from(getActivity()).inflate(R.layout.pcs_directory_popupactivity, null);
-                final Pcs_DirectoryCustomPopupWindow popupWindow = new Pcs_DirectoryCustomPopupWindow(getContext());
+                final Pcs_DirectoryCustomPopupWindow popupWindow = new Pcs_DirectoryCustomPopupWindow(getContext(), getView());
                 hep_Location hep_location = adapter.getDirectoryKey(position);
 
                 popupWindow.show(getActivity().findViewById(R.id.drawer_layout),0, -250, hep_location.getDirectoryid());
