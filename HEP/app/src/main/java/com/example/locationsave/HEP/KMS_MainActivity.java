@@ -98,10 +98,7 @@ import com.google.firebase.database.ValueEventListener;
 
 import com.google.firebase.database.core.operation.Merge;
 import com.google.firebase.storage.UploadTask;
-
-
 import com.naver.maps.map.CameraPosition;
-
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -857,6 +854,7 @@ public class KMS_MainActivity extends AppCompatActivity implements NavigationVie
         setContentView(R.layout.kms_activity_main);
 //        LoadRecyclerView(); //기존 저장 함수 불러옴
         ksh_init();
+        pcs_hashTag_init();
         kms_init();
 //        setMargin();  // ???
         logtest("온크리트 초기 flag  값");
@@ -1033,10 +1031,8 @@ public class KMS_MainActivity extends AppCompatActivity implements NavigationVie
 
 //        addHashTag(); //해시태그 추가
 //        checkAllHashTag(); //체크 해시태그
-        View test_view = findViewById(R.id.drawer_layout);
-        KMS_HashTagCheckBoxManager kms_hashTagCheckBoxManager = new KMS_HashTagCheckBoxManager(this, test_view);
-        kms_hashTagCheckBoxManager.addHashTag();
-        kms_hashTagCheckBoxManager.checkAllHashTag();
+//        View test_view = findViewById(R.id.drawer_layout);
+//        KMS_HashTagCheckBoxManager kms_hashTagCheckBoxManager = new KMS_HashTagCheckBoxManager(this, test_view);
 
 
 //        // 8.floating icon
@@ -1190,6 +1186,7 @@ public class KMS_MainActivity extends AppCompatActivity implements NavigationVie
             }
         });
         kms_hashTagCheckBoxManager.checkAllHashTag();
+
 
     }
 
