@@ -261,6 +261,8 @@ public class KMS_MainActivity extends AppCompatActivity implements NavigationVie
     public static ArrayList<hep_Location> autoCompleteLocationList;
 
     KMS_SearchBarManager kms_searchBarManager = new KMS_SearchBarManager();
+
+    RelativeLayout searchResultBar;
     public void kms_init(){
         autoCompleteLocationList = new ArrayList<>();
 
@@ -336,8 +338,9 @@ public class KMS_MainActivity extends AppCompatActivity implements NavigationVie
         test_1.add("러블리즈");
         test_1.add("우주소녀");
         test_1.add("레드벨벳");
-    }
 
+        searchResultBar = findViewById(R.id.search_resultBar);
+    }
 
     //1.Fragment
 //    public FragmentManager fragmentManager;
@@ -698,6 +701,7 @@ public class KMS_MainActivity extends AppCompatActivity implements NavigationVie
 
                 hideAddLocation();
                 editText.setText(null);
+                searchResultBar.setVisibility(GONE);
                 mRecyclerView.setVisibility(View.GONE);
             }
             else if(kms_markerInformationFlagManager.flagGetMarkerInformationFlag() == true && kms_fragmentFlagManager.flagCheckFragment() == true){
@@ -955,6 +959,25 @@ public class KMS_MainActivity extends AppCompatActivity implements NavigationVie
             }
         });
 
+        // 여기여기
+        searchResultBar.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                if(searchRecyclerView.getVisibility() == VISIBLE){
+//                    Animation animation = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.translate);
+//                    searchRecyclerView.setAnimation(animation);
+//                    searchRecyclerView.setVisibility(v.GONE);
+                    searchRecyclerView.setVisibility(GONE);
+                }
+                else{
+//                    Animation animationH = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.translatehide);
+//                    searchRecyclerView.setAnimation(animationH);
+//                    searchRecyclerView.setVisibility(v.VISIBLE);
+                    searchRecyclerView.setVisibility(VISIBLE);
+                }
+            }
+        });
+
 //        //4. Toolbar Search
 //        linearLayoutToolbarSearch = findViewById(R.id.linearLayoutToolbarSearch);
 //
@@ -1086,7 +1109,7 @@ public class KMS_MainActivity extends AppCompatActivity implements NavigationVie
                         + " 위도 "+kms_locationSearchResults.get(i).getLatitude() + " 경도 " +kms_locationSearchResults.get(i).getLongitude());
                     }
 
-                    selectLocation.setSearchResultRecyclerView(getApplicationContext(), searchRecyclerView);
+                    selectLocation.setSearchResultRecyclerView(getApplicationContext(), searchRecyclerView, searchResultBar);
                     LoadRecyclerView(); //기존 저장 함수 불러옴
                     return true;
                 } //키입력 했을 시 종료
