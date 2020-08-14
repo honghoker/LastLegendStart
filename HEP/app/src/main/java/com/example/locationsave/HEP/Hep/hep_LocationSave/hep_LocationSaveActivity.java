@@ -36,6 +36,8 @@ import com.example.locationsave.HEP.Hep.hep_FireBase;
 import com.example.locationsave.HEP.Hep.hep_LocationDetail.hep_LocationDetailActivity;
 import com.example.locationsave.HEP.KMS.MainFragment.KMS_AddLocationFragment;
 import com.example.locationsave.HEP.KMS.MainFragment.KMS_FragmentFlagManager;
+import com.example.locationsave.HEP.KMS.Map.KMS_CameraManager;
+import com.example.locationsave.HEP.KMS.Map.KMS_MapOption;
 import com.example.locationsave.HEP.KMS_MainActivity;
 import com.example.locationsave.HEP.pcs_RecyclerView.locationList.Pcs_LocationRecyclerView;
 import com.example.locationsave.HEP.KMS.MainFragment.KMS_MapFragment;
@@ -79,8 +81,12 @@ public class hep_LocationSaveActivity extends AppCompatActivity implements KMS_A
     public static Fragment LocationAddFragment = null;
     FragmentManager fragmentManager = getSupportFragmentManager();
     FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+
     TextView locationaddrTextView;
     TextView locationnameTextView;
+
+    KMS_CameraManager kms_cameraManager = KMS_CameraManager.getInstanceCameraManager();
+    KMS_MapOption kms_mapOption = KMS_MapOption.getInstanceMapOption();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -463,7 +469,11 @@ public class hep_LocationSaveActivity extends AppCompatActivity implements KMS_A
             fragmentManager.beginTransaction().replace(R.id.fragmentContainer, LocationAddFragment).commit();
 
 
-            Bundle bundle = new Bundle(2); // 파라미터는 전달할 데이터 개수
+            Bundle bundle = new Bundle(4); // 파라미터는 전달할 데이터 개수
+            bundle.putDouble("latitude",kms_cameraManager.getCameraCurrentLatitued());
+            bundle.putDouble("longitude",kms_cameraManager.getCameraCurrentlongitued());
+            kms_mapOption.setFirstAddOptions(kms_cameraManager.getCameraCurrentLatitued(),kms_cameraManager.getCameraCurrentlongitued());
+
             bundle.putString("Title", locationnameTextView.getText().toString()); // key , value
             bundle.putString("Address",locationaddrTextView.getText().toString());
             LocationAddFragment.setArguments(bundle); //갱신?

@@ -20,6 +20,7 @@ import com.example.locationsave.HEP.Address.AreaSearch;
 import com.example.locationsave.HEP.Address.ReverseGeocodingAsyncTask;
 import com.example.locationsave.HEP.Address.ReverseGetAddress;
 import com.example.locationsave.HEP.KMS.Location.KMS_LocationFlagManager;
+import com.example.locationsave.HEP.KMS.Map.KMS_CameraManager;
 import com.example.locationsave.HEP.KMS.Map.KMS_MapOption;
 import com.example.locationsave.HEP.KMS.Map.KMS_MarkerManager;
 import com.example.locationsave.R;
@@ -61,6 +62,8 @@ public class KMS_MapFragment extends Fragment implements OnMapReadyCallback {
     public static LocationButtonView locationButtonView;
     public static LogoView LogoView;
 
+    //마지막 위치 넘기기
+    KMS_CameraManager kms_cameraManager = KMS_CameraManager.getInstanceCameraManager();
 
     @Override
     public void onAttach(Context context) {
@@ -229,6 +232,8 @@ public class KMS_MapFragment extends Fragment implements OnMapReadyCallback {
                 KMS_LocationFlagManager locationFragment = KMS_LocationFlagManager.getInstanceLocation();
 
                 CameraPosition cameraPosition = NMap.getCameraPosition(); //현재 위치 정보 반환하는 메소드
+
+                kms_cameraManager.setCameraCurrentPosition(cameraPosition.target.latitude,cameraPosition.target.longitude); //현재 카메라 위치 저장
 
                 if(fragmentManager.flagCheckFragment() == true && locationFragment.flagGetLocation() == true) {
 

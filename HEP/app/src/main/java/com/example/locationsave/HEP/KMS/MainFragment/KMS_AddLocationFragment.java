@@ -7,6 +7,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -27,6 +28,7 @@ import com.naver.maps.map.CameraUpdate;
 import com.naver.maps.map.MapFragment;
 import com.naver.maps.map.NaverMap;
 import com.naver.maps.map.OnMapReadyCallback;
+import com.naver.maps.map.UiSettings;
 import com.naver.maps.map.util.FusedLocationSource;
 
 import org.w3c.dom.Text;
@@ -51,7 +53,7 @@ public class KMS_AddLocationFragment extends Fragment implements OnMapReadyCallb
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Log.d("####맵생성안됨",   "카메라를 위경도 위치로 이동");
+        Log.d("####맵생성안됨", "카메라를 위경도 위치로 이동");
 
         //프래그먼트
         FragmentManager addFragmentManager = getChildFragmentManager();
@@ -64,19 +66,19 @@ public class KMS_AddLocationFragment extends Fragment implements OnMapReadyCallb
             Log.d("####맵생성안됨",   "프레그먼트 추가");
         }         */
 
-        addMapFragment = MapFragment.newInstance(mapOption.setFirstOptions()); //새로 만들어주고   // 1-8. 초기옵션 추가
+        addMapFragment = MapFragment.newInstance(mapOption.getFirstAddOptions()); //새로 만들어주고   // 1-8. 초기옵션 추가
         addFragmentManager.beginTransaction().add(R.id.addmap, addMapFragment).commit(); // 프래그매니저에게 명령 map 레이아웃에 생성된 맵 객체를 add
 
         addMapFragment.getMapAsync(this); //이거 만들면 onMapReady 사용 가능
-        Log.d("####맵생성안됨",   "온맵레디");
+        Log.d("####맵생성안됨", "온맵레디");
 
 
         //현재 위치
         locationSource = new FusedLocationSource(this, LOCATION_PERMISSION_REQUEST_CODE);
-        Log.d("####맵생성안됨",   "현재위치");
+        Log.d("####맵생성안됨", "현재위치");
         CameraPosition cameraPosition = KMS_MapFragment.NMap.getCameraPosition();
         double latitude = cameraPosition.target.latitude;
-        double longitude =cameraPosition.target.longitude;
+        double longitude = cameraPosition.target.longitude;
 
 /*
         LatLng latLng = new LatLng(latitude, longitude);
@@ -90,7 +92,7 @@ public class KMS_AddLocationFragment extends Fragment implements OnMapReadyCallb
 
 
         cameraUpdate.animate(CameraAnimation.Fly); //애니메이션
-        Log.d("####MoveCamera",   "카메라를 위경도 위치로 이동" + " " + latitude +"  " + longitude);
+        Log.d("####MoveCamera", "카메라를 위경도 위치로 이동" + " " + latitude + "  " + longitude);
 
         //AddMap.moveCamera(cameraUpdate);
 
@@ -102,7 +104,7 @@ public class KMS_AddLocationFragment extends Fragment implements OnMapReadyCallb
     public void onAttach(Context context) {
         super.onAttach(context); //이 메소드가 호출될떄는 프래그먼트가 엑티비티위에 올라와있는거니깐 getActivity메소드로 엑티비티참조가능
 
-        if(context instanceof OnTimePickerSetListener){
+        if (context instanceof OnTimePickerSetListener) {
             onTimePickerSetListener = (OnTimePickerSetListener) context;
         } else {
             throw new RuntimeException(context.toString() + "must implement OntimePicker");
@@ -110,6 +112,7 @@ public class KMS_AddLocationFragment extends Fragment implements OnMapReadyCallb
 
         activity = getActivity();
     }
+
     @Override
     public void onDetach() {
         super.onDetach();
@@ -125,7 +128,7 @@ public class KMS_AddLocationFragment extends Fragment implements OnMapReadyCallb
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         //프래그먼트 메뉴를 인플레이트해주고 컨테이너에 붙여달라는 뜻임
-        ViewGroup rootView = (ViewGroup)inflater.inflate(R.layout.kms_location_fragment,container,false);
+        ViewGroup rootView = (ViewGroup) inflater.inflate(R.layout.kms_location_fragment, container, false);
         setHasOptionsMenu(true);
 
         textView = rootView.findViewById(R.id.fragment);
@@ -135,8 +138,18 @@ public class KMS_AddLocationFragment extends Fragment implements OnMapReadyCallb
 
         Log.d("#####액티비티 -> 프레그먼트로 넘어온 값 title : ", a2 + " / address : " + a3);
 
-        onTimePickerSetListener.onTimePickerSet(2131232,3, textView.getText().toString()); //값 넘겨줌
+        onTimePickerSetListener.onTimePickerSet(2131232, 3, textView.getText().toString()); //값 넘겨줌
         Log.d("#####", "값 넘겨줌");
+
+
+        Button btn = rootView.findViewById(R.id.button);
+        btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                kms_cameraManager.MoveCameraOnLatlngPosition(37.5670135, 126.9783740, AddMap);
+                Log.d("#####", "맵 이동");
+            }
+        });
 
         return rootView;
     }
@@ -152,16 +165,23 @@ public class KMS_AddLocationFragment extends Fragment implements OnMapReadyCallb
                 CameraPosition cameraPosition = AddMap.getCameraPosition(); //현재 위치 정보 반환하는 메소드
 
 
-                    Log.d("MapMap", "onCameraIdle 위도 : " + cameraPosition.target.latitude + "경도 : " + cameraPosition.target.longitude);
+                Log.d("MapMap", "onCameraIdle 위도 : " + cameraPosition.target.latitude + "경도 : " + cameraPosition.target.longitude);
 
-                    Log.d("#####", "온카메라아이들");
+                Log.d("#####", "온카메라아이들");
 
             }
         });
 
+        UiSettings uiSettings = naverMap.getUiSettings();
+        uiSettings.setLocationButtonEnabled(true);
+
+        //줌컨트롤ui
+        uiSettings.setZoomControlEnabled(false);  //줌 컨트롤 여부
+        AddMap.setLocationSource(locationSource); //얘가 있으면 버튼이 활성화
+
     }
 
-    public interface OnTimePickerSetListener{  //보낼 데이터 인터페이스 생성
+    public interface OnTimePickerSetListener {  //보낼 데이터 인터페이스 생성
         void onTimePickerSet(int hour, int min, String text);
 
     }
