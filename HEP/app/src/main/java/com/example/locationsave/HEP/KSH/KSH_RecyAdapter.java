@@ -11,6 +11,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.locationsave.HEP.Hep.hep_DTO.hep_Location;
@@ -25,6 +26,7 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
+import static com.example.locationsave.HEP.KMS_MainActivity.LocationFragmet;
 import static com.example.locationsave.HEP.KMS_MainActivity.directoryid;
 
 public class KSH_RecyAdapter extends RecyclerView.Adapter<KSH_RecyAdapter.ViewHolder> {
@@ -154,6 +156,11 @@ public class KSH_RecyAdapter extends RecyclerView.Adapter<KSH_RecyAdapter.ViewHo
                                 for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
                                     hep_Location hep_location = dataSnapshot.getValue(hep_Location.class);
                                     new KMS_MarkerManager().getInstanceMarkerManager().addMarker(hep_location.name, hep_location.latitude, hep_location.longitude);
+                                    
+                                    if(LocationFragmet != null) {
+                                        FragmentTransaction transaction = LocationFragmet.getFragmentManager().beginTransaction();
+                                        transaction.detach(LocationFragmet).attach(LocationFragmet).commit();
+                                    }
                                 }
                             }
 
