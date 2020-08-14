@@ -29,7 +29,8 @@ public class KMS_CameraManager {
 
     }
 
-    public void MoveCameraOnLatlngPosition(LatLng latLng, NaverMap naverMap){  //좌표 입력하면 이동
+    public void MoveCameraOnLatlngPosition(double latitude, double longitude, NaverMap naverMap){  //좌표 입력하면 이동
+        LatLng latLng = new LatLng(latitude, longitude);
         CameraUpdate cameraUpdate = CameraUpdate.scrollTo(latLng); //카메라 업데이트 위해 클릭마커 좌표 입력
 
         cameraUpdate.animate(CameraAnimation.Fly); //애니메이션

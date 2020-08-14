@@ -183,8 +183,7 @@ public class KMS_MarkerManager {
             addRecycleMarker(recyclerviewMarkers, title, latitude, longitude);
 
             if(i == 0){ //만약 첫 값이 있다면 카메라 이동해줌
-                LatLng firstLatLng = new LatLng(latitude, longitude);
-                kms_cameraManager.MoveCameraOnLatlngPosition(firstLatLng, NMap);
+                kms_cameraManager.MoveCameraOnLatlngPosition(latitude, longitude, NMap);
             }
         }
     }
