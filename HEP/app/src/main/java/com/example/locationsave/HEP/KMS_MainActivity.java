@@ -1188,7 +1188,6 @@ public class KMS_MainActivity extends AppCompatActivity implements NavigationVie
                  if(data.getBooleanExtra("result",false)) {
                      KMS_FragmentFlagManager d = KMS_FragmentFlagManager.getInstanceFragment();
                      d.setFragmentLocationListLayout();
-//                     kms_hashTagCheckBoxManager.setNewestTag();
                  }
              }
          }
