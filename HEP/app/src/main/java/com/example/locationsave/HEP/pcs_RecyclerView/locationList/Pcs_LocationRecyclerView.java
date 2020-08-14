@@ -42,6 +42,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 
 
@@ -152,17 +153,6 @@ public class Pcs_LocationRecyclerView extends Fragment {
         return new Pcs_RecyclerviewAdapter(options);
     }
 
-    private Pcs_DicRecyclerviewAdapter getFirebaseData(){
-        Query query = db1.getReference().child("location").orderByChild("title");
-        FirebaseRecyclerOptions options = new FirebaseRecyclerOptions.Builder<hep_Location>()
-                .setQuery(query, hep_Location.class)
-                .build();
-        Log.d("tag", "locationList Recyclerview " + String.valueOf(options.getSnapshots().isEmpty()));
-        return new Pcs_DicRecyclerviewAdapter(options);
-    }
-
-
-
     private void setUpSwipeHelper() {
         recyclerViewSwipeHelper = new Pcs_RecyclerViewSwipeHelper(getActivity(), new Pcs_RecyclerViewSwipeAction() {
 
@@ -244,6 +234,20 @@ class LappingDismissData{
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if(snapshot.exists()){
                     for(DataSnapshot dataSnapshot : snapshot.getChildren()){
+                        byte a = 0;
+                        try {
+                            for(Byte b : dataSnapshot.getKey().getBytes("US-ASCII") ){
+                                if(a != 0)
+                                    a += (b * b);
+                                else
+                                    a = b;
+                                Log.d("tag","bytes  " + a);
+                            }
+                            Log.d("tag","bytes to int " + a);
+//                            Log.d("tag", "bytes int " + Integer.parseInt(a));
+                        } catch (UnsupportedEncodingException e) {
+                            e.printStackTrace();
+                        }
                         //Capsulization Data Using LappingDataNKey
                         hep_locationTagArrayList.add(new CapsulizeData(dataSnapshot.getValue(hep_LocationTag.class), dataSnapshot.getKey()));
                         //Delete
