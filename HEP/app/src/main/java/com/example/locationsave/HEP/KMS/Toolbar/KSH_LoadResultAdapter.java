@@ -21,6 +21,7 @@ import java.util.ArrayList;
 public class KSH_LoadResultAdapter extends RecyclerView.Adapter<KSH_LoadResultAdapter.CustomViewHolder>{
     private ArrayList<hep_Location> hep_locationArrayList;
     KMS_CameraManager kms_cameraManager = KMS_CameraManager.getInstanceCameraManager();
+
     public KSH_LoadResultAdapter(ArrayList<hep_Location> list) {
         this.hep_locationArrayList = list;
     }

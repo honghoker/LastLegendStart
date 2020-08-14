@@ -24,6 +24,7 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 
 
+
 public class Pcs_RecyclerviewAdapter extends FirebaseRecyclerAdapter<hep_Location, Pcs_RecyclerviewAdapter.ListHolder> {
     private DatabaseReference databaseReference = new hep_FireBase().getFireBaseDatabaseInstance().getReference();
     public Pcs_RecyclerviewAdapter(@NonNull FirebaseRecyclerOptions<hep_Location> options) {
@@ -35,6 +36,8 @@ public class Pcs_RecyclerviewAdapter extends FirebaseRecyclerAdapter<hep_Locatio
         listHolder.textViewTitle.setText(location.getName());
         listHolder.textViewAddress.setText(location.getAddr());
         listHolder.textViewTag.setText("");
+
+
         getTagFromLocationTag(getSnapshots().getSnapshot(i).getKey(), new Pcs_Callback() {
 
             @Override

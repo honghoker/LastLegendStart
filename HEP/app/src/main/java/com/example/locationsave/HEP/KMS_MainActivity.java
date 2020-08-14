@@ -17,6 +17,7 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.Spinner;
@@ -103,6 +104,8 @@ import java.util.concurrent.ExecutionException;
 
 import static android.widget.AdapterView.*;
 import static com.example.locationsave.HEP.KMS.MainFragment.KMS_MapFragment.NMap;
+import static com.example.locationsave.HEP.KMS.Toolbar.KMS_ClearableEditText_LoadLocation_auto.editText_1;
+import static com.example.locationsave.HEP.KSH.KSH_RecyAdapter.LastPosition;
 
 public class KMS_MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, sunghunTest {
 
@@ -263,6 +266,7 @@ public class KMS_MainActivity extends AppCompatActivity implements NavigationVie
     KMS_MarkerInformationFlagManager kms_markerInformationFlagManager = KMS_MarkerInformationFlagManager.getMarkerInformationFlagManagerInstance();
 
     public static ArrayList<hep_Location> autoCompleteLocationList;
+//    public static ArrayList<hep_Location> sunghunSearchResultList;
 
     KMS_SearchBarManager kms_searchBarManager = new KMS_SearchBarManager();
     KMS_MarkerManager kms_markerManager = new KMS_MarkerManager().getInstanceMarkerManager();
@@ -271,23 +275,28 @@ public class KMS_MainActivity extends AppCompatActivity implements NavigationVie
     public void kms_init(){
         autoCompleteLocationList = new ArrayList<>();
 
-        //location name 자동완성
-        //Query locationQuery = new hep_FireBase().getFireBaseDatabaseInstance().getReference().child("location").orderByChild("directoryid").equalTo(directoryid);
-        new hep_FireBase().getFireBaseDatabaseInstance().getReference().child("location").addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                autoCompleteLocationList.clear();
-                for(DataSnapshot dataSnapshot : snapshot.getChildren()){
-                    hep_Location hep_location = dataSnapshot.getValue(hep_Location.class);
-                    autoCompleteLocationList.add(hep_location);
-                }
-            }
+        //!!!
+//        Log.d("@@@@","id = " + directoryid);
+//        //location name 자동완성
+//        Query locationQuery = new hep_FireBase().getFireBaseDatabaseInstance().getReference().child("location").equalTo(directoryid);
+//        locationQuery.addListenerForSingleValueEvent(new ValueEventListener() {
+//            @Override
+//            public void onDataChange(@NonNull DataSnapshot snapshot) {
+//                autoCompleteLocationList.clear();
+//                for(DataSnapshot dataSnapshot : snapshot.getChildren()){
+//                    hep_Location hep_location = dataSnapshot.getValue(hep_Location.class);
+//                    Log.d("@@@@", "getChildrenCount = " + dataSnapshot.getKey() + ", hep_location.nmae = " + hep_location.name);
+//
+//                    autoCompleteLocationList.add(hep_location);
+//                }
+//            }
+//
+//            @Override
+//            public void onCancelled(@NonNull DatabaseError error) {
+//
+//            }
+//        });
 
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });
 
         fragmentManager = getSupportFragmentManager();
         mapFragment = new KMS_MapFragment();
@@ -295,7 +304,8 @@ public class KMS_MainActivity extends AppCompatActivity implements NavigationVie
         kms_fragmentFlagManager = KMS_FragmentFlagManager.getInstanceFragment();
         bottomBar = findViewById(R.id.linearBottombar);   //2. BottomBar
         toolbar = findViewById(R.id.toolbar);  //3. Toolbar
-        toolbar.setTitle("Last Legend Start");
+//        toolbar.setTitle(arrayList.get(selectView).getName());
+//        toolbar.setTitle("Last Legend Start");
         setSupportActionBar(toolbar);  // **NoActionBar 해주고 이 메서드 호출하면 toolbar를 Activity의 앱바로 사용가능
         navigationView.setNavigationItemSelectedListener(this); // drawer
         // navigationview에 사용자 이름, 이메일 출력
@@ -703,6 +713,7 @@ public class KMS_MainActivity extends AppCompatActivity implements NavigationVie
             setFloatingItem(kms_searchFlagManager.flagGetSearch());
 //            ksh_loadLocation.setSearchResultRecyclerView(getApplicationContext(), loadRecyclerView);
             kms_searchBarManager.setOffLoadLocationSearchBar(relativeLayoutRoadLoaction);
+            editText_1.setText("");
         }
 
         else if (kms_markerInformationFlagManager.flagGetMarkerInformationFlag() == false && kms_searchFlagManager.flagGetSearch() == false && kms_recycleVIewManager.flagCheckRecycleView() == false
@@ -892,7 +903,31 @@ public class KMS_MainActivity extends AppCompatActivity implements NavigationVie
                             }
                         }
 
-                        toolbar.setTitle(arrayList.get(selectView-1).getName());
+                        if(LastPosition != -1){
+                            toolbar.setTitle(arrayList.get(LastPosition-1).getName());
+                        }
+                        else{
+                            toolbar.setTitle(arrayList.get(selectView-1).getName());
+                        }
+
+                        Log.d("@@@@","id = " + directoryid);
+                        new hep_FireBase().getFireBaseDatabaseInstance().getReference().child("location").orderByChild("directoryid").equalTo(directoryid).addValueEventListener(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                autoCompleteLocationList.clear();
+                                for(DataSnapshot dataSnapshot : snapshot.getChildren()){
+                                    hep_Location hep_location = dataSnapshot.getValue(hep_Location.class);
+                                    Log.d("@@@@", "getChildrenCount = " + dataSnapshot.getKey() + ", hep_location.nmae = " + hep_location.name);
+                                    autoCompleteLocationList.add(hep_location);
+                                }
+                            }
+
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError error) {
+
+                            }
+                        });
+
                         recyAdapter = new KSH_RecyAdapter(KMS_MainActivity.this, arrayList, arrayKey, ksh_directoryEntity, selectView, (sunghunTest) OnItemClickListener);
                         recyclerView.setAdapter(recyAdapter);
 
