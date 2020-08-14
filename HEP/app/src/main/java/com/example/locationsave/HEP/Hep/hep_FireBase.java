@@ -8,11 +8,12 @@ import androidx.annotation.NonNull;
 import com.example.locationsave.HEP.Hep.hep_DTO.hep_Callback;
 import com.example.locationsave.HEP.Hep.hep_DTO.hep_LocationImage;
 import com.example.locationsave.HEP.Hep.hep_DTO.hep_LocationTag;
+import com.example.locationsave.HEP.pcs_RecyclerView.locationList.Pcs_Callback;
 import com.example.locationsave.HEP.Hep.hep_DTO.hep_Recent;
 import com.example.locationsave.HEP.KSH.KSH_Date;
 import com.example.locationsave.HEP.KSH.KSH_DirectoryEntity;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.example.locationsave.HEP.pcs_RecyclerView.Pcs_Callback;
+
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -144,7 +145,7 @@ public class hep_FireBase {
                 }
                 else{
                     Query directoryQuery = new hep_FireBase().getFireBaseDatabaseInstance().getReference().child("directory").orderByChild("token").equalTo(new hep_FirebaseUser().getFirebaseUserInstance().getUid());
-                    directoryQuery.addValueEventListener(new ValueEventListener() {
+                    directoryQuery.addListenerForSingleValueEvent(new ValueEventListener() {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot snapshot) {
                             hep_Recent hep_recent = new hep_Recent();

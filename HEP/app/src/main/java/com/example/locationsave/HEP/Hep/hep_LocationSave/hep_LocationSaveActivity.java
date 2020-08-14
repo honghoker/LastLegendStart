@@ -9,6 +9,7 @@ import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.provider.ContactsContract;
 import android.util.Log;
 import android.view.View;
@@ -26,22 +27,23 @@ import androidx.fragment.app.FragmentTransaction;
 import androidx.viewpager.widget.ViewPager;
 
 import com.example.locationsave.HEP.Hep.hep_DTO.hep_Callback;
+import com.example.locationsave.HEP.Hep.hep_DTO.hep_DirectoryTag;
 import com.example.locationsave.HEP.Hep.hep_DTO.hep_Location;
 import com.example.locationsave.HEP.Hep.hep_DTO.hep_LocationTag;
 import com.example.locationsave.HEP.Hep.hep_DTO.hep_Recent;
 import com.example.locationsave.HEP.Hep.hep_DTO.hep_Tag;
 import com.example.locationsave.HEP.Hep.hep_FireBase;
 import com.example.locationsave.HEP.Hep.hep_LocationDetail.hep_LocationDetailActivity;
-import com.example.locationsave.HEP.KMS.MainFragment.KMS_AddLocationFragment;
-import com.example.locationsave.HEP.KMS.MainFragment.KMS_LocationFragment;
+import com.example.locationsave.HEP.KMS_MainActivity;
+import com.example.locationsave.HEP.pcs_RecyclerView.locationList.Pcs_LocationRecyclerView;
 import com.example.locationsave.HEP.KMS.MainFragment.KMS_MapFragment;
 import com.example.locationsave.HEP.KMS_MainActivity;
-import com.example.locationsave.HEP.pcs_RecyclerView.Pcs_LocationRecyclerView;
 import com.example.locationsave.R;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
@@ -306,14 +308,50 @@ public class hep_LocationSaveActivity extends AppCompatActivity implements KMS_A
                     }
 
                     @Override
-                    public void onSuccess(hep_LocationTag hep_locationTag) {
+                    public void onSuccess(final hep_LocationTag hep_locationTag) {
                         Map<String, Object> hashlocationtag = new HashMap<>();
                         hashlocationtag.put("locationid", locationid);
                         hashlocationtag.put("tagid", hep_locationTag.tagid);
 
-                        new hep_FireBase().getFireBaseDatabaseInstance().getReference().child("locationtag").push().setValue(hashlocationtag); // locationtag 저장
-                    }
+                        final String tagid = hep_locationTag.tagid;
 
+                        new hep_FireBase().getFireBaseDatabaseInstance().getReference().child("locationtag").push().setValue(hashlocationtag); // locationtag 저장
+
+                        Query directorytagQuery = new hep_FireBase().getFireBaseDatabaseInstance().getReference().child("directorytag").orderByChild("directoryid").equalTo(KMS_MainActivity.directoryid);
+                        directorytagQuery.addListenerForSingleValueEvent(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                Map<String, Object> directorytag = new HashMap<>();
+
+                                if(snapshot.exists()) {
+                                    for(DataSnapshot dataSnapshot : snapshot.getChildren()){
+
+                                        hep_DirectoryTag hep_directoryTag = dataSnapshot.getValue(hep_DirectoryTag.class);
+
+                                        if(hep_directoryTag.tagid.equals(tagid)){
+                                            directorytag.put("directoryid", hep_directoryTag.directoryid);
+                                            directorytag.put("tagid", hep_directoryTag.tagid);
+                                            directorytag.put("count", hep_directoryTag.count + 1);
+
+                                            new hep_FireBase().getFireBaseDatabaseInstance().getReference().child("directorytag").child(dataSnapshot.getKey()).updateChildren(directorytag);
+                                        }
+                                    }
+                                }
+                                else {
+                                    directorytag.put("directoryid", KMS_MainActivity.directoryid);
+                                    directorytag.put("tagid", hep_locationTag.tagid);
+                                    directorytag.put("count", 1);
+
+                                    new hep_FireBase().getFireBaseDatabaseInstance().getReference().child("directorytag").push().setValue(directorytag);
+                                }
+                            }
+
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError error) {
+
+                            }
+                        });
+                    }
                 });
             }
 
@@ -343,9 +381,24 @@ public class hep_LocationSaveActivity extends AppCompatActivity implements KMS_A
                 });
             }
 
-            new hep_HashTagArr().getHashTagArr().clear();
-            new hep_locationImageDataArr().getImageDataArrayInstance().clear();
-            setFragment();
+
+            int delay;
+            if(new hep_locationImageDataArr().getImageDataArrayInstance().size() > new hep_HashTagArr().getHashTagArr().size())
+                delay = new hep_locationImageDataArr().getImageDataArrayInstance().size();
+            else
+                delay = new hep_HashTagArr().getHashTagArr().size();
+
+            toastMake("저장 중");
+            Handler handler = new Handler();
+            handler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    toastMake("저장 완료");
+                    new hep_HashTagArr().getHashTagArr().clear();
+                    new hep_locationImageDataArr().getImageDataArrayInstance().clear();
+                    setFragment();
+                }
+            },1000 * delay);
 
         }
         else{
