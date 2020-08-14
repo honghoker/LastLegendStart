@@ -83,6 +83,7 @@ import com.example.locationsave.HEP.KSH.NavIntent.KSH_HelpIntent;
 import com.example.locationsave.HEP.KSH.NavIntent.KSH_SetIntent;
 import com.example.locationsave.HEP.pcs_RecyclerView.Pcs_LocationRecyclerView;
 import com.example.locationsave.R;
+import com.google.android.gms.maps.model.LatLng;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.database.DataSnapshot;
@@ -242,6 +243,9 @@ public class KMS_MainActivity extends AppCompatActivity implements NavigationVie
     public static ArrayList<hep_Location> autoCompleteLocationList;
 
     KMS_SearchBarManager kms_searchBarManager = new KMS_SearchBarManager();
+
+    KMS_MarkerManager kms_markerManager = new KMS_MarkerManager().getInstanceMarkerManager();
+
     public void kms_init(){
         autoCompleteLocationList = new ArrayList<>();
 
@@ -671,10 +675,11 @@ public class KMS_MainActivity extends AppCompatActivity implements NavigationVie
 
             if (kms_locationFlagManager.flagGetLocation() == true) {
                 Log.d("6","444 location add on");
-
                 hideAddLocation();
                 editText.setText(null);
                 mRecyclerView.setVisibility(View.GONE);
+                kms_markerManager.initRecyclerMarker(); //임시 마커 초기화
+
             }
             else if(kms_markerInformationFlagManager.flagGetMarkerInformationFlag() == true && kms_fragmentFlagManager.flagCheckFragment() == true){
                 Log.d("6","#####맵 & 마커 인포" + kms_fragmentFlagManager.flagCheckFragment() + kms_markerInformationFlagManager.flagGetMarkerInformationFlag());
@@ -751,6 +756,9 @@ public class KMS_MainActivity extends AppCompatActivity implements NavigationVie
 //    ArrayList<KMS_LocationSearchResult> kms_locationSearchResults = new ArrayList<>();
 //    KMS_LocationSearchResult kms_locationSearchResult;
     //교대요
+
+
+
     public void LoadRecyclerView(){
         InitRecyclerView();
 //        RecyclerView mRecyclerView = (RecyclerView) findViewById(R.id.searchResult_RecyclerVIew);
@@ -850,7 +858,7 @@ public class KMS_MainActivity extends AppCompatActivity implements NavigationVie
                                 new KMS_MarkerManager().getInstanceMarkerManager().initMarker();
                                 for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
                                     hep_Location hep_location = dataSnapshot.getValue(hep_Location.class);
-                                    new KMS_MarkerManager().getInstanceMarkerManager().addMarker(hep_location.name, hep_location.latitude, hep_location.longitude);
+                                    new KMS_MarkerManager().getInstanceMarkerManager().addMarker(kms_markerManager.markers, hep_location.name, hep_location.latitude, hep_location.longitude);
                                 }
                             }
 
@@ -1009,6 +1017,9 @@ public class KMS_MainActivity extends AppCompatActivity implements NavigationVie
                     inputMethodManager.hideSoftInputFromWindow(editText.getWindowToken(),0);
                     selectLocation.setSearchResultRecyclerView(getApplicationContext(), searchRecyclerView);
 
+                    //재 검색 시 초기화
+                    kms_markerManager.initRecyclerMarker();
+
                     AreaSearch areaSearch = new AreaSearch();
                     ArrayList<SearchAreaArrayEntity> searchAreaArrayResult = areaSearch.SearchArea(editText.getText().toString());
                     ArrayList<GeocodingArrayEntity> geocodingArrayResult = areaSearch.Geocoding(editText.getText().toString());
@@ -1059,6 +1070,8 @@ public class KMS_MainActivity extends AppCompatActivity implements NavigationVie
                         Log.d("6",i+" title " + kms_locationSearchResults.get(i).getTitle() + " address " + kms_locationSearchResults.get(i).getRoadAddress()
                         + " 위도 "+kms_locationSearchResults.get(i).getLatitude() + " 경도 " +kms_locationSearchResults.get(i).getLongitude());
                     }
+
+                    kms_markerManager.AddRecyclerViewMarker();
                     LoadRecyclerView(); //기존 저장 함수 불러옴
                     return true;
                 } //키입력 했을 시 종료

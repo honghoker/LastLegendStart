@@ -37,6 +37,7 @@ public class KSH_RecyAdapter extends RecyclerView.Adapter<KSH_RecyAdapter.ViewHo
     KSH_DirectoryEntity ksh_directoryEntity;
     KSH_Date ksh_date = new KSH_Date();
     private int selectView = 0;
+    KMS_MarkerManager kms_markerManager = new KMS_MarkerManager().getInstanceMarkerManager();
 
     public KSH_RecyAdapter(Context context, ArrayList<KSH_DirectoryEntity> arrayList,ArrayList<String> arrayKey, KSH_DirectoryEntity ksh_directoryEntity, int selectView) {
         mcontext = context;
@@ -153,7 +154,7 @@ public class KSH_RecyAdapter extends RecyclerView.Adapter<KSH_RecyAdapter.ViewHo
                                 new KMS_MarkerManager().getInstanceMarkerManager().initMarker();
                                 for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
                                     hep_Location hep_location = dataSnapshot.getValue(hep_Location.class);
-                                    new KMS_MarkerManager().getInstanceMarkerManager().addMarker(hep_location.name, hep_location.latitude, hep_location.longitude);
+                                    new KMS_MarkerManager().getInstanceMarkerManager().addMarker(kms_markerManager.markers, hep_location.name, hep_location.latitude, hep_location.longitude);
                                 }
                             }
 
