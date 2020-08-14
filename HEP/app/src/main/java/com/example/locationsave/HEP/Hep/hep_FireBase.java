@@ -145,7 +145,7 @@ public class hep_FireBase {
                 }
                 else{
                     Query directoryQuery = new hep_FireBase().getFireBaseDatabaseInstance().getReference().child("directory").orderByChild("token").equalTo(new hep_FirebaseUser().getFirebaseUserInstance().getUid());
-                    directoryQuery.addValueEventListener(new ValueEventListener() {
+                    directoryQuery.addListenerForSingleValueEvent(new ValueEventListener() {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot snapshot) {
                             hep_Recent hep_recent = new hep_Recent();

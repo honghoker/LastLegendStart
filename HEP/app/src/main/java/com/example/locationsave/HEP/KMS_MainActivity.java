@@ -80,7 +80,6 @@ import com.example.locationsave.HEP.KSH.KSH_RecyAdapter;
 
 import com.example.locationsave.HEP.KSH.NavIntent.KSH_NoticeIntent;
 
-
 import com.example.locationsave.HEP.KSH.NavIntent.KSH_HelpIntent;
 import com.example.locationsave.HEP.KSH.NavIntent.KSH_SetIntent;
 import com.example.locationsave.HEP.pcs_RecyclerView.locationList.Pcs_LocationRecyclerView;

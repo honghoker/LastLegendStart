@@ -32,6 +32,11 @@ import com.naver.maps.map.MapFragment;
 import com.naver.maps.map.NaverMap;
 import com.naver.maps.map.OnMapReadyCallback;
 import com.naver.maps.map.util.FusedLocationSource;
+import com.naver.maps.map.widget.CompassView;
+import com.naver.maps.map.widget.LocationButtonView;
+import com.naver.maps.map.widget.LogoView;
+import com.naver.maps.map.widget.ScaleBarView;
+import com.naver.maps.map.widget.ZoomControlView;
 
 import java.util.concurrent.ExecutionException;
 
@@ -50,6 +55,13 @@ public class KMS_MapFragment extends Fragment implements OnMapReadyCallback {
     //맵 옵션
     KMS_MapOption mapOption = KMS_MapOption.getInstanceMapOption();
     KMS_MarkerManager markerManager = new KMS_MarkerManager().getInstanceMarkerManager();
+    public static CompassView compassView;
+    public static ScaleBarView scaleBarView;
+    public static ZoomControlView zoomControlView;
+    public static LocationButtonView locationButtonView;
+    public static LogoView LogoView;
+
+
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
@@ -71,6 +83,11 @@ public class KMS_MapFragment extends Fragment implements OnMapReadyCallback {
         //프래그먼트 메인을 인플레이트해주고 컨테이너에 붙여달라는 뜻임
 
         ViewGroup rootView = (ViewGroup) inflater.inflate(R.layout.kms_map_fragment, container, false);
+        compassView = rootView.findViewById(R.id.compass);
+        scaleBarView = rootView.findViewById(R.id.scalebar);
+        zoomControlView = rootView.findViewById(R.id.zoom);
+        locationButtonView = rootView.findViewById(R.id.location);
+        LogoView = rootView.findViewById(R.id.logo);
 /*
         Button btn = rootView.findViewById(R.id.button);
         btn.setOnClickListener(new View.OnClickListener() {
@@ -360,7 +377,6 @@ public class KMS_MapFragment extends Fragment implements OnMapReadyCallback {
 
 
     /////////////////////////////////////////////////////////////////////
-
 
 
 } //전체코드
