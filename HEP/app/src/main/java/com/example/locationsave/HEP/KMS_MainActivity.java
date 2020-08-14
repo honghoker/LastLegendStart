@@ -300,13 +300,19 @@ public class KMS_MainActivity extends AppCompatActivity implements NavigationVie
         relativeLayout_load = findViewById(R.id.relativeLayout_loadLoaction);
         linearLayout_selectLocation = findViewById(R.id.linearLayout_s);
         backPressedForFinish = new KMS_BackPressedForFinish(this);  //10.BackPressed
-        mRecyclerView = (RecyclerView) findViewById(R.id.searchResult_RecyclerVIew);
+        mRecyclerView = (RecyclerView) findViewById(R.id.searchResult_RecyclerVIew);    //??
         mLinearLayoutManager = new LinearLayoutManager(this);
         editText = findViewById(R.id.clearable_edit_search_location);
-        searchRecyclerView = findViewById(R.id.searchResult_RecyclerVIew);
+        searchRecyclerView = findViewById(R.id.searchResult_RecyclerVIew);    //??
         btnClear = (Button) findViewById(R.id.clearable_search_location_button_clear);
 
         loadRecyclerView = findViewById(R.id.searchLordResult_RecyclerVIew);
+
+        // 버그다 이거 ㅅㅂ
+//        linearLayoutToolbarSearch.setVisibility(View.GONE);
+//        kms_searchFlagManager.flagSetFalseSearch();
+        relativeLayoutRoadLoaction = findViewById(R.id.relativeLayout_loadLoaction);
+        kms_searchBarManager.setOffLoadLocationSearchBar(relativeLayoutRoadLoaction);
 
         test_1.add("오마이걸");
         test_1.add("여자아이들");
@@ -452,6 +458,7 @@ public class KMS_MainActivity extends AppCompatActivity implements NavigationVie
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.menu_item_search: {//상단 검색 버튼 클릭 시
+
                 // frame bottomMargin 57dp -> search click -> bottomMargin 0
 //                RelativeLayout.LayoutParams test = (RelativeLayout.LayoutParams) fView.getLayoutParams();
 //                test.bottomMargin = 0;
@@ -495,6 +502,7 @@ public class KMS_MainActivity extends AppCompatActivity implements NavigationVie
         }
     }
 
+    // ???
     public void setSearchBar(boolean searchFlag) { //searchFlag 에 맞게 상단 검색 바 출력
         if (searchFlag == true)
             linearLayoutToolbarSearch.setVisibility(View.VISIBLE);
@@ -1087,8 +1095,7 @@ public class KMS_MainActivity extends AppCompatActivity implements NavigationVie
                 Log.d("6","####마커인포 클릭");
             }
         });
-        relativeLayoutRoadLoaction = findViewById(R.id.relativeLayout_loadLoaction);
-
+//        relativeLayoutRoadLoaction = findViewById(R.id.relativeLayout_loadLoaction);
     } //oncreate 종료
 
     public static LinearLayout linearLayoutMakerInformation;

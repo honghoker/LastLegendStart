@@ -87,6 +87,7 @@ public class KSH_RecyAdapter extends RecyclerView.Adapter<KSH_RecyAdapter.ViewHo
     @Override
     public void onBindViewHolder(@NonNull KSH_RecyAdapter.ViewHolder holder, int position) {
         if(position == selectView && selectView != 0) {
+            // 여기
             holder.itemView.setBackgroundColor(Color.RED);
         }
 
