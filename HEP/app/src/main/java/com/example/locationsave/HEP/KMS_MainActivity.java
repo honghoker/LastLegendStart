@@ -2,6 +2,7 @@ package com.example.locationsave.HEP;
 
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -17,6 +18,7 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.Spinner;
@@ -44,9 +46,16 @@ import com.example.locationsave.HEP.Address.ReverseGetAddress;
 import com.example.locationsave.HEP.Address.SearchAreaArrayEntity;
 import com.example.locationsave.HEP.Hep.hep_DTO.hep_Callback;
 import com.example.locationsave.HEP.Hep.hep_DTO.hep_Location;
+import com.example.locationsave.HEP.Hep.hep_DTO.hep_LocationImage;
 import com.example.locationsave.HEP.Hep.hep_DTO.hep_LocationTag;
 import com.example.locationsave.HEP.Hep.hep_DTO.hep_Recent;
+import com.example.locationsave.HEP.Hep.hep_LocationDetail.hep_LocationDetailActivity;
+import com.example.locationsave.HEP.Hep.hep_LocationDetail.hep_LocationDetail_FlowLayoutImageItem;
+import com.example.locationsave.HEP.Hep.hep_LocationDetail.hep_LocationDetail_ViewPagerAdapter;
+import com.example.locationsave.HEP.Hep.hep_LocationSave.hep_FlowLayout;
+import com.example.locationsave.HEP.Hep.hep_LocationSave.hep_ImageData;
 import com.example.locationsave.HEP.Hep.hep_LocationSave.hep_LocationSaveActivity;
+import com.example.locationsave.HEP.Hep.hep_LocationSave.hep_locationImageDataArr;
 import com.example.locationsave.HEP.KMS.BackPressed.KMS_BackPressedForFinish;
 import com.example.locationsave.HEP.KMS.HashTag.KMS_FlowLayout;
 import com.example.locationsave.HEP.KMS.HashTag.KMS_HashTag;
@@ -86,16 +95,20 @@ import com.example.locationsave.HEP.KSH.NavIntent.KSH_SetIntent;
 import com.example.locationsave.HEP.KSH.sunghunTest;
 import com.example.locationsave.HEP.pcs_RecyclerView.locationList.Pcs_LocationRecyclerView;
 import com.example.locationsave.R;
+import com.github.chrisbanes.photoview.PhotoView;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 import com.naver.maps.map.CameraPosition;
+import com.squareup.picasso.Picasso;
 
-
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -889,6 +902,7 @@ public class KMS_MainActivity extends AppCompatActivity implements NavigationVie
                                 }
                             }
                         }
+
                         recyAdapter = new KSH_RecyAdapter(KMS_MainActivity.this, arrayList, arrayKey, ksh_directoryEntity, selectView, (sunghunTest) OnItemClickListener);
                         recyclerView.setAdapter(recyAdapter);
 
@@ -899,7 +913,7 @@ public class KMS_MainActivity extends AppCompatActivity implements NavigationVie
                                 new KMS_MarkerManager().getInstanceMarkerManager().initMarker();
                                 for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
                                     hep_Location hep_location = dataSnapshot.getValue(hep_Location.class);
-                                    new KMS_MarkerManager().getInstanceMarkerManager().addMarker(kms_markerManager.markers, hep_location.name, hep_location.latitude, hep_location.longitude);
+                                    new KMS_MarkerManager().getInstanceMarkerManager().addMarker(kms_markerManager.markers, hep_location, dataSnapshot.getKey());
                                 }
                             }
 
@@ -917,7 +931,6 @@ public class KMS_MainActivity extends AppCompatActivity implements NavigationVie
                 Log.d("1", " error "+String.valueOf(databaseError.toException()));
             }
         });
-
         // loading
         Intent intent = new Intent(this, KSH_LoadingActivity.class);
         startActivity(intent);
@@ -1042,6 +1055,17 @@ public class KMS_MainActivity extends AppCompatActivity implements NavigationVie
                 return false;
             }
         });
+
+
+
+        Button button = findViewById(R.id.markerinfoclosebtn);
+        button.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ((LinearLayout)findViewById(R.id.linearLayoutMakerInformation)).setVisibility(GONE);
+            }
+        });
+
 //
 //        editText = findViewById(R.id.clearable_edit_search_location);
 //        searchRecyclerView = findViewById(R.id.searchResult_RecyclerVIew);
