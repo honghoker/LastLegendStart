@@ -9,7 +9,7 @@
 
     <RelativeLayout
         android:layout_width="wrap_content"
-        android:layout_height="250dp">
+        android:layout_height="150dp">
 
         <TextView
             android:id="@+id/allsee_ViewOptions"
@@ -49,57 +49,6 @@
             android:orientation="horizontal"
             android:layout_marginTop="10dp"
             >
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_columnWeight="1"
-                android:layout_columnSpan="2"
-                android:gravity="center"
-                android:text="Top1 : Tag"
-                android:textSize="15dp"
-                android:id="@+id/allsee_tag1"
-                />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_columnWeight="1"
-                android:layout_columnSpan="2"
-                android:gravity="center"
-                android:text="Top2 : Tag"
-                android:textSize="15dp"
-                android:id="@+id/allsee_tag2"/>
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_columnWeight="1"
-                android:layout_columnSpan="2"
-                android:gravity="center"
-                android:text="Top3 : Tag"
-                android:textSize="15dp"
-                android:id="@+id/allsee_tag3"/>
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_columnWeight="1"
-                android:gravity="center"
-                android:layout_columnSpan="2"
-                android:text="Top4 : Tag"
-                android:textSize="15dp"
-                android:id="@+id/allsee_tag4"/>
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_columnWeight="1"
-                android:layout_columnSpan="2"
-                android:gravity="center"
-                android:text="Top5 : Tag"
-                android:textSize="15dp"
-                android:id="@+id/allsee_tag5"/>
 
             <TextView
                 android:layout_marginTop="10dp"

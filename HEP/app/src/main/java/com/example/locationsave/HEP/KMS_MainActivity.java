@@ -113,6 +113,7 @@ public class KMS_MainActivity extends AppCompatActivity implements NavigationVie
         rView.setAnimation(animationH);
         rView.setVisibility(fView.GONE);
         kms_recycleVIewManager.flagSetFalseRecycleView(); //리사이클 flag 를 false 로 변경
+        setFloatingItem(kms_recycleVIewManager.flagCheckRecycleView());
     }
 
     @Override
@@ -865,6 +866,7 @@ public class KMS_MainActivity extends AppCompatActivity implements NavigationVie
                         for (int i = 0; i < arrayKey.size(); i++) {
                             if (directoryid == null) {
                                 if (hep_recent.directoryid.equals(arrayKey.get(i))) {
+                                    Log.d("6","arrayKey.size = "+arrayKey.size());
                                     selectView = i + 1;
                                     directoryid = hep_recent.directoryid;
                                 }
@@ -875,6 +877,8 @@ public class KMS_MainActivity extends AppCompatActivity implements NavigationVie
                                 }
                             }
                         }
+
+                        toolbar.setTitle(arrayList.get(selectView-1).getName());
                         recyAdapter = new KSH_RecyAdapter(KMS_MainActivity.this, arrayList, arrayKey, ksh_directoryEntity, selectView, (sunghunTest) OnItemClickListener);
                         recyclerView.setAdapter(recyAdapter);
 
@@ -903,9 +907,6 @@ public class KMS_MainActivity extends AppCompatActivity implements NavigationVie
                 Log.d("1", " error "+String.valueOf(databaseError.toException()));
             }
         });
-
-        recyAdapter = new KSH_RecyAdapter(KMS_MainActivity.this, arrayList, arrayKey, ksh_directoryEntity, selectView,(sunghunTest) OnItemClickListener);
-        recyclerView.setAdapter(recyAdapter);
 
         // loading
         Intent intent = new Intent(this, KSH_LoadingActivity.class);
@@ -939,6 +940,7 @@ public class KMS_MainActivity extends AppCompatActivity implements NavigationVie
 //        //3-2. spinner 선언 & RecycleView
 //        spinner = findViewById(R.id.spinner);
         // spinner 터치(클릭) 시 이벤트처리
+        //버그좀
         spinner.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {

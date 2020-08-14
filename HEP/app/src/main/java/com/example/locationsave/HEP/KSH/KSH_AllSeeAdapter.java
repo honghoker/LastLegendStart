@@ -135,11 +135,6 @@ public class KSH_AllSeeAdapter extends RecyclerView.Adapter<KSH_AllSeeAdapter.Vi
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             this.recy_test_title = itemView.findViewById(R.id.allsee_text_view_title);
-            this.tag1 = itemView.findViewById(R.id.allsee_tag1);
-            this.tag2 = itemView.findViewById(R.id.allsee_tag2);
-            this.tag3 = itemView.findViewById(R.id.allsee_tag3);
-            this.tag4 = itemView.findViewById(R.id.allsee_tag4);
-            this.tag5 = itemView.findViewById(R.id.allsee_tag5);
             this.allseebtn = itemView.findViewById(R.id.allsee_ViewOptions);
             this.createTime = itemView.findViewById(R.id.allsee_createTime);
             this.updateTime = itemView.findViewById(R.id.allsee_updateTime);

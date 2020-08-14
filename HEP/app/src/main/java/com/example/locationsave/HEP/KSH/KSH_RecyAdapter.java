@@ -94,7 +94,7 @@ public class KSH_RecyAdapter extends RecyclerView.Adapter<KSH_RecyAdapter.ViewHo
 
     @Override
     public void onBindViewHolder(@NonNull KSH_RecyAdapter.ViewHolder holder, int position) {
-        Log.d("6","position 확인 " + position);
+        Log.d("6","selectView 확인 " + selectView + " LastPosition " + LastPosition);
 //        holder.itemView.setBackgroundColor(Color.parseColor("#cccccc"));
 
 //        if(position == selectView && selectView != 0) {
@@ -105,8 +105,14 @@ public class KSH_RecyAdapter extends RecyclerView.Adapter<KSH_RecyAdapter.ViewHo
             HeaderViewHolder headerViewHolder = (HeaderViewHolder) holder;
         }
         else{
-            if (position == LastPosition)
+
+            if(LastPosition == -1)
+                LastPosition = selectView;
+
+            if (position == LastPosition && selectView != 0){
+                Log.d("6","asdfasdfasdfsadfasf");
                 holder.itemView.setBackgroundColor(Color.RED);
+            }
             else
                 holder.itemView.setBackgroundColor(Color.parseColor("#cccccc"));
 

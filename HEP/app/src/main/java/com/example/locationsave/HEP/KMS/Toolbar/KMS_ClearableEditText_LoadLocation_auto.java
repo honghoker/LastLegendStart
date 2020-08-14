@@ -101,8 +101,13 @@ public class KMS_ClearableEditText_LoadLocation_auto extends RelativeLayout {
                     KSH_LoadResultAdapter mAdapter = new KSH_LoadResultAdapter(setChangeListData(s.toString()));
                     loadRecyclerView.setAdapter(mAdapter);
 
-                    ksh_loadLocation.setOnSearchResultRecyclerView(mContext, loadRecyclerView);
-                    loadRecyclerView.setLayoutManager(mLinearLayoutManager);
+
+                    if(!String.valueOf(setChangeListData(s.toString())).equals("[]")){
+//                        Log.d("6", String.valueOf(setChangeListData(s.toString())));
+//                        Log.d("6","여기오나");
+                        ksh_loadLocation.setOnSearchResultRecyclerView(mContext, loadRecyclerView);
+                        loadRecyclerView.setLayoutManager(mLinearLayoutManager);
+                    }
 
                 } else {
                     ksh_loadLocation.setOffSearchResultRecyclerView2(mContext, loadRecyclerView);
