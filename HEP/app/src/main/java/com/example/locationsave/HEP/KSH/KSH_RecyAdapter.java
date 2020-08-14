@@ -11,11 +11,14 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.locationsave.HEP.Hep.hep_DTO.hep_Location;
 import com.example.locationsave.HEP.Hep.hep_FireBase;
 import com.example.locationsave.HEP.KMS.Map.KMS_MarkerManager;
+import com.example.locationsave.HEP.KMS_MainActivity;
 import com.example.locationsave.HEP.pcs_RecyclerView.Pcs_LocationRecyclerView;
 import com.example.locationsave.R;
 import com.google.firebase.database.DataSnapshot;
@@ -156,11 +159,12 @@ public class KSH_RecyAdapter extends RecyclerView.Adapter<KSH_RecyAdapter.ViewHo
                                 new KMS_MarkerManager().getInstanceMarkerManager().initMarker();
                                 for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
                                     hep_Location hep_location = dataSnapshot.getValue(hep_Location.class);
-
-                                    //Pcs_LocationRecyclerView pcs_locationRecyclerView = new Pcs_LocationRecyclerView();
-
-                                    //setUpRecyclerView();
                                     new KMS_MarkerManager().getInstanceMarkerManager().addMarker(kms_markerManager.markers, hep_location.name, hep_location.latitude, hep_location.longitude);
+
+                                    if(LocationFragmet != null) {
+                                        FragmentTransaction transaction = LocationFragmet.getFragmentManager().beginTransaction();
+                                        transaction.detach(LocationFragmet).attach(LocationFragmet).commit();
+                                    }
                                 }
                             }
 
@@ -174,4 +178,6 @@ public class KSH_RecyAdapter extends RecyclerView.Adapter<KSH_RecyAdapter.ViewHo
             });
         }
     }
+
+
 }
