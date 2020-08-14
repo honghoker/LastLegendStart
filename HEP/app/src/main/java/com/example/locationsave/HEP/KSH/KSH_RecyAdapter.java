@@ -156,14 +156,11 @@ public class KSH_RecyAdapter extends RecyclerView.Adapter<KSH_RecyAdapter.ViewHo
                                 new KMS_MarkerManager().getInstanceMarkerManager().initMarker();
                                 for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
                                     hep_Location hep_location = dataSnapshot.getValue(hep_Location.class);
-<<<<<<< HEAD
-                                    new KMS_MarkerManager().getInstanceMarkerManager().addMarker(hep_location.name, hep_location.latitude, hep_location.longitude);
+
                                     //Pcs_LocationRecyclerView pcs_locationRecyclerView = new Pcs_LocationRecyclerView();
 
                                     //setUpRecyclerView();
-=======
                                     new KMS_MarkerManager().getInstanceMarkerManager().addMarker(kms_markerManager.markers, hep_location.name, hep_location.latitude, hep_location.longitude);
->>>>>>> 11313fc4c7cbe64f6e543f2c088781c8029f842a
                                 }
                             }
 
