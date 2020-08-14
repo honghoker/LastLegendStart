@@ -34,15 +34,17 @@ public class KMS_SelectLocation extends AppCompatActivity {
 //            li.setVisibility(View.GONE);
     }
 
-    public void setSearchResultRecyclerView(Context context, RecyclerView recyclerView){
+    public void setSearchResultRecyclerView(Context context, RecyclerView recyclerView, RelativeLayout searchResultBar){
         if (recyclerView.getVisibility() == View.GONE) {  //만약 셀렉트 로케이션이 보이지 않으면
             Log.d("####KMS_SelectLocation","SetResultRecyclerLayout 보임");
             //Toast.makeText(context, "검색 바 / 서브 툴바 출력", Toast.LENGTH_SHORT).show();
             recyclerView.setVisibility(View.VISIBLE);
+            searchResultBar.setVisibility(View.VISIBLE);
         } else if (recyclerView.getVisibility() == View.VISIBLE) {
             Log.d("####KMS_SelectLocation","SetResultRecyclerLayout 숨김");
             //Toast.makeText(context, "검색 바 / 서브 툴바 미출력", Toast.LENGTH_SHORT).show();
             recyclerView.setVisibility(View.GONE);
+            searchResultBar.setVisibility(View.GONE);
         }
     }
 

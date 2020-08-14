@@ -36,7 +36,7 @@
         <LinearLayout
             android:id="@+id/linearLayout_s"
             android:layout_width="wrap_content"
-            android:layout_height="60dp"
+            android:layout_height="70dp"
             android:background="@drawable/selectlocation"
             android:clickable="true"
             android:minWidth="220dp"
@@ -111,13 +111,40 @@
         android:orientation="vertical"
         android:visibility="visible">
 
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:visibility="gone"
+            android:id="@+id/search_resultBar">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:text="검색 결과"
+                android:background="#cccccc"
+                android:gravity="center"
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="보탄"
+                android:layout_marginTop="10dp"/>
+
+        </RelativeLayout>
+
+
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/searchResult_RecyclerVIew"
             android:layout_width="match_parent"
-            android:layout_height="150dp"
+            android:layout_height="170dp"
             android:background="#FFFFFF"
             android:visibility="gone"
-            tools:ignore="NotSibling" />
+            tools:ignore="NotSibling"
+            android:scrollbars="vertical"
+            android:scrollbarThumbVertical="@color/common_google_signin_btn_text_dark_disabled"
+            android:scrollbarSize="15dp"/>
     </LinearLayout>
 
 </RelativeLayout>

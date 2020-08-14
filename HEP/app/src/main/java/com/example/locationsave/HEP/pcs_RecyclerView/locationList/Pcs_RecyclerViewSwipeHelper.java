@@ -1,4 +1,4 @@
-package com.example.locationsave.HEP.pcs_RecyclerView;
+package com.example.locationsave.HEP.pcs_RecyclerView.locationList;
 
 import android.content.Context;
 import android.graphics.Canvas;

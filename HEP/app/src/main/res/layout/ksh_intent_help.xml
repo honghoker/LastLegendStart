@@ -24,14 +24,16 @@
             android:layout_height="wrap_content"
             android:text="         버그 및 문제신고"
             android:textSize="20dp"
-            android:padding="10dp"/>
+            android:padding="10dp"
+            android:id="@+id/help_bug"/>
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="         앱 리뷰 남기기"
             android:textSize="20dp"
-            android:padding="10dp"/>
+            android:padding="10dp"
+            android:id="@+id/help_reView"/>
 
     </LinearLayout>
 
