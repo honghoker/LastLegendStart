@@ -54,7 +54,7 @@ public class Pcs_DirectoryCustomPopupWindow extends PopupWindow {
         setInit();
         setRecyclerview();
     }
-    public void show(View anchor, int x, int y, String directoryKey){
+    public void show(View anchor, int x, int y){
         showAtLocation(anchor, Gravity.CENTER, x, y);
     }
 
@@ -98,12 +98,12 @@ public class Pcs_DirectoryCustomPopupWindow extends PopupWindow {
                 .build();
 
 
-        adapter = new Pcs_DicRecyclerviewAdapter(options, "");
-        ////////////////////////////ERROR
+        adapter = new Pcs_DicRecyclerviewAdapter(options);
         recyclerView = popupView.findViewById(R.id.pcs_directoryRecyclerview);
         recyclerView.setHasFixedSize(true);
-        recyclerView.setLayoutManager(new LinearLayoutManager(context));
         recyclerView.setAdapter(adapter);
+        recyclerView.setLayoutManager(new LinearLayoutManager(context));
+
     }
 
 
