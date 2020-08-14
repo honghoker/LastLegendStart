@@ -16,6 +16,8 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
+import com.example.locationsave.HEP.Address.ReverseGeocodingAsyncTask;
+import com.example.locationsave.HEP.Address.ReverseGetAddress;
 import com.example.locationsave.HEP.Hep.hep_LocationSave.hep_LocationSaveActivity;
 import com.example.locationsave.HEP.KMS.Map.KMS_CameraManager;
 import com.example.locationsave.HEP.KMS.Map.KMS_MapOption;
@@ -32,6 +34,8 @@ import com.naver.maps.map.UiSettings;
 import com.naver.maps.map.util.FusedLocationSource;
 
 import org.w3c.dom.Text;
+
+import java.util.concurrent.ExecutionException;
 
 
 public class KMS_AddLocationFragment extends Fragment implements OnMapReadyCallback {
@@ -164,8 +168,22 @@ public class KMS_AddLocationFragment extends Fragment implements OnMapReadyCallb
             public void onCameraIdle() {
                 CameraPosition cameraPosition = AddMap.getCameraPosition(); //현재 위치 정보 반환하는 메소드
 
+                ReverseGeocodingAsyncTask asyncTask = new ReverseGeocodingAsyncTask(cameraPosition.target.latitude, cameraPosition.target.longitude);
+                ReverseGetAddress reverseGetAddress = new ReverseGetAddress();
+                try {
+                    String resultAddr = reverseGetAddress.getJsonString(asyncTask.execute().get());
+                    //((TextView)activity.findViewById(R.id.selectLocation_AddressInfo)).setText(resultAddr);
+                    Log.d("#####", "주소 : " + resultAddr);
 
-                Log.d("MapMap", "onCameraIdle 위도 : " + cameraPosition.target.latitude + "경도 : " + cameraPosition.target.longitude);
+                } catch (ExecutionException e) {
+                    e.printStackTrace();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                Toast.makeText(getActivity(),
+                        "현재위치 = 대상 지점 위도: " + cameraPosition.target.latitude + ", " +
+                                "대상 지점 경도: " + cameraPosition.target.longitude, Toast.LENGTH_SHORT);
+                Log.d("#####AddMap", "onCameraIdle 위도 : " + cameraPosition.target.latitude + "경도 : " + cameraPosition.target.longitude);
 
                 Log.d("#####", "온카메라아이들");
 
