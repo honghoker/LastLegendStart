@@ -62,6 +62,7 @@ import com.example.locationsave.HEP.KMS.Location.KMS_LocationSearchResult;
 import com.example.locationsave.HEP.KMS.Location.KMS_SearchResultAdapter;
 import com.example.locationsave.HEP.KMS.MainFragment.KMS_FragmentFlagManager;
 
+import com.example.locationsave.HEP.KMS.Map.KMS_MapOption;
 import com.example.locationsave.HEP.KMS.Map.KMS_MarkerInformationFlagManager;
 import com.example.locationsave.HEP.KMS.Map.KMS_MarkerManager;
 
@@ -198,6 +199,7 @@ public class KMS_MainActivity extends AppCompatActivity implements NavigationVie
     LinearLayout linearLayoutToolbarSearch;
     ConstraintLayout recy_con_layout;
     KMS_SearchFlagManager kms_searchFlagManager = KMS_SearchFlagManager.getInstanceSearch();
+    KMS_MapOption kms_mapOption = KMS_MapOption.getInstanceMapOption();
     //5. Animation
     Animation animation;
     Animation animationH;
@@ -326,7 +328,6 @@ public class KMS_MainActivity extends AppCompatActivity implements NavigationVie
 
         loadRecyclerView = findViewById(R.id.searchLordResult_RecyclerVIew);
 
-        // 버그다 이거 ㅅㅂ 좀따 다시 확인
         kms_searchFlagManager.flagSetFalseSearch();
         setSearchBar(kms_searchFlagManager.flagGetSearch());
         relativeLayoutRoadLoaction = findViewById(R.id.relativeLayout_loadLoaction);
@@ -885,6 +886,9 @@ public class KMS_MainActivity extends AppCompatActivity implements NavigationVie
                                 }
                             }
                         }
+
+                        kms_mapOption.LastLatitude = hep_recent.latitude;
+                        kms_mapOption.LastLongitued = hep_recent.longitude;
 
                         recyAdapter = new KSH_RecyAdapter(KMS_MainActivity.this, arrayList, arrayKey, ksh_directoryEntity, selectView, (sunghunTest) OnItemClickListener);
                         recyclerView.setAdapter(recyAdapter);

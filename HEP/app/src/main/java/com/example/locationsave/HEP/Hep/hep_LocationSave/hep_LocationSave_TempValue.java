@@ -1,9 +1,9 @@
 package com.example.locationsave.HEP.Hep.hep_LocationSave;
 
-import android.os.Parcelable;
 import android.util.Log;
 
 import java.util.ArrayList;
+import java.util.concurrent.CancellationException;
 
 public class hep_LocationSave_TempValue {
     private String Title; //타이틀
@@ -11,39 +11,43 @@ public class hep_LocationSave_TempValue {
     private String DetailAddress; //상세 주소
     private String PhoneNumber; //연락처
     private String Memo; //메모
-    private Parcelable.Creator<hep_ImageData> CREATOR; //이미지 정보
+    public ArrayList<hep_ImageData> ImageDataArray; //이미지 정보
     private ArrayList<String> hashTagArr; //태그정보
 
-    public static hep_LocationSave_TempValue hep_locationSave_tempValue = new hep_LocationSave_TempValue();
 
+    private static hep_LocationSave_TempValue hep_locationSave_tempValue = null;
 
-    public hep_LocationSave_TempValue(){}
+    public hep_LocationSave_TempValue() {
 
-    public hep_LocationSave_TempValue(String title, String address, String detailAddress, String phoneNumber, String memo, Parcelable.Creator<hep_ImageData> CREATOR, ArrayList<String> hashTagArr) {
+    }
+
+    public hep_LocationSave_TempValue getHep_locationSave_tempValue(){
+        if(hep_locationSave_tempValue == null) {
+            hep_locationSave_tempValue = new hep_LocationSave_TempValue();
+        }
+        return hep_locationSave_tempValue;
+    }
+
+    public void setData(String title, String address, String detailAddress, String phoneNumber, String memo) {
         Title = title;
         Address = address;
         DetailAddress = detailAddress;
         PhoneNumber = phoneNumber;
         Memo = memo;
-        this.CREATOR = CREATOR;
-        this.hashTagArr = hashTagArr;
-    }
+        this.ImageDataArray = new ArrayList<>();
+        this.ImageDataArray.addAll(new hep_locationImageDataArr().getImageDataArrayInstance());
+        for(hep_ImageData hep_imageData : ImageDataArray){
+            Log.d("@@@", "bitmap = " + hep_imageData.bitmap);
+        }
 
-    private boolean flag = false;
-    public void setTrueFlag(){
-        flag = true;
-    }
-    public void setFalseFlag(){
-        flag = false;
-    }
-    public boolean getFlag(){
-        return flag;
-    }
 
+        this.hashTagArr = new ArrayList<>();
+        this.hashTagArr.addAll(new hep_HashTagArr().getHashTagArr());
+        Log.d("@@@@", "hashTagArr size = " + this.hashTagArr.size());
+    }
 
     public String getTitle() {
         return Title;
-
     }
 
     public void setTitle(String title) {
@@ -51,7 +55,6 @@ public class hep_LocationSave_TempValue {
     }
 
     public String getAddress() {
-
         return Address;
     }
 
@@ -83,15 +86,19 @@ public class hep_LocationSave_TempValue {
         Memo = memo;
     }
 
-    public Parcelable.Creator<hep_ImageData> getCREATOR() {
-        return CREATOR;
+    public ArrayList<hep_ImageData> getImageDataArray() {
+        if(ImageDataArray == null)
+            ImageDataArray = new ArrayList<hep_ImageData>();
+        return ImageDataArray;
     }
 
-    public void setCREATOR(Parcelable.Creator<hep_ImageData> CREATOR) {
-        this.CREATOR = CREATOR;
+    public void setImageDataArray(ArrayList<hep_ImageData> imageDataArray) {
+        ImageDataArray = imageDataArray;
     }
 
     public ArrayList<String> getHashTagArr() {
+        if(hashTagArr == null)
+            hashTagArr = new ArrayList<>();
         return hashTagArr;
     }
 
@@ -99,4 +106,7 @@ public class hep_LocationSave_TempValue {
         this.hashTagArr = hashTagArr;
     }
 
+    public static void setHep_locationSave_tempValue(hep_LocationSave_TempValue hep_locationSave_tempValue) {
+        hep_LocationSave_TempValue.hep_locationSave_tempValue = hep_locationSave_tempValue;
+    }
 }
