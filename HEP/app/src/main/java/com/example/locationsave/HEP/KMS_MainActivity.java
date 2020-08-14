@@ -2,7 +2,6 @@ package com.example.locationsave.HEP;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -87,7 +86,6 @@ import com.example.locationsave.HEP.KSH.NavIntent.KSH_SetIntent;
 import com.example.locationsave.HEP.KSH.sunghunTest;
 import com.example.locationsave.HEP.pcs_RecyclerView.locationList.Pcs_LocationRecyclerView;
 import com.example.locationsave.R;
-import com.google.android.gms.maps.model.LatLng;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.database.DataSnapshot;

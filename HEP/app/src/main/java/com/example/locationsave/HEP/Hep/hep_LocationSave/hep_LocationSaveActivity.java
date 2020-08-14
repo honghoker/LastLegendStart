@@ -461,6 +461,7 @@ public class hep_LocationSaveActivity extends AppCompatActivity implements KMS_A
         super.onDestroy();
         new hep_HashTagArr().getHashTagArr().clear();
         new hep_locationImageDataArr().getImageDataArrayInstance().clear();
+    }
 
     int mHour;
     int mMin;
