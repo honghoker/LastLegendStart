@@ -6,18 +6,11 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.locationsave.HEP.Hep.hep_DTO.hep_Tag;
-import com.example.locationsave.HEP.Hep.hep_FireBase;
 import com.example.locationsave.HEP.KMS_MainActivity;
 import com.example.locationsave.R;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,7 +19,6 @@ import static com.example.locationsave.HEP.KMS_MainActivity.params;
 
 public class KMS_HashTagCheckBoxFlagManager extends AppCompatActivity {
     private static final KMS_HashTagCheckBoxFlagManager hashTagCheckBoxInstance = new KMS_HashTagCheckBoxFlagManager();
-    public static KMS_HashTag[] msHashTag = new KMS_HashTag[10]; //태그 배열
 
     private KMS_HashTagCheckBoxFlagManager() {}
 
@@ -66,8 +58,7 @@ public class KMS_HashTagCheckBoxFlagManager extends AppCompatActivity {
     }
 
 
-    DatabaseReference databaseReference = new hep_FireBase().getFireBaseDatabaseInstance().getReference().child("tag");
-    private static KMS_FlowLayout.LayoutParams params = new KMS_FlowLayout.LayoutParams(20, 20);
+
     KMS_HashTag[] kms_hashTags = KMS_MainActivity.msHashTag; //메인액티비티 해시태그 배열
     public static List<String> hashTagText = new ArrayList(); //확인누르면 추가된다.
 
@@ -80,27 +71,10 @@ public class KMS_HashTagCheckBoxFlagManager extends AppCompatActivity {
     }
 
     public void HashTagClickEvent(Context context, View v){
-        databaseReference.orderByChild("name").addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                if(snapshot.exists()){
-                    for(DataSnapshot dataSnapshot : snapshot.getChildren()){
-                        dataSnapshot.getValue(hep_Tag.class).getName();
-
-                    }
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });
         for (int j = 1; j < kms_hashTags.length; j++) {
             if (v.getId() == j) {
                 kms_hashTags[j].init(kms_hashTags[j].getHashText(), "#3F729B", R.drawable.hashtagclick, params);
                 kms_hashTags[j].setId(-j);
-
                 Toast.makeText(context,"id : " + kms_hashTags[j].getId() + "/ text : " + kms_hashTags[j].getHashText(),Toast.LENGTH_SHORT).show();
                 hashTagText.add(kms_hashTags[j].getHashText());
                 break;

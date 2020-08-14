@@ -1,28 +1,45 @@
 package com.example.locationsave.HEP.KMS.Map;
 
 import android.content.Context;
+import android.media.Image;
+import android.net.Uri;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.locationsave.HEP.Hep.hep_DTO.hep_Location;
+import com.example.locationsave.HEP.Hep.hep_DTO.hep_LocationImage;
+import com.example.locationsave.HEP.Hep.hep_FireBase;
 import com.example.locationsave.HEP.KMS.MainFragment.KMS_MapFragment;
 import com.example.locationsave.HEP.KMS_MainActivity;
 import com.example.locationsave.R;
+import com.github.chrisbanes.photoview.PhotoView;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.StorageReference;
 import com.naver.maps.geometry.LatLng;
 import com.naver.maps.map.NaverMap;
 import com.naver.maps.map.overlay.Marker;
 import com.naver.maps.map.overlay.Overlay;
 import com.naver.maps.map.overlay.OverlayImage;
+import com.squareup.picasso.Picasso;
 
+
+import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 
 import static com.example.locationsave.HEP.KMS.MainFragment.KMS_MapFragment.NMap;
 import static com.example.locationsave.HEP.KMS_MainActivity.kms_locationSearchResults;
+import static com.example.locationsave.HEP.KMS_MainActivity.mainContext;
 
 
 public class KMS_MarkerManager {
@@ -42,6 +59,7 @@ public class KMS_MarkerManager {
     KMS_CameraManager kms_cameraManager = KMS_CameraManager.getInstanceCameraManager();
     public ArrayList<Marker> markers = new ArrayList<>(); //모든 곳에서 사용할 마커 어레이 리스트
     public ArrayList<Marker> recyclerviewMarkers = new ArrayList<>(); //모든 곳에서 사용할 마커 어레이 리스트
+
     //TextView textView = KMS_MainActivity.textViewMarkerInformationTitle;
 
     public void initMarker() { //맵의 모든 마커 삭제, 초기화
@@ -74,51 +92,51 @@ public class KMS_MarkerManager {
 
     public void saveMaker(){} //장소 저장 시 추가된 장소의 타이틀을 마커에 삽입, 위경도 값 주소로 변경하여 마커 삽입
 
-    public void addMarker(ArrayList<Marker> markers, String name, double latitude, double longitude){
-        final Marker marker = new Marker();
-
-        marker.setCaptionText(name);
-
-        LatLng addMarkerLatLng = new LatLng(latitude, longitude);
-        marker.setPosition(addMarkerLatLng);
-
-        marker.setIcon(OverlayImage.fromResource(R.drawable.marker_design_pika2));
-        marker.setWidth(120);
-        marker.setHeight(160);
-        marker.setHideCollidedSymbols(true); //겹치는 오버레이 제거
-        marker.setOnClickListener(new Overlay.OnClickListener() { //마커 클릭이벤트 추가
-            @Override
-            public boolean onClick(@NonNull Overlay overlay) {
-                cameraManager.MoveCameraOnMarkerPosition(marker, NMap); //카메라를 마커 위치로 이동
-                setOffMarkerInformation(KMS_MainActivity.linearLayoutMakerInformation);
-                setOnMarkerInformation(KMS_MainActivity.linearLayoutMakerInformation);
-                Log.d("####마커인포",   "#####셋 마커 에드");
-                //kms_markerInformation.setMarkerInformation(marker.getCaptionText());
-
-                //레이아웃 업데이트
-                Log.d("####마커인포",   "#####셋 마커 에드 전" + kms_markerInformationFlagManager.flagGetMarkerInformationFlag() );
-
-                new KMS_MarkerInformation().setMarkerInformation(marker.getCaptionText());
-                kms_markerInformationFlagManager.flagSetTrueMarkerInformation();
-                KMS_MainActivity.floatingButton.hide();
-
-                //textView.setText(marker.getCaptionText());
-                Log.d("####마커인포",   "#####셋 마커 에드 후" + kms_markerInformationFlagManager.flagGetMarkerInformationFlag() );
-
-                /*
-                //장소 삭제
-                marker.setMap(null);
-                markers.remove(marker);
-                Log.d("####addMarker",   "남은 피카츄 수" + markers.size());
-                */
-                return false;
-            }
-        });
-        markers.add(marker);
-        Log.d("@@@", markers.size() + "");
-
-        marker.setMap(NMap);
-    } //add marker 종료
+//    public void addMarker(ArrayList<Marker> markers, String name, double latitude, double longitude){
+//        final Marker marker = new Marker();
+//
+//        marker.setCaptionText(name);
+//
+//        LatLng addMarkerLatLng = new LatLng(latitude, longitude);
+//        marker.setPosition(addMarkerLatLng);
+//
+//        marker.setIcon(OverlayImage.fromResource(R.drawable.marker_design_pika2));
+//        marker.setWidth(120);
+//        marker.setHeight(160);
+//        marker.setHideCollidedSymbols(true); //겹치는 오버레이 제거
+//        marker.setOnClickListener(new Overlay.OnClickListener() { //마커 클릭이벤트 추가
+//            @Override
+//            public boolean onClick(@NonNull Overlay overlay) {
+//                cameraManager.MoveCameraOnMarkerPosition(marker, NMap); //카메라를 마커 위치로 이동
+//                setOffMarkerInformation(KMS_MainActivity.linearLayoutMakerInformation);
+//                setOnMarkerInformation(KMS_MainActivity.linearLayoutMakerInformation);
+//                Log.d("####마커인포",   "#####셋 마커 에드");
+//                //kms_markerInformation.setMarkerInformation(marker.getCaptionText());
+//
+//                //레이아웃 업데이트
+//                Log.d("####마커인포",   "#####셋 마커 에드 전" + kms_markerInformationFlagManager.flagGetMarkerInformationFlag() );
+//
+//                new KMS_MarkerInformation().setMarkerInformation(marker.getCaptionText());
+//                kms_markerInformationFlagManager.flagSetTrueMarkerInformation();
+//                KMS_MainActivity.floatingButton.hide();
+//
+//                //textView.setText(marker.getCaptionText());
+//                Log.d("####마커인포",   "#####셋 마커 에드 후" + kms_markerInformationFlagManager.flagGetMarkerInformationFlag() );
+//
+//                /*
+//                //장소 삭제
+//                marker.setMap(null);
+//                markers.remove(marker);
+//                Log.d("####addMarker",   "남은 피카츄 수" + markers.size());
+//                */
+//                return false;
+//            }
+//        });
+//        markers.add(marker);
+//        Log.d("@@@", markers.size() + "");
+//
+//        marker.setMap(NMap);
+//    } //add marker 종료
 
     public void addRecycleMarker(ArrayList<Marker> markers, String name, double latitude, double longitude){
         final Marker marker = new Marker();
@@ -203,6 +221,106 @@ public class KMS_MarkerManager {
             //Toast.makeText(context, "검색 바 / 서브 툴바 출력", Toast.LENGTH_SHORT).show();
             linearLayout.setVisibility(View.VISIBLE);
         }
+    }
+
+    public void addMarker(ArrayList<Marker> markers, final hep_Location hep_location, final String key) {
+        final Marker marker = new Marker();
+
+        marker.setCaptionText(hep_location.name);
+
+        LatLng addMarkerLatLng = new LatLng(hep_location.latitude, hep_location.longitude);
+        marker.setPosition(addMarkerLatLng);
+
+        marker.setIcon(OverlayImage.fromResource(R.drawable.marker_design_pika2));
+        marker.setWidth(120);
+        marker.setHeight(160);
+        marker.setHideCollidedSymbols(true); //겹치는 오버레이 제거
+        marker.setOnClickListener(new Overlay.OnClickListener() { //마커 클릭이벤트 추가
+            @Override
+            public boolean onClick(@NonNull Overlay overlay) {
+                cameraManager.MoveCameraOnMarkerPosition(marker, NMap); //카메라를 마커 위치로 이동
+                setOffMarkerInformation(KMS_MainActivity.linearLayoutMakerInformation);
+                setOnMarkerInformation(KMS_MainActivity.linearLayoutMakerInformation);
+                Log.d("####마커인포",   "#####셋 마커 에드");
+                //kms_markerInformation.setMarkerInformation(marker.getCaptionText());
+
+                //레이아웃 업데이트
+                Log.d("####마커인포",   "#####셋 마커 에드 전" + kms_markerInformationFlagManager.flagGetMarkerInformationFlag() );
+
+                new KMS_MarkerInformation().setMarkerInformation(marker.getCaptionText());
+                kms_markerInformationFlagManager.flagSetTrueMarkerInformation();
+                KMS_MainActivity.floatingButton.hide();
+
+                //textView.setText(marker.getCaptionText());
+                Log.d("####마커인포",   "#####셋 마커 에드 후" + kms_markerInformationFlagManager.flagGetMarkerInformationFlag() );
+
+                /*
+                //장소 삭제
+                marker.setMap(null);
+                markers.remove(marker);
+                Log.d("####addMarker",   "남은 피카츄 수" + markers.size());
+                */
+
+
+                ((TextView)((KMS_MainActivity)mainContext).findViewById(R.id.titleTextView)).setText(hep_location.name);
+                ((TextView)((KMS_MainActivity)mainContext).findViewById(R.id.addressTextView)).setText(hep_location.addr);
+                ((TextView)((KMS_MainActivity)mainContext).findViewById(R.id.detailaddressTextView)).setText(hep_location.detailaddr);
+
+                new hep_FireBase().getFireBaseDatabaseInstance().getReference().child("locationimage").orderByChild("locationid").equalTo(key).limitToFirst(1).addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        final ImageView imageView = ((KMS_MainActivity)mainContext).findViewById(R.id.imageView8);
+                        if(snapshot.exists()){
+                            for(DataSnapshot dataSnapshot1 : snapshot.getChildren()){
+                                hep_LocationImage hep_locationImage = dataSnapshot1.getValue(hep_LocationImage.class);
+                                new hep_FireBase().getFireBaseDatabaseInstance().getReference().child("image").child(hep_locationImage.imageid).addListenerForSingleValueEvent(new ValueEventListener() {
+                                    @Override
+                                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                        for(DataSnapshot dataSnapshot2 : snapshot.getChildren()){
+                                            String path = dataSnapshot2.getValue().toString();
+                                            StorageReference storageReference = new hep_FireBase().getFirebaseStorageInstance().getReference().child(path);
+                                            storageReference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                                                @Override
+                                                public void onSuccess(Uri uri) {
+                                                    Picasso.get()
+                                                            .load(uri)
+                                                            .fit()
+                                                            .centerCrop()
+                                                            .into(imageView);
+                                                }
+                                            });
+                                        }
+                                    }
+
+                                    @Override
+                                    public void onCancelled(@NonNull DatabaseError error) {
+
+                                    }
+                                });
+                            }
+                        }
+                        else{
+                            imageView.setImageResource(android.R.color.transparent); // 띄울 이미지 없음
+                        }
+
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+
+                    }
+                });
+
+
+
+                return false;
+            }
+        });
+        markers.add(marker);
+        Log.d("@@@", markers.size() + "");
+
+        marker.setMap(NMap);
+
     }
     // 마커들 위치 정의 (대충 1km 간격 동서남북 방향으로 만개씩, 총 4만개)
 /*    public static void InitPosition(Vector<LatLng> markersPosition){

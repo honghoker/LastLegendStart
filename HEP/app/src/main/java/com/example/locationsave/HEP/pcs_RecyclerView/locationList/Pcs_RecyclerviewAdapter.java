@@ -50,11 +50,7 @@ public class Pcs_RecyclerviewAdapter extends FirebaseRecyclerAdapter<hep_Locatio
             }
 
         });
-
-
     }
-
-
 
     @NonNull
     @Override
