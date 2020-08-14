@@ -20,7 +20,9 @@ import com.example.locationsave.HEP.Hep.hep_DTO.hep_Location;
 import com.example.locationsave.HEP.Hep.hep_FireBase;
 import com.example.locationsave.HEP.KMS.Map.KMS_MarkerManager;
 
+import com.example.locationsave.HEP.KMS_MainActivity;
 import com.example.locationsave.R;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -46,7 +48,7 @@ public class KSH_RecyAdapter extends RecyclerView.Adapter<KSH_RecyAdapter.ViewHo
     public static int LastPosition = -1; //단일 선택 위한 변수
 
     private sunghunTest mCallback;
-
+    FloatingActionButton floatingButton = KMS_MainActivity.floatingButton;
     public KSH_RecyAdapter(Context context, ArrayList<KSH_DirectoryEntity> arrayList,ArrayList<String> arrayKey, KSH_DirectoryEntity ksh_directoryEntity, int selectView, sunghunTest listener) {
         mcontext = context;
         this.arrayList = arrayList;

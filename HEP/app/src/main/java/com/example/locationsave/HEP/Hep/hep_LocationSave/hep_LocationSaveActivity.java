@@ -418,7 +418,6 @@ public class hep_LocationSaveActivity extends AppCompatActivity implements KMS_A
     }
 
 
-
     public void onbtnChangeAddrClicked(View v){
         if (LocationAddFragment == null && addFragmentFlag == false) { //프래그먼트 있을 때 누르면 숨김
 //            LocationAddFragment = new KMS_AddLocationFragment();
@@ -435,7 +434,6 @@ public class hep_LocationSaveActivity extends AppCompatActivity implements KMS_A
             bundle.putString("Title", locationnameTextView.getText().toString()); // key , value
             bundle.putString("Address",locationaddrTextView.getText().toString());
             LocationAddFragment.setArguments(bundle); //갱신?
-
 
             toastMake("프래그먼트 new");
             //fragmentTransaction.add(R.id.fragmentContainer, LocationAddFragment).commit();
@@ -472,6 +470,5 @@ public class hep_LocationSaveActivity extends AppCompatActivity implements KMS_A
         mMin = min;
         Log.d("#####프레그먼트 -> 액티비티", mHour + " / " + mMin + " / int to string : " + (Integer)mMin);
         Log.d("#####프레그먼트 -> 액티비티", "스트링 값 : " + s);
-
     }
 }
