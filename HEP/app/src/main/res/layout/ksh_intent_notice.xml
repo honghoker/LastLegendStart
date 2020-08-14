@@ -5,11 +5,9 @@
 
     <include layout="@layout/ksh_intent_toolbar"/>
 
-    <TextView
-        android:layout_width="wrap_content"
+    <androidx.recyclerview.widget.RecyclerView
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="공지사항"
-        android:textSize="30dp"
-        />
+        android:id="@+id/notice_recyclerView"/>
 
 </LinearLayout>

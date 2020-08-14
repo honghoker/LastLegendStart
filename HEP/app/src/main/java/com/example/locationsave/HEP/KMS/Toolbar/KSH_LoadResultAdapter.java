@@ -11,13 +11,16 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.locationsave.HEP.Hep.hep_DTO.hep_Location;
 import com.example.locationsave.HEP.KMS.Location.KMS_LocationSearchResult;
+import com.example.locationsave.HEP.KMS.MainFragment.KMS_MapFragment;
+import com.example.locationsave.HEP.KMS.Map.KMS_CameraManager;
 import com.example.locationsave.R;
+import com.naver.maps.geometry.LatLng;
 
 import java.util.ArrayList;
 
 public class KSH_LoadResultAdapter extends RecyclerView.Adapter<KSH_LoadResultAdapter.CustomViewHolder>{
     private ArrayList<hep_Location> hep_locationArrayList;
-
+    KMS_CameraManager kms_cameraManager = KMS_CameraManager.getInstanceCameraManager();
     public KSH_LoadResultAdapter(ArrayList<hep_Location> list) {
         this.hep_locationArrayList = list;
     }
@@ -33,6 +36,9 @@ public class KSH_LoadResultAdapter extends RecyclerView.Adapter<KSH_LoadResultAd
                 public void onClick(View v) {
                     int pos = getAdapterPosition();
                     if(pos != RecyclerView.NO_POSITION){
+                        double latitude = hep_locationArrayList.get(pos).latitude;
+                        double longitude = hep_locationArrayList.get(pos).longitude;
+                        kms_cameraManager.MoveCameraOnLatlngPosition(latitude, longitude, KMS_MapFragment.NMap);
                         Log.d("@@@@@", "name = " + hep_locationArrayList.get(pos).name + ", lati = " + hep_locationArrayList.get(pos).latitude + ", longi = " + hep_locationArrayList.get(pos).longitude);
                     }
                 }

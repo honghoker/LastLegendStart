@@ -1,5 +1,6 @@
 package com.example.locationsave.HEP.KMS.MainFragment;
 
+import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -16,12 +17,14 @@ import com.example.locationsave.R;
 
 
 public class KMS_LocationFragment extends Fragment {
-    KMS_MainActivity activity;
+    //KMS_MainActivity activity; 메인만
+    Activity activity; //프래그먼트
+
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
         //이 메소드가 호출될떄는 프래그먼트가 엑티비티위에 올라와있는거니깐 getActivity메소드로 엑티비티참조가능
-        activity = (KMS_MainActivity) getActivity();
+        activity = getActivity();
     }
     @Override
     public void onDetach() {

@@ -1,5 +1,6 @@
 package com.example.locationsave.HEP.KMS.MainFragment;
 
+import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
@@ -19,9 +20,9 @@ import com.example.locationsave.HEP.Address.AreaSearch;
 import com.example.locationsave.HEP.Address.ReverseGeocodingAsyncTask;
 import com.example.locationsave.HEP.Address.ReverseGetAddress;
 import com.example.locationsave.HEP.KMS.Location.KMS_LocationFlagManager;
+import com.example.locationsave.HEP.KMS.Map.KMS_CameraManager;
 import com.example.locationsave.HEP.KMS.Map.KMS_MapOption;
 import com.example.locationsave.HEP.KMS.Map.KMS_MarkerManager;
-import com.example.locationsave.HEP.KMS_MainActivity;
 import com.example.locationsave.R;
 import com.naver.maps.geometry.LatLng;
 import com.naver.maps.geometry.LatLngBounds;
@@ -32,13 +33,18 @@ import com.naver.maps.map.MapFragment;
 import com.naver.maps.map.NaverMap;
 import com.naver.maps.map.OnMapReadyCallback;
 import com.naver.maps.map.util.FusedLocationSource;
+import com.naver.maps.map.widget.CompassView;
+import com.naver.maps.map.widget.LocationButtonView;
+import com.naver.maps.map.widget.LogoView;
+import com.naver.maps.map.widget.ScaleBarView;
+import com.naver.maps.map.widget.ZoomControlView;
 
 import java.util.concurrent.ExecutionException;
 
 //프래그먼트는 액티비티위에 올라가있을떄만 프래그먼트로서 동작할 수 있다.
 public class KMS_MapFragment extends Fragment implements OnMapReadyCallback {
 
-    KMS_MainActivity activity; //프래그먼트
+    Activity activity; //프래그먼트
 
     //네이버 map 전역 변수
     public static NaverMap NMap;
@@ -50,11 +56,20 @@ public class KMS_MapFragment extends Fragment implements OnMapReadyCallback {
     //맵 옵션
     KMS_MapOption mapOption = KMS_MapOption.getInstanceMapOption();
     KMS_MarkerManager markerManager = new KMS_MarkerManager().getInstanceMarkerManager();
+    public static CompassView compassView;
+    public static ScaleBarView scaleBarView;
+    public static ZoomControlView zoomControlView;
+    public static LocationButtonView locationButtonView;
+    public static LogoView LogoView;
+
+    //마지막 위치 넘기기
+    KMS_CameraManager kms_cameraManager = KMS_CameraManager.getInstanceCameraManager();
+
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
         //이 메소드가 호출될떄는 프래그먼트가 엑티비티위에 올라와있는거니깐 getActivity메소드로 엑티비티참조가능
-        activity = (KMS_MainActivity) getActivity();
+        activity = getActivity();
     }
 
     @Override
@@ -70,6 +85,11 @@ public class KMS_MapFragment extends Fragment implements OnMapReadyCallback {
         //프래그먼트 메인을 인플레이트해주고 컨테이너에 붙여달라는 뜻임
 
         ViewGroup rootView = (ViewGroup) inflater.inflate(R.layout.kms_map_fragment, container, false);
+        compassView = rootView.findViewById(R.id.compass);
+        scaleBarView = rootView.findViewById(R.id.scalebar);
+        zoomControlView = rootView.findViewById(R.id.zoom);
+        locationButtonView = rootView.findViewById(R.id.location);
+        LogoView = rootView.findViewById(R.id.logo);
 /*
         Button btn = rootView.findViewById(R.id.button);
         btn.setOnClickListener(new View.OnClickListener() {
@@ -87,7 +107,6 @@ public class KMS_MapFragment extends Fragment implements OnMapReadyCallback {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-
         //현재 위치
         locationSource = new FusedLocationSource(this, LOCATION_PERMISSION_REQUEST_CODE);
 
@@ -95,11 +114,9 @@ public class KMS_MapFragment extends Fragment implements OnMapReadyCallback {
         FragmentManager fm = getChildFragmentManager();
         MapFragment mapFragment = (MapFragment) fm.findFragmentById(R.id.map); //맵프래그먼트 객체 생성 map id 가져와서
 
-
-
         if (mapFragment == null) { //맵프래그먼트 생성된 적 없으면
             mapFragment = MapFragment.newInstance(mapOption.setFirstOptions()); //새로 만들어주고   // 1-8. 초기옵션 추가
-            Toast.makeText(getContext(), "맵 생성 완료", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getContext(), "main맵 생성 완료", Toast.LENGTH_SHORT).show();
             fm.beginTransaction().add(R.id.map, mapFragment).commit(); // 프래그매니저에게 명령 map 레이아웃에 생성된 맵 객체를 add
         }
         //1-3. 맵 프래그먼트에 NaverMap 객체 가져옴 : MapFragment 및 MapView는 지도에 대한 뷰 역할만을 담당하므로 API를 호출하려면 인터페이스 역할을 하는 NaverMap 객체가 필요
@@ -133,9 +150,7 @@ public class KMS_MapFragment extends Fragment implements OnMapReadyCallback {
 
         //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@보류
         //1-10. 카메라 이동 : 보류
-
     }
-
 
     //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@보류
     public void setLocation(Context context) { //1-9. 카메라 위치 선언
@@ -182,10 +197,7 @@ public class KMS_MapFragment extends Fragment implements OnMapReadyCallback {
     // NaverMap.setContentPadding()을 호출하면 콘텐츠 패딩을 지정할 수 있습니다.
     // naverMap.setContentPadding(0, 0, 0, 200);
 
-
     //1-12. 화면 좌표 <-> 지도 좌표 변환
-
-
 
     //1-14. 현재 위치 setLocationSource
     @Override
@@ -202,7 +214,6 @@ public class KMS_MapFragment extends Fragment implements OnMapReadyCallback {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         Log.d("현재위치","super 호출");
     }
-
 
     int im = 0;
 
@@ -222,6 +233,8 @@ public class KMS_MapFragment extends Fragment implements OnMapReadyCallback {
 
                 CameraPosition cameraPosition = NMap.getCameraPosition(); //현재 위치 정보 반환하는 메소드
 
+                kms_cameraManager.setCameraCurrentPosition(cameraPosition.target.latitude,cameraPosition.target.longitude); //현재 카메라 위치 저장
+
                 if(fragmentManager.flagCheckFragment() == true && locationFragment.flagGetLocation() == true) {
 
                     Log.d("MapMap", "onCameraIdle 위도 : " + cameraPosition.target.latitude + "경도 : " + cameraPosition.target.longitude + im++);
@@ -238,8 +251,6 @@ public class KMS_MapFragment extends Fragment implements OnMapReadyCallback {
                     }
                 }
 
-
-
                 Toast.makeText(getActivity(),
                         "현재위치 = 대상 지점 위도: " + cameraPosition.target.latitude + ", " +
                                 "대상 지점 경도: " + cameraPosition.target.longitude, Toast.LENGTH_SHORT);
@@ -247,10 +258,12 @@ public class KMS_MapFragment extends Fragment implements OnMapReadyCallback {
             }
         });
 
-
+/*
+        초기값
         for(int i = 0; i < 3; i++){
-            markerManager.addMarker("그린빌" + i,35.857654 + i * 0.03, 128.498123  + i * 0.03);
+            markerManager.addMarker(markerManager.markers,"그린빌" + i,35.857654 + i * 0.03, 128.498123  + i * 0.03);
         }
+*/
 
         markerManager.loadMarker(NMap); //초기 마커값 불러옴
 
@@ -359,7 +372,6 @@ public class KMS_MapFragment extends Fragment implements OnMapReadyCallback {
 
 
     /////////////////////////////////////////////////////////////////////
-
 
 
 } //전체코드
