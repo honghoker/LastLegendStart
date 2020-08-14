@@ -47,24 +47,24 @@ public class hep_Login extends AppCompatActivity {
 //                .fitCenter()
 //                .into(ivGlide);
 
-//        mAuth = FirebaseAuth.getInstance();
-//        if (mAuth.getCurrentUser() != null) {
-//            startIntent(mAuth.getCurrentUser());
-//        }
-//        // Configure Google Sign In
-//        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-//                .requestIdToken(getString(R.string.default_web_client_id))
-//                .requestEmail()
-//                .build();
-//
-//        mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
-//        signInButton = findViewById(R.id.signInButton);
-//        signInButton.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                signIn();
-//            }
-//        });
+        mAuth = FirebaseAuth.getInstance();
+        if (mAuth.getCurrentUser() != null) {
+            startIntent(mAuth.getCurrentUser());
+        }
+        // Configure Google Sign In
+        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestIdToken(getString(R.string.default_web_client_id))
+                .requestEmail()
+                .build();
+
+        mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
+        signInButton = findViewById(R.id.signInButton);
+        signInButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                signIn();
+            }
+        });
     }
 
     @Override
@@ -73,9 +73,8 @@ public class hep_Login extends AppCompatActivity {
         // Check if user is signed in (non-null) and update UI accordingly.
         //FirebaseUser currentUser = mAuth.getCurrentUser();
         //updateUI(currentUser);\
-        startIntent();
-//        if(mAuth.getCurrentUser() != null)
-//            startIntent(mAuth.getCurrentUser());
+        if(mAuth.getCurrentUser() != null)
+            startIntent(mAuth.getCurrentUser());
     }
 
     // [START signin]
@@ -147,24 +146,16 @@ public class hep_Login extends AppCompatActivity {
     }
 
     private void updateUI(FirebaseUser user) { //update ui code here
-//        if (user != null) {
-//            startIntent(user);
-//        }
+        if (user != null) {
+            startIntent(user);
+        }
     }
 
-    private void startIntent(){
-        new hep_FirebaseUser().getFirebaseUserInstance();
+    private void startIntent(FirebaseUser firebaseUser){
+        new hep_FirebaseUser().setFirebaseUser(firebaseUser);
+        Log.d("@@@@@@", "Uid = " + firebaseUser.getUid() + ", Name = " + firebaseUser.getDisplayName() + ", Email = " + firebaseUser.getEmail());
         Intent intent = new Intent(getApplication(), KMS_MainActivity.class);
         startActivity(intent);
         finish();
     }
-
-//    private void startIntent(FirebaseUser firebaseUser){
-//        new hep_FirebaseUser().setFirebaseUser(firebaseUser);
-//
-//        Log.d("@@@@@@", "Uid = " + firebaseUser.getUid() + ", Name = " + firebaseUser.getDisplayName() + ", Email = " + firebaseUser.getEmail());
-//        Intent intent = new Intent(getApplication(), KMS_MainActivity.class);
-//        startActivity(intent);
-//        finish();
-//    }
 }

@@ -259,6 +259,13 @@
                     android:onClick="onButtonLocationSaveClicked"
                     android:text="저장" />
 
+                <Button
+                    android:id="@+id/detailView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="DetailView" />
+
             </LinearLayout>
         </ScrollView>
     </FrameLayout>

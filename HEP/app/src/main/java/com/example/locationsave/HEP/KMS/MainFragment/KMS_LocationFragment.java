@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -38,5 +39,4 @@ public class KMS_LocationFragment extends Fragment {
         setHasOptionsMenu(true);
         return rootView;
     }
-
 }

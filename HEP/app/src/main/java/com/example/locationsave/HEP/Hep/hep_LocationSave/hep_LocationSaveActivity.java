@@ -12,6 +12,7 @@ import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -31,7 +32,6 @@ import com.example.locationsave.HEP.Hep.hep_FireBase;
 import com.example.locationsave.HEP.Hep.hep_LocationDetail.hep_LocationDetailActivity;
 import com.example.locationsave.HEP.KMS_MainActivity;
 import com.example.locationsave.HEP.pcs_RecyclerView.locationList.Pcs_LocationRecyclerView;
-import com.example.locationsave.HEP.KMS.MainFragment.KMS_MapFragment;
 import com.example.locationsave.R;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DataSnapshot;
@@ -50,6 +50,7 @@ import java.util.Map;
 import java.util.UUID;
 
 import static android.content.ContentValues.TAG;
+import static android.content.Intent.FLAG_ACTIVITY_NEW_TASK;
 
 public class hep_LocationSaveActivity extends AppCompatActivity {
 
@@ -77,11 +78,18 @@ public class hep_LocationSaveActivity extends AppCompatActivity {
         latitude = getIntent().getDoubleExtra("latitude", 0);
         longitude = getIntent().getDoubleExtra("longitude", 0);
         addr = getIntent().getStringExtra("addr");
-
         if(addr == null || addr.equals(""))
             ((TextView)findViewById(R.id.locationAddr)).setText("저장된 주소가 없습니다.");
         else
             ((TextView)findViewById(R.id.locationAddr)).setText(addr);
+
+        ((Button)findViewById(R.id.detailView)).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), hep_LocationDetailActivity.class);
+                getApplicationContext().startActivity(intent.addFlags(FLAG_ACTIVITY_NEW_TASK));
+            }
+        });
 
         hashEditText = findViewById(R.id.HashTagText);
         tagDataArrayList = new ArrayList<>();
@@ -172,6 +180,34 @@ public class hep_LocationSaveActivity extends AppCompatActivity {
         } catch (Exception e){
             e.printStackTrace();
         }
+        /*
+        final CharSequence[] PhotoModels = {"갤러리", "카메라"};
+        final AlertDialog.Builder alt_bld = new AlertDialog.Builder(this);
+        alt_bld.setTitle("사진 가져오기");
+        alt_bld.setSingleChoiceItems(PhotoModels, -1, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                if (which == 0) {
+                    try {
+                        new GligarPicker().requestCode(pickImage).withActivity(hep_LocationSave.this).limit(imageSizeLimit).show();
+                    } catch (Exception e){
+                        e.printStackTrace();
+                    }
+
+                } else {
+                    // 카메라
+                    try {
+                        Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                        startActivityForResult(cameraIntent, captureImage);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+                dialog.cancel();
+            }
+        });
+        final AlertDialog alert = alt_bld.create();
+        alert.show();*/
     }
 
     @Override
@@ -218,7 +254,6 @@ public class hep_LocationSaveActivity extends AppCompatActivity {
 
                                 ((hep_FlowLayout) findViewById(R.id.imageFlowLayout)).addView(flowLayoutImageItem);
                             }
-
                             viewPagerAdapter = new hep_LocationSave_ViewPagerAdapter(this);
                             viewPager.setAdapter(viewPagerAdapter);
                             setVisibilityInformationImage();
@@ -233,6 +268,21 @@ public class hep_LocationSaveActivity extends AppCompatActivity {
                     }
                 }
                 break;
+/*
+            case captureImage: // 카메라
+                if(resultCode == RESULT_OK){
+                    try {
+                        Bitmap bitmap = (Bitmap) data.getExtras().get("data");
+                        if (bitmap != null) {
+                            imageDataArrayList.add(new hep_ImageData(bitmap));
+                            viewPagerAdapter = new hep_ViewPagerAdapter(this, imageDataArrayList);
+                            viewPager.setAdapter(viewPagerAdapter);
+                        }
+                    } catch (Exception e){
+                        e.printStackTrace();
+                    }
+                }
+                break;*/
         }
     }
 
@@ -253,6 +303,7 @@ public class hep_LocationSaveActivity extends AppCompatActivity {
     }
 
 
+    //DatabaseReference imageReference = new hep_FireBase().getFireBaseDatabaseInstance().getReference().child("locationimage").push();
     public void onButtonLocationSaveClicked(View v){
         if(!((EditText)findViewById(R.id.locationName)).getText().toString().trim().equals("")){
 
@@ -277,16 +328,6 @@ public class hep_LocationSaveActivity extends AppCompatActivity {
                 // tag 중복 체크
                 new hep_FireBase().insertTag(new hep_HashTagArr().getHashTagArr().get(i), new hep_Callback() {
                     @Override
-                    public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-
-                    }
-
-                    @Override
-                    public void onSuccess(DataSnapshot dataSnapshot, DataSnapshot dataSnapshot1) {
-
-                    }
-
-                    @Override
                     public void onSuccess(hep_Recent hep_recent) {
 
                     }
@@ -300,6 +341,10 @@ public class hep_LocationSaveActivity extends AppCompatActivity {
                         new hep_FireBase().getFireBaseDatabaseInstance().getReference().child("locationtag").push().setValue(hashlocationtag); // locationtag 저장
                     }
 
+                    @Override
+                    public void onFail(String errorMessage) {
+
+                    }
                 });
             }
 
@@ -349,10 +394,8 @@ public class hep_LocationSaveActivity extends AppCompatActivity {
     }
 
     public void onbtnChangeAddrClicked(View v){
-//        Intent intent = new Intent(getApplicationContext(), KMS_MainActivity.class);
-//        this.startActivity(intent);
-        KMS_MapFragment mapFragment = new KMS_MapFragment();
-        hep_LocationSaveActivity.this.getSupportFragmentManager().beginTransaction().add(R.id.fragmentContainer, mapFragment).commit();
+        Intent intent = new Intent(getApplicationContext(), KMS_MainActivity.class);
+        this.startActivity(intent);
     }
 
     @Override
