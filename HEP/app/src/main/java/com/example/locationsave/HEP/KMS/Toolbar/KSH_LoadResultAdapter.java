@@ -38,8 +38,7 @@ public class KSH_LoadResultAdapter extends RecyclerView.Adapter<KSH_LoadResultAd
                     if(pos != RecyclerView.NO_POSITION){
                         double latitude = hep_locationArrayList.get(pos).latitude;
                         double longitude = hep_locationArrayList.get(pos).longitude;
-                        LatLng selectLoadLocationLatLng = new LatLng(latitude,longitude);
-                        kms_cameraManager.MoveCameraOnLatlngPosition(selectLoadLocationLatLng, KMS_MapFragment.NMap);
+                        kms_cameraManager.MoveCameraOnLatlngPosition(latitude, longitude, KMS_MapFragment.NMap);
                         Log.d("@@@@@", "name = " + hep_locationArrayList.get(pos).name + ", lati = " + hep_locationArrayList.get(pos).latitude + ", longi = " + hep_locationArrayList.get(pos).longitude);
                     }
                 }

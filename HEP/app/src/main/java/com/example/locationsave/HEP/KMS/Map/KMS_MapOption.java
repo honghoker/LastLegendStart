@@ -1,5 +1,6 @@
 package com.example.locationsave.HEP.KMS.Map;
 
+import android.util.Log;
 import android.view.Gravity;
 
 import com.example.locationsave.HEP.KMS.MainFragment.KMS_MapFragment;
@@ -26,15 +27,34 @@ public class KMS_MapOption {
 
     NaverMapOptions options; //초기 옵션 설정을 위한 옵션
 
+    private double currentLatitude;
+    private double currentLongitued;
+
     public NaverMapOptions setFirstOptions() { //1-8. 초기옵션 설정
         options = new NaverMapOptions()
                 .camera(new CameraPosition(new LatLng(35.857654, 128.498123), 16))
-
                 .mapType(NaverMap.MapType.Navi)
                 .nightModeEnabled(false);
+        Log.d("#####맵옵션",   "초기옵션");
+
 
         return options;
     } //1-8. 초기옵션 설정
+
+    public void setFirstAddOptions(double latitude, double longitude) { //1-8. 초기옵션 설정
+        currentLatitude = latitude;
+        currentLongitued = longitude;
+        Log.d("#####Add맵옵션",   "Add초기옵션 위경도 세팅");
+    } //1-8. 초기옵션 설정
+
+    public NaverMapOptions getFirstAddOptions() { //1-8. 초기옵션 설정
+        options = new NaverMapOptions()
+                .camera(new CameraPosition(new LatLng(currentLatitude, currentLongitued), 16))
+                .mapType(NaverMap.MapType.Navi)
+                .nightModeEnabled(false);
+        Log.d("#####Add맵옵션",   "Add초기옵션 리턴");
+        return options;
+    }
 
     public void setOnLightMap(){
         KMS_MapFragment.NMap.setNightModeEnabled(false);
