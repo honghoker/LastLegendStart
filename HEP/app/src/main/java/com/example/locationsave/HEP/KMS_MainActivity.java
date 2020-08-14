@@ -262,6 +262,7 @@ public class KMS_MainActivity extends AppCompatActivity implements NavigationVie
     public static ArrayList<hep_Location> autoCompleteLocationList;
 
     KMS_SearchBarManager kms_searchBarManager = new KMS_SearchBarManager();
+    KMS_MarkerManager kms_markerManager = new KMS_MarkerManager().getInstanceMarkerManager();
 
     RelativeLayout searchResultBar;
     public void kms_init(){
