@@ -51,6 +51,7 @@ import com.example.locationsave.HEP.KMS.BackPressed.KMS_BackPressedForFinish;
 import com.example.locationsave.HEP.KMS.HashTag.KMS_FlowLayout;
 import com.example.locationsave.HEP.KMS.HashTag.KMS_HashTag;
 import com.example.locationsave.HEP.KMS.HashTag.KMS_HashTagCheckBoxManager;
+import com.example.locationsave.HEP.KMS.HashTag.Pcs_HashTagCallback;
 import com.example.locationsave.HEP.KMS.Location.KMS_LocationFlagManager;
 import com.example.locationsave.HEP.KMS.Location.KMS_SelectLocation;
 import com.example.locationsave.HEP.KMS.MainFragment.KMS_MapFragment;
@@ -76,6 +77,7 @@ import com.example.locationsave.HEP.KMS.Toolbar.KMS_SearchFlagManager;
 import com.example.locationsave.HEP.KMS.Toolbar.KSH_LoadLocation;
 import com.example.locationsave.HEP.KSH.KSH_AllSeeActivity;
 import com.example.locationsave.HEP.KSH.KSH_DirectoryEntity;
+import com.example.locationsave.HEP.KSH.KSH_FireBase;
 import com.example.locationsave.HEP.KSH.KSH_LoadingActivity;
 import com.example.locationsave.HEP.KSH.KSH_RecyAdapter;
 
@@ -86,15 +88,17 @@ import com.example.locationsave.HEP.KSH.NavIntent.KSH_SetIntent;
 import com.example.locationsave.HEP.KSH.sunghunTest;
 import com.example.locationsave.HEP.pcs_RecyclerView.locationList.Pcs_LocationRecyclerView;
 import com.example.locationsave.R;
+
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
+
+import com.google.firebase.database.core.operation.Merge;
 import com.google.firebase.storage.UploadTask;
 import com.naver.maps.map.CameraPosition;
-
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -153,7 +157,10 @@ public class KMS_MainActivity extends AppCompatActivity implements NavigationVie
         Toast.makeText(getApplicationContext(), "onDestroy", Toast.LENGTH_SHORT).show();
     }
 
-//    private Spinner spinner;
+    public static KMS_FlowLayout.LayoutParams params = new KMS_FlowLayout.LayoutParams(20, 20);
+    public static KMS_HashTag[] msHashTag;
+    private KMS_HashTagCheckBoxManager kms_hashTagCheckBoxManager;
+    //    private Spinner spinner;
 //    private Toolbar toolbar;
     public static String directoryid = null;
     private DrawerLayout drawerLayout;
@@ -167,6 +174,7 @@ public class KMS_MainActivity extends AppCompatActivity implements NavigationVie
     private ArrayList<String> arrayKey;
     private NavigationView navigationView;
     private KSH_DirectoryEntity ksh_directoryEntity;
+
 
     private Object OnItemClickListener;
     public void ksh_init(){
@@ -216,12 +224,15 @@ public class KMS_MainActivity extends AppCompatActivity implements NavigationVie
     //7. HashTag
     public static LinearLayout hastagView;
     //    CheckBox checkBoxAllHashTag; //체크박스 명 선언
-    public static KMS_HashTag[] msHashTag = new KMS_HashTag[10]; //태그 배열
-    public static KMS_FlowLayout.LayoutParams params = new KMS_FlowLayout.LayoutParams(20, 20);
+
+
     ; //해시태그 레이아웃을 위한 parms
     KMS_HashTagCheckBoxFlagManager kms_hashTagCheckBoxFlagManager = KMS_HashTagCheckBoxFlagManager.getInstanceHashTagCheckBox();
+//    KMS_HashTagCheckBoxFlagManager kms_hashTagCheckBoxFlagManager = new KMS_HashTagCheckBoxFlagManager();
     //    HasTagOnClickListener hasTagOnClickListener = new HasTagOnClickListener();
-    KMS_HashTagCheckBoxManager kms_hashTagCheckBoxManager = KMS_HashTagCheckBoxManager.getInstanceHashTagCheckBox();
+//    KMS_HashTagCheckBoxManager kms_hashTagCheckBoxManager = KMS_HashTagCheckBoxManager.getInstanceHashTagCheckBox();
+
+
     //8. FloatingIcon
     public static FloatingActionButton floatingButton;
     KMS_LocationFlagManager kms_locationFlagManager = KMS_LocationFlagManager.getInstanceLocation();
@@ -244,7 +255,7 @@ public class KMS_MainActivity extends AppCompatActivity implements NavigationVie
     public static final int ALLSEE_ACTIVITY_REPLY_CODE = 4000;
 
     private ArrayList<KMS_LocationSearchResult> mArrayList;
-//    private KMS_SearchResultAdapter mAdapter;
+    //    private KMS_SearchResultAdapter mAdapter;
     public static int count = -1;
 
     public static int selectView = 1;
@@ -264,9 +275,14 @@ public class KMS_MainActivity extends AppCompatActivity implements NavigationVie
     public static ArrayList<hep_Location> autoCompleteLocationList;
 
     KMS_SearchBarManager kms_searchBarManager = new KMS_SearchBarManager();
+
+
+
+
     KMS_MarkerManager kms_markerManager = new KMS_MarkerManager().getInstanceMarkerManager();
 
     RelativeLayout searchResultBar;
+
     public void kms_init(){
         autoCompleteLocationList = new ArrayList<>();
 
@@ -312,9 +328,8 @@ public class KMS_MainActivity extends AppCompatActivity implements NavigationVie
 
 //        addHashTag(); //해시태그 추가
 //        checkAllHashTag(); //체크 해시태그
-        View test_view = findViewById(R.id.drawer_layout);
-        KMS_HashTagCheckBoxManager kms_hashTagCheckBoxManager = new KMS_HashTagCheckBoxManager(this, test_view);
-        kms_hashTagCheckBoxManager.addHashTag();
+
+//        kms_hashTagCheckBoxManager.initHashTag();
         kms_hashTagCheckBoxManager.checkAllHashTag();
 
         floatingButton = findViewById(R.id.floatingActionButton);  // 8.floating icon
@@ -839,6 +854,7 @@ public class KMS_MainActivity extends AppCompatActivity implements NavigationVie
         setContentView(R.layout.kms_activity_main);
 //        LoadRecyclerView(); //기존 저장 함수 불러옴
         ksh_init();
+        pcs_hashTag_init();
         kms_init();
 //        setMargin();  // ???
         logtest("온크리트 초기 flag  값");
@@ -1015,10 +1031,8 @@ public class KMS_MainActivity extends AppCompatActivity implements NavigationVie
 
 //        addHashTag(); //해시태그 추가
 //        checkAllHashTag(); //체크 해시태그
-        View test_view = findViewById(R.id.drawer_layout);
-        KMS_HashTagCheckBoxManager kms_hashTagCheckBoxManager = new KMS_HashTagCheckBoxManager(this, test_view);
-        kms_hashTagCheckBoxManager.addHashTag();
-        kms_hashTagCheckBoxManager.checkAllHashTag();
+//        View test_view = findViewById(R.id.drawer_layout);
+//        KMS_HashTagCheckBoxManager kms_hashTagCheckBoxManager = new KMS_HashTagCheckBoxManager(this, test_view);
 
 
 //        // 8.floating icon
@@ -1126,7 +1140,7 @@ public class KMS_MainActivity extends AppCompatActivity implements NavigationVie
                     }
                     for(int i=0; i<kms_locationSearchResults.size();i++){
                         Log.d("6",i+" title " + kms_locationSearchResults.get(i).getTitle() + " address " + kms_locationSearchResults.get(i).getRoadAddress()
-                        + " 위도 "+kms_locationSearchResults.get(i).getLatitude() + " 경도 " +kms_locationSearchResults.get(i).getLongitude());
+                                + " 위도 "+kms_locationSearchResults.get(i).getLatitude() + " 경도 " +kms_locationSearchResults.get(i).getLongitude());
                     }
                     kms_markerManager.AddRecyclerViewMarker();
                     selectLocation.setSearchResultRecyclerView(getApplicationContext(), searchRecyclerView, searchResultBar);                    LoadRecyclerView(); //기존 저장 함수 불러옴
@@ -1160,6 +1174,21 @@ public class KMS_MainActivity extends AppCompatActivity implements NavigationVie
         });
 //        relativeLayoutRoadLoaction = findViewById(R.id.relativeLayout_loadLoaction);
     } //oncreate 종료
+
+
+    private void pcs_hashTag_init() {
+        View v = drawerLayout;
+        kms_hashTagCheckBoxManager = new KMS_HashTagCheckBoxManager(this, v);
+        kms_hashTagCheckBoxManager.initHashTag(new Pcs_HashTagCallback() {
+            @Override
+            public void onSuccess(KMS_HashTag[] kms_hashTags) {
+                msHashTag = kms_hashTags;
+            }
+        });
+        kms_hashTagCheckBoxManager.checkAllHashTag();
+
+
+    }
 
     public static LinearLayout linearLayoutMakerInformation;
     public static TextView textViewMarkerInformationTitle;
@@ -1208,17 +1237,17 @@ public class KMS_MainActivity extends AppCompatActivity implements NavigationVie
     }
     //This method receive intent from closed activity
     //ADD_MAIN_ACTIVITY_REQUEST_CODE is
-    //when LocationSaveActivity closed, Showing fragment of Location Recyclerview
+    //when LocationSaveActivity closed, Showing fragment of Location Recyclervier
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-         if(requestCode == ADD_MAIN_ACTIVITY_REQUEST_CODE){
-             if(resultCode == RESULT_OK){
-                 if(data.getBooleanExtra("result",false)) {
-                     KMS_FragmentFlagManager d = KMS_FragmentFlagManager.getInstanceFragment();
-                     d.setFragmentLocationListLayout();
-                 }
-             }
-         }
+        if(requestCode == ADD_MAIN_ACTIVITY_REQUEST_CODE){
+            if(resultCode == RESULT_OK){
+                if(data.getBooleanExtra("result",false)) {
+                    KMS_FragmentFlagManager d = KMS_FragmentFlagManager.getInstanceFragment();
+                    d.setFragmentLocationListLayout();
+                }
+            }
+        }
     }
 } //mainactivity 종료
