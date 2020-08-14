@@ -917,9 +917,6 @@ public class KMS_MainActivity extends AppCompatActivity implements NavigationVie
             }
         });
 
-        recyAdapter = new KSH_RecyAdapter(KMS_MainActivity.this, arrayList, arrayKey, ksh_directoryEntity, selectView,(sunghunTest) OnItemClickListener);
-        recyclerView.setAdapter(recyAdapter);
-
         // loading
         Intent intent = new Intent(this, KSH_LoadingActivity.class);
         startActivity(intent);

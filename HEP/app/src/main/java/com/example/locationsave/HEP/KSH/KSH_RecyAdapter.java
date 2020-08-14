@@ -97,21 +97,17 @@ public class KSH_RecyAdapter extends RecyclerView.Adapter<KSH_RecyAdapter.ViewHo
 
     @Override
     public void onBindViewHolder(@NonNull KSH_RecyAdapter.ViewHolder holder, int position) {
-        Log.d("6","position 확인 " + position);
 //        holder.itemView.setBackgroundColor(Color.parseColor("#cccccc"));
 
-//        if(position == selectView && selectView != 0) {
-//            // 여기
-//        }
+        if(LastPosition == -1 && selectView != 0)
+            LastPosition = selectView;
+
 
         if(holder instanceof HeaderViewHolder){
             HeaderViewHolder headerViewHolder = (HeaderViewHolder) holder;
         }
         else{
-            if(LastPosition == -1)
-                LastPosition = selectView;
-
-            if (position == LastPosition && selectView != 0)
+            if (position == LastPosition)
                 holder.itemView.setBackgroundColor(Color.RED);
             else
                 holder.itemView.setBackgroundColor(Color.parseColor("#cccccc"));
@@ -167,35 +163,41 @@ public class KSH_RecyAdapter extends RecyclerView.Adapter<KSH_RecyAdapter.ViewHo
                         builder.show();
                     }
                     else{
-                        Log.d("6", "last = " + LastPosition + " pos = "+pos);
-                        directoryid = arrayKey.get(pos-1);
+                        try {
+                            directoryid = arrayKey.get(pos - 1);
 
-                        LastPosition = pos;
-                        String Title = String.valueOf(arrayList.get(pos-1).getName());
-                        mCallback.onClick(Title, v);
-                        Query latilonginameQuery = new hep_FireBase().getFireBaseDatabaseInstance().getReference().child("location").orderByChild("directoryid").equalTo(directoryid);
-                        latilonginameQuery.addValueEventListener(new ValueEventListener() {
-                            @Override
-                            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                                new KMS_MarkerManager().getInstanceMarkerManager().initMarker();
-                                for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
-                                    hep_Location hep_location = dataSnapshot.getValue(hep_Location.class);
-                                    new KMS_MarkerManager().getInstanceMarkerManager().addMarker(kms_markerManager.markers, hep_location.name, hep_location.latitude, hep_location.longitude);
+                            LastPosition = pos;
 
-                                    if(LocationFragmet != null) {
-                                        FragmentTransaction transaction = LocationFragmet.getFragmentManager().beginTransaction();
-                                        transaction.detach(LocationFragmet).attach(LocationFragmet).commit();
+                            String Title = String.valueOf(arrayList.get(pos-1).getName());
+                            mCallback.onClick(Title, v);
+                            Query latilonginameQuery = new hep_FireBase().getFireBaseDatabaseInstance().getReference().child("location").orderByChild("directoryid").equalTo(directoryid);
+                            latilonginameQuery.addValueEventListener(new ValueEventListener() {
+                                @Override
+                                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                    new KMS_MarkerManager().getInstanceMarkerManager().initMarker();
+                                    for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                                        hep_Location hep_location = dataSnapshot.getValue(hep_Location.class);
+                                        new KMS_MarkerManager().getInstanceMarkerManager().addMarker(kms_markerManager.markers, hep_location.name, hep_location.latitude, hep_location.longitude);
+
+                                        if(LocationFragmet != null) {
+                                            FragmentTransaction transaction = LocationFragmet.getFragmentManager().beginTransaction();
+                                            transaction.detach(LocationFragmet).attach(LocationFragmet).commit();
+                                        }
                                     }
                                 }
-                            }
 
-                            @Override
-                            public void onCancelled(@NonNull DatabaseError error) {
+                                @Override
+                                public void onCancelled(@NonNull DatabaseError error) {
 
-                            }
-                        });
+                                }
+                            });
+                            notifyDataSetChanged();
+                        }
+                        catch(Exception e){
+                            e.printStackTrace();
+                        }
+
                     }
-                    notifyDataSetChanged();
                 }
             });
         }
