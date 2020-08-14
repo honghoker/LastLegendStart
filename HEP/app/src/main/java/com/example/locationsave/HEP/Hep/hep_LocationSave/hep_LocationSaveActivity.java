@@ -76,7 +76,7 @@ public class hep_LocationSaveActivity extends AppCompatActivity implements KMS_A
     FragmentManager fragmentManager = getSupportFragmentManager();
     FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
     TextView locationaddrTextView;
-
+    TextView locationnameTextView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -84,6 +84,7 @@ public class hep_LocationSaveActivity extends AppCompatActivity implements KMS_A
         setinit();
 
         locationaddrTextView = findViewById(R.id.locationAddr);
+        locationnameTextView = findViewById(R.id.locationName);
     }
 
     public void setinit(){
@@ -381,7 +382,7 @@ public class hep_LocationSaveActivity extends AppCompatActivity implements KMS_A
         }
     }
 
-    String a = "testValue";
+
 
     public void onbtnChangeAddrClicked(View v){
 
@@ -392,11 +393,10 @@ public class hep_LocationSaveActivity extends AppCompatActivity implements KMS_A
         if (LocationAddFragment == null && addFragmentFlag == false) { //프래그먼트 있을 때 누르면 숨김
 //            LocationAddFragment = new KMS_AddLocationFragment();
             LocationAddFragment = new KMS_AddLocationFragment();
-            Bundle bundle = new Bundle(3); // 파라미터는 전달할 데이터 개수
-            bundle.putString("test", a); // key , value
-            bundle.putString("test2", a + "3"); // key , value
-            bundle.putString("Addr",locationaddrTextView.getText().toString());
-            LocationAddFragment.setArguments(bundle);
+            Bundle bundle = new Bundle(2); // 파라미터는 전달할 데이터 개수
+            bundle.putString("Title", locationnameTextView.getText().toString()); // key , value
+            bundle.putString("Address",locationaddrTextView.getText().toString());
+            LocationAddFragment.setArguments(bundle); //갱신?
 
 
             toastMake("프래그먼트 new");

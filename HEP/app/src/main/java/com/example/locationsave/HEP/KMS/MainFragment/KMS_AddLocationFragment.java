@@ -57,12 +57,10 @@ public class KMS_AddLocationFragment extends Fragment {
 
         textView = rootView.findViewById(R.id.fragment);
 
-        String a2 = getArguments().getString("test");
-        String a3 = getArguments().getString("test2");
-        String addr = getArguments().getString("Addr");
+        String a2 = getArguments().getString("Title");
+        String a3 = getArguments().getString("Address");
 
-        Log.d("#####액티비티 -> 프레그먼트", a3 + " / " + a2);
-        Log.d("#####액티비티 -> 프레그먼트", addr);
+        Log.d("#####액티비티 -> 프레그먼트로 넘어온 값 title : ", a2 + " / address : " + a3);
 
         onTimePickerSetListener.onTimePickerSet(2131232,3, textView.getText().toString()); //값 넘겨줌
         Log.d("#####", "값 넘겨줌");
