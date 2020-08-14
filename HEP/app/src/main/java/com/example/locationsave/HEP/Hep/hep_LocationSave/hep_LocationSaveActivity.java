@@ -33,6 +33,7 @@ import com.example.locationsave.HEP.Hep.hep_DTO.hep_Recent;
 import com.example.locationsave.HEP.Hep.hep_DTO.hep_Tag;
 import com.example.locationsave.HEP.Hep.hep_FireBase;
 import com.example.locationsave.HEP.Hep.hep_LocationDetail.hep_LocationDetailActivity;
+import com.example.locationsave.HEP.KMS.Location.KMS_SelectLocation;
 import com.example.locationsave.HEP.KMS.MainFragment.KMS_AddLocationFragment;
 import com.example.locationsave.HEP.KMS.MainFragment.KMS_FragmentFlagManager;
 import com.example.locationsave.HEP.KMS.Map.KMS_CameraManager;
@@ -99,6 +100,12 @@ public class hep_LocationSaveActivity extends AppCompatActivity implements KMS_A
         latitude = getIntent().getDoubleExtra("latitude", 0);
         longitude = getIntent().getDoubleExtra("longitude", 0);
         addr = getIntent().getStringExtra("addr");
+
+        if(selectLocation.loadAddLocationTitle() != null){
+            ((TextView)findViewById(R.id.locationName)).setText(selectLocation.loadAddLocationTitle());
+            selectLocation.initAddLocationTitle();
+        }
+
 
         if(addr == null || addr.equals(""))
             ((TextView)findViewById(R.id.locationAddr)).setText("저장된 주소가 없습니다.");
@@ -371,7 +378,7 @@ public class hep_LocationSaveActivity extends AppCompatActivity implements KMS_A
                     setFragment();
                 }
             },1000 * delay);
-
+            Log.d("#####hide add","저장 눌러도 정상 작동");
         }
         else{
             toastMake("이름을 입력해주세요");
@@ -392,35 +399,28 @@ public class hep_LocationSaveActivity extends AppCompatActivity implements KMS_A
     @Override
     public void onBackPressed() {
         //super.onBackPressed();
-        if(LocationAddFragment == null){
-            toastMake("프래그먼트 생성조차 되지 않음");
-            finish();
-        }
+        Log.d("#####에드 액티비티 종료 ", "액티비티만 종료");
 
-        else if(addFragmentFlag == false){
-            toastMake("프래그먼트 remove & flag false");
-            //fragmentTransaction.remove(LocationAddFragment).commit();
-            fragmentManager.beginTransaction().remove(LocationAddFragment).commit();
-
-            //hep_LocationSaveActivity.this.getSupportFragmentManager().beginTransaction().remove(LocationAddFragment).commit();
-            LocationAddFragment = null;
-            finish();
-        }
-        else if (LocationAddFragment != null) { //프래그먼트 있을 때 누르면 숨김
-            toastMake("프래그먼트 hide");
-            //fragmentTransaction.hide(LocationAddFragment).commit();
-            fragmentManager.beginTransaction().hide(LocationAddFragment).commit();
-            hep_LocationSaveActivity.this.getSupportFragmentManager().beginTransaction().hide(LocationAddFragment).commit();
-            addFragmentFlag = false;
-        }
-        else
-            toastMake("프래그먼트 종료 오류");
+        finish();
     }
 
+    KMS_SelectLocation selectLocation = new KMS_SelectLocation();
 
     public void onbtnChangeAddrClicked(View v){
-        if (LocationAddFragment == null && addFragmentFlag == false) { //프래그먼트 있을 때 누르면 숨김
-//            LocationAddFragment = new KMS_AddLocationFragment();
+            //판별할 필요가 없다.
+
+        //1. 텍스트값을 저장한다.
+        selectLocation.saveAddLocationTitle(locationnameTextView.getText().toString());
+        Log.d("#####입력한 타이틀 값 : ", "스트링 값 : " + selectLocation.loadAddLocationTitle());
+
+        //2. 주소 값은 매번 받아온다.
+
+
+        finish();
+
+
+/*        if (LocationAddFragment == null && addFragmentFlag == false) { //프래그먼트 있을 때 누르면 숨김
+
 
             fragmentManager = getSupportFragmentManager();
             LocationAddFragment = new KMS_AddLocationFragment();
@@ -447,6 +447,8 @@ public class hep_LocationSaveActivity extends AppCompatActivity implements KMS_A
             hep_LocationSaveActivity.this.getSupportFragmentManager().beginTransaction().show(LocationAddFragment).commit();
             addFragmentFlag = true;
         }
+        */
+
     }
 
     @Override
