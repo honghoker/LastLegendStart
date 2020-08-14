@@ -684,6 +684,7 @@ public class KMS_MainActivity extends AppCompatActivity implements NavigationVie
         selectLocation.SetLinearLayout(getApplicationContext(), relativelayout_sub);
         setBottomBar(bottomBar, selectLocationFlag);
         setFloatingItem(selectLocationFlag);
+        Log.d("#####hide add","정상작동");
     }
 
 //    AutoCompleteTextView editText;
@@ -1049,7 +1050,7 @@ public class KMS_MainActivity extends AppCompatActivity implements NavigationVie
                         IntentAddLocation();      //추후 수정해야함
 
                         if(kms_fragmentFlagManager.flagCheckFragment() == true)
-                            hideAddLocation(); //맵프레그먼트에서 넘어왔으면 추가 창 숨기기
+                            //hideAddLocation(); //맵프레그먼트에서 넘어왔으면 추가 창 숨기기
                         return true;
                 }
                 return false;
@@ -1241,6 +1242,9 @@ public class KMS_MainActivity extends AppCompatActivity implements NavigationVie
                  if(data.getBooleanExtra("result",false)) {
                      KMS_FragmentFlagManager d = KMS_FragmentFlagManager.getInstanceFragment();
                      d.setFragmentLocationListLayout();
+                     hideAddLocation();
+                     Log.d("######제발.. ", "제발요..");
+
                  }
              }
          }
