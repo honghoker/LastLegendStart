@@ -29,9 +29,7 @@ import com.example.locationsave.HEP.Hep.hep_DTO.hep_LocationTag;
 import com.example.locationsave.HEP.Hep.hep_FireBase;
 import com.example.locationsave.HEP.Hep.hep_LocationSave.hep_LocationSaveActivity;
 import com.example.locationsave.HEP.KMS_MainActivity;
-import com.example.locationsave.HEP.pcs_RecyclerView.DirectoryList.Pcs_DicRecyclerviewAdapter;
 import com.example.locationsave.HEP.pcs_RecyclerView.DirectoryList.Pcs_DirectoryCustomPopupWindow;
-import com.example.locationsave.HEP.pcs_RecyclerView.DirectoryList.Pcs_tempPopup;
 import com.example.locationsave.R;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.google.android.material.snackbar.Snackbar;
@@ -42,7 +40,6 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
-import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 
 import static com.example.locationsave.HEP.KMS_MainActivity.directoryid;
@@ -152,9 +149,9 @@ public class Pcs_LocationRecyclerView extends Fragment {
         FirebaseRecyclerOptions options = new FirebaseRecyclerOptions.Builder<hep_Location>()
                 .setQuery(query, hep_Location.class)
                 .build();
-        Log.d("tag", "locationList Recyclerview " + String.valueOf(options.getSnapshots().isEmpty()));
         return new Pcs_RecyclerviewAdapter(options);
     }
+
 
     private void setUpSwipeHelper() {
         recyclerViewSwipeHelper = new Pcs_RecyclerViewSwipeHelper(getActivity(), new Pcs_RecyclerViewSwipeAction() {
@@ -162,18 +159,11 @@ public class Pcs_LocationRecyclerView extends Fragment {
             @Override
             public void onLeftClicked(int position) {
 //                Intent intent = new Intent(getActivity(), Pcs_DirectoryCustomPopupWindow.class);
-                View popupView = getView();
-
+                View popupView = LayoutInflater.from(getActivity()).inflate(R.layout.pcs_directory_popupactivity, null);
                 final Pcs_DirectoryCustomPopupWindow popupWindow = new Pcs_DirectoryCustomPopupWindow(getContext());
-//                final Pcs_tempPopup tempPopup = new Pcs_tempPopup(getContext(), getFirebaseData());
-//                tempPopup.setHeight(WindowManager.LayoutParams.WRAP_CONTENT);
-//                tempPopup.setWidth(WindowManager.LayoutParams.WRAP_CONTENT);
-//                tempPopup.setOutsideTouchable(true);
-//                tempPopup.setFocusable(true);
-//                tempPopup.showAtLocation(popupView, Gravity.CENTER, 10, 10);
-//                hep_Location hep_location = adapter.getDirectoryKey(position);
-                popupWindow.show(popupView,10, 10);
-//                popupWindow.show(getActivity().findViewById(R.id.drawer_layout),0, -250, hep_location.getDirectoryid());
+                hep_Location hep_location = adapter.getDirectoryKey(position);
+
+                popupWindow.show(getActivity().findViewById(R.id.drawer_layout),0, -250, hep_location.getDirectoryid());
 
 //                startActivity(intent);
             }
@@ -237,20 +227,6 @@ class LappingDismissData{
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if(snapshot.exists()){
                     for(DataSnapshot dataSnapshot : snapshot.getChildren()){
-                        byte a = 0;
-                        try {
-                            for(Byte b : dataSnapshot.getKey().getBytes("US-ASCII") ){
-                                if(a != 0)
-                                    a += (b * b);
-                                else
-                                    a = b;
-                                Log.d("tag","bytes  " + a);
-                            }
-                            Log.d("tag","bytes to int " + a);
-//                            Log.d("tag", "bytes int " + Integer.parseInt(a));
-                        } catch (UnsupportedEncodingException e) {
-                            e.printStackTrace();
-                        }
                         //Capsulization Data Using LappingDataNKey
                         hep_locationTagArrayList.add(new CapsulizeData(dataSnapshot.getValue(hep_LocationTag.class), dataSnapshot.getKey()));
                         //Delete
