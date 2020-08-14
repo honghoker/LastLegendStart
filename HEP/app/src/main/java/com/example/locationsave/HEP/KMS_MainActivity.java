@@ -782,8 +782,6 @@ public class KMS_MainActivity extends AppCompatActivity implements NavigationVie
                 startActivity(noticeIntent);
                 overridePendingTransition(R.anim.fadein,R.anim.fadeout);
                 break;
-            case R.id.nav_call:
-                break;
             case R.id.nav_set:
                 Intent setIntent = new Intent(this, KSH_SetIntent.class);
                 startActivity(setIntent);
