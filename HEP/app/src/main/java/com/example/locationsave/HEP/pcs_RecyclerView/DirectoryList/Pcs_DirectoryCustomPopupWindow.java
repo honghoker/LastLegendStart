@@ -88,7 +88,7 @@ public class Pcs_DirectoryCustomPopupWindow extends PopupWindow {
 
     private void setRecyclerview(){
 
-        Query query = databaseReference.child("location");
+        Query query = databaseReference.child("directory");
         FirebaseRecyclerOptions options = new FirebaseRecyclerOptions.Builder<KSH_DirectoryEntity>()
                 .setQuery(query, KSH_DirectoryEntity.class)
                 .build();

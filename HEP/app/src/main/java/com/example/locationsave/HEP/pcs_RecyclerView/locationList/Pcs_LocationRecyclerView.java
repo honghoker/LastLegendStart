@@ -166,15 +166,15 @@ public class Pcs_LocationRecyclerView extends Fragment {
                 final Pcs_DirectoryCustomPopupWindow popupWindow = new Pcs_DirectoryCustomPopupWindow(getContext(), getView());
                 hep_Location hep_location = adapter.getDirectoryKey(position);
 
-                popupWindow.show(getActivity().findViewById(R.id.drawer_layout),0, -250, hep_location.getDirectoryid());
-
+//                popupWindow.show(getActivity().findViewById(R.id.drawer_layout),0, -250, hep_location.getDirectoryid());
+                popupWindow.showAsDropDown(popupView, 0, -250);
 //                startActivity(intent);
             }
 
             @Override
             public void onRightClicked(int position) {
 
-                //When DeleteItem, Get Location Data and Key
+                //When DeleteItem, Get Location Data and Key 
                 final CapsulizeData lappingDataNKey = adapter.deleteItem(position);
                 //related dismiss data store and lapping
                 lappingDismissData = new LappingDismissData(lappingDataNKey);
