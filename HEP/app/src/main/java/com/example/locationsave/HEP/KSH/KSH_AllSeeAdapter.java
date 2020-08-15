@@ -124,11 +124,6 @@ public class KSH_AllSeeAdapter extends RecyclerView.Adapter<KSH_AllSeeAdapter.Vi
     public class ViewHolder extends RecyclerView.ViewHolder {
         TextView recy_test_title;
         TextView allseebtn;
-        TextView tag1;
-        TextView tag2;
-        TextView tag3;
-        TextView tag4;
-        TextView tag5;
         TextView createTime;
         TextView updateTime;
 

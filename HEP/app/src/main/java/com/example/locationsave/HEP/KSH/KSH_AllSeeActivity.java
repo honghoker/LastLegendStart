@@ -55,7 +55,7 @@ public class KSH_AllSeeActivity extends AppCompatActivity {
         setContentView(R.layout.ksh_allsee_main);
         init();
 
-        // 모르겠다 ㅅㅂ
+        // 모르겠다
         TagdatabaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -89,6 +89,7 @@ public class KSH_AllSeeActivity extends AppCompatActivity {
                     KSH_DirectoryEntity ksh_directoryEntity = dataSnapshot1.getValue(KSH_DirectoryEntity.class); // 만들어둔 Test 객체에 데이터를 담는다
                     arrayList.add(ksh_directoryEntity);  // 담은 데이터들을 arraylist에 넣고 recyclerview로 보낼 준비
                 }
+                allSeeRecyAdapter.notifyDataSetChanged();
             }
 
             @Override
@@ -96,6 +97,7 @@ public class KSH_AllSeeActivity extends AppCompatActivity {
 
             }
         });
+
 
         allSeeRecyAdapter = new KSH_AllSeeAdapter(KSH_AllSeeActivity.this, arrayList, arrayKey);
         recyclerView.setAdapter(allSeeRecyAdapter);
