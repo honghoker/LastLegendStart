@@ -11,16 +11,23 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.PopupMenu;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.locationsave.HEP.Hep.hep_FireBase;
 import com.example.locationsave.R;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+
+import static com.example.locationsave.HEP.KMS_MainActivity.directoryid;
 
 public class KSH_AllSeeAdapter extends RecyclerView.Adapter<KSH_AllSeeAdapter.ViewHolder> {
     Context mcontext;
@@ -76,7 +83,10 @@ public class KSH_AllSeeAdapter extends RecyclerView.Adapter<KSH_AllSeeAdapter.Vi
                             case R.id.allsee_delete:
                                 // 밑에 child() 안에 key 가 들어가면 delete 되는데 key를 못 받아오겠음
                                 // arraylist에 담아서 참조하려하는데 title은 제대로 뜨는데 key값은 null 로 나옴
-                                databaseReference.child(arrayKey.get(position)).removeValue();
+                                if(directoryid.equals(arrayKey.get(position)))
+                                    Toast.makeText(mcontext,"현재 사용중인 directory는 삭제할 수 없습니다", Toast.LENGTH_SHORT).show();
+                                else
+                                    databaseReference.child(arrayKey.get(position)).removeValue();
 //                                databaseReference.child(databaseReference.getKey()).removeValue();
 //                                databaseReference.getRef().getKey();
                                 break;
@@ -137,7 +147,9 @@ public class KSH_AllSeeAdapter extends RecyclerView.Adapter<KSH_AllSeeAdapter.Vi
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Log.d("1","allseeItem click");
+                    int pos = getAdapterPosition();
+                    directoryid = arrayKey.get(pos);
+                    Log.d("6","   " +directoryid);
                 }
             });
 

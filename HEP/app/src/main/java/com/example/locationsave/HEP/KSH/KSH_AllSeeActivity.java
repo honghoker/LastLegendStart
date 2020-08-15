@@ -47,6 +47,7 @@ public class KSH_AllSeeActivity extends AppCompatActivity {
         KSH_FireBase firebaseDatabase = KSH_FireBase.getInstance();
         databaseReference = firebaseDatabase.databaseReference;
         TagdatabaseReference = firebaseDatabase.TagdatabaseReference;
+        ArrayList<KSH_DirectoryEntity> arrayList = new ArrayList<>();
     }
 
     @Override
@@ -83,23 +84,20 @@ public class KSH_AllSeeActivity extends AppCompatActivity {
         new hep_FireBase().getFireBaseDatabaseInstance().getReference().child("directory").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                ArrayList<KSH_DirectoryEntity> arrayList = new ArrayList<>();
-
+                arrayList.clear();
                 for (DataSnapshot dataSnapshot1 : snapshot.getChildren()) {
                     KSH_DirectoryEntity ksh_directoryEntity = dataSnapshot1.getValue(KSH_DirectoryEntity.class); // 만들어둔 Test 객체에 데이터를 담는다
                     arrayList.add(ksh_directoryEntity);  // 담은 데이터들을 arraylist에 넣고 recyclerview로 보낼 준비
                 }
                 allSeeRecyAdapter.notifyDataSetChanged();
             }
-
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
 
             }
         });
 
-
-        allSeeRecyAdapter = new KSH_AllSeeAdapter(KSH_AllSeeActivity.this, arrayList, arrayKey);
+        allSeeRecyAdapter = new KSH_AllSeeAdapter(this, arrayList, arrayKey);
         recyclerView.setAdapter(allSeeRecyAdapter);
 //        View view = getLayoutInflater().inflate(R.layout.ksh_allsee_update,null);
     }
