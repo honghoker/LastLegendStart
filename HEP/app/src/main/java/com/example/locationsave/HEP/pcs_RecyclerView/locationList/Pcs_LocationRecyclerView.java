@@ -30,6 +30,8 @@ import com.example.locationsave.HEP.Hep.hep_FireBase;
 import com.example.locationsave.HEP.Hep.hep_LocationSave.hep_LocationSaveActivity;
 import com.example.locationsave.HEP.KMS_MainActivity;
 import com.example.locationsave.HEP.pcs_RecyclerView.DirectoryList.Pcs_DirectoryCustomPopupWindow;
+import com.example.locationsave.HEP.pcs_RecyclerView.DirectoryList.Pcs_tempPopup;
+import com.example.locationsave.HEP.pcs_RecyclerView.DirectoryList.pcs_popupwindowTest;
 import com.example.locationsave.R;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.google.android.material.snackbar.Snackbar;
@@ -149,7 +151,6 @@ public class Pcs_LocationRecyclerView extends Fragment {
         FirebaseRecyclerOptions options = new FirebaseRecyclerOptions.Builder<hep_Location>()
                 .setQuery(query, hep_Location.class)
                 .build();
-
         if(options.getSnapshots() == null) return new Pcs_RecyclerviewAdapter(null);
         else return new Pcs_RecyclerviewAdapter(options);
 
@@ -162,19 +163,30 @@ public class Pcs_LocationRecyclerView extends Fragment {
             @Override
             public void onLeftClicked(int position) {
 //                Intent intent = new Intent(getActivity(), Pcs_DirectoryCustomPopupWindow.class);
-                View popupView = LayoutInflater.from(getActivity()).inflate(R.layout.pcs_directory_popupactivity, null);
-                final Pcs_DirectoryCustomPopupWindow popupWindow = new Pcs_DirectoryCustomPopupWindow(getContext(), getView());
-                hep_Location hep_location = adapter.getDirectoryKey(position);
+//                View popupView = LayoutInflater.from(getActivity()).inflate(R.layout.pcs_directory_popupactivity, null);
+//                final Pcs_DirectoryCustomPopupWindow popupWindow = new Pcs_DirectoryCustomPopupWindow(getContext(), getView());
+//                hep_Location hep_location = adapter.getDirectoryKey(position);
+//                pcs_popupwindowTest popupView = new pcs_popupwindowTest(getContext());
+//                popupView.setHeight(WindowManager.LayoutParams.WRAP_CONTENT);
+//                popupView.setWidth((int)(200*getResources().getDisplayMetrics().density));
+//                popupView.setFocusable(true);
+//                popupView.showAsDropDown(getView(), 0, -250);
+
+                final Pcs_tempPopup pcs_tempPopup = new Pcs_tempPopup(getContext());
+                pcs_tempPopup.setHeight(WindowManager.LayoutParams.WRAP_CONTENT);
+                pcs_tempPopup.setWidth((int)(200*getResources().getDisplayMetrics().density));
+                pcs_tempPopup.setFocusable(true);
+                pcs_tempPopup.showAsDropDown(getView(), 0, 250);
+
 
 //                popupWindow.show(getActivity().findViewById(R.id.drawer_layout),0, -250, hep_location.getDirectoryid());
-                popupWindow.showAsDropDown(popupView, 0, -250);
 //                startActivity(intent);
             }
 
             @Override
             public void onRightClicked(int position) {
 
-                //When DeleteItem, Get Location Data and Key 
+                //When DeleteItem, Get Location Data and Key
                 final CapsulizeData lappingDataNKey = adapter.deleteItem(position);
                 //related dismiss data store and lapping
                 lappingDismissData = new LappingDismissData(lappingDataNKey);
