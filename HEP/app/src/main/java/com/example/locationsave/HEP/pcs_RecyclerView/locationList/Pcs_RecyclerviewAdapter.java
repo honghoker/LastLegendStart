@@ -66,7 +66,7 @@ public class Pcs_RecyclerviewAdapter extends FirebaseRecyclerAdapter<hep_Locatio
         return new CapsulizeData(dataSnapshot.getValue(hep_Location.class), getSnapshots().getSnapshot(position).getKey());
     }
 
-    public hep_Location getDirectoryKey(int position) {
+    public hep_Location getLocation(int position) {
          return getSnapshots().getSnapshot(position).getValue(hep_Location.class);
 
     }

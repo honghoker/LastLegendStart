@@ -1,11 +1,9 @@
 package com.example.locationsave.HEP.pcs_RecyclerView.locationList;
 
 import android.content.Context;
-import android.content.Intent;
 import android.graphics.Canvas;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -13,7 +11,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
-import android.widget.PopupWindow;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -29,9 +26,9 @@ import com.example.locationsave.HEP.Hep.hep_DTO.hep_LocationTag;
 import com.example.locationsave.HEP.Hep.hep_FireBase;
 import com.example.locationsave.HEP.Hep.hep_LocationSave.hep_LocationSaveActivity;
 import com.example.locationsave.HEP.KMS_MainActivity;
-import com.example.locationsave.HEP.pcs_RecyclerView.DirectoryList.Pcs_DirectoryCustomPopupWindow;
-import com.example.locationsave.HEP.pcs_RecyclerView.DirectoryList.Pcs_tempPopup;
-import com.example.locationsave.HEP.pcs_RecyclerView.DirectoryList.pcs_popupwindowTest;
+
+import com.example.locationsave.HEP.pcs_RecyclerView.DirectoryList.Pcs_PopupRecyclerview;
+
 import com.example.locationsave.R;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.google.android.material.snackbar.Snackbar;
@@ -162,21 +159,13 @@ public class Pcs_LocationRecyclerView extends Fragment {
 
             @Override
             public void onLeftClicked(int position) {
-//                Intent intent = new Intent(getActivity(), Pcs_DirectoryCustomPopupWindow.class);
-//                View popupView = LayoutInflater.from(getActivity()).inflate(R.layout.pcs_directory_popupactivity, null);
-//                final Pcs_DirectoryCustomPopupWindow popupWindow = new Pcs_DirectoryCustomPopupWindow(getContext(), getView());
-//                hep_Location hep_location = adapter.getDirectoryKey(position);
-//                pcs_popupwindowTest popupView = new pcs_popupwindowTest(getContext());
-//                popupView.setHeight(WindowManager.LayoutParams.WRAP_CONTENT);
-//                popupView.setWidth((int)(200*getResources().getDisplayMetrics().density));
-//                popupView.setFocusable(true);
-//                popupView.showAsDropDown(getView(), 0, -250);
-
-                final Pcs_tempPopup pcs_tempPopup = new Pcs_tempPopup(getContext());
-                pcs_tempPopup.setHeight(WindowManager.LayoutParams.WRAP_CONTENT);
-                pcs_tempPopup.setWidth((int)(200*getResources().getDisplayMetrics().density));
-                pcs_tempPopup.setFocusable(true);
-                pcs_tempPopup.showAsDropDown(getView(), 0, 250);
+                String currentKeyOfDirectory = adapter.getLocation(position).getDirectoryid();
+                Log.d("tag", "Swipe " + currentKeyOfDirectory);
+                final Pcs_PopupRecyclerview pcs_PopupRecyclerview = new Pcs_PopupRecyclerview(getContext(), adapter.getLocation(position));
+                pcs_PopupRecyclerview.setHeight(WindowManager.LayoutParams.WRAP_CONTENT);
+                pcs_PopupRecyclerview.setWidth((int)(200*getResources().getDisplayMetrics().density));
+                pcs_PopupRecyclerview.setFocusable(true);
+                pcs_PopupRecyclerview.showAsDropDown(getView(), 0, 250);
 
 
 //                popupWindow.show(getActivity().findViewById(R.id.drawer_layout),0, -250, hep_location.getDirectoryid());
