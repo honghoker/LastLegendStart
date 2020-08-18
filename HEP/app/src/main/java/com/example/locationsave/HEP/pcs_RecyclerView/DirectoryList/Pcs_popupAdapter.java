@@ -33,7 +33,11 @@ public class Pcs_popupAdapter extends FirebaseRecyclerAdapter<KSH_DirectoryEntit
     @Override
     protected void onBindViewHolder(@NonNull ListViewHolder holder, int position, @NonNull KSH_DirectoryEntity ksh_directoryEntity) {
         holder.directoryText.setText(ksh_directoryEntity.getName());
-        holder.directoryRadioButton.setChecked(position == lastCheckedPosition);
+        Log.d("tag", "Location Directory " + hep_location.getDirectoryid());
+        Log.d("tag", "current position directory "+ getSnapshots().getSnapshot(position).getKey());
+        Log.d("tag", String.valueOf(hep_location.getDetailaddr().equals(getSnapshots().getSnapshot(position).getKey())) );
+        holder.directoryRadioButton.setChecked(hep_location.getDetailaddr().equals(ksh_directoryEntity.getToken()));
+
 //        Log.d("tag","compare  " + hep_location.getDirectoryid());
 //        if(getSnapshots().getSnapshot(position).getKey() == hep_location.getDirectoryid())
 //            Log.d("tag","TRUE");
@@ -72,7 +76,5 @@ public class Pcs_popupAdapter extends FirebaseRecyclerAdapter<KSH_DirectoryEntit
             });
         }
     }
-    private String getDirectoryKey(int position){
-        return getSnapshots().getSnapshot(position).getKey();
-    }
+
 }
