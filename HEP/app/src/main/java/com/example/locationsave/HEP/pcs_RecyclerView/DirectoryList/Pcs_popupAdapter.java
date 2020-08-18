@@ -33,13 +33,13 @@ public class Pcs_popupAdapter extends FirebaseRecyclerAdapter<KSH_DirectoryEntit
     @Override
     protected void onBindViewHolder(@NonNull ListViewHolder holder, int position, @NonNull KSH_DirectoryEntity ksh_directoryEntity) {
         holder.directoryText.setText(ksh_directoryEntity.getName());
-//        boolean setCheckedRadioButton = getSnapshots().getSnapshot(position).getKey() == getSnapshots().getSnapshot(lastCheckedPosition).getKey();
-        Log.d("tag","compare  " + hep_location.getDirectoryid());
-        if(getSnapshots().getSnapshot(position).getKey() == hep_location.getDirectoryid())
-            Log.d("tag","TRUE");
-        else
-            Log.d("tag","FALSE " +getSnapshots().getSnapshot(position).getKey());
-        holder.directoryRadioButton.setChecked(getSnapshots().getSnapshot(position).getKey() == currentKeyOfDirectory);
+        holder.directoryRadioButton.setChecked(position == lastCheckedPosition);
+//        Log.d("tag","compare  " + hep_location.getDirectoryid());
+//        if(getSnapshots().getSnapshot(position).getKey() == hep_location.getDirectoryid())
+//            Log.d("tag","TRUE");
+//        else
+//            Log.d("tag","FALSE " +getSnapshots().getSnapshot(position).getKey());
+//        holder.directoryRadioButton.setChecked(getSnapshots().getSnapshot(position).getKey() == currentKeyOfDirectory);
 
 
     }
