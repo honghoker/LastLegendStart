@@ -3,7 +3,6 @@ package com.example.locationsave.HEP.pcs_RecyclerView.locationList;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Gravity;
@@ -14,6 +13,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -43,6 +43,7 @@ import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import static com.example.locationsave.HEP.KMS_MainActivity.directoryid;
 
@@ -59,6 +60,8 @@ public class Pcs_LocationRecyclerView extends Fragment {
     private ViewGroup rootView;
     private Pcs_RecyclerViewSwipeHelper recyclerViewSwipeHelper;
     LappingDismissData lappingDismissData = null;
+
+    KSH_SwipeHelper ksh_swipeHelper;
 
     @Nullable
     @Override
@@ -205,11 +208,98 @@ public class Pcs_LocationRecyclerView extends Fragment {
         ItemTouchHelper itemTouchHelper = new ItemTouchHelper(recyclerViewSwipeHelper);
         itemTouchHelper.attachToRecyclerView(recyclerView);
         recyclerView.addItemDecoration(new RecyclerView.ItemDecoration() {
+        Log.d("6","1111");
+        ksh_swipeHelper = new KSH_SwipeHelper(getActivity(),recyclerView,200) {
             @Override
-            public void onDraw(@NonNull Canvas c, @NonNull RecyclerView parent, @NonNull RecyclerView.State state) {
-                recyclerViewSwipeHelper.onDraw(c);
+            public void instantiateMyButton(RecyclerView.ViewHolder viewHolder, List<MyButton> buffer) {
+                buffer.add(new MyButton(getActivity(),
+                        "Delete",
+                        30,
+                        R.drawable.ic_delete,
+                        Color.parseColor("#FF3c30"),
+//                        new View.OnClickListener() {
+//                            @Override
+//                            public void onClick(View v) {
+//                                Log.d("6","asdasd");
+////                                Toast.makeText(getContext(),"Delete",Toast.LENGTH_SHORT).show();
+//                            }
+//                        }
+                        new MyButtonClickListener() {
+                            @Override
+                            public void onClick(int pos) {
+                                Log.d("6","asdasd");
+                                Toast.makeText(getContext(),"Delete",Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                        ));
+
+                buffer.add(new MyButton(getActivity(),
+                        "Update",
+                        30,
+                        R.drawable.ic_edit_white,
+                        Color.parseColor("#FF9502"),
+//                        new View.OnClickListener() {
+//                            @Override
+//                            public void onClick(View v) {
+//                                Log.d("6","asdasd");
+////                                Toast.makeText(getContext(),"Delete",Toast.LENGTH_SHORT).show();
+//                            }
+//                        }
+                        new MyButtonClickListener() {
+                            @Override
+                            public void onClick(int pos) {
+                                Toast.makeText(getContext(),"Update",Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                        ));
             }
-        });
+        };
+
+//        recyclerViewSwipeHelper = new Pcs_RecyclerViewSwipeHelper(getActivity(), new Pcs_RecyclerViewSwipeAction() {
+//
+//            @Override
+//            public void onLeftClicked(int position) {
+//                String currentKeyOfDirectory = ((hep_Location)adapter.getLocation(position).getFirebaseData()).getDirectoryid();
+//                Log.d("tag", "Swipe " + currentKeyOfDirectory);
+////                final Pcs_PopupRecyclerview pcs_PopupRecyclerview = new Pcs_PopupRecyclerview(getContext(), adapter.getLocation(position));
+//                final Pcs_PopupRecyclerview pcs_PopupRecyclerview = new Pcs_PopupRecyclerview(getActivity(), adapter.getLocation(position));
+//                pcs_PopupRecyclerview.setHeight(WindowManager.LayoutParams.WRAP_CONTENT);
+//                pcs_PopupRecyclerview.setWidth((int)(200*getResources().getDisplayMetrics().density));
+//                pcs_PopupRecyclerview.setFocusable(true);
+////                pcs_PopupRecyclerview.showAsDropDown(getView(), 0, 250);
+//                pcs_PopupRecyclerview.showAsDropDown(getView(), 100, 100, Gravity.CENTER);
+//
+////                popupWindow.show(getActivity().findViewById(R.id.drawer_layout),0, -250, hep_location.getDirectoryid());
+////                startActivity(intent);
+//            }
+//
+//            @Override
+//            public void onRightClicked(int position) {
+//
+//                //When DeleteItem, Get Location Data and Key
+//                final CapsulizeDataObjectNKey lappingDataNKey = adapter.deleteItem(position);
+//                //related dismiss data store and lapping
+//                lappingDismissData = new LappingDismissData(lappingDataNKey);
+//                lappingDismissData.onDismiss();
+//
+//                Snackbar.make(getActivity().findViewById(android.R.id.content),"삭제완료",Snackbar.LENGTH_LONG).setAction("되돌리기", new View.OnClickListener(){
+//                    @Override
+//                    public void onClick(View v) {
+//                        lappingDismissData.onUndo();
+//                    }
+//
+//                }).show();
+//
+//            }
+//        });
+//        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(recyclerViewSwipeHelper);
+//        itemTouchHelper.attachToRecyclerView(recyclerView);
+//        recyclerView.addItemDecoration(new RecyclerView.ItemDecoration() {
+//            @Override
+//            public void onDraw(@NonNull Canvas c, @NonNull RecyclerView parent, @NonNull RecyclerView.State state) {
+//                recyclerViewSwipeHelper.onDraw(c);
+//            }
+//        });
     }
 
 
