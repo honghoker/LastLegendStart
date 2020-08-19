@@ -24,17 +24,16 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.ValueEventListener;
 
 public class Pcs_popupAdapter extends FirebaseRecyclerAdapter<KSH_DirectoryEntity, Pcs_popupAdapter.ListViewHolder> {
-    private int lastCheckedPosition = -1;
-    private String currentKeyOfDirectory;
-    private String lastCheckedDirectoryKey = null;
+
     private hep_Location hep_location;
     private ViewGroup parent;
     private String currentLocationKey;
-
-    public Pcs_popupAdapter(@NonNull FirebaseRecyclerOptions<KSH_DirectoryEntity> options, CapsulizeDataObjectNKey currentLocation) {
+    private Pcs_PopupRecyclerview popupRecyclerview;
+    public Pcs_popupAdapter(@NonNull FirebaseRecyclerOptions<KSH_DirectoryEntity> options, CapsulizeDataObjectNKey currentLocation, Pcs_PopupRecyclerview popupRecyclerview) {
         super(options);
         this.hep_location = (hep_Location)currentLocation.getFirebaseData();
         this.currentLocationKey = currentLocation.getDataKey();
+        this.popupRecyclerview = popupRecyclerview;
     }
 
     @Override
@@ -82,9 +81,9 @@ public class Pcs_popupAdapter extends FirebaseRecyclerAdapter<KSH_DirectoryEntit
         }
     }
     private void setDirectoryKey(final String selectItemDirectoryKey, final View v){
+        final String[] preDirectoryid = new String[1];
         final DatabaseReference db= new hep_FireBase().getFireBaseDatabaseInstance().getReference();
         if(this.hep_location.getDirectoryid().equals(selectItemDirectoryKey)){
-//            View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.pcs_location_recyclerview, parent, false);
             final Snackbar snackbar = Snackbar.make(v, "Snackbar", Snackbar.LENGTH_LONG);
             snackbar.setAction("이미 저장되어있는 곳입니다.", new View.OnClickListener() {
                 @Override
@@ -93,6 +92,7 @@ public class Pcs_popupAdapter extends FirebaseRecyclerAdapter<KSH_DirectoryEntit
                 }
             });
             snackbar.show();
+
         }else{
             Log.d("tag", "current location Key " + currentLocationKey);
             db.child("location").orderByKey().equalTo(currentLocationKey)
@@ -100,15 +100,20 @@ public class Pcs_popupAdapter extends FirebaseRecyclerAdapter<KSH_DirectoryEntit
                 @Override
                 public void onDataChange(@NonNull DataSnapshot snapshot) {
                     if(snapshot.exists()){
-                        Log.d("tag", "here ");
+                        for(DataSnapshot dataSnapshot : snapshot.getChildren()){
+                            preDirectoryid[0] = dataSnapshot.getValue(hep_Location.class).getDirectoryid();
+                        }
                         db.child("location").child(currentLocationKey).child("directoryid").setValue(selectItemDirectoryKey);
                         notifyDataSetChanged(); //Recyclerview DataChange Refresh
 
-                        //Remove directory recyclerview
-                        //v.getParent().getParent().getParent().getParent() : popupwindow
-                        //v.getParent().getParent().getParent() : Relative Layout in popupwindow
-                        View popupWindowView = (ViewGroup)v.getParent().getParent().getParent();
-                        ((ViewGroup)popupWindowView.getParent()).removeView((ViewGroup)popupWindowView);
+                        //Directory change Undo
+                        popupRecyclerview.alterDismiss(new Pcs_alterdismiss() {
+                            @Override
+                            public void UndoData() {
+                                db.child("location").child(currentLocationKey).child("directoryid").setValue(preDirectoryid[0]);
+                                notifyDataSetChanged();//Recyclerview DataChange Refresh
+                            }
+                        });
                     }
                 }
                 @Override

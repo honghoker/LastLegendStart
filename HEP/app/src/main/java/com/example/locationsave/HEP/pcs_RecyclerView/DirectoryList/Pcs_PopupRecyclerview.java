@@ -47,17 +47,20 @@ public class Pcs_PopupRecyclerview extends PopupWindow {
         FirebaseRecyclerOptions options = new FirebaseRecyclerOptions.Builder<KSH_DirectoryEntity>()
                 .setQuery(query, KSH_DirectoryEntity.class).build();
 
-        recyclerviewAdapter = new Pcs_popupAdapter(options, currentSelectedLocationKey);
+        recyclerviewAdapter = new Pcs_popupAdapter(options, currentSelectedLocationKey, this);
         recyclerView.setAdapter(recyclerviewAdapter);
         recyclerviewAdapter.startListening();
         setContentView(view);
     }
 
-    @Override
-    public void dismiss() {
-
-        Snackbar snackbar = Snackbar.make(view, "Snackbar", Snackbar.LENGTH_LONG);
+    public void alterDismiss(final Pcs_alterdismiss pcs_alterdismiss){
+        Snackbar snackbar = Snackbar.make(activity.findViewById(android.R.id.content), "Snackbar", Snackbar.LENGTH_LONG).setAction("되돌리기",new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                pcs_alterdismiss.UndoData();
+            }
+        });
         snackbar.show();
-        super.dismiss();
+        dismiss();
     }
 }

@@ -18,7 +18,8 @@
                 android:layout_marginTop="0dp"
                 android:scrollbarFadeDuration="0"
                 android:scrollbarSize="5dp"
-                android:paddingTop="?attr/actionBarSize">
+                android:paddingTop="?attr/actionBarSize"
+                android:paddingBottom="?attr/actionBarSize">
 
             </androidx.recyclerview.widget.RecyclerView>
         </RelativeLayout>
