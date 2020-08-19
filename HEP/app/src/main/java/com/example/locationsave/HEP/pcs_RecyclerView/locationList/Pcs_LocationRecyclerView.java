@@ -208,7 +208,6 @@ public class Pcs_LocationRecyclerView extends Fragment {
         ItemTouchHelper itemTouchHelper = new ItemTouchHelper(recyclerViewSwipeHelper);
         itemTouchHelper.attachToRecyclerView(recyclerView);
         recyclerView.addItemDecoration(new RecyclerView.ItemDecoration() {
-        Log.d("6","1111");
         ksh_swipeHelper = new KSH_SwipeHelper(getActivity(),recyclerView,200) {
             @Override
             public void instantiateMyButton(RecyclerView.ViewHolder viewHolder, List<MyButton> buffer) {
@@ -226,9 +225,22 @@ public class Pcs_LocationRecyclerView extends Fragment {
 //                        }
                         new MyButtonClickListener() {
                             @Override
-                            public void onClick(int pos) {
-                                Log.d("6","asdasd");
-                                Toast.makeText(getContext(),"Delete",Toast.LENGTH_SHORT).show();
+                            public void onClick(int position) {
+                                String currentKeyOfDirectory = ((hep_Location)adapter.getLocation(position).getFirebaseData()).getDirectoryid();
+                                Log.d("tag", "Swipe " + currentKeyOfDirectory);
+//                final Pcs_PopupRecyclerview pcs_PopupRecyclerview = new Pcs_PopupRecyclerview(getContext(), adapter.getLocation(position));
+                                final Pcs_PopupRecyclerview pcs_PopupRecyclerview = new Pcs_PopupRecyclerview(getActivity(), adapter.getLocation(position));
+                                pcs_PopupRecyclerview.setHeight(WindowManager.LayoutParams.WRAP_CONTENT);
+                                //pcs_PopupRecyclerview.setWidth((int)(200*getResources().getDisplayMetrics().density));
+                                pcs_PopupRecyclerview.setWidth(WindowManager.LayoutParams.WRAP_CONTENT);
+                                pcs_PopupRecyclerview.setFocusable(true);
+
+
+                                try {
+                                    pcs_PopupRecyclerview.showAsDropDown(getView(), (int) recyclerView.getLayoutManager().findViewByPosition(position).getX(), (int) recyclerView.getLayoutManager().findViewByPosition(position).getY(), Gravity.CENTER);
+                                }catch (Exception e){
+                                    e.printStackTrace();
+                                }
                             }
                         }
                         ));
@@ -247,8 +259,20 @@ public class Pcs_LocationRecyclerView extends Fragment {
 //                        }
                         new MyButtonClickListener() {
                             @Override
-                            public void onClick(int pos) {
-                                Toast.makeText(getContext(),"Update",Toast.LENGTH_SHORT).show();
+                            public void onClick(int position) {
+                                //When DeleteItem, Get Location Data and Key
+                                final CapsulizeDataObjectNKey lappingDataNKey = adapter.deleteItem(position);
+                                //related dismiss data store and lapping
+                                lappingDismissData = new LappingDismissData(lappingDataNKey);
+                                lappingDismissData.onDismiss();
+
+                                Snackbar.make(getActivity().findViewById(android.R.id.content),"삭제완료",Snackbar.LENGTH_LONG).setAction("되돌리기", new View.OnClickListener(){
+                                    @Override
+                                    public void onClick(View v) {
+                                        lappingDismissData.onUndo();
+                                    }
+
+                                }).show();
                             }
                         }
                         ));
