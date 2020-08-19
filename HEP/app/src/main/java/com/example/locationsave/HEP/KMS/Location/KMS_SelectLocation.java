@@ -12,10 +12,15 @@ import androidx.recyclerview.widget.RecyclerView;
 
 public class KMS_SelectLocation extends AppCompatActivity {
 
+    public static String AddLocationTitle = null;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
     }
+
+
+
 
     public void SetLinearLayout(Context context, RelativeLayout relativeLayout) {
         Log.d("####KMS_SelectLocation.SetLinearLayout","샛리니어레이아웃 실행");

@@ -30,9 +30,18 @@ public class KMS_MapOption {
     private double currentLatitude;
     private double currentLongitued;
 
+    public double LastLatitude;
+    public double LastLongitued;
+
     public NaverMapOptions setFirstOptions() { //1-8. 초기옵션 설정
+        if(LastLatitude == 0.0 && LastLongitued == 0.0){
+            LastLatitude = 35.857654;
+            LastLongitued= 128.498123;
+        }
+
+        Log.d("@@@@@", "LastLatitude = " + LastLatitude + " LastLongitued = " + LastLongitued);
         options = new NaverMapOptions()
-                .camera(new CameraPosition(new LatLng(35.857654, 128.498123), 16))
+                .camera(new CameraPosition(new LatLng(LastLatitude, LastLongitued), 16))
                 .mapType(NaverMap.MapType.Navi)
                 .nightModeEnabled(false);
         Log.d("#####맵옵션",   "초기옵션");

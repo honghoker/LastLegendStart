@@ -32,6 +32,7 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 
 import static com.example.locationsave.HEP.KMS_MainActivity.LocationFragmet;
+import static com.example.locationsave.HEP.KMS_MainActivity.autoCompleteLocationList;
 import static com.example.locationsave.HEP.KMS_MainActivity.directoryid;
 
 public class KSH_RecyAdapter extends RecyclerView.Adapter<KSH_RecyAdapter.ViewHolder> {
@@ -55,6 +56,8 @@ public class KSH_RecyAdapter extends RecyclerView.Adapter<KSH_RecyAdapter.ViewHo
         this.ksh_directoryEntity = ksh_directoryEntity;
         this.arrayKey = arrayKey;
         this.selectView = selectView;
+//        Log.d("6","11 adapter selectView = "+selectView);
+//        Log.d("6","11 adapter lastPosition = "+LastPosition);
 
         mCallback = listener;
 
@@ -100,7 +103,7 @@ public class KSH_RecyAdapter extends RecyclerView.Adapter<KSH_RecyAdapter.ViewHo
     @Override
     public void onBindViewHolder(@NonNull KSH_RecyAdapter.ViewHolder holder, int position) {
 //        holder.itemView.setBackgroundColor(Color.parseColor("#cccccc"));
-
+//        Log.d("6","22 adapter selectView = "+selectView);
         if(LastPosition == -1 && selectView != 0)
             LastPosition = selectView;
 
@@ -109,8 +112,15 @@ public class KSH_RecyAdapter extends RecyclerView.Adapter<KSH_RecyAdapter.ViewHo
             HeaderViewHolder headerViewHolder = (HeaderViewHolder) holder;
         }
         else{
-            if (position == LastPosition)
+//            Log.d("6","33 adapter selectView = "+selectView);
+            if(LastPosition == -1)
+                LastPosition = selectView;
+
+//            Log.d("6","LastPosition = "+LastPosition);
+
+            if (position == LastPosition && selectView != 0){
                 holder.itemView.setBackgroundColor(Color.RED);
+            }
             else
                 holder.itemView.setBackgroundColor(Color.parseColor("#cccccc"));
 
@@ -166,7 +176,29 @@ public class KSH_RecyAdapter extends RecyclerView.Adapter<KSH_RecyAdapter.ViewHo
                     }
                     else{
                         try {
+
                             directoryid = arrayKey.get(pos - 1);
+                            Log.d("7","!!!!!!");
+                            Log.d("7","id = " +directoryid);
+
+                            new hep_FireBase().getFireBaseDatabaseInstance().getReference().child("location").orderByChild("directoryid").equalTo(directoryid).addValueEventListener(new ValueEventListener() {
+                                @Override
+                                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                    Log.d("@@@@", "getChildrenCount = " + snapshot.getChildrenCount());
+                                    autoCompleteLocationList.clear();
+                                    for(DataSnapshot dataSnapshot : snapshot.getChildren()){
+                                        hep_Location hep_location = dataSnapshot.getValue(hep_Location.class);
+                                        Log.d("@@@@", "getChildrenCount = " + dataSnapshot.getKey() + ", hep_location.nmae = " + hep_location.name);
+                                        autoCompleteLocationList.add(hep_location);
+                                        Log.d("7","??? "+autoCompleteLocationList.size());
+                                    }
+                                }
+
+                                @Override
+                                public void onCancelled(@NonNull DatabaseError error) {
+
+                                }
+                            });
 
                             LastPosition = pos;
 

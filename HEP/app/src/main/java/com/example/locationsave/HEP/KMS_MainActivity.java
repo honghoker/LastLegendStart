@@ -2,7 +2,6 @@ package com.example.locationsave.HEP;
 
 import android.content.Context;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -15,10 +14,9 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.AdapterView;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
-import android.widget.ImageView;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.Spinner;
@@ -39,23 +37,15 @@ import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-
 import com.example.locationsave.HEP.Address.GeocodingArrayEntity;
 import com.example.locationsave.HEP.Address.ReverseGeocodingAsyncTask;
 import com.example.locationsave.HEP.Address.ReverseGetAddress;
 import com.example.locationsave.HEP.Address.SearchAreaArrayEntity;
 import com.example.locationsave.HEP.Hep.hep_DTO.hep_Callback;
 import com.example.locationsave.HEP.Hep.hep_DTO.hep_Location;
-import com.example.locationsave.HEP.Hep.hep_DTO.hep_LocationImage;
 import com.example.locationsave.HEP.Hep.hep_DTO.hep_LocationTag;
 import com.example.locationsave.HEP.Hep.hep_DTO.hep_Recent;
-import com.example.locationsave.HEP.Hep.hep_LocationDetail.hep_LocationDetailActivity;
-import com.example.locationsave.HEP.Hep.hep_LocationDetail.hep_LocationDetail_FlowLayoutImageItem;
-import com.example.locationsave.HEP.Hep.hep_LocationDetail.hep_LocationDetail_ViewPagerAdapter;
-import com.example.locationsave.HEP.Hep.hep_LocationSave.hep_FlowLayout;
-import com.example.locationsave.HEP.Hep.hep_LocationSave.hep_ImageData;
 import com.example.locationsave.HEP.Hep.hep_LocationSave.hep_LocationSaveActivity;
-import com.example.locationsave.HEP.Hep.hep_LocationSave.hep_locationImageDataArr;
 import com.example.locationsave.HEP.KMS.BackPressed.KMS_BackPressedForFinish;
 import com.example.locationsave.HEP.KMS.HashTag.KMS_FlowLayout;
 import com.example.locationsave.HEP.KMS.HashTag.KMS_HashTag;
@@ -74,8 +64,7 @@ import com.example.locationsave.HEP.KMS.Location.KMS_LocationSearchResult;
 import com.example.locationsave.HEP.KMS.Location.KMS_SearchResultAdapter;
 import com.example.locationsave.HEP.KMS.MainFragment.KMS_FragmentFlagManager;
 
-
-
+import com.example.locationsave.HEP.KMS.Map.KMS_MapOption;
 import com.example.locationsave.HEP.KMS.Map.KMS_MarkerInformationFlagManager;
 import com.example.locationsave.HEP.KMS.Map.KMS_MarkerManager;
 
@@ -96,20 +85,15 @@ import com.example.locationsave.HEP.KSH.NavIntent.KSH_SetIntent;
 import com.example.locationsave.HEP.KSH.sunghunTest;
 import com.example.locationsave.HEP.pcs_RecyclerView.locationList.Pcs_LocationRecyclerView;
 import com.example.locationsave.R;
-import com.github.chrisbanes.photoview.PhotoView;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
-import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 import com.naver.maps.map.CameraPosition;
 
-
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -117,6 +101,8 @@ import java.util.concurrent.ExecutionException;
 
 import static android.widget.AdapterView.*;
 import static com.example.locationsave.HEP.KMS.MainFragment.KMS_MapFragment.NMap;
+import static com.example.locationsave.HEP.KMS.Toolbar.KMS_ClearableEditText_LoadLocation_auto.editText_1;
+import static com.example.locationsave.HEP.KSH.KSH_RecyAdapter.LastPosition;
 
 public class KMS_MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, sunghunTest {
 
@@ -129,6 +115,7 @@ public class KMS_MainActivity extends AppCompatActivity implements NavigationVie
         rView.setAnimation(animationH);
         rView.setVisibility(fView.GONE);
         kms_recycleVIewManager.flagSetFalseRecycleView(); //리사이클 flag 를 false 로 변경
+        setFloatingItem(kms_recycleVIewManager.flagCheckRecycleView());
     }
 
     @Override
@@ -218,6 +205,7 @@ public class KMS_MainActivity extends AppCompatActivity implements NavigationVie
     LinearLayout linearLayoutToolbarSearch;
     ConstraintLayout recy_con_layout;
     KMS_SearchFlagManager kms_searchFlagManager = KMS_SearchFlagManager.getInstanceSearch();
+    KMS_MapOption kms_mapOption = KMS_MapOption.getInstanceMapOption();
     //5. Animation
     Animation animation;
     Animation animationH;
@@ -276,6 +264,7 @@ public class KMS_MainActivity extends AppCompatActivity implements NavigationVie
     KMS_MarkerInformationFlagManager kms_markerInformationFlagManager = KMS_MarkerInformationFlagManager.getMarkerInformationFlagManagerInstance();
 
     public static ArrayList<hep_Location> autoCompleteLocationList;
+//    public static ArrayList<hep_Location> sunghunSearchResultList;
 
     KMS_SearchBarManager kms_searchBarManager = new KMS_SearchBarManager();
     KMS_MarkerManager kms_markerManager = new KMS_MarkerManager().getInstanceMarkerManager();
@@ -284,23 +273,28 @@ public class KMS_MainActivity extends AppCompatActivity implements NavigationVie
     public void kms_init(){
         autoCompleteLocationList = new ArrayList<>();
 
-        //location name 자동완성
-        //Query locationQuery = new hep_FireBase().getFireBaseDatabaseInstance().getReference().child("location").orderByChild("directoryid").equalTo(directoryid);
-        new hep_FireBase().getFireBaseDatabaseInstance().getReference().child("location").addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                autoCompleteLocationList.clear();
-                for(DataSnapshot dataSnapshot : snapshot.getChildren()){
-                    hep_Location hep_location = dataSnapshot.getValue(hep_Location.class);
-                    autoCompleteLocationList.add(hep_location);
-                }
-            }
+        //!!!
+//        Log.d("@@@@","id = " + directoryid);
+//        //location name 자동완성
+//        Query locationQuery = new hep_FireBase().getFireBaseDatabaseInstance().getReference().child("location").equalTo(directoryid);
+//        locationQuery.addListenerForSingleValueEvent(new ValueEventListener() {
+//            @Override
+//            public void onDataChange(@NonNull DataSnapshot snapshot) {
+//                autoCompleteLocationList.clear();
+//                for(DataSnapshot dataSnapshot : snapshot.getChildren()){
+//                    hep_Location hep_location = dataSnapshot.getValue(hep_Location.class);
+//                    Log.d("@@@@", "getChildrenCount = " + dataSnapshot.getKey() + ", hep_location.nmae = " + hep_location.name);
+//
+//                    autoCompleteLocationList.add(hep_location);
+//                }
+//            }
+//
+//            @Override
+//            public void onCancelled(@NonNull DatabaseError error) {
+//
+//            }
+//        });
 
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });
 
         fragmentManager = getSupportFragmentManager();
         mapFragment = new KMS_MapFragment();
@@ -308,7 +302,8 @@ public class KMS_MainActivity extends AppCompatActivity implements NavigationVie
         kms_fragmentFlagManager = KMS_FragmentFlagManager.getInstanceFragment();
         bottomBar = findViewById(R.id.linearBottombar);   //2. BottomBar
         toolbar = findViewById(R.id.toolbar);  //3. Toolbar
-        toolbar.setTitle("Last Legend Start");
+//        toolbar.setTitle(arrayList.get(selectView).getName());
+//        toolbar.setTitle("Last Legend Start");
         setSupportActionBar(toolbar);  // **NoActionBar 해주고 이 메서드 호출하면 toolbar를 Activity의 앱바로 사용가능
         navigationView.setNavigationItemSelectedListener(this); // drawer
         // navigationview에 사용자 이름, 이메일 출력
@@ -340,7 +335,6 @@ public class KMS_MainActivity extends AppCompatActivity implements NavigationVie
 
         loadRecyclerView = findViewById(R.id.searchLordResult_RecyclerVIew);
 
-        // 버그다 이거 ㅅㅂ 좀따 다시 확인
         kms_searchFlagManager.flagSetFalseSearch();
         setSearchBar(kms_searchFlagManager.flagGetSearch());
         relativeLayoutRoadLoaction = findViewById(R.id.relativeLayout_loadLoaction);
@@ -680,6 +674,7 @@ public class KMS_MainActivity extends AppCompatActivity implements NavigationVie
         selectLocation.SetLinearLayout(getApplicationContext(), relativelayout_sub);
         setBottomBar(bottomBar, selectLocationFlag);
         setFloatingItem(selectLocationFlag);
+        Log.d("#####hide add","정상작동");
     }
 
 //    AutoCompleteTextView editText;
@@ -711,6 +706,7 @@ public class KMS_MainActivity extends AppCompatActivity implements NavigationVie
             setFloatingItem(kms_searchFlagManager.flagGetSearch());
 //            ksh_loadLocation.setSearchResultRecyclerView(getApplicationContext(), loadRecyclerView);
             kms_searchBarManager.setOffLoadLocationSearchBar(relativeLayoutRoadLoaction);
+            editText_1.setText("");
         }
 
         else if (kms_markerInformationFlagManager.flagGetMarkerInformationFlag() == false && kms_searchFlagManager.flagGetSearch() == false && kms_recycleVIewManager.flagCheckRecycleView() == false
@@ -778,8 +774,6 @@ public class KMS_MainActivity extends AppCompatActivity implements NavigationVie
                 Intent noticeIntent = new Intent(this, KSH_NoticeIntent.class);
                 startActivity(noticeIntent);
                 overridePendingTransition(R.anim.fadein,R.anim.fadeout);
-                break;
-            case R.id.nav_call:
                 break;
             case R.id.nav_set:
                 Intent setIntent = new Intent(this, KSH_SetIntent.class);
@@ -889,6 +883,7 @@ public class KMS_MainActivity extends AppCompatActivity implements NavigationVie
                         for (int i = 0; i < arrayKey.size(); i++) {
                             if (directoryid == null) {
                                 if (hep_recent.directoryid.equals(arrayKey.get(i))) {
+                                    Log.d("6","arrayKey.size = "+arrayKey.size());
                                     selectView = i + 1;
                                     directoryid = hep_recent.directoryid;
                                 }
@@ -899,6 +894,33 @@ public class KMS_MainActivity extends AppCompatActivity implements NavigationVie
                                 }
                             }
                         }
+
+                        if(LastPosition != -1){
+                            toolbar.setTitle(arrayList.get(LastPosition-1).getName());
+                        }
+                        else{
+                            toolbar.setTitle(arrayList.get(selectView-1).getName());
+                        }
+
+                        Log.d("@@@@","id = " + directoryid);
+                        new hep_FireBase().getFireBaseDatabaseInstance().getReference().child("location").orderByChild("directoryid").equalTo(directoryid).addValueEventListener(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                autoCompleteLocationList.clear();
+                                for(DataSnapshot dataSnapshot : snapshot.getChildren()){
+                                    hep_Location hep_location = dataSnapshot.getValue(hep_Location.class);
+                                    Log.d("@@@@", "getChildrenCount = " + dataSnapshot.getKey() + ", hep_location.nmae = " + hep_location.name);
+                                    autoCompleteLocationList.add(hep_location);
+                                }
+                            }
+
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError error) {
+
+                            }
+                        });
+                        kms_mapOption.LastLatitude = hep_recent.latitude;
+                        kms_mapOption.LastLongitued = hep_recent.longitude;
 
                         recyAdapter = new KSH_RecyAdapter(KMS_MainActivity.this, arrayList, arrayKey, ksh_directoryEntity, selectView, (sunghunTest) OnItemClickListener);
                         recyclerView.setAdapter(recyAdapter);
@@ -960,6 +982,7 @@ public class KMS_MainActivity extends AppCompatActivity implements NavigationVie
 //        //3-2. spinner 선언 & RecycleView
 //        spinner = findViewById(R.id.spinner);
         // spinner 터치(클릭) 시 이벤트처리
+        //버그좀
         spinner.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
@@ -1038,7 +1061,7 @@ public class KMS_MainActivity extends AppCompatActivity implements NavigationVie
                         IntentAddLocation();      //추후 수정해야함
 
                         if(kms_fragmentFlagManager.flagCheckFragment() == true)
-                            hideAddLocation(); //맵프레그먼트에서 넘어왔으면 추가 창 숨기기
+                            //hideAddLocation(); //맵프레그먼트에서 넘어왔으면 추가 창 숨기기
                         return true;
                 }
                 return false;
@@ -1243,6 +1266,9 @@ public class KMS_MainActivity extends AppCompatActivity implements NavigationVie
                  if(data.getBooleanExtra("result",false)) {
                      KMS_FragmentFlagManager d = KMS_FragmentFlagManager.getInstanceFragment();
                      d.setFragmentLocationListLayout();
+                     hideAddLocation();
+                     Log.d("######제발.. ", "제발요..");
+
                  }
              }
          }

@@ -18,6 +18,7 @@ public class KMS_MarkerInformation {
         return markerInformationInstance;
     }
 
+    // title, address, img
     public void setMarkerInformation(String Title){
         Log.d("####마커인포",   "#####셋 마커 인포메이션" );
 

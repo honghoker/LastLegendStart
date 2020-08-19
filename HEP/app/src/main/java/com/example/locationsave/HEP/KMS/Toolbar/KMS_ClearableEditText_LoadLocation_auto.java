@@ -17,6 +17,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.locationsave.HEP.Hep.hep_DTO.hep_Location;
@@ -38,7 +39,7 @@ import static com.example.locationsave.HEP.KMS_MainActivity.mLinearLayoutManager
 public class KMS_ClearableEditText_LoadLocation_auto extends RelativeLayout {
 
     LayoutInflater inflater = null;
-    hep_LocationSave_AutoCompleteTextView editText;
+    public static hep_LocationSave_AutoCompleteTextView editText_1;
     Button btnClear;
     public static Context mContext;
     static InputMethodManager ime = null;
@@ -59,15 +60,15 @@ public class KMS_ClearableEditText_LoadLocation_auto extends RelativeLayout {
     }
 
     public void setinit(){
-        editText = findViewById(R.id.clearable_edit_load_location); //저장된 장소 검색
-        editText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+        editText_1 = findViewById(R.id.clearable_edit_load_location); //저장된 장소 검색
+        editText_1.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
                 //오토 완성 코드
-                Toast.makeText(getContext(),"저장된 장소 검색 : " + editText.getText(),Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(),"저장된 장소 검색 : " + editText_1.getText(),Toast.LENGTH_SHORT).show();
                 Log.d("####키보드 완료 ","ㅇㅇ");
 
-                ime.hideSoftInputFromWindow(editText.getWindowToken(),0);
+                ime.hideSoftInputFromWindow(editText_1.getWindowToken(),0);
                 Log.d("####키보드 완료 장소검색 클릭","ㅇㅇ");
 
                 return false;
@@ -84,7 +85,7 @@ public class KMS_ClearableEditText_LoadLocation_auto extends RelativeLayout {
     //X버튼이 나타났다 사라지게하는 메소드
     private void showHideClearButton() {
         //TextWatcher를 사용해 에디트 텍스트 내용이 변경 될 때 동작할 코드를 입력
-        editText.addTextChangedListener(new TextWatcher() {
+        editText_1.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
@@ -93,16 +94,26 @@ public class KMS_ClearableEditText_LoadLocation_auto extends RelativeLayout {
             //에디트 텍스트 안 내용이 변경될 때마다 호출되는 메소드
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                hep_LocationSave_AutoCompleteTextView autoCompleteTextView = editText;
+                hep_LocationSave_AutoCompleteTextView autoCompleteTextView = editText_1;
 
                 if (s.length() > 0) {
                     btnClear.setVisibility(RelativeLayout.VISIBLE);
 
                     KSH_LoadResultAdapter mAdapter = new KSH_LoadResultAdapter(setChangeListData(s.toString()));
+//                    loadRecyclerView.addItemDecoration(new DividerItemDecoration(loadRecyclerView.getContext(), 1));
                     loadRecyclerView.setAdapter(mAdapter);
 
-                    ksh_loadLocation.setOnSearchResultRecyclerView(mContext, loadRecyclerView);
-                    loadRecyclerView.setLayoutManager(mLinearLayoutManager);
+                    Log.d("7", String.valueOf(setChangeListData(s.toString())));
+                    if(String.valueOf(setChangeListData(s.toString())).equals("[]")){
+                        ksh_loadLocation.setOffSearchResultRecyclerView2(mContext, loadRecyclerView);
+                        loadRecyclerView.setLayoutManager(mLinearLayoutManager);
+                    }
+                    if(!String.valueOf(setChangeListData(s.toString())).equals("[]")){
+//                        Log.d("7", String.valueOf(setChangeListData(s.toString())));
+//                        Log.d("6","여기오나");
+                        ksh_loadLocation.setOnSearchResultRecyclerView(mContext, loadRecyclerView);
+                        loadRecyclerView.setLayoutManager(mLinearLayoutManager);
+                    }
 
                 } else {
                     ksh_loadLocation.setOffSearchResultRecyclerView2(mContext, loadRecyclerView);
@@ -129,13 +140,14 @@ public class KMS_ClearableEditText_LoadLocation_auto extends RelativeLayout {
         btnClear.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                editText.setText("");
+                editText_1.setText("");
             }
         });
     }
 
     public ArrayList<hep_Location> setChangeListData(String searchKeyword){
         ArrayList<hep_Location> temp = new ArrayList<>();
+
         for(int i = 0; i < autoCompleteLocationList.size(); i++){
             boolean isAdd = false;
             String iniName = hep_HangulUtils.getHangulInitialSound(autoCompleteLocationList.get(i).name, searchKeyword.toString());
@@ -155,7 +167,7 @@ public class KMS_ClearableEditText_LoadLocation_auto extends RelativeLayout {
         btnClear.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                editText.setText("");
+                editText_1.setText("");
             }
         });
     }

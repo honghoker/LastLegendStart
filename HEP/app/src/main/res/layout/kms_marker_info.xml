@@ -16,7 +16,8 @@
     android:focusableInTouchMode="false"
     android:orientation="horizontal"
     android:touchscreenBlocksFocus="false"
-    android:visibility="gone">
+    android:visibility="gone"
+    >
 
     <ImageView
         android:id="@+id/imageView8"

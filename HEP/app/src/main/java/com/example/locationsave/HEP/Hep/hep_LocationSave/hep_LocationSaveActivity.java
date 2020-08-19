@@ -33,6 +33,7 @@ import com.example.locationsave.HEP.Hep.hep_DTO.hep_Recent;
 import com.example.locationsave.HEP.Hep.hep_DTO.hep_Tag;
 import com.example.locationsave.HEP.Hep.hep_FireBase;
 import com.example.locationsave.HEP.Hep.hep_LocationDetail.hep_LocationDetailActivity;
+import com.example.locationsave.HEP.KMS.Location.KMS_SelectLocation;
 import com.example.locationsave.HEP.KMS.MainFragment.KMS_AddLocationFragment;
 import com.example.locationsave.HEP.KMS.MainFragment.KMS_FragmentFlagManager;
 import com.example.locationsave.HEP.KMS.Map.KMS_CameraManager;
@@ -60,7 +61,7 @@ import java.util.UUID;
 
 import static android.content.ContentValues.TAG;
 
-public class hep_LocationSaveActivity extends AppCompatActivity implements KMS_AddLocationFragment.OnTimePickerSetListener{
+public class hep_LocationSaveActivity extends AppCompatActivity implements KMS_AddLocationFragment.OnTimePickerSetListener {
 
     private Pcs_LocationRecyclerView pcsFragment;
 
@@ -75,39 +76,87 @@ public class hep_LocationSaveActivity extends AppCompatActivity implements KMS_A
 
     public static final boolean LOCATION_RECYCLERVIEW_FRAGMENT = true;
 
-    //public static FragmentManager LocationfragmentManager;
-    public static Fragment LocationAddFragment = null;
-    FragmentManager fragmentManager = getSupportFragmentManager();
-    FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 
-    TextView locationaddrTextView;
-    TextView locationnameTextView;
-
-    KMS_CameraManager kms_cameraManager = KMS_CameraManager.getInstanceCameraManager();
-    KMS_MapOption kms_mapOption = KMS_MapOption.getInstanceMapOption();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.hep_locationsaveactivity);
         setinit();
 
-        locationaddrTextView = findViewById(R.id.locationAddr);
-        locationnameTextView = findViewById(R.id.locationName);
     }
 
-    public void setinit(){
+    public void setTempValue() {
+        new hep_LocationSave_TempValue().getHep_locationSave_tempValue().setData(
+                ((TextView)findViewById(R.id.locationName)).getText().toString(),
+                ((TextView)findViewById(R.id.locationAddr)).getText().toString(),
+                ((TextView)findViewById(R.id.locationDetailAddr)).getText().toString(),
+                ((TextView)findViewById(R.id.locationContact)).getText().toString(),
+                ((TextView)findViewById(R.id.locationMemo)).getText().toString()
+        );
+    }
+
+    public void getTempValue(){
+            if (new hep_LocationSave_TempValue().getHep_locationSave_tempValue().getTitle() != null)
+                ((TextView) findViewById(R.id.locationName)).setText(new hep_LocationSave_TempValue().getHep_locationSave_tempValue().getTitle());
+            if (new hep_LocationSave_TempValue().getHep_locationSave_tempValue().getAddress() != null)
+                ((TextView) findViewById(R.id.locationAddr)).setText(new hep_LocationSave_TempValue().getHep_locationSave_tempValue().getAddress());
+            if (new hep_LocationSave_TempValue().getHep_locationSave_tempValue().getTitle() != null)
+                ((TextView) findViewById(R.id.locationDetailAddr)).setText(new hep_LocationSave_TempValue().getHep_locationSave_tempValue().getDetailAddress());
+            if (new hep_LocationSave_TempValue().getHep_locationSave_tempValue().getTitle() != null)
+                ((TextView) findViewById(R.id.locationContact)).setText(new hep_LocationSave_TempValue().getHep_locationSave_tempValue().getPhoneNumber());
+            if (new hep_LocationSave_TempValue().getHep_locationSave_tempValue().getTitle() != null)
+                ((TextView) findViewById(R.id.locationMemo)).setText(new hep_LocationSave_TempValue().getHep_locationSave_tempValue().getMemo());
+
+            if(!new hep_LocationSave_TempValue().getHep_locationSave_tempValue().getHashTagArr().isEmpty()) {
+                new hep_HashTagArr().getHashTagArr().addAll(new hep_LocationSave_TempValue().getHep_locationSave_tempValue().getHashTagArr());
+
+                for(int i = 0; i < new hep_HashTagArr().getHashTagArr().size(); i++){
+
+                    hep_FlowLayout.LayoutParams params = new hep_FlowLayout.LayoutParams(20, 20);
+
+                    hep_HashTag hashTag = new hep_HashTag(this);
+                    hashTag.init(new hep_HashTagArr().getHashTagArr().get(i), "#3F729B", R.drawable.hep_locationsave_hashtagborder, params);
+
+                    ((hep_FlowLayout) findViewById(R.id.hashtagFlowLayout)).addView(hashTag);
+                }
+            }
+
+            if(!new hep_LocationSave_TempValue().getHep_locationSave_tempValue().getImageDataArray().isEmpty()) {
+                new hep_locationImageDataArr().getImageDataArrayInstance().addAll(new hep_LocationSave_TempValue().getHep_locationSave_tempValue().getImageDataArray());
+
+                hep_FlowLayout.LayoutParams params = new hep_FlowLayout.LayoutParams(20, 20);
+
+                for (int i = 0; i < new hep_locationImageDataArr().getImageDataArrayInstance().size(); i++) {
+                    hep_LocationSave_FlowLayoutImageItem flowLayoutImageItem = new hep_LocationSave_FlowLayoutImageItem(this);
+                    flowLayoutImageItem.setLayoutParams(params);
+                    flowLayoutImageItem.setBackgroundBitmap(new hep_locationImageDataArr().getImageDataArrayInstance().get(i).bitmap);
+
+                    ((hep_FlowLayout) findViewById(R.id.imageFlowLayout)).addView(flowLayoutImageItem);
+                }
+
+                viewPagerAdapter = new hep_LocationSave_ViewPagerAdapter(this);
+                viewPager.setAdapter(viewPagerAdapter);
+                setVisibilityInformationImage();
+            }
+    }
+
+    public void setinit() {
         latitude = getIntent().getDoubleExtra("latitude", 0);
         longitude = getIntent().getDoubleExtra("longitude", 0);
         addr = getIntent().getStringExtra("addr");
 
-        if(addr == null || addr.equals(""))
-            ((TextView)findViewById(R.id.locationAddr)).setText("저장된 주소가 없습니다.");
+        viewPager = findViewById(R.id.viewPager);
+
+        getTempValue();
+
+        if (addr == null || addr.equals(""))
+            ((TextView) findViewById(R.id.locationAddr)).setText("저장된 주소가 없습니다.");
         else
-            ((TextView)findViewById(R.id.locationAddr)).setText(addr);
+            ((TextView) findViewById(R.id.locationAddr)).setText(addr);
 
         hashEditText = findViewById(R.id.HashTagText);
         tagDataArrayList = new ArrayList<>();
-        viewPager = findViewById(R.id.viewPager);
+
         pcsFragment = new Pcs_LocationRecyclerView();
 
         DatabaseReference duplicationTagReference = new hep_FireBase().getFireBaseDatabaseInstance().getReference().child("tag");
@@ -115,7 +164,7 @@ public class hep_LocationSaveActivity extends AppCompatActivity implements KMS_A
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 tagDataArrayList.clear();
-                for(DataSnapshot tagSnapshot : dataSnapshot.getChildren()){
+                for (DataSnapshot tagSnapshot : dataSnapshot.getChildren()) {
                     hep_Tag hep_tag = tagSnapshot.getValue(hep_Tag.class);
                     tagDataArrayList.add(hep_tag.name);
                 }
@@ -128,26 +177,23 @@ public class hep_LocationSaveActivity extends AppCompatActivity implements KMS_A
         });
     }
 
-    public void toastMake(String message){
+    public void toastMake(String message) {
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
     }
 
-    public void onButtonHashTagAddClicked(View v){
+    public void onButtonHashTagAddClicked(View v) {
         hashTagAdd(hashEditText.getText().toString().trim());
     }
 
-    public void hashTagAdd(String hash){
+    public void hashTagAdd(String hash) {
 
-        if(hash.equals("")){
+        if (hash.equals("")) {
             toastMake("내용을 입력해주세요.");
-        }
-        else if(new hep_HashTagArr().getHashTagArr().size() >= 5){
+        } else if (new hep_HashTagArr().getHashTagArr().size() >= 5) {
             toastMake("태그는 5개까지 추가할 수 있습니다.");
-        }
-        else if(new hep_HashTagArr().getHashTagArr().contains(hash)){
+        } else if (new hep_HashTagArr().getHashTagArr().contains(hash)) {
             toastMake("이미 추가한 태그입니다.");
-        }
-        else{
+        } else {
             hep_FlowLayout.LayoutParams params = new hep_FlowLayout.LayoutParams(20, 20);
             hep_HashTag hashTag = new hep_HashTag(this);
             hashTag.init(hash, "#3F729B", R.drawable.hep_locationsave_hashtagborder, params);
@@ -180,18 +226,18 @@ public class hep_LocationSaveActivity extends AppCompatActivity implements KMS_A
         }
     }
 
-    public void onButtonContactAddOnClicked(View v){
+    public void onButtonContactAddOnClicked(View v) {
         Intent intent = new Intent(Intent.ACTION_PICK);
         intent.setData(ContactsContract.CommonDataKinds.Phone.CONTENT_URI);
         startActivityForResult(intent, contact);
     }
 
 
-    public void onButtonImageAddClicked(View v){
+    public void onButtonImageAddClicked(View v) {
         permissionCheck();
         try {
             new GligarPicker().requestCode(pickImage).withActivity(hep_LocationSaveActivity.this).limit(imageSizeLimit).show();
-        } catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
@@ -200,22 +246,22 @@ public class hep_LocationSaveActivity extends AppCompatActivity implements KMS_A
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        switch (requestCode){
+        switch (requestCode) {
             case contact:
-                if(resultCode == RESULT_OK){
+                if (resultCode == RESULT_OK) {
                     Cursor cursor = getContentResolver().query(data.getData(),
                             new String[]{ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME,
                                     ContactsContract.CommonDataKinds.Phone.NUMBER}, null, null, null);
                     cursor.moveToFirst();
-                    ((TextView)findViewById(R.id.locationDetailViewName)).setText(cursor.getString(0));
-                    ((TextView)findViewById(R.id.locationContact)).setText(cursor.getString(1));
+                    ((TextView) findViewById(R.id.locationDetailViewName)).setText(cursor.getString(0));
+                    ((TextView) findViewById(R.id.locationContact)).setText(cursor.getString(1));
                     cursor.close();
                 }
                 break;
 
             case pickImage:
-                if(resultCode == RESULT_OK){
-                    if(new hep_locationImageDataArr().getImageDataArrayInstance().size() < 5) {
+                if (resultCode == RESULT_OK) {
+                    if (new hep_locationImageDataArr().getImageDataArrayInstance().size() < 5) {
                         String pathsList[] = data.getExtras().getStringArray(GligarPicker.IMAGES_RESULT); // return list of selected images paths.
 
                         try {
@@ -249,8 +295,7 @@ public class hep_LocationSaveActivity extends AppCompatActivity implements KMS_A
                             e.printStackTrace();
                         }
                         imageSizeLimit -= pathsList.length;
-                    }
-                    else{
+                    } else {
                         toastMake("사진은 5장까지 선택할 수 있습니다.");
                     }
                 }
@@ -258,34 +303,34 @@ public class hep_LocationSaveActivity extends AppCompatActivity implements KMS_A
         }
     }
 
-    public void removeCurrentItem(){
+    public void removeCurrentItem() {
         int position = viewPager.getCurrentItem();
         new hep_locationImageDataArr().getImageDataArrayInstance().remove(position);
-        ((hep_FlowLayout)findViewById(R.id.imageFlowLayout)).removeViewAt(position);
+        ((hep_FlowLayout) findViewById(R.id.imageFlowLayout)).removeViewAt(position);
         viewPagerAdapter.notifyDataSetChanged();
         imageSizeLimit += 1;
         setVisibilityInformationImage();
     }
 
     public void setVisibilityInformationImage() {
-        if(viewPager.getChildCount() == 0)
+        if (viewPager.getChildCount() == 0)
             findViewById(R.id.linearlayoutInformationImageAdd).setVisibility(View.VISIBLE);
         else
             findViewById(R.id.linearlayoutInformationImageAdd).setVisibility(View.INVISIBLE);
     }
 
 
-    public void onButtonLocationSaveClicked(View v){
-        if(!((EditText)findViewById(R.id.locationName)).getText().toString().trim().equals("")){
+    public void onButtonLocationSaveClicked(View v) {
+        if (!((EditText) findViewById(R.id.locationName)).getText().toString().trim().equals("")) {
 
             DatabaseReference locationReference = new hep_FireBase().getFireBaseDatabaseInstance().getReference().child("location").push();
 
             hep_Location hep_Location = new hep_Location(
-                    ((EditText)findViewById(R.id.locationName)).getText().toString(),
-                    ((EditText)findViewById(R.id.locationAddr)).getText().toString(),
-                    ((EditText)findViewById(R.id.locationDetailAddr)).getText().toString(),
-                    ((EditText)findViewById(R.id.locationContact)).getText().toString(),
-                    ((EditText)findViewById(R.id.locationMemo)).getText().toString(),
+                    ((EditText) findViewById(R.id.locationName)).getText().toString(),
+                    ((EditText) findViewById(R.id.locationAddr)).getText().toString(),
+                    ((EditText) findViewById(R.id.locationDetailAddr)).getText().toString(),
+                    ((EditText) findViewById(R.id.locationContact)).getText().toString(),
+                    ((EditText) findViewById(R.id.locationMemo)).getText().toString(),
                     latitude,
                     longitude
             );
@@ -295,7 +340,7 @@ public class hep_LocationSaveActivity extends AppCompatActivity implements KMS_A
 
             final String locationid = locationReference.getKey();
 
-            for(int i = 0; i < new hep_HashTagArr().getHashTagArr().size(); i++) {
+            for (int i = 0; i < new hep_HashTagArr().getHashTagArr().size(); i++) {
                 // tag 중복 체크
                 new hep_FireBase().insertTag(new hep_HashTagArr().getHashTagArr().get(i), new hep_Callback() {
                     @Override
@@ -325,7 +370,7 @@ public class hep_LocationSaveActivity extends AppCompatActivity implements KMS_A
                 });
             }
 
-            for(int i = 0; i < new hep_locationImageDataArr().getImageDataArrayInstance().size(); i++) {
+            for (int i = 0; i < new hep_locationImageDataArr().getImageDataArrayInstance().size(); i++) {
                 //image storage 저장
                 StorageReference LocationImagesRef = new hep_FireBase().getFirebaseStorageInstance().getReference().child("locationimages/" + UUID.randomUUID().toString()); // 랜덤 이름 생성
                 Bitmap bitmap = new hep_locationImageDataArr().getImageDataArrayInstance().get(i).bitmap;
@@ -351,13 +396,12 @@ public class hep_LocationSaveActivity extends AppCompatActivity implements KMS_A
                 });
             }
 
-
             int delay;
-            if(new hep_locationImageDataArr().getImageDataArrayInstance().size() > new hep_HashTagArr().getHashTagArr().size())
+            if (new hep_locationImageDataArr().getImageDataArrayInstance().size() > new hep_HashTagArr().getHashTagArr().size())
                 delay = new hep_locationImageDataArr().getImageDataArrayInstance().size();
             else
                 delay = new hep_HashTagArr().getHashTagArr().size();
-            if(new hep_locationImageDataArr().getImageDataArrayInstance().size() == 0 && new hep_HashTagArr().getHashTagArr().size() == 0)
+            if (new hep_locationImageDataArr().getImageDataArrayInstance().size() == 0 && new hep_HashTagArr().getHashTagArr().size() == 0)
                 delay = 3;
 
             toastMake("저장 중");
@@ -370,57 +414,35 @@ public class hep_LocationSaveActivity extends AppCompatActivity implements KMS_A
                     new hep_locationImageDataArr().getImageDataArrayInstance().clear();
                     setFragment();
                 }
-            },1000 * delay);
-
-        }
-        else{
+            }, 1000 * delay);
+            Log.d("#####hide add", "저장 눌러도 정상 작동");
+        } else {
             toastMake("이름을 입력해주세요");
         }
     }
 
-    public ArrayList<String> getTagDataArrayList(){
+    public ArrayList<String> getTagDataArrayList() {
         return tagDataArrayList;
     }
 
-    private void setFragment(){
-        setResult(RESULT_OK, new Intent().putExtra("result",LOCATION_RECYCLERVIEW_FRAGMENT));
+    private void setFragment() {
+        setResult(RESULT_OK, new Intent().putExtra("result", LOCATION_RECYCLERVIEW_FRAGMENT));
         finish();
     }
-
-    boolean addFragmentFlag = false;
 
     @Override
     public void onBackPressed() {
         //super.onBackPressed();
-        if(LocationAddFragment == null){
-            toastMake("프래그먼트 생성조차 되지 않음");
-            finish();
-        }
+        Log.d("#####에드 액티비티 종료 ", "액티비티만 종료");
 
-        else if(addFragmentFlag == false){
-            toastMake("프래그먼트 remove & flag false");
-            //fragmentTransaction.remove(LocationAddFragment).commit();
-            fragmentManager.beginTransaction().remove(LocationAddFragment).commit();
-
-            //hep_LocationSaveActivity.this.getSupportFragmentManager().beginTransaction().remove(LocationAddFragment).commit();
-            LocationAddFragment = null;
-            finish();
-        }
-        else if (LocationAddFragment != null) { //프래그먼트 있을 때 누르면 숨김
-            toastMake("프래그먼트 hide");
-            //fragmentTransaction.hide(LocationAddFragment).commit();
-            fragmentManager.beginTransaction().hide(LocationAddFragment).commit();
-            hep_LocationSaveActivity.this.getSupportFragmentManager().beginTransaction().hide(LocationAddFragment).commit();
-            addFragmentFlag = false;
-        }
-        else
-            toastMake("프래그먼트 종료 오류");
+        finish();
     }
 
+    public void onbtnChangeAddrClicked(View v) {
+        setTempValue();
+        finish();
+/*        if (LocationAddFragment == null && addFragmentFlag == false) { //프래그먼트 있을 때 누르면 숨김
 
-    public void onbtnChangeAddrClicked(View v){
-        if (LocationAddFragment == null && addFragmentFlag == false) { //프래그먼트 있을 때 누르면 숨김
-//            LocationAddFragment = new KMS_AddLocationFragment();
 
             fragmentManager = getSupportFragmentManager();
             LocationAddFragment = new KMS_AddLocationFragment();
@@ -447,6 +469,8 @@ public class hep_LocationSaveActivity extends AppCompatActivity implements KMS_A
             hep_LocationSaveActivity.this.getSupportFragmentManager().beginTransaction().show(LocationAddFragment).commit();
             addFragmentFlag = true;
         }
+        */
+
     }
 
     @Override
@@ -468,7 +492,7 @@ public class hep_LocationSaveActivity extends AppCompatActivity implements KMS_A
     public void onTimePickerSet(int hour, int min, String s) {   //프레그먼트 데이터 받아오는 함수 오버라이드
         mHour = hour;
         mMin = min;
-        Log.d("#####프레그먼트 -> 액티비티", mHour + " / " + mMin + " / int to string : " + (Integer)mMin);
+        Log.d("#####프레그먼트 -> 액티비티", mHour + " / " + mMin + " / int to string : " + (Integer) mMin);
         Log.d("#####프레그먼트 -> 액티비티", "스트링 값 : " + s);
     }
 }

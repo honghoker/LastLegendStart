@@ -2,7 +2,9 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/HEP-LocationSave.iml" filepath="$PROJECT_DIR$/.idea/modules/HEP-LocationSave.iml" group="LocationSave" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/LocationSave.iml" filepath="$PROJECT_DIR$/.idea/modules/LocationSave.iml" group="LocationSave" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/LocationSave-app.iml" filepath="$PROJECT_DIR$/.idea/modules/app/LocationSave-app.iml" group="LocationSave/app" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/app.iml" filepath="$PROJECT_DIR$/.idea/modules/app/app.iml" group="LocationSave/app" />
     </modules>
   </component>
