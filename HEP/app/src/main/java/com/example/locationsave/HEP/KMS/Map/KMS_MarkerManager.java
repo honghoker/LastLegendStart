@@ -138,7 +138,7 @@ public class KMS_MarkerManager {
 //        marker.setMap(NMap);
 //    } //add marker 종료
 
-    public void addRecycleMarker(ArrayList<Marker> markers, String name, double latitude, double longitude){
+    public void addRecycleMarker(final ArrayList<Marker> markers, String name, double latitude, double longitude){
         final Marker marker = new Marker();
 
         marker.setCaptionText(name);
@@ -150,20 +150,21 @@ public class KMS_MarkerManager {
         marker.setWidth(120);
         marker.setHeight(160);
         marker.setHideCollidedSymbols(true); //겹치는 오버레이 제거
+
+        //marker.isHideCollidedCaptions();
+        marker.setHideCollidedCaptions(true);
+        marker.setHideCollidedMarkers(true);
+        Log.d("####마커인포",   "#####리사이클 생성"  );
+
         marker.setOnClickListener(new Overlay.OnClickListener() { //마커 클릭이벤트 추가
             @Override
             public boolean onClick(@NonNull Overlay overlay) {
                 cameraManager.MoveCameraOnMarkerPosition(marker, NMap); //카메라를 마커 위치로 이동
-
-                //textView.setText(marker.getCaptionText());
                 Log.d("####마커인포",   "#####셋 마커 에드 후" + kms_markerInformationFlagManager.flagGetMarkerInformationFlag() );
 
-                /*
-                //장소 삭제
-                marker.setMap(null);
-                markers.remove(marker);
-                Log.d("####addMarker",   "남은 피카츄 수" + markers.size());
-                */
+                setMarkerLank();
+                //textView.setText(marker.getCaptionText());
+
                 return false;
             }
         });
@@ -173,6 +174,16 @@ public class KMS_MarkerManager {
         marker.setMap(NMap);
     } //add marker 종료
 
+    public void setMarkerLank(){ //마커 우선순위
+        int i = 0;
+        for(Marker marker : recyclerviewMarkers){
+            Log.d("####마커인포",   "클릭하면 리사이클 캡션 반환" + marker.getCaptionText() );
+            if(marker == recyclerviewMarkers.get(i)){
+                Log.d("####마커인포",   "클릭한 얘는 있는 마커네요. " + recyclerviewMarkers.get(i).getCaptionText() );
+            }
+            i++;
+        }
+    }
 
     public void setMarkerInformation(){
             if (KMS_MainActivity.linearLayoutMakerInformation.getVisibility() == View.GONE) {  //만약 셀렉트 로케이션이 보이지 않으면
