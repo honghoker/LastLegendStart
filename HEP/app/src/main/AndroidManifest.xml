@@ -7,6 +7,8 @@
     <uses-permission android:name="android.permission.CAMERA"/>
     <uses-permission android:name="android.permission.INTERNET"/>
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.INTERNET"/>
 
     <!--android:requestLegacyExternalStorage="true" // android 10부터 사진권한 받기위해 추가  https://darkstart.tistory.com/66 -->
     <application android:requestLegacyExternalStorage="true"

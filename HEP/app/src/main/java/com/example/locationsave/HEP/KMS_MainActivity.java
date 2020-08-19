@@ -75,6 +75,7 @@ import com.example.locationsave.HEP.KMS.Toolbar.KSH_LoadLocation;
 import com.example.locationsave.HEP.KSH.KSH_AllSeeActivity;
 import com.example.locationsave.HEP.KSH.KSH_DirectoryEntity;
 import com.example.locationsave.HEP.KSH.KSH_LoadingActivity;
+import com.example.locationsave.HEP.KSH.KSH_NetworkStatus;
 import com.example.locationsave.HEP.KSH.KSH_RecyAdapter;
 
 import com.example.locationsave.HEP.KSH.NavIntent.KSH_NoticeIntent;
@@ -151,6 +152,15 @@ public class KMS_MainActivity extends AppCompatActivity implements NavigationVie
         });
 
         Toast.makeText(getApplicationContext(), "onDestroy", Toast.LENGTH_SHORT).show();
+    }
+
+    public void networkStatus(){
+        int status = KSH_NetworkStatus.getConnectivityStatus(getApplicationContext());
+        if(status == KSH_NetworkStatus.TYPE_NOT_CONNECTED){
+            Toast.makeText(this,"인터넷에 연결되지 않았습니다.",Toast.LENGTH_SHORT).show();
+            this.finish();
+            System.exit(0);
+        }
     }
 
 //    private Spinner spinner;
@@ -845,6 +855,7 @@ public class KMS_MainActivity extends AppCompatActivity implements NavigationVie
         super.onCreate(savedInstanceState);
         setContentView(R.layout.kms_activity_main);
 //        LoadRecyclerView(); //기존 저장 함수 불러옴
+        networkStatus();
         ksh_init();
         kms_init();
 //        setMargin();  // ???
