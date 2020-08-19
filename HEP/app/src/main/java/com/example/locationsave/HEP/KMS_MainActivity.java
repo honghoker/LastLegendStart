@@ -50,6 +50,7 @@ import com.example.locationsave.HEP.KMS.BackPressed.KMS_BackPressedForFinish;
 import com.example.locationsave.HEP.KMS.HashTag.KMS_FlowLayout;
 import com.example.locationsave.HEP.KMS.HashTag.KMS_HashTag;
 import com.example.locationsave.HEP.KMS.HashTag.KMS_HashTagCheckBoxManager;
+import com.example.locationsave.HEP.KMS.HashTag.Pcs_HashTagCallback;
 import com.example.locationsave.HEP.KMS.Location.KMS_LocationFlagManager;
 import com.example.locationsave.HEP.KMS.Location.KMS_SelectLocation;
 import com.example.locationsave.HEP.KMS.MainFragment.KMS_MapFragment;
@@ -167,7 +168,8 @@ public class KMS_MainActivity extends AppCompatActivity implements NavigationVie
     private ArrayList<String> arrayKey;
     private NavigationView navigationView;
     private KSH_DirectoryEntity ksh_directoryEntity;
-
+    private KMS_HashTagCheckBoxManager kms_hashTagCheckBoxManager; //HASHTAG BOX
+    private KMS_HashTagCheckBoxFlagManager kms_hashTagCheckBoxFlagManager;
     private Object OnItemClickListener;
     public void ksh_init(){
         startService(new Intent(this, hep_closeAppService.class)); // 앱 종료 이벤트
@@ -217,12 +219,11 @@ public class KMS_MainActivity extends AppCompatActivity implements NavigationVie
     //7. HashTag
     public static LinearLayout hastagView;
     //    CheckBox checkBoxAllHashTag; //체크박스 명 선언
-    public static KMS_HashTag[] msHashTag = new KMS_HashTag[10]; //태그 배열
+    public static KMS_HashTag[] msHashTag; //태그 배열
     public static KMS_FlowLayout.LayoutParams params = new KMS_FlowLayout.LayoutParams(20, 20);
-    ; //해시태그 레이아웃을 위한 parms
-    KMS_HashTagCheckBoxFlagManager kms_hashTagCheckBoxFlagManager = KMS_HashTagCheckBoxFlagManager.getInstanceHashTagCheckBox();
+
     //    HasTagOnClickListener hasTagOnClickListener = new HasTagOnClickListener();
-    KMS_HashTagCheckBoxManager kms_hashTagCheckBoxManager = KMS_HashTagCheckBoxManager.getInstanceHashTagCheckBox();
+
     //8. FloatingIcon
     public static FloatingActionButton floatingButton;
     KMS_LocationFlagManager kms_locationFlagManager = KMS_LocationFlagManager.getInstanceLocation();
@@ -318,12 +319,7 @@ public class KMS_MainActivity extends AppCompatActivity implements NavigationVie
         hastagView = findViewById(R.id.HasTagView); //7. HashTag
         hastagView.setBackgroundResource(R.drawable.hashtag);
 
-//        addHashTag(); //해시태그 추가
-//        checkAllHashTag(); //체크 해시태그
-        View test_view = findViewById(R.id.drawer_layout);
-        KMS_HashTagCheckBoxManager kms_hashTagCheckBoxManager = new KMS_HashTagCheckBoxManager(this, test_view);
-        kms_hashTagCheckBoxManager.addHashTag();
-        kms_hashTagCheckBoxManager.checkAllHashTag();
+
 
         floatingButton = findViewById(R.id.floatingActionButton);  // 8.floating icon
         mainContext = this; //9. Location Layout
@@ -586,7 +582,7 @@ public class KMS_MainActivity extends AppCompatActivity implements NavigationVie
                 break;
             case R.id.btnFilterCancel:
                 hideHashTagFilter();
-                setFloatingItem(kms_hashTagCheckBoxFlagManager.flagGethashTagCheckBoxFlag());
+//                setFloatingItem(kms_hashTagCheckBoxFlagManager.flagGethashTagCheckBoxFlag());
                 break;
             default:
                 break;
@@ -598,7 +594,7 @@ public class KMS_MainActivity extends AppCompatActivity implements NavigationVie
             animation = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.alpha);
             hastagView.setAnimation(animation);
             hastagView.setVisibility(mView.VISIBLE);
-            kms_hashTagCheckBoxFlagManager.flagSetTruehashTagCheckBoxFlag(); //해시태그 체크박스 true로 변경
+//            kms_hashTagCheckBoxFlagManager.flagSetTruehashTagCheckBoxFlag(); //해시태그 체크박스 true로 변경
         }
     }
 
@@ -846,6 +842,7 @@ public class KMS_MainActivity extends AppCompatActivity implements NavigationVie
         setContentView(R.layout.kms_activity_main);
 //        LoadRecyclerView(); //기존 저장 함수 불러옴
         ksh_init();
+        pcs_hashTagInit();
         kms_init();
 //        setMargin();  // ???
         logtest("온크리트 초기 flag  값");
@@ -1049,14 +1046,6 @@ public class KMS_MainActivity extends AppCompatActivity implements NavigationVie
 //        hastagView = findViewById(R.id.HasTagView);
 //        hastagView.setBackgroundResource(R.drawable.hashtag);
 
-//        addHashTag(); //해시태그 추가
-//        checkAllHashTag(); //체크 해시태그
-        View test_view = findViewById(R.id.drawer_layout);
-        KMS_HashTagCheckBoxManager kms_hashTagCheckBoxManager = new KMS_HashTagCheckBoxManager(this, test_view);
-        kms_hashTagCheckBoxManager.addHashTag();
-        kms_hashTagCheckBoxManager.checkAllHashTag();
-
-
 //        // 8.floating icon
 //        floatingButton = findViewById(R.id.floatingActionButton);
 //
@@ -1207,6 +1196,19 @@ public class KMS_MainActivity extends AppCompatActivity implements NavigationVie
         });
 //        relativeLayoutRoadLoaction = findViewById(R.id.relativeLayout_loadLoaction);
     } //oncreate 종료
+
+    private void pcs_hashTagInit() {
+        View v = drawerLayout;
+        kms_hashTagCheckBoxManager = new KMS_HashTagCheckBoxManager(this, v);
+        kms_hashTagCheckBoxManager.initHashTag(new Pcs_HashTagCallback() {
+            @Override
+            public void onSuccess(KMS_HashTag[] kms_hashTags) {
+                msHashTag = kms_hashTags;
+            }
+        });
+        kms_hashTagCheckBoxManager.checkAllHashTag();
+        kms_hashTagCheckBoxFlagManager = new KMS_HashTagCheckBoxFlagManager(msHashTag);
+    }
 
     public static LinearLayout linearLayoutMakerInformation;
     public static TextView textViewMarkerInformationTitle;
