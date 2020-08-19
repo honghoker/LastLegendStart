@@ -76,11 +76,6 @@ public class hep_LocationSaveActivity extends AppCompatActivity implements KMS_A
 
     public static final boolean LOCATION_RECYCLERVIEW_FRAGMENT = true;
 
-    //public static FragmentManager LocationfragmentManager;
-    public static Fragment LocationAddFragment = null;
-    FragmentManager fragmentManager = getSupportFragmentManager();
-    FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
