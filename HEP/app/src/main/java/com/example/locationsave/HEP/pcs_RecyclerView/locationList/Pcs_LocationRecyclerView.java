@@ -2,6 +2,8 @@ package com.example.locationsave.HEP.pcs_RecyclerView.locationList;
 
 import android.content.Context;
 import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Gravity;
@@ -165,10 +167,17 @@ public class Pcs_LocationRecyclerView extends Fragment {
 //                final Pcs_PopupRecyclerview pcs_PopupRecyclerview = new Pcs_PopupRecyclerview(getContext(), adapter.getLocation(position));
                 final Pcs_PopupRecyclerview pcs_PopupRecyclerview = new Pcs_PopupRecyclerview(getActivity(), adapter.getLocation(position));
                 pcs_PopupRecyclerview.setHeight(WindowManager.LayoutParams.WRAP_CONTENT);
-                pcs_PopupRecyclerview.setWidth((int)(200*getResources().getDisplayMetrics().density));
+                //pcs_PopupRecyclerview.setWidth((int)(200*getResources().getDisplayMetrics().density));
+                pcs_PopupRecyclerview.setWidth(WindowManager.LayoutParams.WRAP_CONTENT);
                 pcs_PopupRecyclerview.setFocusable(true);
-//                pcs_PopupRecyclerview.showAsDropDown(getView(), 0, 250);
-                pcs_PopupRecyclerview.showAsDropDown(getView(), 100, 100, Gravity.CENTER);
+
+
+                try {
+                    pcs_PopupRecyclerview.showAsDropDown(getView(), (int) recyclerView.getLayoutManager().findViewByPosition(position).getX(), (int) recyclerView.getLayoutManager().findViewByPosition(position).getY(), Gravity.CENTER);
+                }catch (Exception e){
+                    e.printStackTrace();
+                }
+
 
 //                popupWindow.show(getActivity().findViewById(R.id.drawer_layout),0, -250, hep_location.getDirectoryid());
 //                startActivity(intent);
