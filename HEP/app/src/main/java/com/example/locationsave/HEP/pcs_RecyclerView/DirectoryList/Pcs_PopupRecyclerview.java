@@ -23,25 +23,25 @@ import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.database.Query;
 
 public class Pcs_PopupRecyclerview extends PopupWindow {
-    private Context context;
+    private Activity activity;
     private RecyclerView recyclerView;
     private Pcs_popupAdapter recyclerviewAdapter;
     private CapsulizeDataObjectNKey currentSelectedLocationKey;
     private View view;
-    public Pcs_PopupRecyclerview(Context context, CapsulizeDataObjectNKey currentSelectedLocationKey){
-        super(context);
-        this.context = context;
+    public Pcs_PopupRecyclerview(Activity activity, CapsulizeDataObjectNKey currentSelectedLocationKey){
+        super(activity);
+        this.activity = activity;
         this.currentSelectedLocationKey = currentSelectedLocationKey;
         setupView();
 
     }
 
     private void setupView() {
-        this.view = LayoutInflater.from(context).inflate(R.layout.pcs_directory_popupactivity, null);
+        this.view = LayoutInflater.from(activity).inflate(R.layout.pcs_directory_popupactivity, null);
         recyclerView = view.findViewById(R.id.pcs_directoryRecyclerview);
         recyclerView.setHasFixedSize(true);
-        recyclerView.setLayoutManager(new LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false));
-        recyclerView.addItemDecoration(new DividerItemDecoration(context, LinearLayoutManager.VERTICAL));
+        recyclerView.setLayoutManager(new LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false));
+        recyclerView.addItemDecoration(new DividerItemDecoration(activity, LinearLayoutManager.VERTICAL));
 
         Query query = new hep_FireBase().getFireBaseDatabaseInstance().getReference().child("directory");
         FirebaseRecyclerOptions options = new FirebaseRecyclerOptions.Builder<KSH_DirectoryEntity>()
