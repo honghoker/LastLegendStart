@@ -36,14 +36,9 @@ public class hep_LocationSave_TempValue {
         Memo = memo;
         this.ImageDataArray = new ArrayList<>();
         this.ImageDataArray.addAll(new hep_locationImageDataArr().getImageDataArrayInstance());
-        for(hep_ImageData hep_imageData : ImageDataArray){
-            Log.d("@@@", "bitmap = " + hep_imageData.bitmap);
-        }
-
-
+        
         this.hashTagArr = new ArrayList<>();
         this.hashTagArr.addAll(new hep_HashTagArr().getHashTagArr());
-        Log.d("@@@@", "hashTagArr size = " + this.hashTagArr.size());
     }
 
     public String getTitle() {
