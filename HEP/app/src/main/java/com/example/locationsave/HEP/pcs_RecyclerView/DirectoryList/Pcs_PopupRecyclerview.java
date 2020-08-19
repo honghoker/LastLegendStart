@@ -23,41 +23,44 @@ import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.database.Query;
 
 public class Pcs_PopupRecyclerview extends PopupWindow {
-    private Context context;
+    private Activity activity;
     private RecyclerView recyclerView;
     private Pcs_popupAdapter recyclerviewAdapter;
     private CapsulizeDataObjectNKey currentSelectedLocationKey;
     private View view;
-    public Pcs_PopupRecyclerview(Context context, CapsulizeDataObjectNKey currentSelectedLocationKey){
-        super(context);
-        this.context = context;
+    public Pcs_PopupRecyclerview(Activity activity, CapsulizeDataObjectNKey currentSelectedLocationKey){
+        super(activity);
+        this.activity = activity;
         this.currentSelectedLocationKey = currentSelectedLocationKey;
         setupView();
 
     }
 
     private void setupView() {
-        this.view = LayoutInflater.from(context).inflate(R.layout.pcs_directory_popupactivity, null);
+        this.view = LayoutInflater.from(activity).inflate(R.layout.pcs_directory_popupactivity, null);
         recyclerView = view.findViewById(R.id.pcs_directoryRecyclerview);
         recyclerView.setHasFixedSize(true);
-        recyclerView.setLayoutManager(new LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false));
-        recyclerView.addItemDecoration(new DividerItemDecoration(context, LinearLayoutManager.VERTICAL));
+        recyclerView.setLayoutManager(new LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false));
+        recyclerView.addItemDecoration(new DividerItemDecoration(activity, LinearLayoutManager.VERTICAL));
 
         Query query = new hep_FireBase().getFireBaseDatabaseInstance().getReference().child("directory");
         FirebaseRecyclerOptions options = new FirebaseRecyclerOptions.Builder<KSH_DirectoryEntity>()
                 .setQuery(query, KSH_DirectoryEntity.class).build();
 
-        recyclerviewAdapter = new Pcs_popupAdapter(options, currentSelectedLocationKey);
+        recyclerviewAdapter = new Pcs_popupAdapter(options, currentSelectedLocationKey, this);
         recyclerView.setAdapter(recyclerviewAdapter);
         recyclerviewAdapter.startListening();
         setContentView(view);
     }
 
-    @Override
-    public void dismiss() {
-
-        Snackbar snackbar = Snackbar.make(view, "Snackbar", Snackbar.LENGTH_LONG);
+    public void alterDismiss(final Pcs_alterdismiss pcs_alterdismiss){
+        Snackbar snackbar = Snackbar.make(activity.findViewById(android.R.id.content), "Snackbar", Snackbar.LENGTH_LONG).setAction("되돌리기",new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                pcs_alterdismiss.UndoData();
+            }
+        });
         snackbar.show();
-        super.dismiss();
+        dismiss();
     }
 }
