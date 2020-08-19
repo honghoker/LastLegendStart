@@ -7,37 +7,23 @@
     android:layout_marginTop="8dp"
     android:layout_marginEnd="8dp"
     app:cardBackgroundColor="#FFFFE8"
-    app:cardCornerRadius="5dp"
     app:cardElevation="2dp">
 
     <RelativeLayout
+        android:id="@+id/pcs_directoryLayout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:background="@drawable/directory_layout_select_color">
 
         <TextView
             android:id="@+id/pcs_directoryTextview"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:ems="15"
             android:maxLines="1"
             android:text="Directory Name"
-            android:textSize="30dp"
-            android:layout_marginLeft="20dp"
-            android:ems="15"/>
-        <RadioGroup
-            android:id="@+id/pcs_directoryRadioGroup"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_centerHorizontal="true"
-            android:layout_centerVertical="true"
-            android:layout_marginRight="5dp">
-
-            <RadioButton
-                android:id="@+id/pcs_directoryRadiobutton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                />
-        </RadioGroup>
+            android:textSize="30dp" />
 
     </RelativeLayout>
 </androidx.cardview.widget.CardView>

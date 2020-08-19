@@ -60,15 +60,15 @@ public class Pcs_RecyclerviewAdapter extends FirebaseRecyclerAdapter<hep_Locatio
 
         return new ListHolder(v);
     }
-    public CapsulizeData deleteItem(int position) {
+    public CapsulizeDataObjectNKey deleteItem(int position) {
         DataSnapshot dataSnapshot = getSnapshots().getSnapshot(position);
         getSnapshots().getSnapshot(position).getRef().removeValue();
-        return new CapsulizeData(dataSnapshot.getValue(hep_Location.class), getSnapshots().getSnapshot(position).getKey());
+        return new CapsulizeDataObjectNKey(dataSnapshot.getValue(hep_Location.class), getSnapshots().getSnapshot(position).getKey());
     }
 
-    public hep_Location getLocation(int position) {
-         return getSnapshots().getSnapshot(position).getValue(hep_Location.class);
-
+    public CapsulizeDataObjectNKey getLocation(int position) {
+        DataSnapshot currentLocation = getSnapshots().getSnapshot(position);
+        return new CapsulizeDataObjectNKey(currentLocation.getValue(hep_Location.class), currentLocation.getKey());
     }
 
     class ListHolder extends RecyclerView.ViewHolder{
