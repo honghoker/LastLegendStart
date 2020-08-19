@@ -80,6 +80,7 @@ public class Pcs_popupAdapter extends FirebaseRecyclerAdapter<KSH_DirectoryEntit
             });
         }
     }
+
     private void setDirectoryKey(final String selectItemDirectoryKey, final View v){
         final String[] preDirectoryid = new String[1];
         final DatabaseReference db= new hep_FireBase().getFireBaseDatabaseInstance().getReference();

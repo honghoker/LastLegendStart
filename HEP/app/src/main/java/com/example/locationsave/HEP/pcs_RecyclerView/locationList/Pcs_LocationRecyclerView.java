@@ -56,7 +56,7 @@ public class Pcs_LocationRecyclerView extends Fragment {
     hep_LocationSaveActivity hep_locationSaveActivity;
     private ViewGroup rootView;
     private Pcs_RecyclerViewSwipeHelper recyclerViewSwipeHelper;
-    LappingDismissData lappingDismissData = null;
+    WrappingDismissData wrappingDismissData = null;
 
     @Nullable
     @Override
@@ -180,13 +180,13 @@ public class Pcs_LocationRecyclerView extends Fragment {
                 //When DeleteItem, Get Location Data and Key
                 final CapsulizeDataObjectNKey lappingDataNKey = adapter.deleteItem(position);
                 //related dismiss data store and lapping
-                lappingDismissData = new LappingDismissData(lappingDataNKey);
-                lappingDismissData.onDismiss();
+                wrappingDismissData = new WrappingDismissData(lappingDataNKey);
+                wrappingDismissData.onDismiss();
 
                 Snackbar.make(getActivity().findViewById(android.R.id.content),"삭제완료",Snackbar.LENGTH_LONG).setAction("되돌리기", new View.OnClickListener(){
                     @Override
                     public void onClick(View v) {
-                        lappingDismissData.onUndo();
+                        wrappingDismissData.onUndo();
                     }
 
                 }).show();
@@ -210,7 +210,7 @@ public class Pcs_LocationRecyclerView extends Fragment {
 //Constructor is Dismiss And Make Temp data
 //Each Class contain data
 //One LappingDismissData can contain several CapsulizationData
-class LappingDismissData{
+class WrappingDismissData {
     private DatabaseReference databaseReference = new hep_FireBase().getFireBaseDatabaseInstance().getReference();
 
     private CapsulizeDataObjectNKey hep_location;
@@ -220,7 +220,7 @@ class LappingDismissData{
     private String key;
 
 
-    public LappingDismissData(CapsulizeDataObjectNKey hep_location) {
+    public WrappingDismissData(CapsulizeDataObjectNKey hep_location) {
         this.hep_location = hep_location;
         this.key = hep_location.getDataKey();
     }

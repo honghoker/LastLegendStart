@@ -44,8 +44,8 @@ public class KMS_HashTagCheckBoxManager {
     public class HasTagOnClickListener implements Button.OnClickListener {
         @Override
         public void onClick(View v) {
-//            Log.d("6","asdasdasd");
-//            kms_hashTagCheckBoxFlagManager.HashTagClickEvent(context ,v);
+            Log.d("6","asdasdasd");
+            OnHashTagClickListener();
         }
     }
     HasTagOnClickListener hasTagOnClickListener = new HasTagOnClickListener();
@@ -130,5 +130,22 @@ public class KMS_HashTagCheckBoxManager {
 
             }
         });
+    }
+
+    private void OnHashTagClickListener(){
+        for (int j = 1; j < kms_hashTags.length; j++) {
+            if (view.getId() == j) {
+                kms_hashTags[j].init(kms_hashTags[j].getHashText(), "#3F729B", R.drawable.hashtagclick, params);
+                kms_hashTags[j].setId(-j);
+                Toast.makeText(context,"id : " + kms_hashTags[j].getId() + "/ text : " + kms_hashTags[j].getHashText(),Toast.LENGTH_SHORT).show();
+                hashTagText.add(kms_hashTags[j].getHashText());
+                break;
+            } else if (view.getId() == -j) {
+                kms_hashTags[j].init(kms_hashTags[j].getHashText(), "#3F729B", R.drawable.hashtagunclick, params);
+                kms_hashTags[j].setId(j);
+                hashTagText.remove(kms_hashTags[j].getHashText());
+                break;
+            }
+        }//for 문 종료
     }
 }
