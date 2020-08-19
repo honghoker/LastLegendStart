@@ -18,12 +18,10 @@ import java.util.List;
 import static com.example.locationsave.HEP.KMS_MainActivity.params;
 
 public class KMS_HashTagCheckBoxFlagManager extends AppCompatActivity {
-    private static final KMS_HashTagCheckBoxFlagManager hashTagCheckBoxInstance = new KMS_HashTagCheckBoxFlagManager();
+    private KMS_HashTag[] kms_hashTags;
 
-    private KMS_HashTagCheckBoxFlagManager() {}
-
-    public static KMS_HashTagCheckBoxFlagManager getInstanceHashTagCheckBox(){
-        return hashTagCheckBoxInstance;
+    public KMS_HashTagCheckBoxFlagManager(KMS_HashTag[] kms_hashTags) {
+        this.kms_hashTags = kms_hashTags;
     }
 
     //hashtag checkbox flag 설정
@@ -58,8 +56,6 @@ public class KMS_HashTagCheckBoxFlagManager extends AppCompatActivity {
     }
 
 
-
-    KMS_HashTag[] kms_hashTags = KMS_MainActivity.msHashTag; //메인액티비티 해시태그 배열
     public static List<String> hashTagText = new ArrayList(); //확인누르면 추가된다.
 
     public static Context mContext;
@@ -112,7 +108,7 @@ public class KMS_HashTagCheckBoxFlagManager extends AppCompatActivity {
         imsi = "";
     }
     public void CheckBoxAllUnClick(Context context) {
-        KMS_HashTag[] hs = KMS_MainActivity.msHashTag;
+        KMS_HashTag[] hs = kms_hashTags;
         for (int j = 1; j < hs.length; j++) {
             hs[j].init(hs[j].getHashText(), "#3F729B", R.drawable.hashtagunclick, params);
             hs[j].setId(j);

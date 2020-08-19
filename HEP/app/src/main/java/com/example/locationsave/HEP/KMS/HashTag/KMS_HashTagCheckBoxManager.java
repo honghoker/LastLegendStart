@@ -8,27 +8,33 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+
+import com.example.locationsave.HEP.Hep.hep_DTO.hep_Tag;
+import com.example.locationsave.HEP.Hep.hep_FireBase;
 import com.example.locationsave.HEP.KMS_MainActivity;
 import com.example.locationsave.R;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.ValueEventListener;
 
 import static com.example.locationsave.HEP.KMS.HashTag.KMS_HashTagCheckBoxFlagManager.hashTagText;
 import static com.example.locationsave.HEP.KMS_MainActivity.msHashTag;
 import static com.example.locationsave.HEP.KMS_MainActivity.params;
 
 public class KMS_HashTagCheckBoxManager {
-    private static final KMS_HashTagCheckBoxManager hashTagCheckBoxInstance = new KMS_HashTagCheckBoxManager();
 
-    public static KMS_HashTagCheckBoxManager getInstanceHashTagCheckBox(){
-        return hashTagCheckBoxInstance;
-    }
-
+    private int TAG_TABLE_ENTITY_COUNT = 0;
     CheckBox checkBoxAllHashTag; //체크박스 명 선언
     Context context;
-    KMS_HashTagCheckBoxFlagManager kms_hashTagCheckBoxFlagManager = KMS_HashTagCheckBoxFlagManager.getInstanceHashTagCheckBox();
     View view;
     String imsi = "";
+    private KMS_HashTag[] kms_hashTags;
 
-    public KMS_HashTagCheckBoxManager(){ }
+    public KMS_HashTag[] get_hashTags() {
+        return kms_hashTags;
+    }
+
     public KMS_HashTagCheckBoxManager(Context context, View view){
         this.context = context;
         this.view = view;
@@ -39,26 +45,41 @@ public class KMS_HashTagCheckBoxManager {
         @Override
         public void onClick(View v) {
 //            Log.d("6","asdasdasd");
-            kms_hashTagCheckBoxFlagManager.HashTagClickEvent(context ,v);
+//            kms_hashTagCheckBoxFlagManager.HashTagClickEvent(context ,v);
         }
     }
     HasTagOnClickListener hasTagOnClickListener = new HasTagOnClickListener();
 
-    public void addHashTag() { //초기 해시태그 세팅
-        Log.d("6","asdasdasd");
-        for (int i = 1; i < msHashTag.length; i++) {
-            msHashTag[i] = new KMS_HashTag(context);
-            msHashTag[i].setOnClickListener(hasTagOnClickListener);
-            msHashTag[i].setId(i);
-            if (i % 3 == 0)
-                msHashTag[i].init("1", "#22FFFF", R.drawable.hashtagborder, params);
-            else if (i % 2 == 0)
-                msHashTag[i].init("초기값", "#22FFFF", R.drawable.hashtagborder, params);
-            else
-                msHashTag[i].init("asdfan32of2ofndladf", "#3F729B", R.drawable.hashtagborder, params);
+    public void initHashTag(final Pcs_HashTagCallback pcs_hashTagCallback) { //초기 해시태그 세팅
+        setHashTagSize(new Pcs_HashTagCallback() {
+            @Override
+            public void onSuccess(final KMS_HashTag[] kms_hashTags) {
+                new hep_FireBase().getFireBaseDatabaseInstance().getReference().child("tag").orderByChild("name").addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        if(snapshot.exists()){
+                            int i = 1;
+                            for(DataSnapshot dataSnapshot : snapshot.getChildren()){
+                                kms_hashTags[i] = new KMS_HashTag(context);
+                                kms_hashTags[i].setOnClickListener(hasTagOnClickListener);
+                                kms_hashTags[i].setId(i);
+                                kms_hashTags[i].init(dataSnapshot.getValue(hep_Tag.class).getName(), "#22FFFF", R.drawable.hashtagborder, params);
+//                        Log.d("tag", i + " " + dataSnapshot.getValue(hep_Tag.class).getName());
+                                ((KMS_FlowLayout) view.findViewById(R.id.HashTagflowlayout)).addView(kms_hashTags[i]);
+                                i++;
+                            }
+                        }
+                        pcs_hashTagCallback.onSuccess(kms_hashTags);
+                    }
 
-            ((KMS_FlowLayout) view.findViewById(R.id.HashTagflowlayout)).addView(msHashTag[i]);
-        }
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+
+                    }
+                });
+            }
+        });
+
     }//addHashTag 종료
 
     public void checkAllHashTag() { //해시태그 모두 선택
@@ -67,7 +88,7 @@ public class KMS_HashTagCheckBoxManager {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (checkBoxAllHashTag.isChecked()) {
-                    kms_hashTagCheckBoxFlagManager.CheckBoxAllClick(context);
+//                    kms_hashTagCheckBoxFlagManager.CheckBoxAllClick(context);
                 } else
                     CheckBoxAllUnClick(context);
             }
@@ -85,7 +106,7 @@ public class KMS_HashTagCheckBoxManager {
         imsi = "";
     }
     public void CheckBoxAllUnClick(Context context) {
-        KMS_HashTag[] hs = KMS_MainActivity.msHashTag;
+        KMS_HashTag[] hs = kms_hashTags;
         for (int j = 1; j < hs.length; j++) {
             hs[j].init(hs[j].getHashText(), "#3F729B", R.drawable.hashtagunclick, params);
             hs[j].setId(j);
@@ -93,4 +114,21 @@ public class KMS_HashTagCheckBoxManager {
         } //for 종료
     }
 
+
+    private void setHashTagSize(final Pcs_HashTagCallback pcs_hashTagCallback) {
+        new hep_FireBase().getFireBaseDatabaseInstance().getReference().child("tag").addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if(snapshot.exists()){
+                    TAG_TABLE_ENTITY_COUNT = (int) snapshot.getChildrenCount()+1; //Start 1
+                }
+                pcs_hashTagCallback.onSuccess(new KMS_HashTag[TAG_TABLE_ENTITY_COUNT]);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+    }
 }

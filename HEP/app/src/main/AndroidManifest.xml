@@ -46,9 +46,6 @@
         <meta-data
             android:name="com.naver.maps.map.CLIENT_ID"
             android:value="8qhm9zaxf6" />
-        <!--This is PCS -->
-        <activity android:name=".HEP.pcs_RecyclerView.DirectoryList.Pcs_DirectoryCustomPopupWindow"
-            android:theme="@style/dicPopupTheme" android:screenOrientation="portrait"></activity>
 
     </application>
 </manifest>
