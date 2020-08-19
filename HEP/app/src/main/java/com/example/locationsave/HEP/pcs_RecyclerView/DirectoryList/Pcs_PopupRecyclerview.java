@@ -28,8 +28,8 @@ public class Pcs_PopupRecyclerview extends PopupWindow {
     private Pcs_popupAdapter recyclerviewAdapter;
     private CapsulizeDataObjectNKey currentSelectedLocationKey;
     private View view;
-    public Pcs_PopupRecyclerview(Activity parentActivity, CapsulizeDataObjectNKey currentSelectedLocationKey){
-        super(parentActivity.getApplicationContext());
+    public Pcs_PopupRecyclerview(Context context, CapsulizeDataObjectNKey currentSelectedLocationKey){
+        super(context);
         this.context = context;
         this.currentSelectedLocationKey = currentSelectedLocationKey;
         setupView();
