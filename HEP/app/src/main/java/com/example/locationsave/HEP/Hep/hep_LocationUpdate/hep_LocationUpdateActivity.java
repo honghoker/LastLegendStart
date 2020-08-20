@@ -567,13 +567,19 @@ public class hep_LocationUpdateActivity extends AppCompatActivity implements KMS
             Bundle bundle = new Bundle(4); // 파라미터는 전달할 데이터 개수
             Log.d("%%%%%로케업뎃","장소객체 번들 전달");
 
+
+            /*
+
+            //지도에서 넘어가면 현재 화면 위치
+            kms_mapOption.setFirstAddOptions(kms_cameraManager.getCameraCurrentLatitued(),kms_cameraManager.getCameraCurrentlongitued());
             bundle.putDouble("latitude",kms_cameraManager.getCameraCurrentLatitued());
             bundle.putDouble("longitude",kms_cameraManager.getCameraCurrentlongitued());
             Log.d("%%%%%로케업뎃","좌표 전달");
+*/
 
-            //지도에서 넘어가면 현재 화면 위치
-            //kms_mapOption.setFirstAddOptions(kms_cameraManager.getCameraCurrentLatitued(),kms_cameraManager.getCameraCurrentlongitued());
             //리스트에서 넘어가면 클릭한 좌표
+            bundle.putDouble("latitude",latitude);
+            bundle.putDouble("longitude",longitude);
             kms_mapOption.setFirstAddOptions(latitude,longitude);
             Log.d("%%%%%로케업뎃","카메라 전환");
 

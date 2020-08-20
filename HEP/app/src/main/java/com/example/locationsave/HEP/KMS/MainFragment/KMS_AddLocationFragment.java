@@ -145,14 +145,14 @@ public class KMS_AddLocationFragment extends Fragment implements OnMapReadyCallb
         Log.d("%%%%%", "값 넘겨줌");
 
 
-        Button btn = rootView.findViewById(R.id.button);
+/*        Button btn = rootView.findViewById(R.id.button);
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 kms_cameraManager.MoveCameraOnLatlngPosition(37.5670135, 126.9783740, AddMap);
                 Log.d("#####", "맵 이동");
             }
-        });
+        });*/
 
         return rootView;
     }
