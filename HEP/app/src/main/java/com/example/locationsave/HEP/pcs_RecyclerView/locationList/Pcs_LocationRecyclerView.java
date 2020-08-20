@@ -254,8 +254,6 @@ public class Pcs_LocationRecyclerView extends Fragment {
 //            }
 //        });
     }
-
-
 }
 
 //Under Two Class is help for Data Dismiss and Undo
