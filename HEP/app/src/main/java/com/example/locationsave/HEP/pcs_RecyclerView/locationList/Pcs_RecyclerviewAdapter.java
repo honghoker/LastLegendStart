@@ -1,6 +1,8 @@
 package com.example.locationsave.HEP.pcs_RecyclerView.locationList;
 
 import android.content.Intent;
+import android.graphics.Paint;
+import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -100,6 +102,8 @@ public class Pcs_RecyclerviewAdapter extends FirebaseRecyclerAdapter<hep_Locatio
             textViewTitle = itemView.findViewById(R.id.cardView_title);
             textViewAddress = itemView.findViewById(R.id.cardView_address);
             textViewTag = itemView.findViewById(R.id.pcs_directoryTextview);
+//            textViewTag.setPaintFlags(textViewTag.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
+
         }
     }
 
