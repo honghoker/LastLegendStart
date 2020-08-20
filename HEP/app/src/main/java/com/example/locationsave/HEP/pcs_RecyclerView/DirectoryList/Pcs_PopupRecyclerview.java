@@ -28,6 +28,7 @@ public class Pcs_PopupRecyclerview extends PopupWindow {
     private Pcs_popupAdapter recyclerviewAdapter;
     private CapsulizeDataObjectNKey currentSelectedLocationKey;
     private View view;
+
     public Pcs_PopupRecyclerview(Activity activity, CapsulizeDataObjectNKey currentSelectedLocationKey){
         super(activity);
         this.activity = activity;
@@ -38,6 +39,7 @@ public class Pcs_PopupRecyclerview extends PopupWindow {
 
     private void setupView() {
         this.view = LayoutInflater.from(activity).inflate(R.layout.pcs_directory_popupactivity, null);
+
         recyclerView = view.findViewById(R.id.pcs_directoryRecyclerview);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false));
