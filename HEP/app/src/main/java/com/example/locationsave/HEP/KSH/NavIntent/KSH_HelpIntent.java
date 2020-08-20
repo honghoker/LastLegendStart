@@ -3,6 +3,7 @@ package com.example.locationsave.HEP.KSH.NavIntent;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
@@ -20,12 +21,15 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import com.example.locationsave.R;
 
 
-public class KSH_HelpIntent extends AppCompatActivity {
+public class KSH_HelpIntent extends AppCompatActivity{
     private Toolbar toolbar;
     DrawerLayout drawerLayout;
     TextView helpBug;
     TextView helpReview;
     Context mcontext;
+    TextView location;
+    TextView personal;
+    TextView service;
 
     public void init(){
         drawerLayout = findViewById(R.id.drawer_layout);
@@ -34,7 +38,11 @@ public class KSH_HelpIntent extends AppCompatActivity {
         setSupportActionBar(toolbar);
         helpBug = findViewById(R.id.help_bug);
         helpReview = findViewById(R.id.help_reView);
+        location = findViewById(R.id.help_location);
+        personal = findViewById(R.id.help_personal);
+        service = findViewById(R.id.help_service);
     }
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -95,33 +103,30 @@ public class KSH_HelpIntent extends AppCompatActivity {
                     }
                 });
                 builder.show();
-
-                // 별점 개 못생김
-//                final AlertDialog.Builder popDialog = new AlertDialog.Builder(mcontext);
-//                final RatingBar rating = new RatingBar(mcontext);
-//                rating.setMax(5);
-//
-//                popDialog.setTitle("별점");
-//                popDialog.setView(rating);
-//
-//                popDialog.setPositiveButton(android.R.string.ok,
-//                        new DialogInterface.OnClickListener() {
-//                            public void onClick(DialogInterface dialog, int which) {
-//                                dialog.dismiss();
-//                            }
-//
-//                        })
-//
-//                        // Button Cancel
-//                        .setNegativeButton("Cancel",
-//                                new DialogInterface.OnClickListener() {
-//                                    public void onClick(DialogInterface dialog, int id) {
-//                                        dialog.cancel();
-//                                    }
-//                                });
-//
-//                popDialog.create();
-//                popDialog.show();
+            }
+        });
+        location.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(),KSH_TermsInfo.class);
+                intent.putExtra("code",2);
+                startActivity(intent);
+            }
+        });
+        personal.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(),KSH_TermsInfo.class);
+                intent.putExtra("code",3);
+                startActivity(intent);
+            }
+        });
+        service.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(),KSH_TermsInfo.class);
+                intent.putExtra("code",1);
+                startActivity(intent);
             }
         });
 
