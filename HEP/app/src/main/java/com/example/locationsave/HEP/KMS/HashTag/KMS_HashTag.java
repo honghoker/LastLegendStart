@@ -15,6 +15,15 @@ public class KMS_HashTag extends RelativeLayout {
     LayoutInflater inflater = null;
     TextView HashText;
     KMS_HashTag me; // removeView에서 사용할 객체
+    private String tagKey;
+
+    public void setTagKey(String tagKey) {
+        this.tagKey = tagKey;
+    }
+
+    public String getTagKey() {
+        return tagKey;
+    }
 
     static ArrayList<String> HashTagar = new ArrayList<String>();
 

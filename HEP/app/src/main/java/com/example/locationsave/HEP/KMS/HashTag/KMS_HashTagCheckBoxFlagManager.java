@@ -27,23 +27,6 @@ public class KMS_HashTagCheckBoxFlagManager extends AppCompatActivity {
     //hashtag checkbox flag 설정
     boolean hashTagCheckBoxFlag = false;
 
-    public void flagChangehashTagCheckBox(){
-        if(hashTagCheckBoxFlag == true) {
-            flagSetFalsehashTagCheckBoxFlag();
-            Log.d("####hashTagCheckBoxFlag","flagChange hashTagCheckBoxFlag sington change flag = " + hashTagCheckBoxFlag);
-        }
-
-        else if(hashTagCheckBoxFlag == false){
-            flagSetTruehashTagCheckBoxFlag();
-            Log.d("####hashTagCheckBoxFlag","flagChange hashTagCheckBoxFlag sington change flag = " + hashTagCheckBoxFlag);
-        }
-    }
-
-    public boolean flagGethashTagCheckBoxFlag(){
-        Log.d("####hashTagCheckBoxFlag","flagChange hashTagCheckBoxFlag sington check flag = " + hashTagCheckBoxFlag);
-        return hashTagCheckBoxFlag;
-
-    }
 
     public void flagSetTruehashTagCheckBoxFlag(){
         hashTagCheckBoxFlag = true;
@@ -72,7 +55,7 @@ public class KMS_HashTagCheckBoxFlagManager extends AppCompatActivity {
                 kms_hashTags[j].init(kms_hashTags[j].getHashText(), "#3F729B", R.drawable.hashtagclick, params);
                 kms_hashTags[j].setId(-j);
                 Toast.makeText(context,"id : " + kms_hashTags[j].getId() + "/ text : " + kms_hashTags[j].getHashText(),Toast.LENGTH_SHORT).show();
-                hashTagText.add(kms_hashTags[j].getHashText());
+                hashTagText.add(kms_hashTags[j].getTagKey());
                 break;
             } else if (v.getId() == -j) {
                 kms_hashTags[j].init(kms_hashTags[j].getHashText(), "#3F729B", R.drawable.hashtagunclick, params);

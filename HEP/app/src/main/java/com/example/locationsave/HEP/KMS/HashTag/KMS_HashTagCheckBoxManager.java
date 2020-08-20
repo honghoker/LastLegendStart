@@ -1,8 +1,11 @@
 package com.example.locationsave.HEP.KMS.HashTag;
 
+import android.app.Activity;
 import android.content.Context;
 import android.util.Log;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
@@ -18,7 +21,13 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.ArrayList;
+
+import static android.view.View.GONE;
+import static android.view.View.VISIBLE;
+import static android.view.View.inflate;
 import static com.example.locationsave.HEP.KMS.HashTag.KMS_HashTagCheckBoxFlagManager.hashTagText;
+import static com.example.locationsave.HEP.KMS_MainActivity.hastagView;
 import static com.example.locationsave.HEP.KMS_MainActivity.msHashTag;
 import static com.example.locationsave.HEP.KMS_MainActivity.params;
 
@@ -26,25 +35,46 @@ public class KMS_HashTagCheckBoxManager {
 
     private int TAG_TABLE_ENTITY_COUNT = 0;
     CheckBox checkBoxAllHashTag; //체크박스 명 선언
-    Context context;
     View view;
     String imsi = "";
-    private KMS_HashTag[] kms_hashTags;
+    private Animation animation;
+    private Activity activity;
+    private ArrayList<String> selectedHashTagOfKey = new ArrayList<>();
 
-    public KMS_HashTag[] get_hashTags() {
-        return kms_hashTags;
+
+    public KMS_HashTagCheckBoxManager(Activity activity, View view, Animation animation){
+        this.view = view;
+        this.activity = activity;
+        this.animation = animation;
+
+    }
+    public void onHashTagClickListener(View v){
+        KMS_HashTag[] kms_hashTags = msHashTag;
+        for (int j = 1; j < kms_hashTags.length; j++) {
+            if (v.getId() == j) {
+                kms_hashTags[j].init(kms_hashTags[j].getHashText(), "#3F729B", R.drawable.hashtagclick, params);
+                kms_hashTags[j].setId(-j);
+                Toast.makeText(activity,"id : " + kms_hashTags[j].getId() + "/ text : " + kms_hashTags[j].getHashText(),Toast.LENGTH_SHORT).show();
+                selectedHashTagOfKey.add(kms_hashTags[j].getTagKey());
+                break;
+            } else if (v.getId() == -j) {
+                kms_hashTags[j].init(kms_hashTags[j].getHashText(), "#22FFFF", R.drawable.hashtagborder, params);
+                kms_hashTags[j].setId(j);
+                selectedHashTagOfKey.remove(kms_hashTags[j].getTagKey());
+                break;
+            }
+        }//for 문 종료
     }
 
-    public KMS_HashTagCheckBoxManager(Context context, View view){
-        this.context = context;
-        this.view = view;
+    public ArrayList<String> getSelectedHashTagOfKey() {
+        return selectedHashTagOfKey;
     }
 
     //해시태그 선택
     public class HasTagOnClickListener implements Button.OnClickListener {
         @Override
         public void onClick(View v) {
-            Log.d("6","asdasdasd");
+            Log.d("6","This is HashTag Clicked Tag ");
             onHashTagClickListener(v);
         }
     }
@@ -60,9 +90,10 @@ public class KMS_HashTagCheckBoxManager {
                         if(snapshot.exists()){
                             int i = 1;
                             for(DataSnapshot dataSnapshot : snapshot.getChildren()){
-                                kms_hashTags[i] = new KMS_HashTag(context);
+                                kms_hashTags[i] = new KMS_HashTag(activity);
                                 kms_hashTags[i].setOnClickListener(hasTagOnClickListener);
                                 kms_hashTags[i].setId(i);
+                                kms_hashTags[i].setTagKey(dataSnapshot.getKey());
                                 kms_hashTags[i].init(dataSnapshot.getValue(hep_Tag.class).getName(), "#22FFFF", R.drawable.hashtagborder, params);
 //                        Log.d("tag", i + " " + dataSnapshot.getValue(hep_Tag.class).getName());
                                 ((KMS_FlowLayout) view.findViewById(R.id.HashTagflowlayout)).addView(kms_hashTags[i]);
@@ -90,7 +121,7 @@ public class KMS_HashTagCheckBoxManager {
                 if (checkBoxAllHashTag.isChecked()) {
 //                    kms_hashTagCheckBoxFlagManager.CheckBoxAllClick(context);
                 } else
-                    CheckBoxAllUnClick(context);
+                    CheckBoxAllUnClick(activity);
             }
         });
     } //checkAllHashTag 종료
@@ -106,12 +137,12 @@ public class KMS_HashTagCheckBoxManager {
         imsi = "";
     }
     public void CheckBoxAllUnClick(Context context) {
-        KMS_HashTag[] hs = kms_hashTags;
-        for (int j = 1; j < hs.length; j++) {
-            hs[j].init(hs[j].getHashText(), "#3F729B", R.drawable.hashtagunclick, params);
-            hs[j].setId(j);
-            hashTagText.clear();
-        } //for 종료
+//        KMS_HashTag[] hs = kms_hashTags;
+//        for (int j = 1; j < hs.length; j++) {
+//            hs[j].init(hs[j].getHashText(), "#3F729B", R.drawable.hashtagunclick, params);
+//            hs[j].setId(j);
+//            hashTagText.clear();
+//        } //for 종료
     }
 
 
@@ -132,20 +163,22 @@ public class KMS_HashTagCheckBoxManager {
         });
     }
 
-    public void onHashTagClickListener(View v){
-        for (int j = 1; j < kms_hashTags.length; j++) {
-            if (v.getId() == j) {
-                kms_hashTags[j].init(kms_hashTags[j].getHashText(), "#3F729B", R.drawable.hashtagclick, params);
-                kms_hashTags[j].setId(-j);
-                Toast.makeText(context,"id : " + kms_hashTags[j].getId() + "/ text : " + kms_hashTags[j].getHashText(),Toast.LENGTH_SHORT).show();
-                hashTagText.add(kms_hashTags[j].getHashText());
-                break;
-            } else if (v.getId() == -j) {
-                kms_hashTags[j].init(kms_hashTags[j].getHashText(), "#3F729B", R.drawable.hashtagunclick, params);
-                kms_hashTags[j].setId(j);
-                hashTagText.remove(kms_hashTags[j].getHashText());
-                break;
-            }
-        }//for 문 종료
+
+
+    public boolean pcs_setHashtagFlag(Boolean hashTagLayoutFlag, View mView){
+        Log.d("tag", String.valueOf(hashTagLayoutFlag));
+        if(hashTagLayoutFlag){
+            hastagView.setAnimation(animation);
+            hastagView.setVisibility(mView.GONE);
+        }else{
+            hastagView.setAnimation(animation);
+            hastagView.setVisibility(mView.VISIBLE);
+        }
+        return hastagView.getVisibility() == VISIBLE;
     }
+
+
+
+
+
 }

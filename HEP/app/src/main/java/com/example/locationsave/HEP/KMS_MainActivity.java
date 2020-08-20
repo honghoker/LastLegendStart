@@ -536,9 +536,11 @@ public class KMS_MainActivity extends AppCompatActivity implements NavigationVie
                 return true;
             } //검색 버튼 종료
             case R.id.menu_tag_filter: {
-                animation = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.alpha);
-                hastagView.setAnimation(animation);
-                hastagView.setVisibility(mView.GONE);
+//                animation = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.alpha);
+//                hastagView.setAnimation(animation);
+//                hastagView.setVisibility(mView.VISIBLE);
+//                hashTagLayoutFlag = hastagView.getVisibility() == VISIBLE;
+                hashTagLayoutFlag = kms_hashTagCheckBoxManager.pcs_setHashtagFlag(hashTagLayoutFlag, mView);
                 return true;
             }
             default:
@@ -748,16 +750,17 @@ public class KMS_MainActivity extends AppCompatActivity implements NavigationVie
                 setBottomBar(bottomBar, kms_searchFlagManager.flagGetSearch());
                 setFloatingItem(kms_searchFlagManager.flagGetSearch());
             }
+            /////////////////////////////////////////////////////////////////////////////////////////////////////////////
             else if(kms_recycleVIewManager.flagCheckRecycleView() == true){ //스피너 떠있으면 꺼준다.
                 Log.d("6","8888");
                 setSpinner();
                 setFloatingItem(kms_recycleVIewManager.flagCheckRecycleView());
             }
-
-            else if (kms_hashTagCheckBoxFlagManager.flagGethashTagCheckBoxFlag() == true) {
+//
+            else if (hashTagLayoutFlag == true) {
                 Log.d("6","9999");
-                hideHashTagFilter();
-                setFloatingItem(kms_hashTagCheckBoxFlagManager.flagGethashTagCheckBoxFlag());
+                hashTagLayoutFlag = kms_hashTagCheckBoxManager.pcs_setHashtagFlag(hashTagLayoutFlag, mView);
+                setFloatingItem(hashTagLayoutFlag);
             }
         } //드로워블도 없고 종료도 아니면 실행
     }
@@ -1194,34 +1197,49 @@ public class KMS_MainActivity extends AppCompatActivity implements NavigationVie
 //        relativeLayoutRoadLoaction = findViewById(R.id.relativeLayout_loadLoaction);
     } //oncreate 종료
 
+
+
+
+
     private void pcs_hashTagInit() {
+
+        View v = drawerLayout;
+        kms_hashTagCheckBoxManager = new KMS_HashTagCheckBoxManager(this, v, animation = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.alpha));
+        kms_hashTagCheckBoxManager.initHashTag(new Pcs_HashTagCallback() {
+            @Override
+            public void onSuccess(KMS_HashTag[] kms_hashTags) {
+                msHashTag = kms_hashTags;
+            }
+        });
+
         Button hashTagCancelButton = findViewById(R.id.btnFilterCancel);
-        hashTagCancelButton.setOnClickListener(new OnClickListener() {
+        hashTagCancelButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                animation = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.alpha);
-                hastagView.setAnimation(animation);
-                hastagView.setVisibility(mView.GONE);
-                hashTagLayoutFlag = hastagView.getVisibility() == View.VISIBLE;
+                hashTagLayoutFlag = kms_hashTagCheckBoxManager.pcs_setHashtagFlag(hashTagLayoutFlag, mView);
             }
         });
 
         Button hashTagSelectButton = findViewById(R.id.btnFilterSelect);
-        hashTagSelectButton.setOnClickListener(new OnClickListener() {
+        hashTagSelectButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                ArrayList<String> key = kms_hashTagCheckBoxManager.getSelectedHashTagOfKey();
+                for(String a : key){
+                    Log.d("tag", "select key " + a);
+                }
 
+                hashTagLayoutFlag = kms_hashTagCheckBoxManager.pcs_setHashtagFlag(hashTagLayoutFlag, mView);
             }
         });
 
-        pcs_hashTagUpdate();
         kms_hashTagCheckBoxManager.checkAllHashTag();
 
     }
 
     private void pcs_hashTagUpdate(){
         View v = drawerLayout;
-        kms_hashTagCheckBoxManager = new KMS_HashTagCheckBoxManager(this, v);
+        kms_hashTagCheckBoxManager = new KMS_HashTagCheckBoxManager(this, v, animation = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.alpha));
         kms_hashTagCheckBoxManager.initHashTag(new Pcs_HashTagCallback() {
             @Override
             public void onSuccess(KMS_HashTag[] kms_hashTags) {
