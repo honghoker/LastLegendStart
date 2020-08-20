@@ -2,6 +2,7 @@ package com.example.locationsave.HEP;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -29,6 +30,7 @@ import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.core.content.ContextCompat;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
@@ -107,6 +109,7 @@ import java.util.concurrent.ExecutionException;
 import static android.widget.AdapterView.*;
 import static com.example.locationsave.HEP.KMS.MainFragment.KMS_MapFragment.NMap;
 import static com.example.locationsave.HEP.KMS.Toolbar.KMS_ClearableEditText_LoadLocation_auto.editText_1;
+import static com.example.locationsave.HEP.KMS.Toolbar.KMS_ClearableEditText_LoadLocation_auto.mContext;
 import static com.example.locationsave.HEP.KSH.KSH_RecyAdapter.LastPosition;
 
 public class KMS_MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, sunghunTest {
@@ -185,6 +188,8 @@ public class KMS_MainActivity extends AppCompatActivity implements NavigationVie
     private KMS_HashTagCheckBoxManager kms_hashTagCheckBoxManager; //HASHTAG BOX
     private KMS_HashTagCheckBoxFlagManager kms_hashTagCheckBoxFlagManager;
     private Object OnItemClickListener;
+    private Button BtnMain;
+    private Button BtnList;
     public void ksh_init(){
         startService(new Intent(this, hep_closeAppService.class)); // 앱 종료 이벤트
         rView = findViewById(R.id.include_recyclerView);
@@ -201,6 +206,8 @@ public class KMS_MainActivity extends AppCompatActivity implements NavigationVie
         areaSearch.Geocoding("신당동 164");
 
         OnItemClickListener = this;
+        BtnMain = findViewById(R.id.btnMain);
+        BtnList = findViewById(R.id.btnLocationList);
     }
 
     View mView;
@@ -406,12 +413,16 @@ public class KMS_MainActivity extends AppCompatActivity implements NavigationVie
                 //fragmentFlag = true;
                 kms_fragmentFlagManager.flagSetTrueFragment(); //프레그먼트 플래그 true 로 변경
                 kms_fragmentFlagManager.setFragmentMapLayout();
+                BtnMain.setBackground(ContextCompat.getDrawable(mContext,R.drawable.ksh_button_design));
+                BtnList.setBackground(ContextCompat.getDrawable(mContext,R.drawable.ksh_button_not_design));
                 logtest("맵 프래그먼트");
                 break;
             case R.id.btnLocationList:
                 //fragmentFlag = false;
                 kms_fragmentFlagManager.flagSetFalseFragment(); //프래그먼트 플래그 false 로 변경
                 kms_fragmentFlagManager.setFragmentLocationListLayout();
+                BtnList.setBackground(ContextCompat.getDrawable(mContext,R.drawable.ksh_button_design));
+                BtnMain.setBackground(ContextCompat.getDrawable(mContext,R.drawable.ksh_button_not_design));
                 logtest("리스트 프래그먼트");
                 break;
             default:
