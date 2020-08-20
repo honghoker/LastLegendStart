@@ -175,21 +175,23 @@ public class Pcs_LocationRecyclerView extends Fragment {
 //                        }
                         new MyButtonClickListener() {
                             @Override
-                            public void onClick(int position) {
+                            public void onClick(final int position) {
                                 //When DeleteItem, Get Location Data and Key
                                 final CapsulizeDataObjectNKey lappingDataNKey = adapter.deleteItem(position);
                                 //related dismiss data store and lapping
                                 wrappingDismissData = new WrappingDismissData(lappingDataNKey);
                                 wrappingDismissData.onDismiss();
+
                                 Snackbar.make(getActivity().findViewById(android.R.id.content),"삭제완료",Snackbar.LENGTH_LONG).setAction("되돌리기", new View.OnClickListener(){
                                     @Override
                                     public void onClick(View v) {
                                         wrappingDismissData.onUndo();
+
                                     }
 
                             }).show();
-                            }
                         }
+            }
                 ));
 
                 buffer.add(new MyButton(getActivity(),

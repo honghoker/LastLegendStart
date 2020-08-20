@@ -45,7 +45,7 @@ public class KMS_HashTagCheckBoxManager {
         @Override
         public void onClick(View v) {
             Log.d("6","asdasdasd");
-            OnHashTagClickListener();
+            onHashTagClickListener(v);
         }
     }
     HasTagOnClickListener hasTagOnClickListener = new HasTagOnClickListener();
@@ -132,15 +132,15 @@ public class KMS_HashTagCheckBoxManager {
         });
     }
 
-    private void OnHashTagClickListener(){
+    public void onHashTagClickListener(View v){
         for (int j = 1; j < kms_hashTags.length; j++) {
-            if (view.getId() == j) {
+            if (v.getId() == j) {
                 kms_hashTags[j].init(kms_hashTags[j].getHashText(), "#3F729B", R.drawable.hashtagclick, params);
                 kms_hashTags[j].setId(-j);
                 Toast.makeText(context,"id : " + kms_hashTags[j].getId() + "/ text : " + kms_hashTags[j].getHashText(),Toast.LENGTH_SHORT).show();
                 hashTagText.add(kms_hashTags[j].getHashText());
                 break;
-            } else if (view.getId() == -j) {
+            } else if (v.getId() == -j) {
                 kms_hashTags[j].init(kms_hashTags[j].getHashText(), "#3F729B", R.drawable.hashtagunclick, params);
                 kms_hashTags[j].setId(j);
                 hashTagText.remove(kms_hashTags[j].getHashText());

@@ -184,7 +184,8 @@ public class KMS_MainActivity extends AppCompatActivity implements NavigationVie
     private KSH_DirectoryEntity ksh_directoryEntity;
     private KMS_HashTagCheckBoxManager kms_hashTagCheckBoxManager; //HASHTAG BOX
     private Object OnItemClickListener;
-    private boolean hashTagLayoutFlag = false;
+
+    private boolean hashTagLayoutFlag;
 
     public void ksh_init(){
         startService(new Intent(this, hep_closeAppService.class)); // 앱 종료 이벤트
@@ -333,7 +334,7 @@ public class KMS_MainActivity extends AppCompatActivity implements NavigationVie
 
         hastagView = findViewById(R.id.HasTagView); //7. HashTag
         hastagView.setBackgroundResource(R.drawable.hashtag);
-
+        hashTagLayoutFlag = hastagView.getVisibility() == View.VISIBLE;
 
 
         floatingButton = findViewById(R.id.floatingActionButton);  // 8.floating icon
@@ -575,11 +576,11 @@ public class KMS_MainActivity extends AppCompatActivity implements NavigationVie
 //    //7. HashTag
 //    public static LinearLayout hastagView;
 
-    //해시태그 선택
+////    해시태그 선택
 //    public class HasTagOnClickListener implements Button.OnClickListener {
 //        @Override
 //        public void onClick(View v) {
-//            kms_hashTagCheckBoxFlagManager.HashTagClickEvent(KMS_MainActivity.this, v);
+//            kms_hashTagCheckBoxManager.OnHashTagClickListener(v);
 //        }
 //    }
 
@@ -593,14 +594,14 @@ public class KMS_MainActivity extends AppCompatActivity implements NavigationVie
 
 
 
-    public void hideHashTagFilter() { //해시태그 체크박스 숨김
-        if (kms_hashTagCheckBoxFlagManager.flagGethashTagCheckBoxFlag() == true) { //호출했을 때 해시필터 없을 경우에만 실행.
-            animation = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.alphahide);
-            hastagView.setAnimation(animation);
-            hastagView.setVisibility(mView.GONE);
-            kms_hashTagCheckBoxFlagManager.flagSetFalsehashTagCheckBoxFlag(); //해시태그 체크박스 false 변경
-        }
-    }
+//    public void hideHashTagFilter() { //해시태그 체크박스 숨김
+//        if (kms_hashTagCheckBoxFlagManager.flagGethashTagCheckBoxFlag() == true) { //호출했을 때 해시필터 없을 경우에만 실행.
+//            animation = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.alphahide);
+//            hastagView.setAnimation(animation);
+//            hastagView.setVisibility(mView.GONE);
+//            kms_hashTagCheckBoxFlagManager.flagSetFalsehashTagCheckBoxFlag(); //해시태그 체크박스 false 변경
+//        }
+//    }
 
 //    //8. FloatingIcon
 //    FloatingActionButton floatingButton;
@@ -705,7 +706,7 @@ public class KMS_MainActivity extends AppCompatActivity implements NavigationVie
         }
 
         else if (kms_markerInformationFlagManager.flagGetMarkerInformationFlag() == false && kms_searchFlagManager.flagGetSearch() == false && kms_recycleVIewManager.flagCheckRecycleView() == false
-                && kms_locationFlagManager.flagGetLocation() == false && kms_hashTagCheckBoxFlagManager.flagGethashTagCheckBoxFlag() == false) {
+                && kms_locationFlagManager.flagGetLocation() == false && hashTagLayoutFlag == false) {
             Log.d("6","333");
             backPressedForFinish.onBackPressed();
             //서치상태 아닐때만 종료 가능
@@ -1201,7 +1202,7 @@ public class KMS_MainActivity extends AppCompatActivity implements NavigationVie
                 animation = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.alpha);
                 hastagView.setAnimation(animation);
                 hastagView.setVisibility(mView.GONE);
-                hashTagLayoutFlag = true;
+                hashTagLayoutFlag = hastagView.getVisibility() == View.VISIBLE;
             }
         });
 

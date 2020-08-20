@@ -123,6 +123,7 @@ public class hep_LocationUpdateActivity extends AppCompatActivity {
         ((TextView) findViewById(R.id.locationupdate_locationContact)).setText(hep_Location.contact);
         ((TextView) findViewById(R.id.locationupdate_locationMemo)).setText(hep_Location.memo);
 
+
         hep_FlowLayout.LayoutParams params = new hep_FlowLayout.LayoutParams(20, 20);
         for (int i = 0; i < new hep_locationImageDataArr().getImageDataArrayInstance().size(); i++) {
             try {
