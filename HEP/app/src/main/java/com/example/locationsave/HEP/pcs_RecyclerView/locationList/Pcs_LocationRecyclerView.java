@@ -1,7 +1,6 @@
 package com.example.locationsave.HEP.pcs_RecyclerView.locationList;
 
 import android.content.Context;
-import android.graphics.Canvas;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
@@ -18,7 +17,6 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -31,7 +29,6 @@ import com.example.locationsave.HEP.Hep.hep_LocationSave.hep_LocationSaveActivit
 import com.example.locationsave.HEP.KMS_MainActivity;
 
 import com.example.locationsave.HEP.pcs_RecyclerView.DirectoryList.Pcs_PopupRecyclerview;
-
 import com.example.locationsave.R;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.google.android.material.snackbar.Snackbar;
@@ -44,6 +41,8 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.annotation.meta.When;
 
 import static com.example.locationsave.HEP.KMS_MainActivity.directoryid;
 
@@ -59,7 +58,7 @@ public class Pcs_LocationRecyclerView extends Fragment {
     hep_LocationSaveActivity hep_locationSaveActivity;
     private ViewGroup rootView;
     private Pcs_RecyclerViewSwipeHelper recyclerViewSwipeHelper;
-    LappingDismissData lappingDismissData = null;
+    WrappingDismissData wrappingDismissData = null;
 
     KSH_SwipeHelper ksh_swipeHelper;
 
@@ -76,7 +75,6 @@ public class Pcs_LocationRecyclerView extends Fragment {
     }
 
 
-
     //xml pcs_recyclerview_menu connection
     @Override
     public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
@@ -88,7 +86,7 @@ public class Pcs_LocationRecyclerView extends Fragment {
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
 
-        switch (item.getItemId()){
+        switch (item.getItemId()) {
             case R.id.sorting_time:
                 onStop();
                 adapter = getFirebaseData("time");
@@ -138,7 +136,7 @@ public class Pcs_LocationRecyclerView extends Fragment {
         adapter.stopListening();
     }
 
-    public void setUpRecyclerView(){
+    public void setUpRecyclerView() {
 //        adapter = getFirebaseData(DEFAULT_FILED, DEFAULT_QUERY_DIRECTION);\
         adapter = getFirebaseData(DEFAULT_FILED);
         recyclerView = rootView.findViewById(R.id.locationRecyclcerView);
@@ -148,67 +146,20 @@ public class Pcs_LocationRecyclerView extends Fragment {
     }
 
     //Get firebase data and put into adapter
-    private Pcs_RecyclerviewAdapter getFirebaseData(String field){
+    private Pcs_RecyclerviewAdapter getFirebaseData(String field) {
         //Query query = db1.getReference().child("location").orderByChild(field);
         Query query = db1.getReference().child("location").orderByChild("directoryid").equalTo(directoryid);
         FirebaseRecyclerOptions options = new FirebaseRecyclerOptions.Builder<hep_Location>()
                 .setQuery(query, hep_Location.class)
                 .build();
-        if(options.getSnapshots() == null) return new Pcs_RecyclerviewAdapter(null);
+        if (options.getSnapshots() == null) return new Pcs_RecyclerviewAdapter(null);
         else return new Pcs_RecyclerviewAdapter(options);
 
     }
 
-
     private void setUpSwipeHelper() {
-        recyclerViewSwipeHelper = new Pcs_RecyclerViewSwipeHelper(getActivity(), new Pcs_RecyclerViewSwipeAction() {
-
-            @Override
-            public void onLeftClicked(int position) {
-                String currentKeyOfDirectory = ((hep_Location)adapter.getLocation(position).getFirebaseData()).getDirectoryid();
-                Log.d("tag", "Swipe " + currentKeyOfDirectory);
-//                final Pcs_PopupRecyclerview pcs_PopupRecyclerview = new Pcs_PopupRecyclerview(getContext(), adapter.getLocation(position));
-                final Pcs_PopupRecyclerview pcs_PopupRecyclerview = new Pcs_PopupRecyclerview(getActivity(), adapter.getLocation(position));
-                pcs_PopupRecyclerview.setHeight(WindowManager.LayoutParams.WRAP_CONTENT);
-                //pcs_PopupRecyclerview.setWidth((int)(200*getResources().getDisplayMetrics().density));
-                pcs_PopupRecyclerview.setWidth(WindowManager.LayoutParams.WRAP_CONTENT);
-                pcs_PopupRecyclerview.setFocusable(true);
-
-
-                try {
-                    pcs_PopupRecyclerview.showAsDropDown(getView(), (int) recyclerView.getLayoutManager().findViewByPosition(position).getX(), (int) recyclerView.getLayoutManager().findViewByPosition(position).getY(), Gravity.CENTER);
-                }catch (Exception e){
-                    e.printStackTrace();
-                }
-
-
-//                popupWindow.show(getActivity().findViewById(R.id.drawer_layout),0, -250, hep_location.getDirectoryid());
-//                startActivity(intent);
-            }
-
-            @Override
-            public void onRightClicked(int position) {
-
-                //When DeleteItem, Get Location Data and Key
-                final CapsulizeDataObjectNKey lappingDataNKey = adapter.deleteItem(position);
-                //related dismiss data store and lapping
-                lappingDismissData = new LappingDismissData(lappingDataNKey);
-                lappingDismissData.onDismiss();
-
-                Snackbar.make(getActivity().findViewById(android.R.id.content),"삭제완료",Snackbar.LENGTH_LONG).setAction("되돌리기", new View.OnClickListener(){
-                    @Override
-                    public void onClick(View v) {
-                        lappingDismissData.onUndo();
-                    }
-
-                }).show();
-
-            }
-        });
-        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(recyclerViewSwipeHelper);
-        itemTouchHelper.attachToRecyclerView(recyclerView);
-        recyclerView.addItemDecoration(new RecyclerView.ItemDecoration() {
-        ksh_swipeHelper = new KSH_SwipeHelper(getActivity(),recyclerView,200) {
+        Log.d("6", "1111");
+        ksh_swipeHelper = new KSH_SwipeHelper(getActivity(), recyclerView, 200) {
             @Override
             public void instantiateMyButton(RecyclerView.ViewHolder viewHolder, List<MyButton> buffer) {
                 buffer.add(new MyButton(getActivity(),
@@ -226,114 +177,53 @@ public class Pcs_LocationRecyclerView extends Fragment {
                         new MyButtonClickListener() {
                             @Override
                             public void onClick(int position) {
-                                String currentKeyOfDirectory = ((hep_Location)adapter.getLocation(position).getFirebaseData()).getDirectoryid();
-                                Log.d("tag", "Swipe " + currentKeyOfDirectory);
-//                final Pcs_PopupRecyclerview pcs_PopupRecyclerview = new Pcs_PopupRecyclerview(getContext(), adapter.getLocation(position));
-                                final Pcs_PopupRecyclerview pcs_PopupRecyclerview = new Pcs_PopupRecyclerview(getActivity(), adapter.getLocation(position));
-                                pcs_PopupRecyclerview.setHeight(WindowManager.LayoutParams.WRAP_CONTENT);
-                                //pcs_PopupRecyclerview.setWidth((int)(200*getResources().getDisplayMetrics().density));
-                                pcs_PopupRecyclerview.setWidth(WindowManager.LayoutParams.WRAP_CONTENT);
-                                pcs_PopupRecyclerview.setFocusable(true);
+                                //When DeleteItem, Get Location Data and Key
+                                final CapsulizeDataObjectNKey lappingDataNKey = adapter.deleteItem(position);
+                                //related dismiss data store and lapping
+                                wrappingDismissData = new WrappingDismissData(lappingDataNKey);
+                                wrappingDismissData.onDismiss();
+                                Snackbar.make(getActivity().findViewById(android.R.id.content),"삭제완료",Snackbar.LENGTH_LONG).setAction("되돌리기", new View.OnClickListener(){
+                                    @Override
+                                    public void onClick(View v) {
+                                        wrappingDismissData.onUndo();
+                                    }
 
-
-                                try {
-                                    pcs_PopupRecyclerview.showAsDropDown(getView(), (int) recyclerView.getLayoutManager().findViewByPosition(position).getX(), (int) recyclerView.getLayoutManager().findViewByPosition(position).getY(), Gravity.CENTER);
-                                }catch (Exception e){
-                                    e.printStackTrace();
-                                }
+                            }).show();
                             }
                         }
-                        ));
+                ));
 
                 buffer.add(new MyButton(getActivity(),
                         "Update",
                         30,
                         R.drawable.ic_edit_white,
                         Color.parseColor("#FF9502"),
-//                        new View.OnClickListener() {
-//                            @Override
-//                            public void onClick(View v) {
-//                                Log.d("6","asdasd");
-////                                Toast.makeText(getContext(),"Delete",Toast.LENGTH_SHORT).show();
-//                            }
-//                        }
                         new MyButtonClickListener() {
                             @Override
                             public void onClick(int position) {
-                                //When DeleteItem, Get Location Data and Key
-                                final CapsulizeDataObjectNKey lappingDataNKey = adapter.deleteItem(position);
-                                //related dismiss data store and lapping
-                                lappingDismissData = new LappingDismissData(lappingDataNKey);
-                                lappingDismissData.onDismiss();
-
-                                Snackbar.make(getActivity().findViewById(android.R.id.content),"삭제완료",Snackbar.LENGTH_LONG).setAction("되돌리기", new View.OnClickListener(){
-                                    @Override
-                                    public void onClick(View v) {
-                                        lappingDismissData.onUndo();
-                                    }
-
-                                }).show();
+                                ///////////////////////////////HEP////////////////////////////
+                                String currentKeyOfDirectory = ((hep_Location)adapter.getLocation(position).getFirebaseData()).getDirectoryid();
+                                Log.d("tag", "Swipe " + currentKeyOfDirectory);
+                                final Pcs_PopupRecyclerview pcs_PopupRecyclerview = new Pcs_PopupRecyclerview(getActivity(), adapter.getLocation(position));
+                                pcs_PopupRecyclerview.setHeight(WindowManager.LayoutParams.WRAP_CONTENT);
+                                pcs_PopupRecyclerview.setWidth((int)(200*getResources().getDisplayMetrics().density));
+                                pcs_PopupRecyclerview.setFocusable(true);
+                                pcs_PopupRecyclerview.showAsDropDown(getView(), 100, 100, Gravity.CENTER);
                             }
                         }
-                        ));
+                ));
             }
         };
-
-//        recyclerViewSwipeHelper = new Pcs_RecyclerViewSwipeHelper(getActivity(), new Pcs_RecyclerViewSwipeAction() {
-//
-//            @Override
-//            public void onLeftClicked(int position) {
-//                String currentKeyOfDirectory = ((hep_Location)adapter.getLocation(position).getFirebaseData()).getDirectoryid();
-//                Log.d("tag", "Swipe " + currentKeyOfDirectory);
-////                final Pcs_PopupRecyclerview pcs_PopupRecyclerview = new Pcs_PopupRecyclerview(getContext(), adapter.getLocation(position));
-//                final Pcs_PopupRecyclerview pcs_PopupRecyclerview = new Pcs_PopupRecyclerview(getActivity(), adapter.getLocation(position));
-//                pcs_PopupRecyclerview.setHeight(WindowManager.LayoutParams.WRAP_CONTENT);
-//                pcs_PopupRecyclerview.setWidth((int)(200*getResources().getDisplayMetrics().density));
-//                pcs_PopupRecyclerview.setFocusable(true);
-////                pcs_PopupRecyclerview.showAsDropDown(getView(), 0, 250);
-//                pcs_PopupRecyclerview.showAsDropDown(getView(), 100, 100, Gravity.CENTER);
-//
-////                popupWindow.show(getActivity().findViewById(R.id.drawer_layout),0, -250, hep_location.getDirectoryid());
-////                startActivity(intent);
-//            }
-//
-//            @Override
-//            public void onRightClicked(int position) {
-//
-//                //When DeleteItem, Get Location Data and Key
-//                final CapsulizeDataObjectNKey lappingDataNKey = adapter.deleteItem(position);
-//                //related dismiss data store and lapping
-//                lappingDismissData = new LappingDismissData(lappingDataNKey);
-//                lappingDismissData.onDismiss();
-//
-//                Snackbar.make(getActivity().findViewById(android.R.id.content),"삭제완료",Snackbar.LENGTH_LONG).setAction("되돌리기", new View.OnClickListener(){
-//                    @Override
-//                    public void onClick(View v) {
-//                        lappingDismissData.onUndo();
-//                    }
-//
-//                }).show();
-//
-//            }
-//        });
-//        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(recyclerViewSwipeHelper);
-//        itemTouchHelper.attachToRecyclerView(recyclerView);
-//        recyclerView.addItemDecoration(new RecyclerView.ItemDecoration() {
-//            @Override
-//            public void onDraw(@NonNull Canvas c, @NonNull RecyclerView parent, @NonNull RecyclerView.State state) {
-//                recyclerViewSwipeHelper.onDraw(c);
-//            }
-//        });
     }
-
-
 }
+
+//
 
 //Under Two Class is help for Data Dismiss and Undo
 //Constructor is Dismiss And Make Temp data
 //Each Class contain data
 //One LappingDismissData can contain several CapsulizationData
-class LappingDismissData{
+class WrappingDismissData {
     private DatabaseReference databaseReference = new hep_FireBase().getFireBaseDatabaseInstance().getReference();
 
     private CapsulizeDataObjectNKey hep_location;
@@ -343,7 +233,7 @@ class LappingDismissData{
     private String key;
 
 
-    public LappingDismissData(CapsulizeDataObjectNKey hep_location) {
+    public WrappingDismissData(CapsulizeDataObjectNKey hep_location) {
         this.hep_location = hep_location;
         this.key = hep_location.getDataKey();
     }
