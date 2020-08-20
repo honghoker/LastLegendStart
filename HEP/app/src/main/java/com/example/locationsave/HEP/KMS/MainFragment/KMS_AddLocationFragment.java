@@ -57,7 +57,7 @@ public class KMS_AddLocationFragment extends Fragment implements OnMapReadyCallb
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Log.d("####맵생성안됨", "카메라를 위경도 위치로 이동");
+        Log.d("%%%%%로케 프래그먼트","객체 온크리트");
 
         //프래그먼트
         FragmentManager addFragmentManager = getChildFragmentManager();
@@ -74,39 +74,36 @@ public class KMS_AddLocationFragment extends Fragment implements OnMapReadyCallb
         addFragmentManager.beginTransaction().add(R.id.addmap, addMapFragment).commit(); // 프래그매니저에게 명령 map 레이아웃에 생성된 맵 객체를 add
 
         addMapFragment.getMapAsync(this); //이거 만들면 onMapReady 사용 가능
-        Log.d("####맵생성안됨", "온맵레디");
+        Log.d("%%%%%로케 프래그먼트", "온맵레디");
 
 
         //현재 위치
         locationSource = new FusedLocationSource(this, LOCATION_PERMISSION_REQUEST_CODE);
-        Log.d("####맵생성안됨", "현재위치");
+        Log.d("%%%%%로케 프래그먼트", "현재위치");
         CameraPosition cameraPosition = KMS_MapFragment.NMap.getCameraPosition();
         double latitude = cameraPosition.target.latitude;
         double longitude = cameraPosition.target.longitude;
 
 /*
-        LatLng latLng = new LatLng(latitude, longitude);
-        //kms_cameraManager.MoveCameraOnLatlngPosition(latitude, longitude, AddMap);
-        CameraUpdate cameraUpdate = CameraUpdate.scrollTo(latLng); //카메라 업데이트 위해 클릭마커 좌표 입력
-*/
-
 
         LatLng latLng = new LatLng(135.857654, 128.498123);
         CameraUpdate cameraUpdate = CameraUpdate.scrollTo(latLng); //카메라 업데이트 위해 클릭마커 좌표 입력
 
 
         cameraUpdate.animate(CameraAnimation.Fly); //애니메이션
-        Log.d("####MoveCamera", "카메라를 위경도 위치로 이동" + " " + latitude + "  " + longitude);
+        Log.d("%%%%%로케 프래그먼트", "카메라를 위경도 위치로 이동" + " " + latitude + "  " + longitude);
+*/
 
         //AddMap.moveCamera(cameraUpdate);
 
-        Log.d("##### 장소추가 프래그먼트 포지션 설정", "온크리트");
+        Log.d("%%%%%로케 프래그먼트", "온크리트");
 
     }
 
     @Override
     public void onAttach(Context context) {
         super.onAttach(context); //이 메소드가 호출될떄는 프래그먼트가 엑티비티위에 올라와있는거니깐 getActivity메소드로 엑티비티참조가능
+        Log.d("%%%%%로케 프래그먼트", "onAttach 시작");
 
         if (context instanceof OnTimePickerSetListener) {
             onTimePickerSetListener = (OnTimePickerSetListener) context;
@@ -115,12 +112,13 @@ public class KMS_AddLocationFragment extends Fragment implements OnMapReadyCallb
         }
 
         activity = getActivity();
+        Log.d("%%%%%로케 프래그먼트", "onAttach 종료");
     }
 
     @Override
     public void onDetach() {
         super.onDetach();
-
+        Log.d("%%%%%로케 프래그먼트", "onDetach");
         onTimePickerSetListener = null;
 
         //이제 더이상 엑티비티 참초가안됨
@@ -132,33 +130,36 @@ public class KMS_AddLocationFragment extends Fragment implements OnMapReadyCallb
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         //프래그먼트 메뉴를 인플레이트해주고 컨테이너에 붙여달라는 뜻임
+        Log.d("%%%%%로케 프래그먼트", "onCreateView 실행");
         ViewGroup rootView = (ViewGroup) inflater.inflate(R.layout.kms_location_fragment, container, false);
+        Log.d("%%%%%로케 프래그먼트", "onCreateView");
         setHasOptionsMenu(true);
 
         String a2 = getArguments().getString("Title");
         String a3 = getArguments().getString("Address");
 
-        Log.d("#####액티비티 -> 프레그먼트로 넘어온 값 title : ", a2 + " / address : " + a3);
+
+        Log.d("%%%%%액티비티 -> 프레그먼트로 넘어온 값 title : ", a2 + " / address : " + a3);
 
         onTimePickerSetListener.onTimePickerSet(2131232, 3, "스트링 테스트"); //값 넘겨줌
-        Log.d("#####", "값 넘겨줌");
+        Log.d("%%%%%", "값 넘겨줌");
 
 
-/*        Button btn = rootView.findViewById(R.id.button);
+        Button btn = rootView.findViewById(R.id.button);
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 kms_cameraManager.MoveCameraOnLatlngPosition(37.5670135, 126.9783740, AddMap);
                 Log.d("#####", "맵 이동");
             }
-        });*/
+        });
 
         return rootView;
     }
 
     @Override
     public void onMapReady(@NonNull NaverMap naverMap) {
-        Log.d("#####", "온맵레디");
+        Log.d("%%%%%", "온맵레디");
 
         AddMap = naverMap; //전역에 naverMap 당겨옴
         AddMap.addOnCameraIdleListener(new NaverMap.OnCameraIdleListener() {
@@ -171,7 +172,7 @@ public class KMS_AddLocationFragment extends Fragment implements OnMapReadyCallb
                 try {
                     String resultAddr = reverseGetAddress.getJsonString(asyncTask.execute().get());
                     //((TextView)activity.findViewById(R.id.selectLocation_AddressInfo)).setText(resultAddr);
-                    Log.d("#####", "주소 : " + resultAddr);
+                    Log.d("%%%%%", "주소 : " + resultAddr);
 
                 } catch (ExecutionException e) {
                     e.printStackTrace();
@@ -181,9 +182,9 @@ public class KMS_AddLocationFragment extends Fragment implements OnMapReadyCallb
                 Toast.makeText(getActivity(),
                         "현재위치 = 대상 지점 위도: " + cameraPosition.target.latitude + ", " +
                                 "대상 지점 경도: " + cameraPosition.target.longitude, Toast.LENGTH_SHORT);
-                Log.d("#####AddMap", "onCameraIdle 위도 : " + cameraPosition.target.latitude + "경도 : " + cameraPosition.target.longitude);
+                Log.d("%%%%%AddMap", "onCameraIdle 위도 : " + cameraPosition.target.latitude + "경도 : " + cameraPosition.target.longitude);
 
-                Log.d("#####", "온카메라아이들");
+                Log.d("%%%%%", "온카메라아이들");
 
             }
         });

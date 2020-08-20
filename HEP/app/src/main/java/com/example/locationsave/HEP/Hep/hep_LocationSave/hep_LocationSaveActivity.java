@@ -61,7 +61,7 @@ import java.util.UUID;
 
 import static android.content.ContentValues.TAG;
 
-public class hep_LocationSaveActivity extends AppCompatActivity implements KMS_AddLocationFragment.OnTimePickerSetListener {
+public class hep_LocationSaveActivity extends AppCompatActivity {
 
     private Pcs_LocationRecyclerView pcsFragment;
 
@@ -485,7 +485,7 @@ public class hep_LocationSaveActivity extends AppCompatActivity implements KMS_A
         new hep_locationImageDataArr().getImageDataArrayInstance().clear();
     }
 
-    int mHour;
+/*    int mHour;
     int mMin;
 
     @Override
@@ -494,5 +494,5 @@ public class hep_LocationSaveActivity extends AppCompatActivity implements KMS_A
         mMin = min;
         Log.d("#####프레그먼트 -> 액티비티", mHour + " / " + mMin + " / int to string : " + (Integer) mMin);
         Log.d("#####프레그먼트 -> 액티비티", "스트링 값 : " + s);
-    }
+    }*/
 }
