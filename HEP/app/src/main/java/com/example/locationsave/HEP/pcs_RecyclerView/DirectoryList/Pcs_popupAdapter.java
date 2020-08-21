@@ -45,13 +45,6 @@ public class Pcs_popupAdapter extends FirebaseRecyclerAdapter<KSH_DirectoryEntit
         Log.d("tag", "current position directory "+ getSnapshots().getSnapshot(position).getKey());
         Log.d("tag", String.valueOf(hep_location.getDirectoryid() == getSnapshots().getSnapshot(position).getKey()));
 
-//        Log.d("tag","compare  " + hep_location.getDirectoryid());
-//        if(getSnapshots().getSnapshot(position).getKey() == hep_location.getDirectoryid())
-//            Log.d("tag","TRUE");
-//        else
-//            Log.d("tag","FALSE " +getSnapshots().getSnapshot(position).getKey());
-//        holder.directoryRadioButton.setChecked(getSnapshots().getSnapshot(position).getKey() == currentKeyOfDirectory);
-
 
     }
 

@@ -1,8 +1,6 @@
 package com.example.locationsave.HEP.pcs_RecyclerView.locationList;
 
 import android.content.Intent;
-import android.graphics.Paint;
-import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -80,10 +78,6 @@ public class Pcs_RecyclerviewAdapter extends FirebaseRecyclerAdapter<hep_Locatio
     }
 
     class ListHolder extends RecyclerView.ViewHolder{
-        public DataSnapshot getData(int position){
-            return getSnapshots().getSnapshot(position);
-        }
-
 
         TextView textViewTitle;
         TextView textViewAddress;
@@ -111,7 +105,6 @@ public class Pcs_RecyclerviewAdapter extends FirebaseRecyclerAdapter<hep_Locatio
     }
 
     private void getTagFromLocationTag(String locationKey, final Pcs_Callback pcs_callback){
-        final ArrayList<String> tagKey = new ArrayList<>();
         databaseReference.getDatabase().getReference().child("locationtag").orderByChild("locationid").equalTo(locationKey).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
