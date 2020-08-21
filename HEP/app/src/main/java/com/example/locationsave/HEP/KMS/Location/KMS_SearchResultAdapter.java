@@ -74,7 +74,7 @@ public class KMS_SearchResultAdapter extends RecyclerView.Adapter<KMS_SearchResu
     @Override
     public void onBindViewHolder(@NonNull CustomViewHolder viewholder, int position) {
         if (position == LastPosition)
-            viewholder.itemView.setBackgroundColor(Color.BLUE);
+            viewholder.itemView.setBackgroundColor(Color.parseColor("#D8DEE1"));
         else
             viewholder.itemView.setBackgroundColor(Color.WHITE);
 

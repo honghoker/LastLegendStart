@@ -12,7 +12,7 @@
         android:id="@+id/toolbar_update"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="#ffff22"
+        android:background="#6D6D6D"
         android:elevation="0.1dp"
         android:minHeight="?attr/actionBarSize"
         android:theme="?attr/actionBarTheme"
@@ -68,7 +68,10 @@
     <ImageView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:srcCompat="@drawable/ic_delete" />
+        app:srcCompat="@drawable/ic_clear_black_24dp"
+        android:visibility="visible"
+        android:layout_marginBottom="50dp"
+        />
 
     <ImageView
         android:layout_width="match_parent"
@@ -112,7 +115,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:text="보탄" />
+                android:text="보탄"
+                android:visibility="gone"/>
 
             <TextView
                 android:layout_width="match_parent"

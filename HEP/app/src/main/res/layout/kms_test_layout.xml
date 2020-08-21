@@ -9,10 +9,15 @@
     <RelativeLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="@color/colorAccent"
+        android:background="#ffffff"
         android:layout_centerInParent="true"
         android:layout_marginTop="30dp"
         >
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/ic_baseline_search_24"
+            android:layout_marginTop="2dp"/>
 
         <AutoCompleteTextView
             android:id="@+id/editText200"
@@ -24,7 +29,8 @@
             android:imeOptions="actionSearch"
             android:maxLength="18"
             android:paddingRight="35dip"
-            android:singleLine="true" />
+            android:singleLine="true"
+            android:layout_marginLeft="27dp"/>
 
         <Button
             android:id="@+id/button200"

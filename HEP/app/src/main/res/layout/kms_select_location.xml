@@ -73,7 +73,8 @@
             android:id="@+id/imageView2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:srcCompat="@drawable/ic_delete" />
+            app:srcCompat="@drawable/ic_clear_black_24dp"
+            android:layout_marginBottom="35dp"/>
 
         <ImageView
             android:id="@+id/imageView5"
@@ -112,25 +113,25 @@
         android:visibility="visible">
 
         <RelativeLayout
+            android:id="@+id/search_resultBar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:visibility="gone"
-            android:id="@+id/search_resultBar">
+            android:visibility="gone">
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
-                android:text="검색 결과"
                 android:background="#cccccc"
                 android:gravity="center"
-                />
+                android:text="검색 결과" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
                 android:text="보탄"
-                android:layout_marginTop="10dp"/>
+                android:visibility="gone"/>
 
         </RelativeLayout>
 
@@ -140,11 +141,11 @@
             android:layout_width="match_parent"
             android:layout_height="170dp"
             android:background="#FFFFFF"
-            android:visibility="gone"
-            tools:ignore="NotSibling"
-            android:scrollbars="vertical"
+            android:scrollbarSize="15dp"
             android:scrollbarThumbVertical="@color/common_google_signin_btn_text_dark_disabled"
-            android:scrollbarSize="15dp"/>
+            android:scrollbars="vertical"
+            android:visibility="gone"
+            tools:ignore="NotSibling" />
     </LinearLayout>
 
 </RelativeLayout>

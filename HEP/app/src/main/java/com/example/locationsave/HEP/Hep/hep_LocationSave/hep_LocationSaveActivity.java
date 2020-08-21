@@ -67,7 +67,6 @@ public class hep_LocationSaveActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.hep_locationsaveactivity);
         setinit();
-
     }
 
     public void setTempValue() {
@@ -236,7 +235,7 @@ public class hep_LocationSaveActivity extends AppCompatActivity {
                             new String[]{ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME,
                                     ContactsContract.CommonDataKinds.Phone.NUMBER}, null, null, null);
                     cursor.moveToFirst();
-                    ((TextView) findViewById(R.id.locationDetailViewName)).setText(cursor.getString(0));
+                    ((TextView) findViewById(R.id.locationName)).setText(cursor.getString(0));
                     ((TextView) findViewById(R.id.locationContact)).setText(cursor.getString(1));
                     cursor.close();
                 }

@@ -90,7 +90,7 @@ public class KSH_AllSeeAdapter extends RecyclerView.Adapter<KSH_AllSeeAdapter.Vi
                                     @Override
                                     public void onClick(DialogInterface dialog, int which) {
                                         testMap.put(arrayKey.get(position)+"/name",String.valueOf(updateName.getText()));
-                                        testMap.put(arrayKey.get(position)+"/updateTime",ksh_date.testDate());
+                                        testMap.put(arrayKey.get(position)+"/updateTime",ksh_date.nowDate());
                                         databaseReference.updateChildren(testMap);
                                     }
                                 });

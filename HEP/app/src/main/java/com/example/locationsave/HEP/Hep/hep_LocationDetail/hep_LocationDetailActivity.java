@@ -127,7 +127,7 @@ public class hep_LocationDetailActivity extends AppCompatActivity {
                     for(DataSnapshot issue : dataSnapshot.getChildren()){
                         if(issue.getKey().equals(key)) {
                             hep_Location = issue.getValue(hep_Location.class);
-                            ((TextView) findViewById(R.id.locationDetailViewName)).setText(hep_Location.name);
+                            ((TextView) findViewById(R.id.heplocationDetailName)).setText(hep_Location.name);
 
                             ((TextView) findViewById(R.id.locationDetailViewAddr)).setText(hep_Location.addr);
 

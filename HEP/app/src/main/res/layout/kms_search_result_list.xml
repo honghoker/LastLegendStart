@@ -6,7 +6,7 @@
     android:layout_height="wrap_content"
     >
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:orientation="horizontal"
@@ -21,9 +21,9 @@
             app:srcCompat="@drawable/marker_design_pika2" />
 
         <LinearLayout
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="1"
+            android:layout_centerInParent="true"
             android:orientation="vertical">
 
             <TextView
@@ -44,13 +44,5 @@
                 android:text="TextView" />
         </LinearLayout>
 
-        <TextView
-            android:id="@+id/textView3"
-            android:layout_width="80dp"
-            android:layout_height="match_parent"
-            android:gravity="center"
-            android:text="이 위치 추가"
-            tools:text="이 위치 추가"
-            />
-    </LinearLayout>
+    </RelativeLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

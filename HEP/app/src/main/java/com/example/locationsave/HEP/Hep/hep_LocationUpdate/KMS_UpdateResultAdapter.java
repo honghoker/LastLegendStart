@@ -95,7 +95,7 @@ public class KMS_UpdateResultAdapter extends RecyclerView.Adapter<KMS_UpdateResu
         Log.d("View", "viewHolder Bind" + position);
         //개별 선택 위한 코드
         if (position == LastPosition)
-            viewholder.itemView.setBackgroundColor(Color.BLUE);
+            viewholder.itemView.setBackgroundColor(Color.parseColor("#D8DEE1"));
         else
             viewholder.itemView.setBackgroundColor(Color.WHITE);
 

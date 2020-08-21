@@ -4,12 +4,13 @@ import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.database.Cursor;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
-import android.util.Log;
+import android.provider.ContactsContract;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -94,8 +95,6 @@ public class hep_LocationUpdateActivity extends AppCompatActivity implements KMS
         fragmentManager.beginTransaction().hide(LocationAddFragment).commit();
         addFragmentFlag = false;
         updateRecyclerViewFlag = false;
-        Toast.makeText(getApplicationContext(),"리니어클릭",Toast.LENGTH_SHORT).show();
-
         latitude = templatitude;
         longitude = templongitude;
     }
@@ -263,12 +262,18 @@ public class hep_LocationUpdateActivity extends AppCompatActivity implements KMS
         // 6.0 마쉬멜로우 이상일 경우에는 권한 체크 후 권한 요청
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             if (checkSelfPermission(Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED && checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
-                Log.d(TAG, "권한 설정 완료");
             } else {
-                Log.d(TAG, "권한 설정 요청");
                 ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1);
             }
         }
+    }
+
+    static final int contact = 0;
+
+    public void onButtonContactAddOnClicked(View v) {
+        Intent intent = new Intent(Intent.ACTION_PICK);
+        intent.setData(ContactsContract.CommonDataKinds.Phone.CONTENT_URI);
+        startActivityForResult(intent, contact);
     }
 
     static final int pickImage = 1;
@@ -291,6 +296,17 @@ public class hep_LocationUpdateActivity extends AppCompatActivity implements KMS
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         switch (requestCode) {
+            case contact:
+                if (resultCode == RESULT_OK) {
+                    Cursor cursor = getContentResolver().query(data.getData(),
+                            new String[]{ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME,
+                                    ContactsContract.CommonDataKinds.Phone.NUMBER}, null, null, null);
+                    cursor.moveToFirst();
+                    ((TextView) findViewById(R.id.locationupdate_locationName)).setText(cursor.getString(0));
+                    ((TextView) findViewById(R.id.locationupdate_locationContact)).setText(cursor.getString(1));
+                    cursor.close();
+                }
+                break;
             case pickImage:
                 if (resultCode == RESULT_OK) {
                     if (new hep_locationImageDataArr().getImageDataArrayInstance().size() < 5) {
@@ -355,10 +371,12 @@ public class hep_LocationUpdateActivity extends AppCompatActivity implements KMS
         firebaseTagInsert();
         firebaseLocationInsert();
 
+        toastMake("저장 중");
         Handler handler = new Handler();
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
+                toastMake("저장 완료");
                 try{
                     if(LocationAddFragment != null)
                         fragmentManager.beginTransaction().remove(LocationAddFragment).commit();

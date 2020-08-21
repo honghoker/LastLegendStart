@@ -11,8 +11,4 @@ public class KSH_Date {
         String date = format.format(time);
         return date;
     }
-
-    public String testDate(){
-        return "testDate";
-    }
 }

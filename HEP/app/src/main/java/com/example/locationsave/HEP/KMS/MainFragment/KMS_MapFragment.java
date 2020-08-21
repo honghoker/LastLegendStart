@@ -68,7 +68,6 @@ public class KMS_MapFragment extends Fragment implements OnMapReadyCallback {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-
         ViewGroup rootView = (ViewGroup) inflater.inflate(R.layout.kms_map_fragment, container, false);
         compassView = rootView.findViewById(R.id.compass);
         scaleBarView = rootView.findViewById(R.id.scalebar);
@@ -90,7 +89,6 @@ public class KMS_MapFragment extends Fragment implements OnMapReadyCallback {
 
         if (mapFragment == null) {
             mapFragment = MapFragment.newInstance(mapOption.setFirstOptions());
-            Toast.makeText(getContext(), "main맵 생성 완료", Toast.LENGTH_SHORT).show();
             fm.beginTransaction().add(R.id.map, mapFragment).commit();
         }
         mapFragment.getMapAsync(this);

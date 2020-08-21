@@ -61,8 +61,6 @@ public class Pcs_LocationRecyclerView extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         rootView = (ViewGroup) inflater.inflate(R.layout.pcs_location_recyclerview, container, false);
         super.onCreate(savedInstanceState);
-        //Display Menu
-        setHasOptionsMenu(true);
         setUpRecyclerView();
         setUpSwipeHelper();
         return rootView;
@@ -75,30 +73,6 @@ public class Pcs_LocationRecyclerView extends Fragment {
     public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
         inflater.inflate(R.menu.pcs_recyclerview_menu, menu);
-    }
-
-    //when menu item selection,
-    @Override
-    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-
-        switch (item.getItemId()) {
-            case R.id.sorting_time:
-                onStop();
-                adapter = getFirebaseData("time");
-                adapter.notifyDataSetChanged();
-                recyclerView.setAdapter(adapter);
-                break;
-            case R.id.sorting_title:
-                onStop();
-                adapter = getFirebaseData("title");
-                adapter.notifyDataSetChanged();
-                recyclerView.setAdapter(adapter);
-                break;
-            default:
-                return super.onOptionsItemSelected(item);
-        }
-        onStart();
-        return true;
     }
 
 
@@ -137,7 +111,7 @@ public class Pcs_LocationRecyclerView extends Fragment {
     }
 
     //Get firebase data and put into adapter
-    private Pcs_RecyclerviewAdapter getFirebaseData(String field) {
+    private Pcs_RecyclerviewAdapter getFirebaseData(String field ){
 
         final Query query = db1.getReference().child("location").orderByChild("directoryid").equalTo(directoryid);
         query.addValueEventListener(new ValueEventListener() {

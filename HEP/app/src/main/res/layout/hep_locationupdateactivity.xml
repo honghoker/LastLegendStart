@@ -109,8 +109,7 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:ems="10"
-                        android:hint="이름"
-                        android:inputType="textPersonName" />
+                        android:hint="이름"/>
 
                     <ImageButton
                         android:id="@+id/locationupdate_imageButton"
@@ -170,8 +169,7 @@
                             android:layout_column="1"
                             android:layout_weight="1"
                             android:ems="10"
-                            android:hint="상세주소"
-                            android:inputType="textPersonName" />
+                            android:hint="상세주소" />
                     </TableRow>
 
                 </TableLayout>
@@ -254,8 +252,7 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:ems="10"
-                        android:hint="메모"
-                        android:inputType="textPersonName" />
+                        android:hint="메모"/>
                 </LinearLayout>
 
                 <Button
