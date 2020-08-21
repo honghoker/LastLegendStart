@@ -6,7 +6,6 @@
     android:layout_height="match_parent"
     android:background="#FFFFFF">
 
-
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
@@ -22,5 +21,7 @@
                 android:paddingBottom="?attr/actionBarSize">
 
             </androidx.recyclerview.widget.RecyclerView>
+
+
         </RelativeLayout>
 </FrameLayout>
