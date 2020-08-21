@@ -75,7 +75,7 @@ public class hep_LocationUpdateActivity extends AppCompatActivity implements KMS
     ArrayList<hep_ImageData> imagetempArrayList;
     ArrayList<String> temphashArrayList;
     int imageSizeLimit = 5;
-    double latitude, longitude;
+    double latitude, longitude, templatitude, templongitude;
 
     //프래그먼트 추가
     public static Fragment LocationAddFragment = null;
@@ -94,8 +94,9 @@ public class hep_LocationUpdateActivity extends AppCompatActivity implements KMS
         fragmentManager.beginTransaction().hide(LocationAddFragment).commit();
         //hep_LocationSaveActivity.this.getSupportFragmentManager().beginTransaction().hide(LocationAddFragment).commit();
         addFragmentFlag = false;
-        Toast.makeText(getApplicationContext(),"리니어클릭",Toast.LENGTH_SHORT).show();
 
+        latitude = templatitude;
+        longitude = templongitude;
     }
 
     @Override
@@ -124,6 +125,14 @@ public class hep_LocationUpdateActivity extends AppCompatActivity implements KMS
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()){
             case android.R.id.home:
+                try{
+                    if(LocationAddFragment != null)
+                        fragmentManager.beginTransaction().remove(LocationAddFragment).commit();
+                }
+                catch (Exception e){
+                    e.printStackTrace();
+                }
+                LocationAddFragment = null;
                 setResult(RESULT_CANCELED);
                 finish();
                 break;
@@ -136,7 +145,6 @@ public class hep_LocationUpdateActivity extends AppCompatActivity implements KMS
         hep_Location = getIntent().getParcelableExtra("hep_Location");
         this.latitude = hep_Location.latitude;
         this.longitude = hep_Location.longitude;
-        Log.d("%%%%%객체 위경도",latitude + " // " + longitude);
 
         tagDataArrayList = new ArrayList<>();
 
@@ -354,35 +362,18 @@ public class hep_LocationUpdateActivity extends AppCompatActivity implements KMS
         firebaseTagInsert();
         firebaseLocationInsert();
 
-        Query latilonginameQuery = new hep_FireBase().getFireBaseDatabaseInstance().getReference().child("location").orderByChild("directoryid").equalTo(KMS_MainActivity.directoryid);
-        latilonginameQuery.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                Log.d("%%%%%마커업데이트", "업데이트 마커 갱신");
-
-                new KMS_MarkerManager().getInstanceMarkerManager().initMarker();
-                for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
-                    hep_Location hep_location = dataSnapshot.getValue(hep_Location.class);
-                    new KMS_MarkerManager().getInstanceMarkerManager().addMarker(kms_markerManager.markers, hep_location, dataSnapshot.getKey());
-                    Log.d("%%%%%마커업데이트 위도", hep_location.latitude + " / " + hep_location.longitude);
-
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });
-
-
-
-        Log.d("@@@@@", "handler 생성");
         Handler handler = new Handler();
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
-                Log.d("@@@@@", "handler run");
+                try{
+                    if(LocationAddFragment != null)
+                        fragmentManager.beginTransaction().remove(LocationAddFragment).commit();
+                }
+                catch (Exception e){
+                    e.printStackTrace();
+                }
+                LocationAddFragment = null;
                 setResult(RESULT_OK);
                 finish();
             }
@@ -438,7 +429,6 @@ public class hep_LocationUpdateActivity extends AppCompatActivity implements KMS
                         });
 
                         new hep_FireBase().getFireBaseDatabaseInstance().getReference().child("locationtag").child(dataSnapshot.getKey()).removeValue();
-                        Log.d("@@@@@", "locationtag 제거");
                     }
 
                     for(int i = 0; i < new hep_HashTagArr().getHashTagArr().size(); i++){
@@ -465,7 +455,6 @@ public class hep_LocationUpdateActivity extends AppCompatActivity implements KMS
                                 hashlocationtag.put("tagid", hep_locationTag.tagid);
 
                                 new hep_FireBase().getFireBaseDatabaseInstance().getReference().child("locationtag").push().setValue(hashlocationtag); // locationtag 저장
-                                Log.d("@@@@@", "locationtag 삽입");
                             }
                         });
                     }
@@ -570,13 +559,10 @@ public class hep_LocationUpdateActivity extends AppCompatActivity implements KMS
     public void onBackPressed() {
         //super.onBackPressed();
         if(LocationAddFragment == null){
-            toastMake("프래그먼트 생성조차 되지 않음");
             finish();
         }
 
         else if(addFragmentFlag == false){
-            toastMake("프래그먼트 remove & flag false");
-            //fragmentTransaction.remove(LocationAddFragment).commit();
             fragmentManager.beginTransaction().remove(LocationAddFragment).commit();
 
             //hep_LocationSaveActivity.this.getSupportFragmentManager().beginTransaction().remove(LocationAddFragment).commit();
@@ -584,7 +570,6 @@ public class hep_LocationUpdateActivity extends AppCompatActivity implements KMS
             finish();
         }
         else if (LocationAddFragment != null) { //프래그먼트 있을 때 누르면 숨김
-            toastMake("프래그먼트 hide");
             //fragmentTransaction.hide(LocationAddFragment).commit();
             fragmentManager.beginTransaction().hide(LocationAddFragment).commit();
             //hep_LocationSaveActivity.this.getSupportFragmentManager().beginTransaction().hide(LocationAddFragment).commit();
@@ -624,9 +609,9 @@ public class hep_LocationUpdateActivity extends AppCompatActivity implements KMS
 */
 
             //리스트에서 넘어가면 클릭한 좌표
-            bundle.putDouble("latitude",latitude);
-            bundle.putDouble("longitude",longitude);
-            kms_mapOption.setFirstAddOptions(latitude,longitude);
+            bundle.putDouble("latitude", latitude);
+            bundle.putDouble("longitude", longitude);
+            kms_mapOption.setFirstAddOptions(latitude, longitude);
             Log.d("%%%%%로케업뎃","카메라 전환");
 
             bundle.putString("Title", locationnameTextView.getText().toString()); // key , value
@@ -636,8 +621,6 @@ public class hep_LocationUpdateActivity extends AppCompatActivity implements KMS
             LocationAddFragment.setArguments(bundle); //갱신?
             Log.d("%%%%%로케업뎃","프래그먼트 번들 갱신");
 
-
-            toastMake("프래그먼트 new");
             //fragmentTransaction.add(R.id.fragmentContainer, LocationAddFragment).commit();
             addFragmentFlag = true;
 
@@ -647,7 +630,6 @@ public class hep_LocationUpdateActivity extends AppCompatActivity implements KMS
         }
 
         else if(LocationAddFragment != null && addFragmentFlag == false){ //생성된 프레그먼트 있으면
-            toastMake("프래그먼트 show");
             //fragmentTransaction.show(LocationAddFragment).commit();
             fragmentManager.beginTransaction().show(LocationAddFragment).commit();
 
@@ -671,16 +653,13 @@ public class hep_LocationUpdateActivity extends AppCompatActivity implements KMS
     }
 
 
-    int mHour;
-    int mMin;
 
     @Override
-    public void onTimePickerSet(int hour, int min, String s) {   //프레그먼트 데이터 받아오는 함수 오버라이드
-        mHour = hour;
-        mMin = min;
-        Log.d("%%%%%프레그먼트 -> 액티비티", mHour + " / " + mMin + " / int to string : " + (Integer) mMin);
-        Log.d("%%%%%프레그먼트 -> 액티비티", "스트링 값 : " + s);
+    public void onTimePickerSet(double hour, double min) {   //프레그먼트 데이터 받아오는 함수 오버라이드
+        templatitude = hour;
+        templongitude = min;
     }
+
 
 
 }

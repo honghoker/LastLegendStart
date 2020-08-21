@@ -142,7 +142,6 @@ public class KMS_AddLocationFragment extends Fragment implements OnMapReadyCallb
 
         Log.d("%%%%%액티비티 -> 프레그먼트로 넘어온 값 title : ", a2 + " / address : " + a3);
 
-        onTimePickerSetListener.onTimePickerSet(2131232, 3, "스트링 테스트"); //값 넘겨줌
         Log.d("%%%%%", "값 넘겨줌");
 
 
@@ -168,6 +167,7 @@ public class KMS_AddLocationFragment extends Fragment implements OnMapReadyCallb
             @Override
             public void onCameraIdle() {
                 CameraPosition cameraPosition = AddMap.getCameraPosition(); //현재 위치 정보 반환하는 메소드
+                onTimePickerSetListener.onTimePickerSet(cameraPosition.target.latitude, cameraPosition.target.longitude); //값 넘겨줌
 
                 ReverseGeocodingAsyncTask asyncTask = new ReverseGeocodingAsyncTask(cameraPosition.target.latitude, cameraPosition.target.longitude);
                 ReverseGetAddress reverseGetAddress = new ReverseGetAddress();
@@ -202,7 +202,8 @@ public class KMS_AddLocationFragment extends Fragment implements OnMapReadyCallb
     }
 
     public interface OnTimePickerSetListener {  //보낼 데이터 인터페이스 생성
-        void onTimePickerSet(int hour, int min, String text);
+        void onTimePickerSet(double hour, double min);
+
 
     }
 }

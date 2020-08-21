@@ -145,14 +145,14 @@ public class Pcs_LocationRecyclerView extends Fragment {
     //Get firebase data and put into adapter
     private Pcs_RecyclerviewAdapter getFirebaseData(String field){
         //Query query = db1.getReference().child("location").orderByChild(field);
+        Log.d("@@@@@@@@@", "directoryid = " + directoryid);
         Query query = db1.getReference().child("location").orderByChild("directoryid").equalTo(directoryid);
         FirebaseRecyclerOptions options = new FirebaseRecyclerOptions.Builder<hep_Location>()
                 .setQuery(query, hep_Location.class)
                 .build();
 
-        if(options.getSnapshots() == null) return new Pcs_RecyclerviewAdapter(null);
-        else return new Pcs_RecyclerviewAdapter(options);
-
+        //if(options.getSnapshots() == null) return new Pcs_RecyclerviewAdapter(null);
+        return new Pcs_RecyclerviewAdapter(options);
     }
 
 
