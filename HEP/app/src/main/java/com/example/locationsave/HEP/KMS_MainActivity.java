@@ -137,6 +137,7 @@ public class KMS_MainActivity extends AppCompatActivity implements NavigationVie
     protected void onDestroy() {
         super.onDestroy();
 
+        LocationFragmet = null;
         Query recentQuery = new hep_FireBase().getFireBaseDatabaseInstance().getReference().child("recent").orderByChild("token").equalTo(new hep_FirebaseUser().getFirebaseUserInstance().getUid());
         recentQuery.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override

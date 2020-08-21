@@ -31,7 +31,12 @@ public class CJH_SignInFacebook {
     protected CallbackManager mCallbackManager;
     private FacebookCallback facebookCallback;
     private LoginButton signInFacebookOrigin;
-    CJH_SignInFacebook(Context context, LoginButton signInFacebookOrigin){
+
+    public CJH_SignInFacebook(){
+
+    };
+
+    public CJH_SignInFacebook(Context context, LoginButton signInFacebookOrigin){
         this.context = context;
         this.signInFacebookOrigin=signInFacebookOrigin;
 
@@ -69,7 +74,7 @@ public class CJH_SignInFacebook {
 
         //페이스북의 토큰을 받아 로그인 실행
         AuthCredential credential = FacebookAuthProvider.getCredential(token.getToken());
-        new hep_FirebaseUser().getFIrebaseAuthInstance().signInWithCredential(credential)
+        new hep_FirebaseUser().getFirebaseAuthInstance().signInWithCredential(credential)
                 .addOnCompleteListener((Activity) context, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
@@ -93,7 +98,7 @@ public class CJH_SignInFacebook {
     }
 
     //페이스북 로그아웃
-    protected void signOutFacebook(){
+    public void signOutFacebook(){
         LoginManager.getInstance().logOut();
         return;
     }

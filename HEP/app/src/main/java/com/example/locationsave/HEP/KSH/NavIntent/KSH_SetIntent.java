@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -15,6 +16,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.drawerlayout.widget.DrawerLayout;
 
+import com.example.locationsave.HEP.Hep.hep_FirebaseUser;
 import com.example.locationsave.HEP.KMS.MainFragment.KMS_FragmentFlagManager;
 import com.example.locationsave.HEP.KMS.MainFragment.KMS_MapFragment;
 import com.example.locationsave.HEP.KMS.Map.KMS_MapOption;
@@ -70,6 +72,13 @@ public class KSH_SetIntent extends AppCompatActivity {
         mapOptionInit();
         // 뒤로가기 버튼 생성
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        ((TextView)findViewById(R.id.logout)).setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                new hep_FirebaseUser().logout();
+                return false;
+            }
+        });
     }
 
     @Override

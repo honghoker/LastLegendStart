@@ -27,7 +27,7 @@ public class CJH_SignInGoogle{
 
     private Context context;
 
-    CJH_SignInGoogle(Context context, String client_id){
+    public CJH_SignInGoogle(Context context, String client_id){
         this.context = context;
 
         //구글로그인시 전달받을것들
@@ -51,7 +51,7 @@ public class CJH_SignInGoogle{
             AuthCredential credential = GoogleAuthProvider.getCredential(idToken, null);
 
             //구글로 전달받은 토큰을 이용하여 로그인
-            new hep_FirebaseUser().getFIrebaseAuthInstance().signInWithCredential(credential)
+            new hep_FirebaseUser().getFirebaseAuthInstance().signInWithCredential(credential)
                     .addOnCompleteListener((Activity) context, new OnCompleteListener<AuthResult>() {
                         @Override
                         public void onComplete(@NonNull Task<AuthResult> task) {
@@ -70,7 +70,7 @@ public class CJH_SignInGoogle{
         }
     }
     //구글 로그아웃
-    protected void signOutGoogle(){
+    public void signOutGoogle(){
         mGoogleSignInClient.signOut().addOnCompleteListener((Activity) context,
                 new OnCompleteListener<Void>() {
                     @Override
