@@ -42,7 +42,9 @@ import com.example.locationsave.HEP.KMS.MainFragment.KMS_MapFragment;
 import com.example.locationsave.HEP.KMS.MainFragment.KMS_TestLocationFragment;
 import com.example.locationsave.HEP.KMS.Map.KMS_CameraManager;
 import com.example.locationsave.HEP.KMS.Map.KMS_MapOption;
+import com.example.locationsave.HEP.KMS.Map.KMS_MarkerManager;
 import com.example.locationsave.HEP.KMS.TEST.KMS_TestLayout;
+import com.example.locationsave.HEP.KMS_MainActivity;
 import com.example.locationsave.HEP.KSH.KSH_DirectoryEntity;
 import com.example.locationsave.R;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -317,6 +319,8 @@ public class hep_LocationUpdateActivity extends AppCompatActivity implements KMS
         }
     }
 
+    KMS_MarkerManager kms_markerManager = new KMS_MarkerManager().getInstanceMarkerManager();
+
     public void onButtonLocationUpdateClicked(View v) {
         int delay;
 
@@ -330,6 +334,27 @@ public class hep_LocationUpdateActivity extends AppCompatActivity implements KMS
         firebaseImageInsert();
         firebaseTagInsert();
         firebaseLocationInsert();
+
+        Query latilonginameQuery = new hep_FireBase().getFireBaseDatabaseInstance().getReference().child("location").orderByChild("directoryid").equalTo(KMS_MainActivity.directoryid);
+        latilonginameQuery.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                Log.d("%%%%%마커업데이트", "업데이트 마커 갱신");
+
+                new KMS_MarkerManager().getInstanceMarkerManager().initMarker();
+                for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                    hep_Location hep_location = dataSnapshot.getValue(hep_Location.class);
+                    new KMS_MarkerManager().getInstanceMarkerManager().addMarker(kms_markerManager.markers, hep_location, dataSnapshot.getKey());
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
+
 
         Log.d("@@@@@", "handler 생성");
         Handler handler = new Handler();

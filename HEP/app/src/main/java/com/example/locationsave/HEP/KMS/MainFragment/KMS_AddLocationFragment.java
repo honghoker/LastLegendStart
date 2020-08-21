@@ -151,6 +151,8 @@ public class KMS_AddLocationFragment extends Fragment implements OnMapReadyCallb
             @Override
             public void onClick(View v) {
                 Toast.makeText(getContext(),"리니어클릭",Toast.LENGTH_SHORT).show();
+                FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+                fragmentManager.beginTransaction().remove().commit();
             }
         }
         );
