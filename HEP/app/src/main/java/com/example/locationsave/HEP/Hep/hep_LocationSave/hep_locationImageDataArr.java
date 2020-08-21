@@ -1,7 +1,5 @@
 package com.example.locationsave.HEP.Hep.hep_LocationSave;
 
-import com.example.locationsave.HEP.Hep.hep_LocationSave.hep_ImageData;
-
 import java.util.ArrayList;
 
 public class hep_locationImageDataArr {

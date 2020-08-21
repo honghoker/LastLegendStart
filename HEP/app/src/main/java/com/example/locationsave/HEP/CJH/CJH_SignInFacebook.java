@@ -30,7 +30,6 @@ public class CJH_SignInFacebook {
 
     protected CallbackManager mCallbackManager;
     private FacebookCallback facebookCallback;
-    private LoginButton signInFacebookOrigin;
 
     public CJH_SignInFacebook(){
 
@@ -38,7 +37,6 @@ public class CJH_SignInFacebook {
 
     public CJH_SignInFacebook(Context context, LoginButton signInFacebookOrigin){
         this.context = context;
-        this.signInFacebookOrigin=signInFacebookOrigin;
 
         //콜백 생성
         mCallbackManager = CallbackManager.Factory.create();
@@ -79,18 +77,12 @@ public class CJH_SignInFacebook {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
-                            // Sign in success, update UI with the signed-in user's information
-                            Log.d(TAG_FACEBOOK, "signInWithCredential:success");
-
-                            //로그인 성공시 다음으로
 
                             Intent intent = new Intent(context.getApplicationContext(), KMS_MainActivity.class);
                             context.startActivity(intent);
                             ((Activity) context).finish();
                         } else {
-                            // If sign in fails, display a message to the user.
-                            Log.w(TAG_FACEBOOK, "signInWithCredential:failure", task.getException());
-                            Toast.makeText(context, "Authentication failed.",
+                            Toast.makeText(context, "로그인 실패",
                                     Toast.LENGTH_SHORT).show();
                         }
                     }

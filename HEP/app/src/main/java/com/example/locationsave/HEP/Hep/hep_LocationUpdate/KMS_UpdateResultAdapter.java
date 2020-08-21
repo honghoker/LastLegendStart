@@ -14,9 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.locationsave.HEP.KMS.Location.KMS_LocationSearchResult;
 import com.example.locationsave.HEP.KMS.MainFragment.KMS_AddLocationFragment;
-import com.example.locationsave.HEP.KMS.MainFragment.KMS_MapFragment;
 import com.example.locationsave.HEP.KMS.Map.KMS_CameraManager;
-import com.example.locationsave.HEP.KMS_MainActivity;
 import com.example.locationsave.R;
 import com.naver.maps.map.NaverMap;
 

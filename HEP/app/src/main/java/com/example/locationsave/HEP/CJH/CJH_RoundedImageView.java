@@ -19,7 +19,6 @@ public class CJH_RoundedImageView extends androidx.appcompat.widget.AppCompatIma
 
     public CJH_RoundedImageView(Context context) {
         super(context);
-        // TODO Auto-generated constructor stub
     }
 
     public CJH_RoundedImageView(Context context, AttributeSet attrs) {

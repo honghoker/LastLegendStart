@@ -15,8 +15,6 @@ import android.widget.ImageButton;
 import android.widget.RelativeLayout;
 
 import com.example.locationsave.HEP.Hep.hep_LocationSave.hep_FlowLayout;
-import com.example.locationsave.HEP.Hep.hep_LocationSave.hep_LocationSaveActivity;
-import com.example.locationsave.HEP.Hep.hep_LocationSave.hep_LocationSave_FlowLayoutImageItem;
 import com.example.locationsave.R;
 
 import java.io.IOException;

@@ -3,7 +3,6 @@ package com.example.locationsave.HEP.CJH;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.util.Log;
 
 import androidx.annotation.NonNull;
 
@@ -21,8 +20,6 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.GoogleAuthProvider;
 
 public class CJH_SignInGoogle{
-    protected final String TAG_GOOGLE = "Google";
-
     protected GoogleSignInClient mGoogleSignInClient;
 
     private Context context;
@@ -45,7 +42,6 @@ public class CJH_SignInGoogle{
         Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
         try {
             GoogleSignInAccount account = task.getResult(ApiException.class);
-            Log.d(TAG_GOOGLE, "firebaseAuthWithGoogle:" + account.getId());
 
             String idToken=account.getIdToken();
             AuthCredential credential = GoogleAuthProvider.getCredential(idToken, null);
@@ -61,12 +57,10 @@ public class CJH_SignInGoogle{
                                 context.startActivity(intent);
                                 ((Activity) context).finish();
                             } else {
-                                Log.w(TAG_GOOGLE, "signInWithCredential:failure", task.getException());
                             }
                         }
                     });
         } catch (ApiException e) {
-            Log.w(TAG_GOOGLE, "Google sign in failed", e);
         }
     }
     //구글 로그아웃
