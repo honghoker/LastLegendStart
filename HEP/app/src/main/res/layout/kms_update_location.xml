@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/relativeLayout_update_location"
+    android:layout_width="wrap_content"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:visibility="visible">
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar_update"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#ffff22"
+        android:elevation="0.1dp"
+        android:minHeight="?attr/actionBarSize"
+        android:theme="?attr/actionBarTheme"
+        android:visibility="visible"
+        app:title="검색하기" />
+
+    <com.example.locationsave.HEP.KMS.TEST.KMS_TestLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"></com.example.locationsave.HEP.KMS.TEST.KMS_TestLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:layout_marginEnd="100dp"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:id="@+id/linearLayout_update"
+            android:layout_width="wrap_content"
+            android:layout_height="70dp"
+            android:background="@drawable/selectlocation"
+            android:clickable="true"
+            android:minWidth="220dp"
+            android:onClick="onLinearClicked"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/updateTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="0dp"
+                android:text="이 위치 저장"
+                android:textSize="14sp" />
+
+            <TextView
+                android:id="@+id/updateLocation_AddressInfo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="10dp"
+                android:gravity="center"
+                android:textSize="10sp" />
+        </LinearLayout>
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:layout_marginTop="0dp"
+        app:srcCompat="@drawable/ic_down" />
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:srcCompat="@drawable/ic_delete" />
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="invisible"
+        app:srcCompat="@drawable/ic_down" />
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="invisible"
+        app:srcCompat="@drawable/ic_down" />
+    </LinearLayout>
+
+    <TextView
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_alignParentBottom="true"
+    android:background="#BC4F4F53"
+    android:padding="10dp"
+    android:text="  지도를 움직여서 위치를 정할 수 있습니다."
+    android:textColor="#FFFFFF"
+    android:textSize="15sp" />
+    <LinearLayout
+        android:id="@+id/updateResult_LinearLayout"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_alignParentEnd="true"
+    android:layout_alignParentBottom="true"
+    android:orientation="vertical"
+    android:visibility="visible">
+
+        <RelativeLayout
+            android:id="@+id/updateResultBar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:visibility="gone">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="보탄" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:background="#cccccc"
+                android:gravity="center"
+                android:text="검색 결과" />
+        </RelativeLayout>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/updateResult_RecyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="170dp"
+            android:background="#FF0000"
+            android:scrollbarSize="15dp"
+            android:scrollbarThumbVertical="@color/common_google_signin_btn_text_dark_disabled"
+            android:scrollbars="vertical"
+            android:visibility="gone"
+            tools:ignore="NotSibling" />
+    </LinearLayout>
+
+
+
+
+
+
+</RelativeLayout>

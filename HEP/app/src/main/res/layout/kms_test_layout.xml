@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_centerHorizontal="true"
+    android:layout_marginTop="50dp"
+    >
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@color/colorAccent"
+        android:layout_centerInParent="true"
+        android:layout_marginTop="30dp"
+        >
+
+        <AutoCompleteTextView
+            android:id="@+id/editText200"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            android:background="#00FFFFFF"
+            android:hint="검색할 장소를 입력하세요."
+            android:imeOptions="actionSearch"
+            android:maxLength="18"
+            android:paddingRight="35dip"
+            android:singleLine="true" />
+
+        <Button
+            android:id="@+id/button200"
+            android:layout_width="30dip"
+            android:layout_height="30dip"
+            android:layout_marginRight="5dip"
+            android:layout_toRightOf="@id/editText200"
+            android:background="@drawable/ic_clear_black_24dp"
+            android:gravity="center" />
+    </RelativeLayout>
+
+</RelativeLayout>

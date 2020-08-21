@@ -8,6 +8,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -244,18 +245,25 @@ public class hep_LocationDetailActivity extends AppCompatActivity {
     }
 
     public void ContactCallMessage(View v){
-        Intent intent = null;
-        String Contact = ((TextView)findViewById(R.id.locationDetailViewContact)).getText().toString();
-        switch (v.getId()){
-            case R.id.locationDetailCall:
-                intent = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:" + Contact));
-                startActivity(intent);
-                break;
+        if(!((TextView)findViewById(R.id.locationDetailViewContact)).getText().toString().trim().equals("")) {
+            Intent intent = null;
 
-            case R.id.locationDetailMessage:
-                intent = new Intent(Intent.ACTION_SENDTO, Uri.parse("sms:" + Contact));
-                startActivity(intent);
-                break;
+            String Contact = ((TextView)findViewById(R.id.locationDetailViewContact)).getText().toString();
+
+            switch (v.getId()){
+                case R.id.locationDetailCall:
+                    intent = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:" + Contact));
+                    startActivity(intent);
+                    break;
+
+                case R.id.locationDetailMessage:
+                    intent = new Intent(Intent.ACTION_SENDTO, Uri.parse("sms:" + Contact));
+                    startActivity(intent);
+                    break;
+            }
+        }
+        else{
+            Toast.makeText(this, "저장된 연락처가 없습니다.", Toast.LENGTH_SHORT).show();
         }
     }
 }
