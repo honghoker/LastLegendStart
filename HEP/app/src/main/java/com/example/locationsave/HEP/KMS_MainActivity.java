@@ -590,7 +590,8 @@ public class KMS_MainActivity extends AppCompatActivity implements NavigationVie
                 return true;
             } //검색 버튼 종료
             case R.id.menu_tag_filter: {
-                showHashTagFilter(); // 안보인다면 해시태그를 보이게 한 뒤 해시플래그를 트루로 만든다.
+//                showHashTagFilter(); // 안보인다면 해시태그를 보이게 한 뒤 해시플래그를 트루로 만든다.
+                Toast.makeText(getApplicationContext(), "현재 준비중입니다.", Toast.LENGTH_LONG).show();
                 return true;
             }
             default:

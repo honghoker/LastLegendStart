@@ -5,8 +5,8 @@ public class CapsulizeDataObjectNKey {
     private String dataKey;
 
     public CapsulizeDataObjectNKey(Object firebaseData, String dataKey) {
-        this.firebaseData = firebaseData;
-        this.dataKey = dataKey;
+            this.firebaseData = firebaseData;
+            this.dataKey = dataKey;
     }
 
     public Object getFirebaseData() {

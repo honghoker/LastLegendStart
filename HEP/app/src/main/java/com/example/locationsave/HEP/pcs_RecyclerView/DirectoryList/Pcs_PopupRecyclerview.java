@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.locationsave.HEP.Hep.hep_DTO.hep_Location;
 import com.example.locationsave.HEP.Hep.hep_FireBase;
+import com.example.locationsave.HEP.Hep.hep_FirebaseUser;
 import com.example.locationsave.HEP.KSH.KSH_DirectoryEntity;
 
 
@@ -45,7 +46,8 @@ public class Pcs_PopupRecyclerview extends PopupWindow {
         recyclerView.setLayoutManager(new LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false));
         recyclerView.addItemDecoration(new DividerItemDecoration(activity, LinearLayoutManager.VERTICAL));
 
-        Query query = new hep_FireBase().getFireBaseDatabaseInstance().getReference().child("directory");
+        Query query = new hep_FireBase().getFireBaseDatabaseInstance().getReference().child("directory").orderByChild("token").equalTo(new hep_FirebaseUser().getFirebaseUserInstance().getUid());
+//        Query query = new hep_FireBase().getFireBaseDatabaseInstance().getReference().child("directory");
         FirebaseRecyclerOptions options = new FirebaseRecyclerOptions.Builder<KSH_DirectoryEntity>()
                 .setQuery(query, KSH_DirectoryEntity.class).build();
 
