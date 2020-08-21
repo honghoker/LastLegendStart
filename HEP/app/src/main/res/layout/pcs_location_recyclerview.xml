@@ -7,7 +7,7 @@
     android:background="#FFFFFF">
 
 
-        <RelativeLayout
+    <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
@@ -23,5 +23,22 @@
 
             </androidx.recyclerview.widget.RecyclerView>
         </RelativeLayout>
+
+    <LinearLayout
+        android:id="@+id/pcsLocation_recyclerview_Datainfo"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:visibility="gone">
+
+        <TextView
+            android:id="@+id/textView2"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:text="저장된 내용이 없습니다."
+            android:textColor="#000000"
+            android:textSize="24sp" />
+    </LinearLayout>
 
 </FrameLayout>
