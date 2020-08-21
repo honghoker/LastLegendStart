@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -125,6 +126,7 @@ public class KMS_AddLocationFragment extends Fragment implements OnMapReadyCallb
         activity = null;
     }
 
+    LinearLayout linearLayout;
 
     @Nullable
     @Override
@@ -144,6 +146,14 @@ public class KMS_AddLocationFragment extends Fragment implements OnMapReadyCallb
         onTimePickerSetListener.onTimePickerSet(2131232, 3, "스트링 테스트"); //값 넘겨줌
         Log.d("%%%%%", "값 넘겨줌");
 
+        linearLayout = rootView.findViewById(R.id.linearLayout_update);
+        linearLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(getContext(),"리니어클릭",Toast.LENGTH_SHORT).show();
+            }
+        }
+        );
 
 /*        Button btn = rootView.findViewById(R.id.button);
         btn.setOnClickListener(new View.OnClickListener() {
@@ -171,7 +181,8 @@ public class KMS_AddLocationFragment extends Fragment implements OnMapReadyCallb
                 ReverseGetAddress reverseGetAddress = new ReverseGetAddress();
                 try {
                     String resultAddr = reverseGetAddress.getJsonString(asyncTask.execute().get());
-                    //((TextView)activity.findViewById(R.id.selectLocation_AddressInfo)).setText(resultAddr);
+                    ((TextView)activity.findViewById(R.id.updateLocation_AddressInfo)).setText(resultAddr);
+                    ((TextView)activity.findViewById(R.id.locationupdate_locationAddr)).setText(resultAddr);
                     Log.d("%%%%%", "주소 : " + resultAddr);
 
                 } catch (ExecutionException e) {

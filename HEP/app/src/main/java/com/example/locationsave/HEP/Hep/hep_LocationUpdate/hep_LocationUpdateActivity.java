@@ -42,6 +42,7 @@ import com.example.locationsave.HEP.KMS.MainFragment.KMS_MapFragment;
 import com.example.locationsave.HEP.KMS.MainFragment.KMS_TestLocationFragment;
 import com.example.locationsave.HEP.KMS.Map.KMS_CameraManager;
 import com.example.locationsave.HEP.KMS.Map.KMS_MapOption;
+import com.example.locationsave.HEP.KMS.TEST.KMS_TestLayout;
 import com.example.locationsave.HEP.KSH.KSH_DirectoryEntity;
 import com.example.locationsave.R;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -84,7 +85,6 @@ public class hep_LocationUpdateActivity extends AppCompatActivity implements KMS
 
     KMS_CameraManager kms_cameraManager = KMS_CameraManager.getInstanceCameraManager();
     KMS_MapOption kms_mapOption = KMS_MapOption.getInstanceMapOption();
-
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
