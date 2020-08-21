@@ -20,8 +20,6 @@ public class CJH_TermsInfo extends AppCompatActivity {
         //화면 풀스크린실행
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.cjh_termsinfo_activity);
-        //상단바 숨기기
-        getSupportActionBar().hide();
 
         title=findViewById(R.id.terms_title);
         content=findViewById(R.id.terms_content);
