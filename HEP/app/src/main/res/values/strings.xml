@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">LocationSave</string>
+    <string name="app_name">여기어디</string>
     <string name="capture_new_image">카메라</string>
     <string name="change_album_text">앨범 변경</string>
     <string name="over_limit_msg">이미지는 5장까지 선택할 수 있습니다.</string>
