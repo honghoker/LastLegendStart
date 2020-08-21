@@ -6,6 +6,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -133,6 +134,7 @@ public class KMS_MainActivity extends AppCompatActivity implements NavigationVie
                 CameraPosition cameraPosition = NMap.getCameraPosition();
                 result.put("latitude", cameraPosition.target.latitude);
                 result.put("longitude", cameraPosition.target.longitude);
+                Log.d("@@@@@@", "cameraPosition.target.latitude" + cameraPosition.target.latitude + ", cameraPosition.target.longitude = " + cameraPosition.target.longitude);
                 if (directoryid != null)
                     result.put("directoryid", directoryid);
 
@@ -659,10 +661,6 @@ public class KMS_MainActivity extends AppCompatActivity implements NavigationVie
         setContentView(R.layout.kms_activity_main);
         networkStatus();
 
-        ksh_init();
-        pcs_hashTagInit();
-        kms_init();
-
         Query directoryQuery = new hep_FireBase().getFireBaseDatabaseInstance().getReference().child("directory").orderByChild("token").equalTo(new hep_FirebaseUser().getFirebaseUserInstance().getUid());
         directoryQuery.addValueEventListener(new ValueEventListener() {
             @Override
@@ -750,6 +748,7 @@ public class KMS_MainActivity extends AppCompatActivity implements NavigationVie
 
                             }
                         });
+
                     }
                 });
             }
@@ -758,6 +757,10 @@ public class KMS_MainActivity extends AppCompatActivity implements NavigationVie
             public void onCancelled(@NonNull DatabaseError databaseError) {
             }
         });
+
+        ksh_init();
+        pcs_hashTagInit();
+        kms_init();
 
         // loading
         Intent intent = new Intent(this, KSH_LoadingActivity.class);

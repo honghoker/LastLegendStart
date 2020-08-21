@@ -33,17 +33,21 @@ import com.example.locationsave.HEP.KMS.Location.KMS_SelectLocation;
 import com.example.locationsave.HEP.KMS.Map.KMS_MapOption;
 import com.example.locationsave.HEP.KMS.Map.KMS_MarkerManager;
 import com.example.locationsave.R;
+import com.naver.maps.geometry.LatLng;
 import com.naver.maps.map.CameraPosition;
 import com.naver.maps.map.MapFragment;
 import com.naver.maps.map.NaverMap;
 import com.naver.maps.map.OnMapReadyCallback;
 import com.naver.maps.map.UiSettings;
+import com.naver.maps.map.overlay.Marker;
+import com.naver.maps.map.overlay.OverlayImage;
 import com.naver.maps.map.util.FusedLocationSource;
 
 import java.util.ArrayList;
 import java.util.concurrent.ExecutionException;
 
 import static com.example.locationsave.HEP.Hep.hep_LocationUpdate.hep_LocationUpdateActivity.updateRecyclerViewFlag;
+import static com.example.locationsave.HEP.KMS.MainFragment.KMS_MapFragment.NMap;
 
 public class KMS_AddLocationFragment extends Fragment implements OnMapReadyCallback {
     Activity activity;
@@ -69,6 +73,9 @@ public class KMS_AddLocationFragment extends Fragment implements OnMapReadyCallb
     static InputMethodManager inputMethodManager;
     public static RelativeLayout updateRelativeBar;
 
+    double latitude, longitude;
+
+    boolean addMarkerFlag = false;
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -113,6 +120,8 @@ public class KMS_AddLocationFragment extends Fragment implements OnMapReadyCallb
 
         String a2 = getArguments().getString("Title");
         String a3 = getArguments().getString("Address");
+        latitude = getArguments().getDouble("latitude");
+        longitude = getArguments().getDouble("longitude");
 
         updateRecyclerView = rootView.findViewById(R.id.updateResult_RecyclerView);
         updateRelativeBar = rootView.findViewById(R.id.updateResultBar);
@@ -226,6 +235,18 @@ public class KMS_AddLocationFragment extends Fragment implements OnMapReadyCallb
 
         uiSettings.setZoomControlEnabled(false);  //줌 컨트롤 여부
         AddMap.setLocationSource(locationSource); //얘가 있으면 버튼이 활성화
+
+        if(addMarkerFlag == false) {
+            final Marker marker = new Marker();
+            LatLng addMarkerLatLng = new LatLng(latitude, longitude);
+            marker.setPosition(addMarkerLatLng);
+            marker.setIcon(OverlayImage.fromResource(R.drawable.marker_design_pika2));
+            marker.setWidth(120);
+            marker.setHeight(160);
+            marker.setMap(AddMap);
+            addMarkerFlag = true;
+        }
+
     }
 
     public interface OnTimePickerSetListener {

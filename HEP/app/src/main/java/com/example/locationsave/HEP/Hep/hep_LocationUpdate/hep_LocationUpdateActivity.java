@@ -57,6 +57,9 @@ import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
+import com.naver.maps.geometry.LatLng;
+import com.naver.maps.map.overlay.Marker;
+import com.naver.maps.map.overlay.OverlayImage;
 import com.opensooq.supernova.gligar.GligarPicker;
 import com.squareup.picasso.Picasso;
 
@@ -137,6 +140,7 @@ public class hep_LocationUpdateActivity extends AppCompatActivity implements KMS
         hep_Location = getIntent().getParcelableExtra("hep_Location");
         this.latitude = hep_Location.latitude;
         this.longitude = hep_Location.longitude;
+
 
         tagDataArrayList = new ArrayList<>();
 
