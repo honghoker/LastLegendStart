@@ -44,7 +44,6 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.annotation.meta.When;
 
 import static com.example.locationsave.HEP.KMS_MainActivity.directoryid;
 
@@ -59,7 +58,6 @@ public class Pcs_LocationRecyclerView extends Fragment {
     KMS_MainActivity kms_activity;
     hep_LocationSaveActivity hep_locationSaveActivity;
     private ViewGroup rootView;
-    private Pcs_RecyclerViewSwipeHelper recyclerViewSwipeHelper;
     WrappingDismissData wrappingDismissData = null;
 
     KSH_SwipeHelper ksh_swipeHelper;
@@ -113,10 +111,6 @@ public class Pcs_LocationRecyclerView extends Fragment {
     @Override
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
-//        if (kms_activity instanceof KMS_MainActivity)
-//            kms_activity = (KMS_MainActivity) getActivity();
-//        else if(hep_locationSaveActivity instanceof hep_LocationSaveActivity)
-//            hep_locationSaveActivity = (hep_LocationSaveActivity) hep_locationSaveActivity;
         kms_activity = (KMS_MainActivity) getActivity();
     }
 
@@ -140,7 +134,7 @@ public class Pcs_LocationRecyclerView extends Fragment {
     }
 
     public void setUpRecyclerView() {
-//        adapter = getFirebaseData(DEFAULT_FILED, DEFAULT_QUERY_DIRECTION);\
+
         adapter = getFirebaseData(DEFAULT_FILED);
         recyclerView = rootView.findViewById(R.id.locationRecyclcerView);
         recyclerView.setHasFixedSize(true);
@@ -150,7 +144,6 @@ public class Pcs_LocationRecyclerView extends Fragment {
 
     //Get firebase data and put into adapter
     private Pcs_RecyclerviewAdapter getFirebaseData(String field) {
-        //Query query = db1.getReference().child("location").orderByChild(field);
 
         final Query query = db1.getReference().child("location").orderByChild("directoryid").equalTo(directoryid);
         query.addValueEventListener(new ValueEventListener() {
@@ -175,18 +168,15 @@ public class Pcs_LocationRecyclerView extends Fragment {
                 .build();
 
         if (options.getSnapshots() == null) {
-            Log.d("@@@", "null");
             return new Pcs_RecyclerviewAdapter(null);
         }
         else {
-            Log.d("@@@", "not null");
             return new Pcs_RecyclerviewAdapter(options);
         }
 
     }
 
     private void setUpSwipeHelper() {
-        Log.d("6", "1111");
         ksh_swipeHelper = new KSH_SwipeHelper(getActivity(), recyclerView, 200) {
             @Override
             public void instantiateMyButton(RecyclerView.ViewHolder viewHolder, List<MyButton> buffer) {
@@ -195,13 +185,6 @@ public class Pcs_LocationRecyclerView extends Fragment {
                         30,
                         R.drawable.ic_delete,
                         Color.parseColor("#FF3c30"),
-//                        new View.OnClickListener() {
-//                            @Override
-//                            public void onClick(View v) {
-//                                Log.d("6","asdasd");
-////                                Toast.makeText(getContext(),"Delete",Toast.LENGTH_SHORT).show();
-//                            }
-//                        }
                         new MyButtonClickListener() {
                             @Override
                             public void onClick(int position) {
@@ -229,9 +212,7 @@ public class Pcs_LocationRecyclerView extends Fragment {
                         new MyButtonClickListener() {
                             @Override
                             public void onClick(int position) {
-                                ///////////////////////////////HEP////////////////////////////
-                                String currentKeyOfDirectory = ((hep_Location)adapter.getLocation(position).getFirebaseData()).getDirectoryid();
-                                Log.d("tag", "Swipe " + currentKeyOfDirectory);
+
                                 final Pcs_PopupRecyclerview pcs_PopupRecyclerview = new Pcs_PopupRecyclerview(getActivity(), adapter.getLocation(position));
                                 pcs_PopupRecyclerview.setHeight(WindowManager.LayoutParams.WRAP_CONTENT);
                                 pcs_PopupRecyclerview.setWidth((int)(200*getResources().getDisplayMetrics().density));
