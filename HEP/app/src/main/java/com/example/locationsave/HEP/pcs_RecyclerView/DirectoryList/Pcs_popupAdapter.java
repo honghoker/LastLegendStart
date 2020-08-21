@@ -1,6 +1,5 @@
 package com.example.locationsave.HEP.pcs_RecyclerView.DirectoryList;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -41,11 +40,6 @@ public class Pcs_popupAdapter extends FirebaseRecyclerAdapter<KSH_DirectoryEntit
         holder.directoryText.setText(ksh_directoryEntity.getName());
         if(getSnapshots().getSnapshot(position).getKey().equals(hep_location.getDirectoryid()))
             holder.cardviewLayout.setBackgroundResource(R.color.colorPrimary);
-        Log.d("tag", "Location Directory " + hep_location.getDirectoryid());
-        Log.d("tag", "current position directory "+ getSnapshots().getSnapshot(position).getKey());
-        Log.d("tag", String.valueOf(hep_location.getDirectoryid() == getSnapshots().getSnapshot(position).getKey()));
-
-
     }
 
     @NonNull
@@ -87,7 +81,6 @@ public class Pcs_popupAdapter extends FirebaseRecyclerAdapter<KSH_DirectoryEntit
             snackbar.show();
 
         }else{
-            Log.d("tag", "current location Key " + currentLocationKey);
             db.child("location").orderByKey().equalTo(currentLocationKey)
                     .addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override

@@ -11,7 +11,8 @@ import android.graphics.Rect;
 import android.graphics.RectF;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
-import android.util.Log;
+
+
 import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.View;
@@ -21,7 +22,7 @@ import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.RecyclerView;
 
-import java.lang.reflect.Array;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -109,7 +110,7 @@ public abstract class KSH_SwipeHelper extends ItemTouchHelper.SimpleCallback {
     }
 
     private void attachSwipe(){
-        Log.d("6","attach");
+
         ItemTouchHelper itemTouchHelper = new ItemTouchHelper(this);
         itemTouchHelper.attachToRecyclerView(recyclerView);
     }
@@ -228,7 +229,6 @@ public abstract class KSH_SwipeHelper extends ItemTouchHelper.SimpleCallback {
                 List<MyButton> buffer = new ArrayList<>();
                 if(!buttonBUffer.containsKey(pos)){
                     instantiateMyButton(viewHolder,buffer);
-                    Log.d("6","2222");
                     buttonBUffer.put(pos,buffer);
                 }
                 else{
