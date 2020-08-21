@@ -1,6 +1,5 @@
 package com.example.locationsave.HEP.KMS.Toolbar;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,11 +9,9 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.locationsave.HEP.Hep.hep_DTO.hep_Location;
-import com.example.locationsave.HEP.KMS.Location.KMS_LocationSearchResult;
 import com.example.locationsave.HEP.KMS.MainFragment.KMS_MapFragment;
 import com.example.locationsave.HEP.KMS.Map.KMS_CameraManager;
 import com.example.locationsave.R;
-import com.naver.maps.geometry.LatLng;
 
 import java.util.ArrayList;
 
@@ -40,7 +37,6 @@ public class KSH_LoadResultAdapter extends RecyclerView.Adapter<KSH_LoadResultAd
                         double latitude = hep_locationArrayList.get(pos).latitude;
                         double longitude = hep_locationArrayList.get(pos).longitude;
                         kms_cameraManager.MoveCameraOnLatlngPosition(latitude, longitude, KMS_MapFragment.NMap);
-                        Log.d("@@@@@", "name = " + hep_locationArrayList.get(pos).name + ", lati = " + hep_locationArrayList.get(pos).latitude + ", longi = " + hep_locationArrayList.get(pos).longitude);
                     }
                 }
             });
