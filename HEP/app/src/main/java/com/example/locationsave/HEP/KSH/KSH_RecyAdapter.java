@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
@@ -166,7 +167,9 @@ public class KSH_RecyAdapter extends RecyclerView.Adapter<KSH_RecyAdapter.ViewHo
                     int pos = getAdapterPosition();
                     if(pos == 0){
                         //AlterDialog
-                        AlertDialog.Builder builder = new AlertDialog.Builder(mcontext);
+                        final AlertDialog.Builder builder = new AlertDialog.Builder(mcontext);
+//                        final AlertDialog.Builder builder_1 = new AlertDialog.Builder(mcontext);
+
                         builder.setTitle("Title").setMessage("directory의 이름을 적어주세요");
 
                         final EditText editText = new EditText(mcontext);
@@ -176,9 +179,15 @@ public class KSH_RecyAdapter extends RecyclerView.Adapter<KSH_RecyAdapter.ViewHo
                         builder.setPositiveButton("확인", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                                KSH_DirectoryEntity ksh_directoryEntity = new KSH_DirectoryEntity(editText.getText().toString(),ksh_date.nowDate(),ksh_date.nowDate());
-                                databaseReference.push().setValue(ksh_directoryEntity);
-                                dialog.dismiss();
+                                if(editText.getText().toString().equals("")){
+                                    Toast.makeText(mcontext,"공백입니다",Toast.LENGTH_SHORT).show();
+                                    dialog.dismiss();
+                                }
+                                else{
+                                    KSH_DirectoryEntity ksh_directoryEntity = new KSH_DirectoryEntity(editText.getText().toString(),ksh_date.nowDate(),ksh_date.nowDate());
+                                    databaseReference.push().setValue(ksh_directoryEntity);
+                                    dialog.dismiss();
+                                }
                             }
                         });
                         builder.setNegativeButton("취소", new DialogInterface.OnClickListener() {

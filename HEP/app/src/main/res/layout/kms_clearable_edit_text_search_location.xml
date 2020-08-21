@@ -5,27 +5,35 @@
     android:layout_centerHorizontal="true"
     android:layout_marginTop="40dp">
 
-    <LinearLayout
+
+
+    <RelativeLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="30dp"
-        android:background="#E0EFF6"
-        android:orientation="horizontal">
+        android:background="#ffffff"
+        android:layout_centerInParent="true"
+        android:layout_marginTop="50dp"
+        >
 
-        <AutoCompleteTextView
-            android:id="@+id/clearable_edit_search_location"
+        <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:background="@drawable/ic_baseline_search_24"
+            android:layout_marginTop="2dp"/>
+
+    <AutoCompleteTextView
+            android:id="@+id/clearable_edit_search_location"
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
             android:background="#00FFFFFF"
-            android:gravity="center"
             android:hint="검색할 장소를 입력하세요."
             android:imeOptions="actionSearch"
             android:paddingRight="35dip"
             android:singleLine="true"
-            android:maxLength="18">
+            android:layout_marginLeft="27dp">
 
         </AutoCompleteTextView>
+
 
         <Button
             android:id="@+id/clearable_search_location_button_clear"
@@ -33,7 +41,9 @@
             android:layout_height="30dip"
             android:layout_marginRight="5dip"
             android:background="@drawable/ic_clear_black_24dp"
+            android:layout_toRightOf="@id/clearable_edit_search_location"
             android:gravity="center" />
-    </LinearLayout>
+
+    </RelativeLayout>
 
 </RelativeLayout>
