@@ -22,18 +22,6 @@ public class KMS_SearchFlagManager {
 
     boolean searchFlag = false;
 
-    public void flagChangeSearch(){
-        if(searchFlag == true) {
-            flagSetFalseSearch();
-            Log.d("####searchFlag","searchFlag Change  = " + searchFlag);
-        }
-
-        else if(searchFlag == false){
-            flagSetTrueSearch();
-            Log.d("####searchFlag","searchFlag Change  = " + searchFlag);
-        }
-    }
-
     public boolean flagGetSearch(){
         Log.d("####searchFlag","Searchflag get = " + searchFlag);
         return searchFlag;

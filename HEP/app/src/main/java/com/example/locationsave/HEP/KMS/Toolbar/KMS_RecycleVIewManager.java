@@ -22,18 +22,6 @@ public class KMS_RecycleVIewManager {
 
     boolean recycleViewFlag = false;
 
-    public void flagChangeRecycleView(){
-        if(recycleViewFlag == true) {
-            flagSetFalseRecycleView();
-            Log.d("####Bottombar","flagChange recycleView sington change flag = " + recycleViewFlag);
-        }
-
-        else if(recycleViewFlag == false){
-            flagSetTrueRecycleView();
-            Log.d("####recycleView","flagChange recycleView sington change flag = " + recycleViewFlag);
-        }
-    }
-
     public boolean flagCheckRecycleView(){
         Log.d("####recycleView","flagChange recycleView sington check flag = " + recycleViewFlag);
         return recycleViewFlag;
