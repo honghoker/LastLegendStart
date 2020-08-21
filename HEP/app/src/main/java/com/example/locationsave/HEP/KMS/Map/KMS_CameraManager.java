@@ -21,39 +21,22 @@ public class KMS_CameraManager {
     private double currentLongitued;
 
 
-    public void MoveCameraOnMarkerPosition(Marker marker, NaverMap naverMap){  //마커 입력하면 이동
+    public void MoveCameraOnMarkerPosition(Marker marker, NaverMap naverMap){
         LatLng latLng = marker.getPosition();
-        CameraUpdate cameraUpdate = CameraUpdate.scrollTo(latLng); //카메라 업데이트 위해 클릭마커 좌표 입력
-
-        cameraUpdate.animate(CameraAnimation.Fly); //애니메이션
-
+        CameraUpdate cameraUpdate = CameraUpdate.scrollTo(latLng);
+        cameraUpdate.animate(CameraAnimation.Fly);
         naverMap.moveCamera(cameraUpdate);
-        Log.d("####MoveCamera",   "카메라를 마커 위치로 이동" + marker.getCaptionText() + " " + marker.getPosition());
-
     }
 
-    public void MoveCameraOnLatlngPosition(double latitude, double longitude, NaverMap naverMap){  //좌표 입력하면 이동
+    public void MoveCameraOnLatlngPosition(double latitude, double longitude, NaverMap naverMap){
         LatLng latLng = new LatLng(latitude, longitude);
-        CameraUpdate cameraUpdate = CameraUpdate.scrollTo(latLng); //카메라 업데이트 위해 클릭마커 좌표 입력
-
-        cameraUpdate.animate(CameraAnimation.Fly); //애니메이션
-
+        CameraUpdate cameraUpdate = CameraUpdate.scrollTo(latLng);
+        cameraUpdate.animate(CameraAnimation.Fly);
         naverMap.moveCamera(cameraUpdate);
-        Log.d("####MoveCamera",   "카메라를 위경도 위치로 이동" + " " + latLng);
-
     }
 
     public void setCameraCurrentPosition(double latitude, double longitude){
         currentLatitude = latitude;
         currentLongitued = longitude;
     }
-
-    public double getCameraCurrentLatitued(){
-        return currentLatitude;
-    }
-
-    public double getCameraCurrentlongitued(){
-        return currentLongitued;
-    }
-
 }

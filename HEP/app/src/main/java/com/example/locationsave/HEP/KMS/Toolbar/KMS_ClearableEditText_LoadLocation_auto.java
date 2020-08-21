@@ -4,6 +4,7 @@ import android.content.Context;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,6 +12,7 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.locationsave.HEP.Hep.hep_DTO.hep_Location;
 import com.example.locationsave.HEP.Hep.hep_LocationSave.hep_HangulUtils;
@@ -49,12 +51,12 @@ public class KMS_ClearableEditText_LoadLocation_auto extends RelativeLayout {
     }
 
     public void setinit(){
-        editText_1 = findViewById(R.id.clearable_edit_load_location); //저장된 장소 검색
+        editText_1 = findViewById(R.id.clearable_edit_load_location);
         editText_1.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-                //오토 완성 코드
                 ime.hideSoftInputFromWindow(editText_1.getWindowToken(),0);
+
                 return false;
             }
         });
@@ -66,16 +68,13 @@ public class KMS_ClearableEditText_LoadLocation_auto extends RelativeLayout {
         showHideClearButton();
     }
 
-    //X버튼이 나타났다 사라지게하는 메소드
     private void showHideClearButton() {
-        //TextWatcher를 사용해 에디트 텍스트 내용이 변경 될 때 동작할 코드를 입력
         editText_1.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
             }
 
-            //에디트 텍스트 안 내용이 변경될 때마다 호출되는 메소드
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 hep_LocationSave_AutoCompleteTextView autoCompleteTextView = editText_1;
@@ -125,7 +124,6 @@ public class KMS_ClearableEditText_LoadLocation_auto extends RelativeLayout {
 
         return temp;
     }
-
 
     private void clearText() {
         btnClear.setOnClickListener(new OnClickListener() {

@@ -1,12 +1,10 @@
 package com.example.locationsave.HEP.KMS.Location;
 
 public class KMS_LocationSearchResult {
-    private String Title;         //타이틀
-    private String RoadAddress;   //도로명 주소
-    private double longitude; // 경도 y
-    private double latitude; // 위도 x
-    private String tempLongitude;
-    private String tempLatitude;
+    private String Title;
+    private String RoadAddress;
+    private double longitude;
+    private double latitude;
 
     public KMS_LocationSearchResult(String title, String roadAddress, String longitude, String latitude) {
         Title = title;
@@ -14,17 +12,8 @@ public class KMS_LocationSearchResult {
         this.longitude = Double.parseDouble(longitude);
         this.latitude = Double.parseDouble(latitude);
     }
-/*
-    public KMS_LocationSearchResult(Dictionary d)
-    {
-        Title = d.getEnglish();
-        RoadAddress = d.getKorean();
-        this.longitude = longitude;
-        this.latitude = latitude;
-    }*/
 
-
-        public String getTitle() {
+    public String getTitle() {
         return Title;
     }
 
@@ -42,10 +31,6 @@ public class KMS_LocationSearchResult {
 
     public void setTitle(String title) {
         Title = title;
-    }
-
-    public void setRoadAddress(String roadAddress) {
-        RoadAddress = roadAddress;
     }
 
     public void setLongitude(Double longitude) { //왜 this 로 찍히는지
