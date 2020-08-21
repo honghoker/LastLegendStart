@@ -82,6 +82,7 @@ dependencies {
     ///////////////////////////////////////////////////////////////////////////////////
 
     ///////////////////CJH ///////////////////////////////////////////////
-    //implementation 'com.facebook.android:facebook-login:5.15.3'
+    implementation 'com.facebook.android:facebook-login:5.15.3'
+    implementation 'com.facebook.android:facebook-android-sdk:[5,6)'
 
 }

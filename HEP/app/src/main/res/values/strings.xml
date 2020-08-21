@@ -6,4 +6,23 @@
     <string name="drawer_open">open</string>
     <string name="drawer_close">close</string>
 
+    <string name="signed_out">logout</string>
+
+    <string name="user_name">이름: %s</string>
+    <string name="firebase_uid">파이어베이스 UID: %s</string>
+    <string name="user_email">이메일: %s</string>
+    <string name="user_logintype">로그인 타입: %s</string>
+
+    <string name="login_google">구글 계정으로 로그인</string>
+    <string name="login_facebook">페이스북 계정으로 로그인</string>
+    <string name="login_kakao">카카오 계정으로 로그인</string>
+    <string name="login_naver">네이버 계정으로 로그인</string>
+
+    <string name="facebook_app_id">958017728050894</string>
+    <string name="fb_login_protocol_scheme">fb958017728050894</string>
+
+    <string name="terms_all">모두 동의</string>
+    <string name="terms_service_title">서비스이용약관 (필수)</string>
+    <string name="terms_personal_title">개인정보처리방침 (필수)</string>
+    <string name="terms_location_title">위치정보이용약관 (필수)</string>
 </resources>

@@ -12,11 +12,13 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -109,6 +111,7 @@ public class Pcs_LocationRecyclerView extends Fragment {
         setUpSwipeHelper();
         return rootView;
     }
+
 
 
     //xml pcs_recyclerview_menu connection
@@ -259,11 +262,28 @@ public class Pcs_LocationRecyclerView extends Fragment {
     //Get firebase data and put into adapter
     private Pcs_RecyclerviewAdapter getFirebaseData(String field) {
         //Query query = db1.getReference().child("location").orderByChild(field);
-        Query query = db1.getReference().child("location").orderByChild("directoryid").equalTo(directoryid);
+
+        final Query query = db1.getReference().child("location").orderByChild("directoryid").equalTo(directoryid);
+        query.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if(snapshot.exists()){
+                    rootView.findViewById(R.id.pcsLocation_recyclerview_Datainfo).setVisibility(View.GONE);
+                }
+                else{
+                    rootView.findViewById(R.id.pcsLocation_recyclerview_Datainfo).setVisibility(View.VISIBLE);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
         FirebaseRecyclerOptions options = new FirebaseRecyclerOptions.Builder<hep_Location>()
                 .setQuery(query, hep_Location.class)
                 .build();
-
 
         if (options.getSnapshots() == null) return new Pcs_RecyclerviewAdapter(null);
         else return new Pcs_RecyclerviewAdapter(options);

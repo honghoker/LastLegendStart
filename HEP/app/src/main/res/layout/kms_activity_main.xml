@@ -146,7 +146,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:background="#ffffff">
 
             <Button
                 android:id="@+id/btnMain"
@@ -154,7 +155,8 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:onClick="onBottomBarClicked"
-                android:text="MAP" />
+                android:text="MAP"
+                android:background="@drawable/ksh_button_design"/>
 
             <Button
                 android:id="@+id/btnLocationList"
@@ -162,7 +164,9 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:onClick="onBottomBarClicked"
-                android:text="LIST" />
+                android:text="LIST"
+                android:background="#ffffff"
+                />
         </LinearLayout>
 
     </RelativeLayout>

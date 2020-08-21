@@ -4,14 +4,18 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.graphics.Color;
+import android.text.Layout;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.RecyclerView;
@@ -31,6 +35,7 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
+import static com.example.locationsave.HEP.KMS.Toolbar.KMS_ClearableEditText_LoadLocation_auto.mContext;
 import static com.example.locationsave.HEP.KMS_MainActivity.LocationFragmet;
 import static com.example.locationsave.HEP.KMS_MainActivity.autoCompleteLocationList;
 import static com.example.locationsave.HEP.KMS_MainActivity.directoryid;
@@ -119,10 +124,16 @@ public class KSH_RecyAdapter extends RecyclerView.Adapter<KSH_RecyAdapter.ViewHo
 //            Log.d("6","LastPosition = "+LastPosition);
 
             if (position == LastPosition && selectView != 0){
-                holder.itemView.setBackgroundColor(Color.RED);
+//                holder.layout.setBackground(ContextCompat.getDrawable(mcontext,R.drawable.ksh_border_design));
+                holder.imageView.setVisibility(View.VISIBLE);
+//                holder.itemView.setBackgroundColor(Color.RED);
             }
-            else
-                holder.itemView.setBackgroundColor(Color.parseColor("#cccccc"));
+            else{
+//                holder.layout.setBackground(ContextCompat.getDrawable(mcontext,R.drawable.ksh_border_not_design));
+                holder.imageView.setVisibility(View.GONE);
+//                holder.itemView.setBackgroundColor(Color.parseColor("#cccccc"));
+            }
+
 
             String Title = String.valueOf(arrayList.get(position-1).getName());
             String createTime = String.valueOf(arrayList.get(position-1).getCreateTime());
@@ -139,11 +150,15 @@ public class KSH_RecyAdapter extends RecyclerView.Adapter<KSH_RecyAdapter.ViewHo
     public class ViewHolder extends RecyclerView.ViewHolder {
         TextView recy_test_title;
         TextView recy_createTime;
+        ConstraintLayout layout;
+        ImageView imageView;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             this.recy_test_title = itemView.findViewById(R.id.recy_test_title);
             this.recy_createTime = itemView.findViewById(R.id.recy_createTime);
+            layout = itemView.findViewById(R.id.ksh_constraintlayout_test);
+            imageView = itemView.findViewById(R.id.ksh_imageview);
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
