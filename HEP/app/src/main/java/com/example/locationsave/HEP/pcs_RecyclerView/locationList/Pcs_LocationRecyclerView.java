@@ -41,6 +41,7 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Stream;
 
 import javax.annotation.meta.When;
 
@@ -61,14 +62,50 @@ public class Pcs_LocationRecyclerView extends Fragment {
     WrappingDismissData wrappingDismissData = null;
     KSH_SwipeHelper ksh_swipeHelper;
 
+    ArrayList<String> tagKeys = new ArrayList<>();
+
+    public Pcs_LocationRecyclerView() {
+        Log.d("tag", "HERE -5");
+    }
+
+    public Pcs_LocationRecyclerView(ArrayList<String> tagKeys) {
+        Log.d("tag", "HERE -7");
+        this.tagKeys = tagKeys;
+
+
+    }
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        if(rootView != null){
+            if(tagKeys.isEmpty()){
+                Log.d("tag", "HERE -1");
+                setUpRecyclerView();
+            }else{
+                Log.d("tag", "HERE -2");
+                setUpRecyclerView(tagKeys);
+            }
+        }
+
+    }
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         rootView = (ViewGroup) inflater.inflate(R.layout.pcs_location_recyclerview, container, false);
+        Log.d("tag", "HERE -10");
         super.onCreate(savedInstanceState);
         //Display Menu
         setHasOptionsMenu(true);
-        setUpRecyclerView();
+        if(tagKeys.isEmpty()){
+            Log.d("tag", "HERE -1");
+            setUpRecyclerView();
+        }else{
+            Log.d("tag", "HERE -2");
+            setUpRecyclerView(tagKeys);
+        }
+
         setUpSwipeHelper();
         return rootView;
     }
@@ -144,6 +181,81 @@ public class Pcs_LocationRecyclerView extends Fragment {
         recyclerView.setAdapter(adapter);
     }
 
+    public void setUpRecyclerView(final ArrayList<String> tagKey) {
+        Log.d("tag", "HERE 0");
+        final Query query = db1.getReference().child("location");
+        query.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if(snapshot.exists()){
+                    Log.d("tag", "HERE 1");
+                    for(final DataSnapshot dataSnapshot : snapshot.getChildren()){
+                        for(String tagkey : tagKey){
+                            //Compare Selected TagKey and tagKey in tagtable
+                            Log.d("tag", "HERE 2");
+                            if(dataSnapshot.getKey().equals(tagkey)){
+
+                                Log.d("tag", "HERE 3");
+                                db1.getReference().child("locationid").orderByChild("tagid").equalTo(tagkey).addListenerForSingleValueEvent(new ValueEventListener() {
+                                    @Override
+                                    public void onDataChange(@NonNull DataSnapshot snapshot1) {
+                                        if(snapshot1.exists()){
+                                            Log.d("tag", "HERE 4");
+                                            for(DataSnapshot dataSnapshot1 : snapshot1.getChildren()){
+                                                //Go to locationtag table and find locationkey using tagkey
+                                                String locationkey = dataSnapshot1.getValue(hep_LocationTag.class).getLocationid();
+
+                                                Log.d("tag", "HERE 5");
+                                                db1.getReference().child("location").child(locationkey).addListenerForSingleValueEvent(new ValueEventListener() {
+                                                    @Override
+                                                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                                        for(DataSnapshot dataSnapshot2 : snapshot.getChildren()){
+                                                            Log.d("tag", "HERE "+ dataSnapshot2.getValue(hep_Location.class).getName());
+                                                        }
+
+                                                    }
+
+                                                    @Override
+                                                    public void onCancelled(@NonNull DatabaseError error) {
+
+                                                    }
+                                                });
+                                            }
+
+                                        }
+                                    }
+
+                                    @Override
+                                    public void onCancelled(@NonNull DatabaseError error) {
+
+                                    }
+                                });
+                            }
+                        }
+                    }
+                }
+            }
+
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+
+        });
+        FirebaseRecyclerOptions options = new FirebaseRecyclerOptions.Builder<hep_Location>()
+                .setQuery(query, hep_Location.class)
+                .build();
+
+
+        adapter = new Pcs_RecyclerviewAdapter(options);
+        recyclerView = rootView.findViewById(R.id.locationRecyclcerView);
+        recyclerView.setHasFixedSize(true);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        recyclerView.setAdapter(adapter);
+        adapter.notifyDataSetChanged();
+    }
+
     //Get firebase data and put into adapter
     private Pcs_RecyclerviewAdapter getFirebaseData(String field) {
         //Query query = db1.getReference().child("location").orderByChild(field);
@@ -151,6 +263,8 @@ public class Pcs_LocationRecyclerView extends Fragment {
         FirebaseRecyclerOptions options = new FirebaseRecyclerOptions.Builder<hep_Location>()
                 .setQuery(query, hep_Location.class)
                 .build();
+
+
         if (options.getSnapshots() == null) return new Pcs_RecyclerviewAdapter(null);
         else return new Pcs_RecyclerviewAdapter(options);
 

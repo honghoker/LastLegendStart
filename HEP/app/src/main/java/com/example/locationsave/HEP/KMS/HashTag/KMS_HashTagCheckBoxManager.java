@@ -40,6 +40,7 @@ public class KMS_HashTagCheckBoxManager {
     private Animation animation;
     private Activity activity;
     private ArrayList<String> selectedHashTagOfKey = new ArrayList<>();
+    private ArrayList<Integer> undoSeleted = new ArrayList<>();
 
 
     public KMS_HashTagCheckBoxManager(Activity activity, View view, Animation animation){
@@ -56,11 +57,22 @@ public class KMS_HashTagCheckBoxManager {
                 kms_hashTags[j].setId(-j);
                 Toast.makeText(activity,"id : " + kms_hashTags[j].getId() + "/ text : " + kms_hashTags[j].getHashText(),Toast.LENGTH_SHORT).show();
                 selectedHashTagOfKey.add(kms_hashTags[j].getTagKey());
+                //When user Click tag, store UndoSeleted.
+                //If user click cancel button, user  return clicked tag to unclicked tag layout
+                undoSeleted.add(-j);
+                for(int a : undoSeleted){
+                    Log.d("tag", "select " + a);
+                }
                 break;
             } else if (v.getId() == -j) {
                 kms_hashTags[j].init(kms_hashTags[j].getHashText(), "#22FFFF", R.drawable.hashtagborder, params);
                 kms_hashTags[j].setId(j);
                 selectedHashTagOfKey.remove(kms_hashTags[j].getTagKey());
+                undoSeleted.add(j);
+                for(int a : undoSeleted){
+                    Log.d("tag", "dis " + a);
+                }
+
                 break;
             }
         }//for 문 종료
@@ -89,6 +101,7 @@ public class KMS_HashTagCheckBoxManager {
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
                         if(snapshot.exists()){
                             int i = 1;
+                            Log.d("6","This is HashTag Clicked Tag For ");
                             for(DataSnapshot dataSnapshot : snapshot.getChildren()){
                                 kms_hashTags[i] = new KMS_HashTag(activity);
                                 kms_hashTags[i].setOnClickListener(hasTagOnClickListener);
@@ -164,12 +177,24 @@ public class KMS_HashTagCheckBoxManager {
     }
 
 
-
     public boolean pcs_setHashtagFlag(Boolean hashTagLayoutFlag, View mView){
         Log.d("tag", String.valueOf(hashTagLayoutFlag));
         if(hashTagLayoutFlag){
             hastagView.setAnimation(animation);
             hastagView.setVisibility(mView.GONE);
+            pcs_UndoTag();
+        }else{
+            hastagView.setAnimation(animation);
+            hastagView.setVisibility(mView.VISIBLE);
+        }
+        return hastagView.getVisibility() == VISIBLE;
+    }
+    //If user Press seletButton,
+    public boolean pcs_setHashtagFlag(Boolean hashTagLayoutFlag, View mView, String callName){
+        if(hashTagLayoutFlag){
+            hastagView.setAnimation(animation);
+            hastagView.setVisibility(mView.GONE);
+            pcs_wrapItUp();
         }else{
             hastagView.setAnimation(animation);
             hastagView.setVisibility(mView.VISIBLE);
@@ -177,7 +202,41 @@ public class KMS_HashTagCheckBoxManager {
         return hastagView.getVisibility() == VISIBLE;
     }
 
+    public void pcs_wrapItUp(){
+        undoSeleted.clear();
+    }
 
+    public void pcs_UndoTag(){
+        for(int a : undoSeleted){
+            Log.d("tag", "Undo seleted " + a);
+        }
+
+        if(!undoSeleted.isEmpty()){
+            //When you Click tag, store UndoSeleted
+            for(int i = 0; i < undoSeleted.size(); i++){
+                for(int j = 1; j< msHashTag.length; j++){
+                    Log.d("tag", "msHashTag Id " + msHashTag[j].getId());
+                    if(msHashTag[j].getId() == undoSeleted.get(i)){{
+                        if((int)msHashTag[j].getId() < 0){
+                            Log.d("tag", " ");
+                            //select -> deselect
+                            msHashTag[j].init(msHashTag[j].getHashText(), "#22FFFF", R.drawable.hashtagborder, params);
+                            msHashTag[j].setId(-j);
+                            selectedHashTagOfKey.remove(msHashTag[j].getTagKey());
+                        }else{
+                            //Select -> deselect
+
+                            msHashTag[j].init(msHashTag[j].getHashText(), "#3F729B", R.drawable.hashtagclick, params);
+                            msHashTag[j].setId(-j);
+                            selectedHashTagOfKey.add(msHashTag[j].getTagKey());
+                        }
+                    }
+                    }
+                }
+            }
+        }
+        pcs_wrapItUp();
+    }
 
 
 

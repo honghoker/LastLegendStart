@@ -10,4 +10,19 @@ public class hep_LocationTag {
     public hep_LocationTag() {
     }
 
+    public void setLocationid(String locationid) {
+        this.locationid = locationid;
+    }
+
+    public void setTagid(String tagid) {
+        this.tagid = tagid;
+    }
+
+    public String getLocationid() {
+        return locationid;
+    }
+
+    public String getTagid() {
+        return tagid;
+    }
 }

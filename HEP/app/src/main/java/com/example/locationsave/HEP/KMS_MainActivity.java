@@ -33,6 +33,7 @@ import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -536,11 +537,10 @@ public class KMS_MainActivity extends AppCompatActivity implements NavigationVie
                 return true;
             } //검색 버튼 종료
             case R.id.menu_tag_filter: {
-//                animation = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.alpha);
-//                hastagView.setAnimation(animation);
-//                hastagView.setVisibility(mView.VISIBLE);
-//                hashTagLayoutFlag = hastagView.getVisibility() == VISIBLE;
-                hashTagLayoutFlag = kms_hashTagCheckBoxManager.pcs_setHashtagFlag(hashTagLayoutFlag, mView);
+
+                //HashTag Filter activate
+//                hashTagLayoutFlag = kms_hashTagCheckBoxManager.pcs_setHashtagFlag(hashTagLayoutFlag, mView);
+                Toast.makeText(getApplicationContext(), "현재 준비중입니다.", Toast.LENGTH_LONG).show();
                 return true;
             }
             default:
@@ -1217,6 +1217,7 @@ public class KMS_MainActivity extends AppCompatActivity implements NavigationVie
             @Override
             public void onClick(View v) {
                 hashTagLayoutFlag = kms_hashTagCheckBoxManager.pcs_setHashtagFlag(hashTagLayoutFlag, mView);
+
             }
         });
 
@@ -1225,17 +1226,28 @@ public class KMS_MainActivity extends AppCompatActivity implements NavigationVie
             @Override
             public void onClick(View v) {
                 ArrayList<String> key = kms_hashTagCheckBoxManager.getSelectedHashTagOfKey();
-                for(String a : key){
+                Log.d("tag", "Select boolean " + String.valueOf(key.isEmpty()));
+                if(key.isEmpty()){
+                    LocationFragmet = new Pcs_LocationRecyclerView();
+                    FragmentTransaction transaction = fragmentManager.beginTransaction();
+//                    transaction.detach(LocationFragmet).attach(LocationFragmet);
+                    transaction.replace(R.id.frameLayout, LocationFragmet).commit();
+                }else{
+                    LocationFragmet = new Pcs_LocationRecyclerView(key);
+                    FragmentTransaction transaction = fragmentManager.beginTransaction();
+                    transaction.replace(R.id.frameLayout, LocationFragmet).commit();
+                }
+                for (String a : key) {
                     Log.d("tag", "select key " + a);
                 }
-
-                hashTagLayoutFlag = kms_hashTagCheckBoxManager.pcs_setHashtagFlag(hashTagLayoutFlag, mView);
+                hashTagLayoutFlag = kms_hashTagCheckBoxManager.pcs_setHashtagFlag(hashTagLayoutFlag, mView, "PressSelectButton");
             }
+
+
+//        kms_hashTagCheckBoxManager.checkAllHashTag();
         });
-
-        kms_hashTagCheckBoxManager.checkAllHashTag();
-
     }
+
 
     private void pcs_hashTagUpdate(){
         View v = drawerLayout;
