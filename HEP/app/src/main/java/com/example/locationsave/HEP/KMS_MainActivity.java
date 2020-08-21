@@ -391,7 +391,7 @@ public class KMS_MainActivity extends AppCompatActivity implements NavigationVie
 
 
 //    public void setFragmentMapLayout(){ //맵 프레그먼트 출력 함수
-//        //getSupportFragmentManager().beginTransaction().replace(R.id.frameLayout, fragment1).commit();/*프래그먼트 매니저가 프래그먼트를 담당한다!*/
+//        //getSupportFragmentManager().beginTransaction().replace(R.id.frameLayout, fragment1).commit();/*프래t그먼트 매니저가 프래그먼트를 담당한다!*/
 //        if (mapFragment == null) {
 //            mapFragment = new ListFragment();
 //            fragmentManager.beginTransaction().add(R.id.frameLayout, mapFragment).commit();
