@@ -5,14 +5,4 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@android:color/holo_purple"
-    android:orientation="vertical">
-
-    <fragment
-        android:id="@+id/addmap"
-        android:name="com.naver.maps.map.MapFragment"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" />
-
-    <include layout="@layout/kms_update_location" />
-
-</RelativeLayout>
+    android:orientation="vertical"/>

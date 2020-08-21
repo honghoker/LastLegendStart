@@ -1,5 +1,7 @@
 package com.example.locationsave.HEP.KMS.MainFragment;
 
+import android.util.Log;
+
 import androidx.fragment.app.ListFragment;
 
 import com.example.locationsave.HEP.pcs_RecyclerView.locationList.Pcs_LocationRecyclerView;
@@ -70,5 +72,4 @@ public class KMS_FragmentFlagManager {
             fragmentManager.beginTransaction().show(LocationFragmet).commit();
         }
     }
-
 }
