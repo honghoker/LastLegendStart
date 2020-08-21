@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#FFFFFF"
     tools:context=".HEP.CJH.CJH_SignIn">
 
     <LinearLayout
@@ -12,13 +13,15 @@
         android:layout_margin="20dp"
         android:orientation="vertical">
 
-        <TextView
+        <ImageButton
+            android:id="@+id/imageButton2"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:layout_weight="3"
-            android:text="로고 넣는곳"
-            android:gravity="center"
-            android:textSize="30dp"/>
+            android:background="#FFFFFF"
+            android:scaleType="fitCenter"
+            app:srcCompat="@drawable/name" />
+
         <!--<ImageView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -27,50 +30,50 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="7"
             android:layout_margin="20dp"
-            android:orientation="vertical"
-            >
+            android:layout_weight="7"
+            android:orientation="vertical">
 
             <LinearLayout
                 android:id="@+id/signInGoogle"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:orientation="horizontal"
-                android:clickable="true"
-                android:background="#cf4333"
-                android:layout_marginRight="20dp"
                 android:layout_marginLeft="20dp"
-                android:layout_marginBottom="10dp">
+                android:layout_marginRight="20dp"
+                android:layout_marginBottom="10dp"
+                android:layout_weight="1"
+                android:background="#cf4333"
+                android:clickable="true"
+                android:orientation="horizontal">
+
                 <ImageView
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_weight="8"
-                    android:src="@drawable/btn_logo_google"
-                    android:scaleType="fitCenter"/>
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/btn_logo_google" />
+
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_weight="2"
+                    android:gravity="center"
                     android:text="@string/login_google"
                     android:textColor="#ffffff"
-                    android:textStyle="bold"
-                    android:gravity="center"
-                    />
+                    android:textStyle="bold" />
             </LinearLayout>
 
             <LinearLayout
                 android:id="@+id/signInFacebook"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:orientation="horizontal"
-                android:clickable="true"
-                android:background="#416BC1"
-                android:layout_marginRight="20dp"
                 android:layout_marginLeft="20dp"
-                android:layout_marginBottom="10dp">
+                android:layout_marginRight="20dp"
+                android:layout_marginBottom="10dp"
+                android:layout_weight="1"
+                android:background="#416BC1"
+                android:clickable="true"
+                android:orientation="horizontal">
 
                 <com.facebook.login.widget.LoginButton
                     android:id="@+id/signInFacebookOrigin"
@@ -82,17 +85,17 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_weight="8"
-                    android:src="@drawable/btn_logo_facebook"
-                    android:scaleType="fitCenter"/>
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/btn_logo_facebook" />
+
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_weight="2"
+                    android:gravity="center"
                     android:text="@string/login_facebook"
                     android:textColor="#ffffff"
-                    android:textStyle="bold"
-                    android:gravity="center"
-                    />
+                    android:textStyle="bold" />
             </LinearLayout>
 
             <!--<LinearLayout
