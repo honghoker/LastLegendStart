@@ -125,9 +125,7 @@ public class KMS_MainActivity extends AppCompatActivity implements NavigationVie
 
     @Override
     public void onClick(String value, View view) {
-//        Log.d("6","value 확인" + value    );
         toolbar.setTitle(value);
-//        view.setBackgroundColor(Color.RED);
         Animation animationH = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.translatehide);
         rView.setAnimation(animationH);
         rView.setVisibility(fView.GONE);

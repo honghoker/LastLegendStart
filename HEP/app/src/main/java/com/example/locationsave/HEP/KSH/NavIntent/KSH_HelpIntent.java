@@ -5,11 +5,9 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.RatingBar;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -48,15 +46,11 @@ public class KSH_HelpIntent extends AppCompatActivity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.ksh_intent_help);
         init();
-
         mcontext = this;
-        // 뒤로가기 버튼 생성
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
         helpBug.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.d("6","버그 클릭");
                 AlertDialog.Builder builder = new AlertDialog.Builder(mcontext);
                 builder.setTitle("버그 및 문제신고").setMessage("버그 및 일어난 문제를 적어주세요");
                 final EditText editText = new EditText(mcontext);
@@ -65,7 +59,6 @@ public class KSH_HelpIntent extends AppCompatActivity{
                 builder.setPositiveButton("확인", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        Log.d("6","버그 확인 "+editText.getText().toString());
                         dialog.dismiss();
                     }
                 });
@@ -82,8 +75,6 @@ public class KSH_HelpIntent extends AppCompatActivity{
         helpReview.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                Log.d("6","리뷰 클릭");
                 AlertDialog.Builder builder = new AlertDialog.Builder(mcontext);
                 builder.setTitle("리뷰").setMessage("리뷰를 작성해주세요");
                 final EditText editText = new EditText(mcontext);
@@ -92,7 +83,6 @@ public class KSH_HelpIntent extends AppCompatActivity{
                 builder.setPositiveButton("확인", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        Log.d("6","리뷰 확인 "+editText.getText().toString());
                         dialog.dismiss();
                     }
                 });
@@ -135,7 +125,7 @@ public class KSH_HelpIntent extends AppCompatActivity{
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
-            case android.R.id.home: { //toolbar의 back키 눌렀을 때 동작
+            case android.R.id.home: {
                 finish();
                 this.overridePendingTransition(R.anim.slide_in_right,R.anim.slide_out_left);
                 return true;

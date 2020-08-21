@@ -1,9 +1,6 @@
 package com.example.locationsave.HEP.KSH.NavIntent;
 
-import android.content.Context;
 import android.os.Bundle;
-import android.util.AttributeSet;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
@@ -17,14 +14,8 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.drawerlayout.widget.DrawerLayout;
 
 import com.example.locationsave.HEP.Hep.hep_FirebaseUser;
-import com.example.locationsave.HEP.KMS.MainFragment.KMS_FragmentFlagManager;
-import com.example.locationsave.HEP.KMS.MainFragment.KMS_MapFragment;
 import com.example.locationsave.HEP.KMS.Map.KMS_MapOption;
 import com.example.locationsave.R;
-
-import static com.example.locationsave.HEP.KMS_MainActivity.LocationFragmet;
-import static com.example.locationsave.HEP.KMS_MainActivity.fragmentManager;
-import static com.example.locationsave.HEP.KMS_MainActivity.mapFragment;
 
 public class KSH_SetIntent extends AppCompatActivity {
     private Toolbar toolbar;
@@ -46,7 +37,6 @@ public class KSH_SetIntent extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 kms_mapOption.setOnLightMap();
-                //setThemeLight.setBackground(R.layout.);
                 Toast.makeText(getApplicationContext(),"주간 모드로 변경되었습니다.",Toast.LENGTH_SHORT).show();
                 finish();
             }
@@ -61,7 +51,6 @@ public class KSH_SetIntent extends AppCompatActivity {
                 finish();
             }
         });
-
     }
 
     @Override
@@ -70,7 +59,6 @@ public class KSH_SetIntent extends AppCompatActivity {
         setContentView(R.layout.ksh_intent_set);
         init();
         mapOptionInit();
-        // 뒤로가기 버튼 생성
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         ((TextView)findViewById(R.id.logout)).setOnTouchListener(new View.OnTouchListener() {
             @Override
@@ -84,7 +72,7 @@ public class KSH_SetIntent extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
-            case android.R.id.home: { //toolbar의 back키 눌렀을 때 동작
+            case android.R.id.home: {
                 finish();
                 this.overridePendingTransition(R.anim.slide_in_right,R.anim.slide_out_left);
                 return true;
