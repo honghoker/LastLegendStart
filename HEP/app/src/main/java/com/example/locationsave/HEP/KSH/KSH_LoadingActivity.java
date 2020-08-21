@@ -22,9 +22,9 @@ public class KSH_LoadingActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.ksh_loading);
 
-        imageView = findViewById(R.id.loading_image);
-        animation = AnimationUtils.loadAnimation(getApplicationContext(),R.anim.loading);
-        imageView.setAnimation(animation);
+//        imageView = findViewById(R.id.loading_image);
+//        animation = AnimationUtils.loadAnimation(getApplicationContext(),R.anim.loading);
+//        imageView.setAnimation(animation);
 
         startLoading();
     }
