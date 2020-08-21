@@ -3,6 +3,7 @@ package com.example.locationsave.HEP.KMS.MainFragment;
 import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,10 +17,17 @@ import androidx.fragment.app.FragmentManager;
 
 import com.example.locationsave.HEP.Address.ReverseGeocodingAsyncTask;
 import com.example.locationsave.HEP.Address.ReverseGetAddress;
+import com.example.locationsave.HEP.Hep.hep_DTO.hep_Location;
+import com.example.locationsave.HEP.Hep.hep_FireBase;
 import com.example.locationsave.HEP.KMS.Location.KMS_LocationFlagManager;
 import com.example.locationsave.HEP.KMS.Map.KMS_CameraManager;
 import com.example.locationsave.HEP.KMS.Map.KMS_MapOption;
+import com.example.locationsave.HEP.KMS.Map.KMS_MarkerManager;
 import com.example.locationsave.R;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
 import com.naver.maps.geometry.LatLng;
 import com.naver.maps.map.CameraPosition;
 import com.naver.maps.map.LocationTrackingMode;
@@ -34,6 +42,8 @@ import com.naver.maps.map.widget.ScaleBarView;
 import com.naver.maps.map.widget.ZoomControlView;
 
 import java.util.concurrent.ExecutionException;
+
+import static com.example.locationsave.HEP.KMS_MainActivity.directoryid;
 
 public class KMS_MapFragment extends Fragment implements OnMapReadyCallback {
 
@@ -94,15 +104,6 @@ public class KMS_MapFragment extends Fragment implements OnMapReadyCallback {
         mapFragment.getMapAsync(this);
     }
 
-    public void setLocation(Context context) {
-        CameraPosition cameraPosition = new CameraPosition(
-                new LatLng(35.857654, 128.498123), // 대상 지점
-                16, // 줌 레벨
-                20, // 기울임 각도
-                180 // 베어링 각도
-        );
-    }
-
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,  @NonNull int[] grantResults) {
         if (locationSource.onRequestPermissionsResult(
@@ -119,6 +120,7 @@ public class KMS_MapFragment extends Fragment implements OnMapReadyCallback {
     @Override
     public void onMapReady(@NonNull NaverMap naverMap) {
         NMap = naverMap;
+
         NMap.addOnCameraIdleListener(new NaverMap.OnCameraIdleListener() {
             @Override
             public void onCameraIdle() {
@@ -148,5 +150,22 @@ public class KMS_MapFragment extends Fragment implements OnMapReadyCallback {
         mapOption.setMapPadding(NMap);
         mapOption.setMapUI(NMap);
         NMap.setLocationSource(locationSource);
+
+        Query latilonginameQuery = new hep_FireBase().getFireBaseDatabaseInstance().getReference().child("location").orderByChild("directoryid").equalTo(directoryid);
+        latilonginameQuery.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                new KMS_MarkerManager().getInstanceMarkerManager().initMarker();
+                for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                    hep_Location hep_location = dataSnapshot.getValue(hep_Location.class);
+                    new KMS_MarkerManager().getInstanceMarkerManager().addMarker(new KMS_MarkerManager().getInstanceMarkerManager().markers, hep_location, dataSnapshot.getKey());
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
     }
 }

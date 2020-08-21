@@ -1,6 +1,5 @@
 package com.example.locationsave.HEP.KMS.Map;
 
-import android.util.Log;
 import android.view.Gravity;
 
 import com.example.locationsave.HEP.KMS.MainFragment.KMS_MapFragment;
@@ -34,7 +33,7 @@ public class KMS_MapOption {
         }
 
         options = new NaverMapOptions()
-                .camera(new CameraPosition(new LatLng(LastLatitude, LastLongitued), 16))
+                .camera(new CameraPosition(new LatLng(LastLatitude, LastLongitued), 13))
                 .mapType(NaverMap.MapType.Navi)
                 .nightModeEnabled(false);
 
@@ -48,7 +47,7 @@ public class KMS_MapOption {
 
     public NaverMapOptions getFirstAddOptions() {
         options = new NaverMapOptions()
-                .camera(new CameraPosition(new LatLng(currentLatitude, currentLongitued), 16))
+                .camera(new CameraPosition(new LatLng(currentLatitude, currentLongitued), 13))
                 .mapType(NaverMap.MapType.Navi)
                 .nightModeEnabled(false);
         return options;

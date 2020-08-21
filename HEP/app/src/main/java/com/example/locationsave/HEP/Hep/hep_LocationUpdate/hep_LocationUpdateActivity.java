@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.BitmapFactory;
+import android.hardware.ConsumerIrManager;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -58,6 +59,7 @@ import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 import com.naver.maps.geometry.LatLng;
+import com.naver.maps.map.CameraPosition;
 import com.naver.maps.map.overlay.Marker;
 import com.naver.maps.map.overlay.OverlayImage;
 import com.opensooq.supernova.gligar.GligarPicker;
@@ -71,6 +73,7 @@ import java.util.Map;
 
 import static android.content.ContentValues.TAG;
 import static android.view.View.GONE;
+import static com.example.locationsave.HEP.KMS.MainFragment.KMS_MapFragment.NMap;
 
 public class hep_LocationUpdateActivity extends AppCompatActivity implements KMS_AddLocationFragment.OnTimePickerSetListener{
     hep_LocationUpdate_ViewpagerAdapter viewPagerAdapter;
@@ -138,8 +141,14 @@ public class hep_LocationUpdateActivity extends AppCompatActivity implements KMS
     public void setInit(){
         key = getIntent().getStringExtra("key");
         hep_Location = getIntent().getParcelableExtra("hep_Location");
-        this.latitude = hep_Location.latitude;
-        this.longitude = hep_Location.longitude;
+        if(hep_Location.latitude == 0 &&  hep_Location.longitude == 0){
+            latitude = NMap.getCameraPosition().target.latitude;
+            longitude = NMap.getCameraPosition().target.longitude;
+        }
+        else{
+            this.latitude = hep_Location.latitude;
+            this.longitude = hep_Location.longitude;
+        }
 
 
         tagDataArrayList = new ArrayList<>();

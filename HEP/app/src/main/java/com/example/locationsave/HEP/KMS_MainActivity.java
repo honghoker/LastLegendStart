@@ -134,7 +134,6 @@ public class KMS_MainActivity extends AppCompatActivity implements NavigationVie
                 CameraPosition cameraPosition = NMap.getCameraPosition();
                 result.put("latitude", cameraPosition.target.latitude);
                 result.put("longitude", cameraPosition.target.longitude);
-                Log.d("@@@@@@", "cameraPosition.target.latitude" + cameraPosition.target.latitude + ", cameraPosition.target.longitude = " + cameraPosition.target.longitude);
                 if (directoryid != null)
                     result.put("directoryid", directoryid);
 
@@ -166,7 +165,6 @@ public class KMS_MainActivity extends AppCompatActivity implements NavigationVie
 
     public static String directoryid = null;
     private DrawerLayout drawerLayout;
-    private boolean recyFrag = false;
     private RecyclerView recyclerView;
     private View rView;
     public static View fView;
@@ -280,11 +278,6 @@ public class KMS_MainActivity extends AppCompatActivity implements NavigationVie
 
     public void kms_init() {
         autoCompleteLocationList = new ArrayList<>();
-
-
-        fragmentManager = getSupportFragmentManager();
-        mapFragment = new KMS_MapFragment();
-        fragmentManager.beginTransaction().replace(R.id.frameLayout, mapFragment).commit();
         kms_fragmentFlagManager = KMS_FragmentFlagManager.getInstanceFragment();
         bottomBar = findViewById(R.id.linearBottombar);   //2. BottomBar
         toolbar = findViewById(R.id.toolbar);  //3. Toolbar
@@ -661,6 +654,10 @@ public class KMS_MainActivity extends AppCompatActivity implements NavigationVie
         setContentView(R.layout.kms_activity_main);
         networkStatus();
 
+        ksh_init();
+        pcs_hashTagInit();
+        kms_init();
+
         Query directoryQuery = new hep_FireBase().getFireBaseDatabaseInstance().getReference().child("directory").orderByChild("token").equalTo(new hep_FirebaseUser().getFirebaseUserInstance().getUid());
         directoryQuery.addValueEventListener(new ValueEventListener() {
             @Override
@@ -726,29 +723,14 @@ public class KMS_MainActivity extends AppCompatActivity implements NavigationVie
 
                             }
                         });
-                        kms_mapOption.LastLatitude = hep_recent.latitude;
-                        kms_mapOption.LastLongitued = hep_recent.longitude;
-
                         recyAdapter = new KSH_RecyAdapter(KMS_MainActivity.this, arrayList, arrayKey, ksh_directoryEntity, selectView, (sunghunTest) OnItemClickListener);
                         recyclerView.setAdapter(recyAdapter);
 
-                        Query latilonginameQuery = new hep_FireBase().getFireBaseDatabaseInstance().getReference().child("location").orderByChild("directoryid").equalTo(directoryid);
-                        latilonginameQuery.addValueEventListener(new ValueEventListener() {
-                            @Override
-                            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                                new KMS_MarkerManager().getInstanceMarkerManager().initMarker();
-                                for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
-                                    hep_Location hep_location = dataSnapshot.getValue(hep_Location.class);
-                                    new KMS_MarkerManager().getInstanceMarkerManager().addMarker(kms_markerManager.markers, hep_location, dataSnapshot.getKey());
-                                }
-                            }
-
-                            @Override
-                            public void onCancelled(@NonNull DatabaseError error) {
-
-                            }
-                        });
-
+                        kms_mapOption.LastLatitude = hep_recent.latitude;
+                        kms_mapOption.LastLongitued = hep_recent.longitude;
+                        mapFragment = new KMS_MapFragment();
+                        fragmentManager = getSupportFragmentManager();
+                        fragmentManager.beginTransaction().replace(R.id.frameLayout, mapFragment).commitAllowingStateLoss();
                     }
                 });
             }
@@ -757,10 +739,6 @@ public class KMS_MainActivity extends AppCompatActivity implements NavigationVie
             public void onCancelled(@NonNull DatabaseError databaseError) {
             }
         });
-
-        ksh_init();
-        pcs_hashTagInit();
-        kms_init();
 
         // loading
         Intent intent = new Intent(this, KSH_LoadingActivity.class);
@@ -846,7 +824,7 @@ public class KMS_MainActivity extends AppCompatActivity implements NavigationVie
                 if (actionId == EditorInfo.IME_ACTION_SEARCH) {
                     // 공백이면
                     if (editText.getText().toString().equals("")) {
-                        Toast.makeText(getApplicationContext(), "공백입니다. . .", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getApplicationContext(), "공백입니다.", Toast.LENGTH_SHORT).show();
                         return false;
                     }
                     if (searchRecyclerView.getVisibility() == View.VISIBLE) {
