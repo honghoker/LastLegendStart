@@ -28,6 +28,7 @@
         <activity android:name=".HEP.Hep.hep_LocationUpdate.hep_LocationUpdateActivity"/>
         <activity android:name=".HEP.Hep.hep_LocationDetail.hep_LocationDetailActivity"/>
         <activity android:name=".HEP.Hep.hep_LocationSave.hep_FullImage"/>
+        <activity android:name=".HEP.KSH.NavIntent.KSH_TermsInfo"/>
 
         <activity android:name=".HEP.CJH.CJH_TermsInfo"/>
         <activity android:name=".HEP.CJH.CJH_Terms"
