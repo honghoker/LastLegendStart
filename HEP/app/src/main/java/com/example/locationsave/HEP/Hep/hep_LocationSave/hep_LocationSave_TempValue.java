@@ -1,9 +1,6 @@
 package com.example.locationsave.HEP.Hep.hep_LocationSave;
 
-import android.util.Log;
-
 import java.util.ArrayList;
-import java.util.concurrent.CancellationException;
 
 public class hep_LocationSave_TempValue {
     private String Title; //타이틀

@@ -29,7 +29,6 @@ public class CJH_TermsInfo extends AppCompatActivity {
 
         InputStream in = null;
         if(code==1){
-            //넘어온 코드에 따라 res의 raw폴더의 텍스트 파일내용을 불러옴
             in = getResources().openRawResource(R.raw.service);
             title.setText(R.string.terms_service_title);
         } else if(code==2){
@@ -42,14 +41,13 @@ public class CJH_TermsInfo extends AppCompatActivity {
             finish();
         }
 
-        //텍스트 내용을 세팅하는 과정
         try {
             byte[] b = new byte[in.available()];
             in.read(b);
             String s =  new String(b) ;
             content.setText(s);
         } catch (Exception e) {
-            // e.printStackTrace();
+            e.printStackTrace();
         }
     }
 }

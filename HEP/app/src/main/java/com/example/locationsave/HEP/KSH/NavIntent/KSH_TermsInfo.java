@@ -22,24 +22,19 @@ public class KSH_TermsInfo extends AppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //화면 풀스크린실행
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.ksh_terms_info);
-        // 뒤로가기 버튼 생성
         toolbar = findViewById(R.id.intent_toolbar);
         toolbar.setTitle("도움말");
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
         title=findViewById(R.id.terms_title);
         content=findViewById(R.id.terms_content);
-
         Intent intent=getIntent();
         int code = intent.getExtras().getInt("code");
 
         InputStream in = null;
         if(code==1){
-            //넘어온 코드에 따라 res의 raw폴더의 텍스트 파일내용을 불러옴
             in = getResources().openRawResource(R.raw.service);
             title.setText(R.string.terms_service_title);
         } else if(code==2){
@@ -51,22 +46,19 @@ public class KSH_TermsInfo extends AppCompatActivity {
         } else{
             finish();
         }
-
-        //텍스트 내용을 세팅하는 과정
         try {
             byte[] b = new byte[in.available()];
             in.read(b);
             String s =  new String(b) ;
             content.setText(s);
         } catch (Exception e) {
-            // e.printStackTrace();
         }
     }
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
-            case android.R.id.home: { //toolbar의 back키 눌렀을 때 동작
+            case android.R.id.home: {
                 finish();
                 this.overridePendingTransition(R.anim.slide_in_right,R.anim.slide_out_left);
                 return true;

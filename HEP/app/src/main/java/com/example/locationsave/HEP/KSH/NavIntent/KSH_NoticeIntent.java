@@ -12,12 +12,7 @@ import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.locationsave.HEP.KMS_MainActivity;
-import com.example.locationsave.HEP.KSH.KSH_RecyAdapter;
-import com.example.locationsave.HEP.KSH.sunghunTest;
 import com.example.locationsave.R;
-
-import java.util.ArrayList;
 
 
 public class KSH_NoticeIntent extends AppCompatActivity {
@@ -25,9 +20,6 @@ public class KSH_NoticeIntent extends AppCompatActivity {
     DrawerLayout drawerLayout;
     RecyclerView recyclerView;
     KSH_NoticeAdapter ksh_noticeAdapter;
-
-    // 공지사항 쓸일 있으면 array에 담아서 adapter로 넘겨줘야함
-    ArrayList<KSH_NoticeEntity> arrayList;
 
     public void init(){
         drawerLayout = findViewById(R.id.drawer_layout);
@@ -45,10 +37,7 @@ public class KSH_NoticeIntent extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.ksh_intent_notice);
         init();
-
-        // 뒤로가기 버튼 생성
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
         ksh_noticeAdapter = new KSH_NoticeAdapter();
         recyclerView.setAdapter(ksh_noticeAdapter);
     }
@@ -56,7 +45,7 @@ public class KSH_NoticeIntent extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
-            case android.R.id.home: { //toolbar의 back키 눌렀을 때 동작
+            case android.R.id.home: {
                 finish();
                 this.overridePendingTransition(R.anim.slide_in_right,R.anim.slide_out_left);
                 return true;

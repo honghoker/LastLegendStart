@@ -8,16 +8,11 @@ public class KSH_FireBase {
     private FirebaseDatabase firebaseDatabase;
     public DatabaseReference databaseReference;
     public DatabaseReference TagdatabaseReference;
-
     private KSH_FireBase(){
-        firebaseDatabase = FirebaseDatabase.getInstance();  // firebase db 연동
-        databaseReference = firebaseDatabase.getReference().child("directory");  // db table 연결
+        firebaseDatabase = FirebaseDatabase.getInstance();
+        databaseReference = firebaseDatabase.getReference().child("directory");
         TagdatabaseReference = firebaseDatabase.getReference().child("tag");
     }
-//
-//    private static class DbHolder{
-//        instance = new KSH_FireBase();
-//    }
 
     public static KSH_FireBase getInstance(){
         if(instance == null){

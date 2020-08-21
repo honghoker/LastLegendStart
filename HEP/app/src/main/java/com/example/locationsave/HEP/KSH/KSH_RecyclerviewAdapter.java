@@ -21,7 +21,6 @@ public class KSH_RecyclerviewAdapter extends FirebaseRecyclerAdapter<KSH_Directo
             super(headerView);
         }
     }
-
     @Override
     public int getItemViewType(int position) {
         if(position == 0){
@@ -31,12 +30,9 @@ public class KSH_RecyclerviewAdapter extends FirebaseRecyclerAdapter<KSH_Directo
             return TYPE_ITEM;
         }
     }
-
     public KSH_RecyclerviewAdapter(@NonNull FirebaseRecyclerOptions<KSH_DirectoryEntity> options) {
         super(options);
     }
-
-
 
     @NonNull
     @Override

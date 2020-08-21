@@ -13,7 +13,6 @@ import com.example.locationsave.R;
 import com.github.chrisbanes.photoview.PhotoView;
 import com.squareup.picasso.Picasso;
 
-
 public class hep_LocationSave_ViewPagerAdapter extends PagerAdapter {
     private Context mContext;
 

@@ -9,7 +9,6 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.locationsave.HEP.KSH.KSH_RecyAdapter;
 import com.example.locationsave.R;
 
 public class KSH_NoticeAdapter extends RecyclerView.Adapter<KSH_NoticeAdapter.ViewHolder> {
@@ -22,14 +21,12 @@ public class KSH_NoticeAdapter extends RecyclerView.Adapter<KSH_NoticeAdapter.Vi
             super(itemView);
             noticeDay = itemView.findViewById(R.id.notice_day);
             noticeTitle = itemView.findViewById(R.id.notice_title);
-
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     Log.d("6","notice click");
                 }
             });
-//            notifyDataSetChanged();
         }
     }
 
