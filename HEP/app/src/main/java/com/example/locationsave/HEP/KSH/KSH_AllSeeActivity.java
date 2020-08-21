@@ -17,6 +17,7 @@ import com.example.locationsave.HEP.Hep.hep_DTO.hep_LocationTag;
 import com.example.locationsave.HEP.Hep.hep_DTO.hep_Recent;
 import com.example.locationsave.HEP.Hep.hep_DTO.hep_Tag;
 import com.example.locationsave.HEP.Hep.hep_FireBase;
+import com.example.locationsave.HEP.Hep.hep_FirebaseUser;
 import com.example.locationsave.R;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -81,7 +82,7 @@ public class KSH_AllSeeActivity extends AppCompatActivity {
         arrayList = (ArrayList<KSH_DirectoryEntity>) intent.getSerializableExtra("array");
         arrayKey = (ArrayList<String>) intent.getSerializableExtra("key");
 
-        new hep_FireBase().getFireBaseDatabaseInstance().getReference().child("directory").addValueEventListener(new ValueEventListener() {
+        new hep_FireBase().getFireBaseDatabaseInstance().getReference().child("directory").orderByChild("token").equalTo(new hep_FirebaseUser().getFirebaseUserInstance().getUid()).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 arrayList.clear();
@@ -107,7 +108,7 @@ public class KSH_AllSeeActivity extends AppCompatActivity {
         switch (item.getItemId()) {
             case android.R.id.home: { //toolbar의 back키 눌렀을 때 동작
                 finish();
-                this.overridePendingTransition(R.anim.slide_in_right,R.anim.slide_out_left);
+                this.overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
                 return true;
             }
         }

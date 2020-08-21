@@ -8,6 +8,7 @@ import androidx.annotation.Nullable;
 
 import com.google.android.gms.internal.firebase_auth.zzff;
 import com.google.firebase.FirebaseApp;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.FirebaseUserMetadata;
 import com.google.firebase.auth.MultiFactor;
@@ -17,10 +18,20 @@ import com.google.firebase.auth.UserInfo;
 import java.util.List;
 
 public class hep_FirebaseUser {
+    private static FirebaseAuth firebaseAuth = null;
     private static FirebaseUser firebaseUser = null;
 
-    public FirebaseUser getFirebaseUserInstance(){
-        if(firebaseUser == null) {
+    public FirebaseAuth getFIrebaseAuthInstance(){
+        if(firebaseAuth == null){
+            firebaseAuth = FirebaseAuth.getInstance();
+        }
+        return firebaseAuth;
+    }
+
+    public FirebaseUser getFirebaseUserInstance() {
+        if (firebaseAuth == null || firebaseUser == null) {
+//            firebaseAuth = FirebaseAuth.getInstance();
+//            firebaseUser = firebaseAuth.getCurrentUser();
             firebaseUser = new FirebaseUser() {
                 @NonNull
                 @Override
@@ -150,9 +161,5 @@ public class hep_FirebaseUser {
             };
         }
         return firebaseUser;
-    }
-
-    public void setFirebaseUser(FirebaseUser firebaseUser){
-        this.firebaseUser = firebaseUser;
     }
 }
