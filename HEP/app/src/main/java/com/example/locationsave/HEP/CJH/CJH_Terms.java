@@ -110,16 +110,10 @@ public class CJH_Terms extends AppCompatActivity implements View.OnClickListener
             startActivity(intent);
         }else  if(i == R.id.button_agree) {
             if (checkBoxService.isChecked() && checkBoxPersonal.isChecked() && checkBoxLocation.isChecked()) {
-                /*
-                다음 화면으로 이동시키며 DB에 파이어베이스 UID기록 등을 기록
-                 */
                 setResult(RESULT_OK);
                 finish();
             } else {
                 Toast.makeText(getApplicationContext(), "모든 약관에 동의하셔야 합니다.", Toast.LENGTH_SHORT).show();
-                /*
-                어떠한 이동이나 DB기록 금지
-                 */
             }
         }
     }

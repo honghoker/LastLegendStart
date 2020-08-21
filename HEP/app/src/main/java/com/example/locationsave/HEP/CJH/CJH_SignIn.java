@@ -2,7 +2,6 @@ package com.example.locationsave.HEP.CJH;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.LinearLayout;
@@ -18,7 +17,7 @@ import com.facebook.login.widget.LoginButton;
 public class CJH_SignIn extends AppCompatActivity implements View.OnClickListener{
     LoginButton signInFacebookOrigin;
 
-    LinearLayout signInGoogle, signInKakao, signInNaver, signInFacebook;
+    LinearLayout signInGoogle, signInFacebook;
     int logintype;
 
     protected static final int CJH_TERMS = 12500;

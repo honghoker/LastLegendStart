@@ -1,27 +1,13 @@
 package com.example.locationsave.HEP.Hep;
 
 import android.content.Intent;
-import android.net.Uri;
-import android.os.Parcel;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 
 import com.example.locationsave.HEP.CJH.CJH_SignIn;
 import com.example.locationsave.HEP.CJH.CJH_SignInFacebook;
 import com.example.locationsave.HEP.CJH.CJH_SignInGoogle;
-import com.example.locationsave.HEP.KMS_MainActivity;
 import com.example.locationsave.R;
-import com.google.android.gms.internal.firebase_auth.zzff;
-import com.google.firebase.FirebaseApp;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.auth.FirebaseUserMetadata;
-import com.google.firebase.auth.MultiFactor;
-import com.google.firebase.auth.MultiFactorInfo;
-import com.google.firebase.auth.UserInfo;
-
-import java.util.List;
 
 import static com.example.locationsave.HEP.KMS_MainActivity.mainContext;
 
