@@ -12,6 +12,7 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -87,6 +88,15 @@ public class hep_LocationUpdateActivity extends AppCompatActivity implements KMS
 
     KMS_CameraManager kms_cameraManager = KMS_CameraManager.getInstanceCameraManager();
     KMS_MapOption kms_mapOption = KMS_MapOption.getInstanceMapOption();
+    LinearLayout linearLayout;
+
+    public void onLinearClicked(View v){
+        fragmentManager.beginTransaction().hide(LocationAddFragment).commit();
+        //hep_LocationSaveActivity.this.getSupportFragmentManager().beginTransaction().hide(LocationAddFragment).commit();
+        addFragmentFlag = false;
+        Toast.makeText(getApplicationContext(),"리니어클릭",Toast.LENGTH_SHORT).show();
+
+    }
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -98,6 +108,15 @@ public class hep_LocationUpdateActivity extends AppCompatActivity implements KMS
 
         locationnameTextView= findViewById(R.id.locationupdate_locationName);
         locationaddrTextView = findViewById(R.id.locationupdate_locationAddr);
+
+        linearLayout = findViewById(R.id.linearLayout_update);
+/*        linearLayout.setOnClickListener(new View.OnClickListener() {
+                                            @Override
+                                            public void onClick(View v) {
+
+                                            }
+                                        }
+        );*/
 
     }
 
@@ -345,6 +364,8 @@ public class hep_LocationUpdateActivity extends AppCompatActivity implements KMS
                 for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
                     hep_Location hep_location = dataSnapshot.getValue(hep_Location.class);
                     new KMS_MarkerManager().getInstanceMarkerManager().addMarker(kms_markerManager.markers, hep_location, dataSnapshot.getKey());
+                    Log.d("%%%%%마커업데이트 위도", hep_location.latitude + " / " + hep_location.longitude);
+
                 }
             }
 

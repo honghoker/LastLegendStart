@@ -30,32 +30,34 @@
         android:layout_marginEnd="100dp"
         android:orientation="vertical">
 
-    <LinearLayout
-        android:id="@+id/linearLayout_update"
-        android:layout_width="wrap_content"
-        android:layout_height="70dp"
-        android:background="@drawable/selectlocation"
-        android:clickable="true"
-        android:minWidth="220dp"
-        android:orientation="vertical">
-        <TextView
-            android:id="@+id/updateTitle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_marginTop="0dp"
-        android:text="이 위치 저장"
-        android:textSize="14sp" />
-
-        <TextView
-            android:id="@+id/updateLocation_AddressInfo"
+        <LinearLayout
+            android:id="@+id/linearLayout_update"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginTop="10dp"
-            android:gravity="center"
-            android:textSize="10sp" />
-    </LinearLayout>
+            android:layout_height="70dp"
+            android:background="@drawable/selectlocation"
+            android:clickable="true"
+            android:minWidth="220dp"
+            android:onClick="onLinearClicked"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/updateTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="0dp"
+                android:text="이 위치 저장"
+                android:textSize="14sp" />
+
+            <TextView
+                android:id="@+id/updateLocation_AddressInfo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="10dp"
+                android:gravity="center"
+                android:textSize="10sp" />
+        </LinearLayout>
 
     <ImageView
         android:layout_width="match_parent"

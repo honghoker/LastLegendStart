@@ -126,7 +126,6 @@ public class KMS_AddLocationFragment extends Fragment implements OnMapReadyCallb
         activity = null;
     }
 
-    LinearLayout linearLayout;
 
     @Nullable
     @Override
@@ -146,16 +145,7 @@ public class KMS_AddLocationFragment extends Fragment implements OnMapReadyCallb
         onTimePickerSetListener.onTimePickerSet(2131232, 3, "스트링 테스트"); //값 넘겨줌
         Log.d("%%%%%", "값 넘겨줌");
 
-        linearLayout = rootView.findViewById(R.id.linearLayout_update);
-        linearLayout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(getContext(),"리니어클릭",Toast.LENGTH_SHORT).show();
-                FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-                fragmentManager.beginTransaction().remove().commit();
-            }
-        }
-        );
+
 
 /*        Button btn = rootView.findViewById(R.id.button);
         btn.setOnClickListener(new View.OnClickListener() {
