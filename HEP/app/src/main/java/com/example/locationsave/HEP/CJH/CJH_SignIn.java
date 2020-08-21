@@ -49,22 +49,19 @@ public class CJH_SignIn extends AppCompatActivity implements View.OnClickListene
     public void onStart() {
         super.onStart();
 
-        //기존에 저장된 유저정보 있는지 확인하고 있으면 다음화면으로 oauth 로그인
-//        if (new hep_FirebaseUser().getFirebaseAuthInstance().getCurrentUser() != null) {
-//            Intent intent = new Intent(getApplicationContext(), KMS_MainActivity.class);
-//            startActivity(intent);
-//            finish();
-//        }
+        //기존에 저장된 유저정보 있는지 확인하고 있으면 다음화면으로
+        if (new hep_FirebaseUser().getFirebaseAuthInstance().getCurrentUser() != null) {
+            Intent intent = new Intent(getApplicationContext(), KMS_MainActivity.class);
+            startActivity(intent);
+            finish();
+        }
     }
 
     @Override
     public void onClick(View v) {
-        Intent intent = new Intent(getApplicationContext(), KMS_MainActivity.class);
-        startActivity(intent);
-        finish();
-//        logintype = v.getId();
-//        Intent intent = new Intent(getApplicationContext(), CJH_Terms.class);
-//        startActivityForResult(intent, CJH_TERMS);
+        logintype = v.getId();
+        Intent intent = new Intent(getApplicationContext(), CJH_Terms.class);
+        startActivityForResult(intent, CJH_TERMS);
     }
 
     private void signInGoogle() {
