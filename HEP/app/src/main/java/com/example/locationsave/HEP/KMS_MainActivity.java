@@ -2,6 +2,7 @@ package com.example.locationsave.HEP;
 
 import android.content.Context;
 import android.content.Intent;
+import android.location.Location;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -33,6 +34,7 @@ import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -121,6 +123,7 @@ public class KMS_MainActivity extends AppCompatActivity implements NavigationVie
     protected void onDestroy() {
         super.onDestroy();
 
+        LocationFragmet = null;
         Query recentQuery = new hep_FireBase().getFireBaseDatabaseInstance().getReference().child("recent").orderByChild("token").equalTo(new hep_FirebaseUser().getFirebaseUserInstance().getUid());
         recentQuery.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -845,8 +848,10 @@ public class KMS_MainActivity extends AppCompatActivity implements NavigationVie
         super.onCreate(savedInstanceState);
         setContentView(R.layout.kms_activity_main);
 //        LoadRecyclerView(); //기존 저장 함수 불러옴
+
         ksh_init();
         kms_init();
+
 //        setMargin();  // ???
         logtest("온크리트 초기 flag  값");
 
@@ -898,6 +903,7 @@ public class KMS_MainActivity extends AppCompatActivity implements NavigationVie
                             }
                         }
 
+
                         if(LastPosition != -1){
                             toolbar.setTitle(arrayList.get(LastPosition-1).getName());
                         }
@@ -905,14 +911,12 @@ public class KMS_MainActivity extends AppCompatActivity implements NavigationVie
                             toolbar.setTitle(arrayList.get(selectView-1).getName());
                         }
 
-                        Log.d("@@@@","id = " + directoryid);
                         new hep_FireBase().getFireBaseDatabaseInstance().getReference().child("location").orderByChild("directoryid").equalTo(directoryid).addValueEventListener(new ValueEventListener() {
                             @Override
                             public void onDataChange(@NonNull DataSnapshot snapshot) {
                                 autoCompleteLocationList.clear();
                                 for(DataSnapshot dataSnapshot : snapshot.getChildren()){
                                     hep_Location hep_location = dataSnapshot.getValue(hep_Location.class);
-                                    Log.d("@@@@", "getChildrenCount = " + dataSnapshot.getKey() + ", hep_location.nmae = " + hep_location.name);
                                     autoCompleteLocationList.add(hep_location);
                                 }
                             }
@@ -953,6 +957,7 @@ public class KMS_MainActivity extends AppCompatActivity implements NavigationVie
                 Log.d("1", " error "+String.valueOf(databaseError.toException()));
             }
         });
+
         // loading
         Intent intent = new Intent(this, KSH_LoadingActivity.class);
         startActivity(intent);
