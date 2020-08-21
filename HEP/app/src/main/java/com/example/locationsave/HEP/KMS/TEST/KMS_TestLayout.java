@@ -5,8 +5,10 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.AttributeSet;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
@@ -17,8 +19,19 @@ import android.widget.Toast;
 
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.locationsave.HEP.Address.AreaSearch;
+import com.example.locationsave.HEP.Address.GeocodingArrayEntity;
+import com.example.locationsave.HEP.Address.SearchAreaArrayEntity;
+import com.example.locationsave.HEP.KMS.Location.KMS_LocationSearchResult;
 import com.example.locationsave.HEP.KMS.Location.KMS_SelectLocation;
+import com.example.locationsave.HEP.KMS.MainFragment.KMS_AddLocationFragment;
+import com.example.locationsave.HEP.KMS.MainFragment.KMS_MapFragment;
+import com.example.locationsave.HEP.KMS.Map.KMS_MarkerManager;
 import com.example.locationsave.R;
+
+import java.util.ArrayList;
+
+import static com.example.locationsave.HEP.KMS.MainFragment.KMS_AddLocationFragment.AddMap;
 
 public class KMS_TestLayout extends RelativeLayout {
 
@@ -45,8 +58,12 @@ public class KMS_TestLayout extends RelativeLayout {
                 Context.LAYOUT_INFLATER_SERVICE);
         inflater.inflate(R.layout.kms_test_layout, this, true);
 
-        editText = findViewById(R.id.editText200);
         Log.d("6", "####에딧 선언");
+
+
+        editText = findViewById(R.id.editText200);
+
+
 
         btnClear = (Button) findViewById(R.id.button200);
         btnClear.setVisibility(RelativeLayout.INVISIBLE);

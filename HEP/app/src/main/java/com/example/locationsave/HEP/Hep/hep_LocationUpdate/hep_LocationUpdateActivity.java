@@ -9,10 +9,14 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
+import android.widget.AutoCompleteTextView;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -25,6 +29,8 @@ import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.ViewPager;
 
 import com.example.locationsave.HEP.Hep.hep_DTO.hep_Callback;
@@ -65,6 +71,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import static android.content.ContentValues.TAG;
+import static android.view.View.GONE;
 
 public class hep_LocationUpdateActivity extends AppCompatActivity implements KMS_AddLocationFragment.OnTimePickerSetListener{
     hep_LocationUpdate_ViewpagerAdapter viewPagerAdapter;
@@ -86,14 +93,20 @@ public class hep_LocationUpdateActivity extends AppCompatActivity implements KMS
     TextView locationnameTextView;
     TextView locationaddrTextView;
 
+    //ㄹ시아클
     KMS_CameraManager kms_cameraManager = KMS_CameraManager.getInstanceCameraManager();
     KMS_MapOption kms_mapOption = KMS_MapOption.getInstanceMapOption();
     LinearLayout linearLayout;
+    RecyclerView updateRecyclerView = KMS_AddLocationFragment.updateRecyclerView;
+
+    //어댑터
+    public static LinearLayoutManager mLinearLayoutManager;
 
     public void onLinearClicked(View v){
         fragmentManager.beginTransaction().hide(LocationAddFragment).commit();
         //hep_LocationSaveActivity.this.getSupportFragmentManager().beginTransaction().hide(LocationAddFragment).commit();
         addFragmentFlag = false;
+        updateRecyclerViewFlag = false;
         Toast.makeText(getApplicationContext(),"리니어클릭",Toast.LENGTH_SHORT).show();
 
     }
@@ -110,13 +123,7 @@ public class hep_LocationUpdateActivity extends AppCompatActivity implements KMS
         locationaddrTextView = findViewById(R.id.locationupdate_locationAddr);
 
         linearLayout = findViewById(R.id.linearLayout_update);
-/*        linearLayout.setOnClickListener(new View.OnClickListener() {
-                                            @Override
-                                            public void onClick(View v) {
 
-                                            }
-                                        }
-        );*/
 
     }
 
@@ -565,15 +572,23 @@ public class hep_LocationUpdateActivity extends AppCompatActivity implements KMS
 
 
     boolean addFragmentFlag = false;
-
+    public static boolean updateRecyclerViewFlag = false;
     @Override
     public void onBackPressed() {
         //super.onBackPressed();
-        if(LocationAddFragment == null){
+        Log.d("%%%%%에드 리사이클 불리언"," " + updateRecyclerViewFlag);
+
+        if(updateRecyclerViewFlag == true){ //장소추가 있으면
+            KMS_AddLocationFragment.updateRecyclerView.setVisibility(View.GONE);
+            KMS_AddLocationFragment.updateRelativeBar.setVisibility(GONE);
+            KMS_AddLocationFragment.editText.setText(null);
+            kms_markerManager.initRecyclerMarker(); //임시 마커 초기화
+            updateRecyclerViewFlag = false;
+        }
+        else if(LocationAddFragment == null){
             toastMake("프래그먼트 생성조차 되지 않음");
             finish();
         }
-
         else if(addFragmentFlag == false){
             toastMake("프래그먼트 remove & flag false");
             //fragmentTransaction.remove(LocationAddFragment).commit();

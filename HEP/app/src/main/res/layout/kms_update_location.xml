@@ -101,38 +101,37 @@
     android:orientation="vertical"
     android:visibility="visible">
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:visibility="gone"
-        android:id="@+id/search_resultBar">
-
-        <TextView
+        <RelativeLayout
+            android:id="@+id/updateResultBar"
             android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:text="검색 결과"
-            android:background="#cccccc"
-            android:gravity="center"
-            />
-
-        <TextView
-            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="보탄"
-            android:layout_marginTop="10dp"/>
+            android:orientation="horizontal"
+            android:visibility="gone">
 
-    </RelativeLayout>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="보탄" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:background="#cccccc"
+                android:gravity="center"
+                android:text="검색 결과" />
+        </RelativeLayout>
+
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/updateResult_RecyclerView"
-        android:layout_width="match_parent"
-        android:layout_height="170dp"
-        android:background="#FFFFFF"
-        android:visibility="gone"
-        tools:ignore="NotSibling"
-        android:scrollbars="vertical"
-        android:scrollbarThumbVertical="@color/common_google_signin_btn_text_dark_disabled"
-        android:scrollbarSize="15dp"/>
+            android:layout_width="match_parent"
+            android:layout_height="170dp"
+            android:background="#FF0000"
+            android:scrollbarSize="15dp"
+            android:scrollbarThumbVertical="@color/common_google_signin_btn_text_dark_disabled"
+            android:scrollbars="vertical"
+            android:visibility="gone"
+            tools:ignore="NotSibling" />
     </LinearLayout>
 
 

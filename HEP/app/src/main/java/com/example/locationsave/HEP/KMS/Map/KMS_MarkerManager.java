@@ -16,6 +16,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.locationsave.HEP.Hep.hep_DTO.hep_Location;
 import com.example.locationsave.HEP.Hep.hep_DTO.hep_LocationImage;
 import com.example.locationsave.HEP.Hep.hep_FireBase;
+import com.example.locationsave.HEP.KMS.Location.KMS_LocationSearchResult;
 import com.example.locationsave.HEP.KMS.MainFragment.KMS_MapFragment;
 import com.example.locationsave.HEP.KMS_MainActivity;
 import com.example.locationsave.R;
@@ -37,6 +38,7 @@ import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 
+import static com.example.locationsave.HEP.KMS.MainFragment.KMS_AddLocationFragment.kms_locationUpdateResults;
 import static com.example.locationsave.HEP.KMS.MainFragment.KMS_MapFragment.NMap;
 import static com.example.locationsave.HEP.KMS_MainActivity.kms_locationSearchResults;
 import static com.example.locationsave.HEP.KMS_MainActivity.mainContext;
@@ -138,7 +140,7 @@ public class KMS_MarkerManager {
 //        marker.setMap(NMap);
 //    } //add marker 종료
 
-    public void addRecycleMarker(final ArrayList<Marker> markers, String name, double latitude, double longitude){
+    public void addRecycleMarker(final ArrayList<Marker> markers, String name, double latitude, double longitude, final NaverMap naverMap){
         final Marker marker = new Marker();
 
         marker.setCaptionText(name);
@@ -159,7 +161,7 @@ public class KMS_MarkerManager {
         marker.setOnClickListener(new Overlay.OnClickListener() { //마커 클릭이벤트 추가
             @Override
             public boolean onClick(@NonNull Overlay overlay) {
-                cameraManager.MoveCameraOnMarkerPosition(marker, NMap); //카메라를 마커 위치로 이동
+                cameraManager.MoveCameraOnMarkerPosition(marker, naverMap); //카메라를 마커 위치로 이동
                 Log.d("####마커인포",   "#####셋 마커 에드 후" + kms_markerInformationFlagManager.flagGetMarkerInformationFlag() );
 
                 setMarkerLank();
@@ -171,7 +173,7 @@ public class KMS_MarkerManager {
         markers.add(marker);
         Log.d("@@@", markers.size() + "");
 
-        marker.setMap(NMap);
+        marker.setMap(naverMap);
     } //add marker 종료
 
     public void setMarkerLank(){ //마커 우선순위
@@ -205,18 +207,43 @@ public class KMS_MarkerManager {
         Log.d("####initMarker",   "마커 삭제 완료!!" + recyclerviewMarkers.size());
     }
 
-    public void AddRecyclerViewMarker(){
+    public void AddRecyclerViewMarker(NaverMap naverMap){
+        Log.d("%%%%%에드 리사이클 내부","실행 사이즈 크기" + kms_locationSearchResults.size());
+
         for(int i = 0; i < kms_locationSearchResults.size(); i++){
             String title = kms_locationSearchResults.get(i).getTitle();
             double latitude = kms_locationSearchResults.get(i).getLatitude();
             double longitude = kms_locationSearchResults.get(i).getLongitude();
-            addRecycleMarker(recyclerviewMarkers, title, latitude, longitude);
+            addRecycleMarker(recyclerviewMarkers, title, latitude, longitude, naverMap);
+            Log.d("%%%%%에드 리사이클 내부",title + " / " + latitude + " / " + longitude);
 
             if(i == 0){ //만약 첫 값이 있다면 카메라 이동해줌
-                kms_cameraManager.MoveCameraOnLatlngPosition(latitude, longitude, NMap);
+                kms_cameraManager.MoveCameraOnLatlngPosition(latitude, longitude, naverMap);
+                Log.d("%%%%%에드 리사이클 내부","첫값 있어서 이동 완료");
+
             }
         }
     }
+
+    public void AddUpdateRecyclerViewMarker(NaverMap naverMap, ArrayList<KMS_LocationSearchResult> kms_locationUpdateResults){
+        Log.d("%%%%%에드 리사이클 내부","실행 사이즈 크기" + kms_locationUpdateResults.size());
+
+        for(int i = 0; i < kms_locationUpdateResults.size(); i++){
+            String title = kms_locationUpdateResults.get(i).getTitle();
+            double latitude = kms_locationUpdateResults.get(i).getLatitude();
+            double longitude = kms_locationUpdateResults.get(i).getLongitude();
+            addRecycleMarker(recyclerviewMarkers, title, latitude, longitude, naverMap);
+            Log.d("%%%%%에드 리사이클 내부",title + " / " + latitude + " / " + longitude);
+
+            if(i == 0){ //만약 첫 값이 있다면 카메라 이동해줌
+                kms_cameraManager.MoveCameraOnLatlngPosition(latitude, longitude, naverMap);
+                Log.d("%%%%%에드 리사이클 내부","첫값 있어서 이동 완료");
+
+            }
+        }
+    }
+
+
 
     public void setOffMarkerInformation(LinearLayout linearLayout){
         if (linearLayout.getVisibility() == View.VISIBLE) {
