@@ -20,6 +20,7 @@ import com.example.locationsave.HEP.Address.AreaSearch;
 import com.example.locationsave.HEP.Address.ReverseGeocodingAsyncTask;
 import com.example.locationsave.HEP.Address.ReverseGetAddress;
 import com.example.locationsave.HEP.KMS.Location.KMS_LocationFlagManager;
+import com.example.locationsave.HEP.KMS.Location.KMS_LocationSearchResult;
 import com.example.locationsave.HEP.KMS.Map.KMS_CameraManager;
 import com.example.locationsave.HEP.KMS.Map.KMS_MapOption;
 import com.example.locationsave.HEP.KMS.Map.KMS_MarkerManager;
@@ -39,6 +40,7 @@ import com.naver.maps.map.widget.LogoView;
 import com.naver.maps.map.widget.ScaleBarView;
 import com.naver.maps.map.widget.ZoomControlView;
 
+import java.util.ArrayList;
 import java.util.concurrent.ExecutionException;
 
 //프래그먼트는 액티비티위에 올라가있을떄만 프래그먼트로서 동작할 수 있다.
@@ -64,6 +66,8 @@ public class KMS_MapFragment extends Fragment implements OnMapReadyCallback {
 
     //마지막 위치 넘기기
     KMS_CameraManager kms_cameraManager = KMS_CameraManager.getInstanceCameraManager();
+
+
 
     @Override
     public void onAttach(Context context) {
@@ -261,7 +265,7 @@ public class KMS_MapFragment extends Fragment implements OnMapReadyCallback {
         }
 */
 
-        markerManager.loadMarker(NMap); //초기 마커값 불러옴
+        //markerManager.loadMarker(NMap); //초기 마커값 불러옴
 
         mapOption.setMapPadding(NMap);  //좌표 중앙 패딩 설정
         mapOption.setMapUI(NMap); //맵 ui 설정

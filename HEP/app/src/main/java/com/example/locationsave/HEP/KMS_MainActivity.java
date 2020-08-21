@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
+import android.location.Location;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
@@ -39,6 +40,7 @@ import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -910,9 +912,11 @@ public class KMS_MainActivity extends AppCompatActivity implements NavigationVie
         setContentView(R.layout.kms_activity_main);
 //        LoadRecyclerView(); //기존 저장 함수 불러옴
         networkStatus();
+
         ksh_init();
         pcs_hashTagInit();
         kms_init();
+
 //        setMargin();  // ???
         logtest("온크리트 초기 flag  값");
 
@@ -963,6 +967,7 @@ public class KMS_MainActivity extends AppCompatActivity implements NavigationVie
                                 }
                             }
                         }
+
 
                         if(LastPosition != -1){
                             toolbar.setTitle(arrayList.get(LastPosition-1).getName());
@@ -1017,6 +1022,7 @@ public class KMS_MainActivity extends AppCompatActivity implements NavigationVie
                 Log.d("1", " error "+String.valueOf(databaseError.toException()));
             }
         });
+
         // loading
         Intent intent = new Intent(this, KSH_LoadingActivity.class);
         startActivity(intent);
@@ -1231,8 +1237,9 @@ public class KMS_MainActivity extends AppCompatActivity implements NavigationVie
                         Log.d("6",i+" title " + kms_locationSearchResults.get(i).getTitle() + " address " + kms_locationSearchResults.get(i).getRoadAddress()
                         + " 위도 "+kms_locationSearchResults.get(i).getLatitude() + " 경도 " +kms_locationSearchResults.get(i).getLongitude());
                     }
-                    kms_markerManager.AddRecyclerViewMarker();
-                    selectLocation.setSearchResultRecyclerView(getApplicationContext(), searchRecyclerView, searchResultBar);                    LoadRecyclerView(); //기존 저장 함수 불러옴
+                    kms_markerManager.AddRecyclerViewMarker(NMap);
+                    selectLocation.setSearchResultRecyclerView(getApplicationContext(), searchRecyclerView, searchResultBar);
+                    LoadRecyclerView(); //기존 저장 함수 불러옴
                     return true;
                 } //키입력 했을 시 종료
                 return false;
