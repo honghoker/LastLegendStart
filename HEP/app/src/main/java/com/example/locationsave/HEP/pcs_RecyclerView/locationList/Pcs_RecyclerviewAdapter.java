@@ -31,6 +31,9 @@ public class Pcs_RecyclerviewAdapter extends FirebaseRecyclerAdapter<hep_Locatio
     private DatabaseReference databaseReference = new hep_FireBase().getFireBaseDatabaseInstance().getReference();
     public Pcs_RecyclerviewAdapter(@NonNull FirebaseRecyclerOptions<hep_Location> options) {
         super(options);
+        if(options==null){
+
+        }
     }
 
     @Override
