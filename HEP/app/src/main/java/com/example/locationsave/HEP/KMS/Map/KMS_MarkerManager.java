@@ -200,7 +200,7 @@ public class KMS_MarkerManager {
                                     });
                                 }
                             } else {
-                                imageView.setImageResource(android.R.color.transparent);
+                                imageView.setImageDrawable(KMS_MainActivity.mainContext.getResources().getDrawable(R.drawable.noimg_1));
                             }
                         }
 

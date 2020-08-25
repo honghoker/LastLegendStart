@@ -6,7 +6,6 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.os.Handler;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -512,7 +511,7 @@ public class KMS_MainActivity extends AppCompatActivity implements NavigationVie
     public void onFloatingButtonClicked(View v) {
         switch (v.getId()) {
             case R.id.floatingActionButton:
-                if (kms_fragmentFlagManager.flagCheckFragment() == true) {
+                if (kms_fragmentFlagManager.flagCheckFragment() == true && NMap.getCameraPosition() != null) {
                     kms_locationFlagManager.flagSetTrueLocation();
                     SetToolbar(); //툴바 세팅
                     selectLocation.SetLinearLayout(getApplicationContext(), relativelayout_sub);
@@ -528,8 +527,6 @@ public class KMS_MainActivity extends AppCompatActivity implements NavigationVie
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
-
-
                 } else {
                     IntentAddLocation();
                 }

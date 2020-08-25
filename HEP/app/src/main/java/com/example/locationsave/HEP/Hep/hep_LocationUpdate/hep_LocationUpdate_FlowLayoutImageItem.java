@@ -56,9 +56,9 @@ public class hep_LocationUpdate_FlowLayoutImageItem extends RelativeLayout {
                 hep_FlowLayout hep_FlowLayout = ((hep_LocationUpdateActivity) mContext).findViewById(R.id.locationupdate_imageFlowLayout);
 
                 for (int i = 0; i < hep_FlowLayout.getChildCount(); i++) {
-                    hep_LocationUpdate_FlowLayoutImageItem hep_LocationDetail_FlowLayoutImageItem = (hep_LocationUpdate_FlowLayoutImageItem) hep_FlowLayout.getChildAt(i);
+                    hep_LocationUpdate_FlowLayoutImageItem hep_locationUpdate_flowLayoutImageItem = (hep_LocationUpdate_FlowLayoutImageItem) hep_FlowLayout.getChildAt(i);
 
-                    if (hep_LocationDetail_FlowLayoutImageItem.imageButton.getId() == v.getId()) {
+                    if (hep_locationUpdate_flowLayoutImageItem.imageButton.getId() == v.getId()) {
                         ((hep_LocationUpdateActivity) mContext).viewPager.setCurrentItem(i);
                         break;
                     }

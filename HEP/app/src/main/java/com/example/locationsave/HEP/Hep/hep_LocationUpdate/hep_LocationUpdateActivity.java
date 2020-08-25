@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.BitmapFactory;
-import android.hardware.ConsumerIrManager;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -58,10 +57,6 @@ import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
-import com.naver.maps.geometry.LatLng;
-import com.naver.maps.map.CameraPosition;
-import com.naver.maps.map.overlay.Marker;
-import com.naver.maps.map.overlay.OverlayImage;
 import com.opensooq.supernova.gligar.GligarPicker;
 import com.squareup.picasso.Picasso;
 
@@ -71,7 +66,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-import static android.content.ContentValues.TAG;
 import static android.view.View.GONE;
 import static com.example.locationsave.HEP.KMS.MainFragment.KMS_MapFragment.NMap;
 
@@ -113,7 +107,7 @@ public class hep_LocationUpdateActivity extends AppCompatActivity implements KMS
         setInit();
         setData();
 
-        locationnameTextView= findViewById(R.id.locationupdate_locationName);
+        locationnameTextView = findViewById(R.id.locationupdate_locationName);
         locationaddrTextView = findViewById(R.id.locationupdate_locationAddr);
 
         linearLayout = findViewById(R.id.linearLayout_update);
@@ -150,6 +144,7 @@ public class hep_LocationUpdateActivity extends AppCompatActivity implements KMS
             this.longitude = hep_Location.longitude;
         }
 
+        viewPager = findViewById(R.id.locationupdate_viewPager);
 
         tagDataArrayList = new ArrayList<>();
 
@@ -185,7 +180,6 @@ public class hep_LocationUpdateActivity extends AppCompatActivity implements KMS
                 ((hep_FlowLayout) findViewById(R.id.locationupdate_imageFlowLayout)).addView(flowLayoutImageItem);
 
                 viewPagerAdapter = new hep_LocationUpdate_ViewpagerAdapter(this);
-                viewPager = findViewById(R.id.locationupdate_viewPager);
                 viewPager.setAdapter(viewPagerAdapter);
             } catch (IOException e) {
                 e.printStackTrace();
@@ -344,10 +338,10 @@ public class hep_LocationUpdateActivity extends AppCompatActivity implements KMS
                                 hep_LocationUpdate_FlowLayoutImageItem flowLayoutImageItem = new hep_LocationUpdate_FlowLayoutImageItem(this);
                                 flowLayoutImageItem.setLayoutParams(params);
 
-                                if(new hep_locationImageDataArr().getImageDataArrayInstance().get(i).bitmap == null)
-                                    flowLayoutImageItem.setBackgroundUri(new hep_locationImageDataArr().getImageDataArrayInstance().get(i).path);
-                                else
+                                if(new hep_locationImageDataArr().getImageDataArrayInstance().get(i).bitmap != null)
                                     flowLayoutImageItem.setBackgroundBitmap(new hep_locationImageDataArr().getImageDataArrayInstance().get(i).bitmap);
+                                else
+                                    flowLayoutImageItem.setBackgroundUri(new hep_locationImageDataArr().getImageDataArrayInstance().get(i).path);
 
                                 ((hep_FlowLayout) findViewById(R.id.locationupdate_imageFlowLayout)).addView(flowLayoutImageItem);
                             }
@@ -629,7 +623,7 @@ public class hep_LocationUpdateActivity extends AppCompatActivity implements KMS
         }
     }
 
-    public static class hep_LocationUpdate_ViewpagerAdapter extends PagerAdapter {
+    public class hep_LocationUpdate_ViewpagerAdapter extends PagerAdapter {
         private Context mContext;
 
         public hep_LocationUpdate_ViewpagerAdapter(Context context) {

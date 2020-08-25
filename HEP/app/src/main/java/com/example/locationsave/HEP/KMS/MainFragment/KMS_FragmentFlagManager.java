@@ -45,15 +45,19 @@ public class KMS_FragmentFlagManager {
     }
 
     public void setFragmentLocationListLayout() {
-        if (LocationFragmet == null) {
-            LocationFragmet = new Pcs_LocationRecyclerView();
-            fragmentManager.beginTransaction().add(R.id.frameLayout, LocationFragmet).commit();
-        }
-        if (mapFragment != null) {
-            fragmentManager.beginTransaction().hide(mapFragment).commit();
-        }
-        if (LocationFragmet != null){
-            fragmentManager.beginTransaction().show(LocationFragmet).commit();
+        try {
+            if (LocationFragmet == null) {
+                LocationFragmet = new Pcs_LocationRecyclerView();
+                fragmentManager.beginTransaction().add(R.id.frameLayout, LocationFragmet).commit();
+            }
+            if (mapFragment != null) {
+                fragmentManager.beginTransaction().hide(mapFragment).commit();
+            }
+            if (LocationFragmet != null){
+                fragmentManager.beginTransaction().show(LocationFragmet).commit();
+            }
+        } catch (Exception e){
+            e.printStackTrace();
         }
     }
 }
