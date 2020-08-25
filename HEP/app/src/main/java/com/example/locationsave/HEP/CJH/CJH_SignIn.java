@@ -58,12 +58,9 @@ public class CJH_SignIn extends AppCompatActivity implements View.OnClickListene
 
     @Override
     public void onClick(View v) {
-//        logintype = v.getId();
-//        Intent intent = new Intent(getApplicationContext(), CJH_Terms.class);
-//        startActivityForResult(intent, CJH_TERMS);
-        Intent intent = new Intent(getApplicationContext(), KMS_MainActivity.class);
-        startActivity(intent);
-        finish();
+        logintype = v.getId();
+        Intent intent = new Intent(getApplicationContext(), CJH_Terms.class);
+        startActivityForResult(intent, CJH_TERMS);
     }
 
     private void signInGoogle() {
@@ -81,13 +78,16 @@ public class CJH_SignIn extends AppCompatActivity implements View.OnClickListene
         super.onActivityResult(requestCode, resultCode, data);
 
         if(requestCode == CJH_TERMS && resultCode == RESULT_OK){
-            if (logintype == R.id.signInGoogle) {
-                //구글로 로그인
-                signInGoogle();
-            } else if (logintype == R.id.signInFacebook) {
-                //페이스북으로 로그인
-                signInFacebook();
-            }
+            Intent intent = new Intent(getApplicationContext(), KMS_MainActivity.class);
+            startActivity(intent);
+            finish();
+//            if (logintype == R.id.signInGoogle) {
+//                //구글로 로그인
+//                signInGoogle();
+//            } else if (logintype == R.id.signInFacebook) {
+//                //페이스북으로 로그인
+//                signInFacebook();
+//            }
         }
 
         if(requestCode==FACEBOOK_SIGN_IN){
