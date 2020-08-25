@@ -74,8 +74,10 @@ public class hep_Location implements Parcelable {
         result.put("detailaddr", detailaddr);
         result.put("contact", contact);
         result.put("memo", memo);
-        result.put("latitude", latitude);
-        result.put("longitude", longitude);
+        if(latitude != 0 && longitude != 0) {
+            result.put("latitude", latitude);
+            result.put("longitude", longitude);
+        }
         result.put("time", time);
 
         return result;

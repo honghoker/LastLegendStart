@@ -11,6 +11,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.app.ActivityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
 import com.example.locationsave.HEP.Hep.hep_FirebaseUser;
@@ -60,9 +61,11 @@ public class KSH_SetIntent extends AppCompatActivity {
         init();
         mapOptionInit();
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
         ((TextView)findViewById(R.id.logout)).setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
+                ActivityCompat.finishAffinity(KSH_SetIntent.this);
                 new hep_FirebaseUser().logout();
                 return false;
             }

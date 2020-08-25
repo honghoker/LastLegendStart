@@ -78,13 +78,18 @@ public class KMS_MapFragment extends Fragment implements OnMapReadyCallback {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        ViewGroup rootView = (ViewGroup) inflater.inflate(R.layout.kms_map_fragment, container, false);
-        compassView = rootView.findViewById(R.id.compass);
-        scaleBarView = rootView.findViewById(R.id.scalebar);
-        zoomControlView = rootView.findViewById(R.id.zoom);
-        locationButtonView = rootView.findViewById(R.id.location);
-        LogoView = rootView.findViewById(R.id.logo);
+        ViewGroup rootView = null;
+        try{
+            rootView = (ViewGroup) inflater.inflate(R.layout.kms_map_fragment, container, false);
+            compassView = rootView.findViewById(R.id.compass);
+            scaleBarView = rootView.findViewById(R.id.scalebar);
+            zoomControlView = rootView.findViewById(R.id.zoom);
+            locationButtonView = rootView.findViewById(R.id.location);
+            LogoView = rootView.findViewById(R.id.logo);
+        }
+        catch (Exception e){
 
+        }
         return rootView;
     }
 

@@ -56,9 +56,6 @@
             </intent-filter>
         </activity>
 
-        <service android:name=".HEP.Hep.hep_closeAppService"
-            android:stopWithTask="false"/>
-
         <meta-data
             android:name="com.naver.maps.map.CLIENT_ID"
             android:value="8qhm9zaxf6" />

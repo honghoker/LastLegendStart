@@ -4,6 +4,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -11,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.locationsave.HEP.Hep.hep_DTO.hep_Location;
 import com.example.locationsave.HEP.KMS.MainFragment.KMS_MapFragment;
 import com.example.locationsave.HEP.KMS.Map.KMS_CameraManager;
+import com.example.locationsave.HEP.KMS_MainActivity;
 import com.example.locationsave.R;
 
 import java.util.ArrayList;
@@ -36,7 +38,12 @@ public class KSH_LoadResultAdapter extends RecyclerView.Adapter<KSH_LoadResultAd
                     if(pos != RecyclerView.NO_POSITION){
                         double latitude = hep_locationArrayList.get(pos).latitude;
                         double longitude = hep_locationArrayList.get(pos).longitude;
-                        kms_cameraManager.MoveCameraOnLatlngPosition(latitude, longitude, KMS_MapFragment.NMap);
+                        if(latitude != 0 && longitude != 0 ){
+                            kms_cameraManager.MoveCameraOnLatlngPosition(latitude, longitude, KMS_MapFragment.NMap);
+                        }
+                        else{
+                            Toast.makeText(KMS_MainActivity.mainContext, "저장된 위치가 없습니다.", Toast.LENGTH_SHORT).show();
+                        }
                     }
                 }
             });

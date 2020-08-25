@@ -6,6 +6,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -53,7 +54,6 @@ import com.example.locationsave.HEP.Hep.hep_DTO.hep_Recent;
 import com.example.locationsave.HEP.Hep.hep_FireBase;
 import com.example.locationsave.HEP.Hep.hep_FirebaseUser;
 import com.example.locationsave.HEP.Hep.hep_LocationSave.hep_LocationSaveActivity;
-import com.example.locationsave.HEP.Hep.hep_closeAppService;
 import com.example.locationsave.HEP.KMS.BackPressed.KMS_BackPressedForFinish;
 import com.example.locationsave.HEP.KMS.HashTag.KMS_FlowLayout;
 import com.example.locationsave.HEP.KMS.HashTag.KMS_HashTag;
@@ -110,6 +110,7 @@ import static com.example.locationsave.HEP.KSH.KSH_RecyAdapter.LastPosition;
 
 public class KMS_MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, sunghunTest {
 
+    boolean mapflag = false;
     @Override
     public void onClick(String value, View view) {
         toolbar.setTitle(value);
@@ -180,7 +181,6 @@ public class KMS_MainActivity extends AppCompatActivity implements NavigationVie
     private Button BtnList;
 
     public void ksh_init() {
-        startService(new Intent(this, hep_closeAppService.class)); // 앱 종료 이벤트
         rView = findViewById(R.id.include_recyclerView);
         fView = findViewById(R.id.frameLayout);   // frameLayout 위에 recyclerView가 나타나야함으로 frameLayout 선언
         allSeeView = findViewById(R.id.recy_allSee);
@@ -362,16 +362,26 @@ public class KMS_MainActivity extends AppCompatActivity implements NavigationVie
     public void onBottomBarClicked(View v) { //Change Fragment
         switch (v.getId()) {
             case R.id.btnMain:
-                kms_fragmentFlagManager.flagSetTrueFragment(); //프레그먼트 플래그 true 로 변경
-                kms_fragmentFlagManager.setFragmentMapLayout();
-                BtnMain.setBackground(ContextCompat.getDrawable(mContext, R.drawable.ksh_button_design));
-                BtnList.setBackground(ContextCompat.getDrawable(mContext, R.drawable.ksh_button_not_design));
+                try{
+                    kms_fragmentFlagManager.flagSetTrueFragment(); //프레그먼트 플래그 true 로 변경
+                    kms_fragmentFlagManager.setFragmentMapLayout();
+                    BtnMain.setBackground(ContextCompat.getDrawable(mContext, R.drawable.ksh_button_design));
+                    BtnList.setBackground(ContextCompat.getDrawable(mContext, R.drawable.ksh_button_not_design));
+                }
+                catch (Exception e){
+                    e.printStackTrace();
+                }
                 break;
             case R.id.btnLocationList:
-                kms_fragmentFlagManager.flagSetFalseFragment(); //프래그먼트 플래그 false 로 변경
-                kms_fragmentFlagManager.setFragmentLocationListLayout();
-                BtnList.setBackground(ContextCompat.getDrawable(mContext, R.drawable.ksh_button_design));
-                BtnMain.setBackground(ContextCompat.getDrawable(mContext, R.drawable.ksh_button_not_design));
+                try{
+                    kms_fragmentFlagManager.flagSetFalseFragment(); //프래그먼트 플래그 false 로 변경
+                    kms_fragmentFlagManager.setFragmentLocationListLayout();
+                    BtnList.setBackground(ContextCompat.getDrawable(mContext, R.drawable.ksh_button_design));
+                    BtnMain.setBackground(ContextCompat.getDrawable(mContext, R.drawable.ksh_button_not_design));
+                }
+                catch (Exception e){
+                    e.printStackTrace();
+                }
                 break;
             default:
                 break;
@@ -685,6 +695,7 @@ public class KMS_MainActivity extends AppCompatActivity implements NavigationVie
 
                     @Override
                     public void onSuccess(hep_Recent hep_recent) {
+                        Log.d("@@@", "KMS_MainAc onSuccess recv" + " directoryid = " + directoryid);
                         for (int i = 0; i < arrayKey.size(); i++) {
                             if (directoryid == null) {
                                 if (hep_recent.directoryid.equals(arrayKey.get(i))) {
@@ -698,6 +709,8 @@ public class KMS_MainActivity extends AppCompatActivity implements NavigationVie
                                 }
                             }
                         }
+
+                        Log.d("@@@", "KMS_MainAc onSuccess next" + " directoryid = " + directoryid);
 
                         if (LastPosition != -1) {
                             toolbar.setTitle(arrayList.get(LastPosition - 1).getName());
@@ -725,9 +738,15 @@ public class KMS_MainActivity extends AppCompatActivity implements NavigationVie
 
                         kms_mapOption.LastLatitude = hep_recent.latitude;
                         kms_mapOption.LastLongitued = hep_recent.longitude;
+
                         mapFragment = new KMS_MapFragment();
                         fragmentManager = getSupportFragmentManager();
-                        fragmentManager.beginTransaction().replace(R.id.frameLayout, mapFragment).commitAllowingStateLoss();
+
+                        if(!mapflag) {
+                            fragmentManager.beginTransaction().replace(R.id.frameLayout, mapFragment).commitAllowingStateLoss();
+                            mapflag = true;
+                        }
+
                     }
                 });
             }

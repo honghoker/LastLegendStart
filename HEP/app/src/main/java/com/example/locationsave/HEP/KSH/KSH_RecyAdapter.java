@@ -3,6 +3,7 @@ package com.example.locationsave.HEP.KSH;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -151,7 +152,7 @@ public class KSH_RecyAdapter extends RecyclerView.Adapter<KSH_RecyAdapter.ViewHo
                                     dialog.dismiss();
                                 }
                                 else{
-                                    KSH_DirectoryEntity ksh_directoryEntity = new KSH_DirectoryEntity(editText.getText().toString(),ksh_date.nowDate(),ksh_date.nowDate());
+                                    KSH_DirectoryEntity ksh_directoryEntity = new KSH_DirectoryEntity(editText.getText().toString(), ksh_date.nowDate(), ksh_date.nowDate());
                                     databaseReference.push().setValue(ksh_directoryEntity);
                                     dialog.dismiss();
                                 }
@@ -167,6 +168,7 @@ public class KSH_RecyAdapter extends RecyclerView.Adapter<KSH_RecyAdapter.ViewHo
                     }
                     else{
                         try {
+                            Log.d("@@@", "KSH_RECYADA else");
                             directoryid = arrayKey.get(pos - 1);
                             new hep_FireBase().getFireBaseDatabaseInstance().getReference().child("location").orderByChild("directoryid").equalTo(directoryid).addValueEventListener(new ValueEventListener() {
                                 @Override

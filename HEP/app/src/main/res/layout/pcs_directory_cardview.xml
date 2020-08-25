@@ -13,7 +13,7 @@
         android:id="@+id/pcs_directoryLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/directory_layout_select_color">
+        android:background="#ffffff">
 
         <TextView
             android:id="@+id/pcs_directoryTextview"

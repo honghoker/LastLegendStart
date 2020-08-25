@@ -33,15 +33,20 @@ public class KMS_FragmentFlagManager {
     }
 
     public void setFragmentMapLayout(){
-        if (mapFragment == null) {
-            mapFragment = new ListFragment();
-            fragmentManager.beginTransaction().add(R.id.frameLayout, mapFragment).commit();
+        try{
+            if (mapFragment == null) {
+                mapFragment = new ListFragment();
+                fragmentManager.beginTransaction().add(R.id.frameLayout, mapFragment).commit();
+            }
+            if (mapFragment != null) {
+                fragmentManager.beginTransaction().show(mapFragment).commit();
+            }
+            if (LocationFragmet != null)
+                fragmentManager.beginTransaction().hide(LocationFragmet).commit();
         }
-        if (mapFragment != null) {
-            fragmentManager.beginTransaction().show(mapFragment).commit();
+        catch (Exception e){
+            e.printStackTrace();
         }
-        if (LocationFragmet != null)
-            fragmentManager.beginTransaction().hide(LocationFragmet).commit();
     }
 
     public void setFragmentLocationListLayout() {

@@ -1,5 +1,6 @@
 package com.example.locationsave.HEP.pcs_RecyclerView.DirectoryList;
 
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -39,7 +40,7 @@ public class Pcs_popupAdapter extends FirebaseRecyclerAdapter<KSH_DirectoryEntit
     protected void onBindViewHolder(@NonNull ListViewHolder holder, int position, @NonNull KSH_DirectoryEntity ksh_directoryEntity) {
         holder.directoryText.setText(ksh_directoryEntity.getName());
         if(getSnapshots().getSnapshot(position).getKey().equals(hep_location.getDirectoryid()))
-            holder.cardviewLayout.setBackgroundResource(R.color.colorPrimary);
+            holder.cardviewLayout.setBackgroundColor(Color.parseColor("#959191"));
     }
 
     @NonNull

@@ -3,6 +3,7 @@ package com.example.locationsave.HEP.KSH;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -72,11 +73,17 @@ public class KSH_AllSeeAdapter extends RecyclerView.Adapter<KSH_AllSeeAdapter.Vi
                     public boolean onMenuItemClick(MenuItem item) {
                         switch (item.getItemId()){
                             case R.id.allsee_delete:
-                                if(directoryid.equals(arrayKey.get(position)))
-                                    Toast.makeText(mcontext,"현재 사용중인 directory는 삭제할 수 없습니다", Toast.LENGTH_SHORT).show();
-                                else
+                                Log.d("@@@", "directoryid = " + directoryid + ", arrayKey = " + arrayKey.get(position) + ", position = " + position);
+
+                                if(directoryid.equals(arrayKey.get(position))) {
+                                    Toast.makeText(mcontext, "현재 사용중인 directory는 삭제할 수 없습니다", Toast.LENGTH_SHORT).show();
+                                }
+                                else {
                                     databaseReference.child(arrayKey.get(position)).removeValue();
+                                    arrayKey.remove(position);
+                                }
                                 break;
+
                             case R.id.allsee_change:
                                 final AlertDialog.Builder dialog = new AlertDialog.Builder(mcontext);
                                 dialog.setTitle("directory 이름 변경");
@@ -128,15 +135,6 @@ public class KSH_AllSeeAdapter extends RecyclerView.Adapter<KSH_AllSeeAdapter.Vi
             this.allseebtn = itemView.findViewById(R.id.allsee_ViewOptions);
             this.createTime = itemView.findViewById(R.id.allsee_createTime);
             this.updateTime = itemView.findViewById(R.id.allsee_updateTime);
-
-            itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    int pos = getAdapterPosition();
-                    directoryid = arrayKey.get(pos);
-                }
-            });
-
         }
     }
 }
