@@ -58,10 +58,7 @@ import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
-import com.naver.maps.geometry.LatLng;
-import com.naver.maps.map.CameraPosition;
-import com.naver.maps.map.overlay.Marker;
-import com.naver.maps.map.overlay.OverlayImage;
+
 import com.opensooq.supernova.gligar.GligarPicker;
 import com.squareup.picasso.Picasso;
 
@@ -71,7 +68,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-import static android.content.ContentValues.TAG;
 import static android.view.View.GONE;
 import static com.example.locationsave.HEP.KMS.MainFragment.KMS_MapFragment.NMap;
 

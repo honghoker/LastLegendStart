@@ -74,6 +74,7 @@ public class KMS_AddLocationFragment extends Fragment implements OnMapReadyCallb
     public static RelativeLayout updateRelativeBar;
 
     double latitude, longitude;
+    String title;
 
     boolean addMarkerFlag = false;
     @Override
@@ -118,7 +119,7 @@ public class KMS_AddLocationFragment extends Fragment implements OnMapReadyCallb
         ViewGroup rootView = (ViewGroup) inflater.inflate(R.layout.kms_location_fragment, container, false);
         setHasOptionsMenu(true);
 
-        String a2 = getArguments().getString("Title");
+        title = getArguments().getString("Title");
         String a3 = getArguments().getString("Address");
         latitude = getArguments().getDouble("latitude");
         longitude = getArguments().getDouble("longitude");
@@ -240,6 +241,7 @@ public class KMS_AddLocationFragment extends Fragment implements OnMapReadyCallb
             final Marker marker = new Marker();
             LatLng addMarkerLatLng = new LatLng(latitude, longitude);
             marker.setPosition(addMarkerLatLng);
+            marker.setCaptionText(title);
             marker.setIcon(OverlayImage.fromResource(R.drawable.marker_design_pika2));
             marker.setWidth(120);
             marker.setHeight(160);
