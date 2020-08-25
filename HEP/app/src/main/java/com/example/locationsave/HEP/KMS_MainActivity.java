@@ -558,6 +558,11 @@ public class KMS_MainActivity extends AppCompatActivity implements NavigationVie
         selectLocation.SetLinearLayout(getApplicationContext(), relativelayout_sub);
         setBottomBar(bottomBar, selectLocationFlag);
         setFloatingItem(selectLocationFlag);
+
+        editText.setText(null);
+        searchResultBar.setVisibility(GONE);
+        mRecyclerView.setVisibility(View.GONE);
+        kms_markerManager.initRecyclerMarker(); //임시 마커 초기화
     }
 
     @Override
@@ -579,11 +584,6 @@ public class KMS_MainActivity extends AppCompatActivity implements NavigationVie
         } else { //드로워블도 없고 종료도 아니면 실행
             if (kms_locationFlagManager.flagGetLocation() == true) {
                 hideAddLocation();
-                editText.setText(null);
-                searchResultBar.setVisibility(GONE);
-                mRecyclerView.setVisibility(View.GONE);
-                kms_markerManager.initRecyclerMarker(); //임시 마커 초기화
-
             } else if (kms_markerInformationFlagManager.flagGetMarkerInformationFlag() == true && kms_fragmentFlagManager.flagCheckFragment() == true) {
                 new KMS_MarkerManager().getInstanceMarkerManager().setOffMarkerInformation(KMS_MainActivity.linearLayoutMakerInformation);
                 kms_markerInformationFlagManager.flagSetFalseMarkerInformation();
@@ -801,6 +801,7 @@ public class KMS_MainActivity extends AppCompatActivity implements NavigationVie
             @Override
             public void onClick(View v) {
                 ((LinearLayout) findViewById(R.id.linearLayoutMakerInformation)).setVisibility(GONE);
+                floatingButton.show();
             }
         });
 
@@ -921,8 +922,12 @@ public class KMS_MainActivity extends AppCompatActivity implements NavigationVie
                 if (data.getBooleanExtra("result", false)) {
                     KMS_FragmentFlagManager d = KMS_FragmentFlagManager.getInstanceFragment();
                     d.setFragmentLocationListLayout();
-                    if (kms_fragmentFlagManager.flagCheckFragment() == true)
+                    if (kms_fragmentFlagManager.flagCheckFragment() == true){
                         hideAddLocation();
+
+                    }
+                    floatingButton.show();
+
                     BtnList.setBackground(ContextCompat.getDrawable(mContext,R.drawable.ksh_button_design));
                     BtnMain.setBackground(ContextCompat.getDrawable(mContext,R.drawable.ksh_button_not_design));
                 }

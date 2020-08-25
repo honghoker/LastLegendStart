@@ -12,7 +12,9 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.provider.ContactsContract;
 import android.view.View;
+import android.widget.AutoCompleteTextView;
 import android.widget.EditText;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -20,6 +22,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
+import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.ViewPager;
 
 import com.example.locationsave.HEP.Hep.hep_DTO.hep_Callback;
@@ -28,6 +31,7 @@ import com.example.locationsave.HEP.Hep.hep_DTO.hep_LocationTag;
 import com.example.locationsave.HEP.Hep.hep_DTO.hep_Recent;
 import com.example.locationsave.HEP.Hep.hep_DTO.hep_Tag;
 import com.example.locationsave.HEP.Hep.hep_FireBase;
+import com.example.locationsave.HEP.KMS.Map.KMS_MarkerManager;
 import com.example.locationsave.HEP.pcs_RecyclerView.locationList.Pcs_LocationRecyclerView;
 import com.example.locationsave.R;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -45,6 +49,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
+
+import static android.view.View.GONE;
 
 public class hep_LocationSaveActivity extends AppCompatActivity {
 
@@ -67,6 +73,7 @@ public class hep_LocationSaveActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.hep_locationsaveactivity);
         setinit();
+
     }
 
     public void setTempValue() {
@@ -304,7 +311,6 @@ public class hep_LocationSaveActivity extends AppCompatActivity {
 
     public void onButtonLocationSaveClicked(View v) {
         if (!((EditText) findViewById(R.id.locationName)).getText().toString().trim().equals("")) {
-
             DatabaseReference locationReference = new hep_FireBase().getFireBaseDatabaseInstance().getReference().child("location").push();
 
             hep_Location hep_Location = new hep_Location(
